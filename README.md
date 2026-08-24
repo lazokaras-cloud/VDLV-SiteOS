@@ -59,10 +59,11 @@ Pages carry `noindex`, so the site can be shared by link without turning up in s
 
 ## Roadmap
 
-Ten flows are mapped. Four are live: tender adjudication, site instruction to
-variation order, monthly claim, sub-contractor default. Next up:
+Ten flows are mapped. Five are live: tender to baseline, site instruction to
+variation order, progress report, monthly claim, sub-contractor default. Next up:
 
 1. Contract edition as a first-class object, so every deadline derives from it
-2. The progress report flow, forced against the previous report
-3. Voice capture on one flow, with an on-device model handling language only
+2. Real on-device speech and vision in place of the browser recogniser and the
+   scripted image read
+3. Appointments and bulk orders, where the settlement discount is won
 4. The 48-point project spine as the object everything else hangs from

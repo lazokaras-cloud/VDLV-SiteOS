@@ -189,7 +189,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 /* -- Tabs -------------------------------------------------------- */
 .tabs{
-  flex:none; display:grid; grid-template-columns:repeat(3,1fr);
+  flex:none; display:grid; grid-template-columns:repeat(4,1fr);
   background:var(--surface); border-top:1px solid var(--rule);
   padding-bottom:env(safe-area-inset-bottom);
 }
@@ -202,8 +202,58 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .tabs button.on{color:var(--ink)}
 .tabs button.on::before{
   content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);
-  width:34px; height:2px; background:var(--signal);
+  width:30px; height:2px; background:var(--signal);
 }
+
+/* -- Lifecycle spine: tender through to final account ------------ */
+.spine{
+  display:flex; align-items:stretch; gap:2px; margin:2px 0 0;
+  background:var(--surface); border:1px solid var(--rule); border-radius:var(--r);
+  box-shadow:var(--shadow); overflow:hidden;
+}
+.spine div{
+  flex:1; min-width:0; padding:8px 4px 7px; text-align:center; position:relative;
+  font-family:var(--mono); font-size:8.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); background:var(--surface-2);
+}
+.spine div.past{background:var(--surface); color:var(--ink-2)}
+.spine div.past::after{
+  content:""; position:absolute; left:0; right:0; top:0; height:2px; background:var(--ok);
+}
+.spine div.now{background:var(--surface); color:var(--ink); font-weight:700}
+.spine div.now::after{
+  content:""; position:absolute; left:0; right:0; top:0; height:2px; background:var(--signal);
+}
+
+/* baseline lineage card */
+.base .row{display:flex; justify-content:space-between; gap:10px; padding:8px 13px; border-bottom:1px solid var(--rule-2); font-size:13px}
+.base .row:last-child{border-bottom:0}
+.base .row span:first-child{color:var(--ink-2)}
+.base .v2{display:flex; gap:11px; align-items:baseline; font-family:var(--mono); font-variant-numeric:tabular-nums}
+.base .v2 b{font-weight:600}
+.base .v2 i{font-style:normal; font-size:11.5px}
+.base .up{color:var(--ok)} .base .dn{color:var(--crit)} .base .fl{color:var(--ink-3)}
+.base .hd{
+  display:flex; justify-content:space-between; align-items:center; gap:10px;
+  padding:10px 13px; background:var(--ink); color:var(--ground);
+}
+.base .hd b{font-family:var(--mono); font-size:11.5px; letter-spacing:.06em}
+.base .hd span{font-family:var(--mono); font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; opacity:.72}
+
+/* board */
+.proj{display:flex; flex-direction:column; gap:0; width:100%; text-align:left; padding:11px 13px; border-bottom:1px solid var(--rule-2)}
+.proj:last-child{border-bottom:0}
+.proj .l1{display:flex; align-items:baseline; gap:8px}
+.proj .l1 b{font-size:14px; font-weight:520; letter-spacing:0; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.proj .l2{display:flex; align-items:center; gap:7px; margin-top:6px; flex-wrap:wrap}
+.proj .l2 .m{font-family:var(--mono); font-size:11px; color:var(--ink-2); font-variant-numeric:tabular-nums}
+.edch{
+  font-family:var(--mono); font-size:9px; letter-spacing:.08em; padding:2px 5px; border-radius:2px;
+  background:var(--surface-2); color:var(--ink-2); border:1px solid var(--rule);
+}
+.spark{display:flex; align-items:flex-end; gap:2px; height:16px}
+.spark i{width:3px; background:var(--ink-3); border-radius:1px; opacity:.55}
+.spark i.on{background:var(--signal); opacity:1}
 .tabs .dot{
   position:absolute; top:8px; right:calc(50% - 20px); width:7px; height:7px; border-radius:50%;
   background:var(--crit); border:1.5px solid var(--surface);
@@ -446,6 +496,41 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 .gate svg{width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2.2; flex:none}
 
+/* -- Voice capture ----------------------------------------------- */
+.mic{
+  width:100%; display:flex; align-items:center; gap:12px; padding:12px 14px;
+  border:1px solid var(--rule); border-radius:10px; background:var(--surface);
+  box-shadow:var(--shadow); text-align:left;
+}
+.mic:hover{border-color:var(--ink)}
+.mic .dot{
+  width:40px; height:40px; flex:none; border-radius:50%; background:var(--signal);
+  color:var(--signal-ink); display:grid; place-items:center;
+}
+.mic .dot svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:2}
+.mic .t{flex:1; min-width:0}
+.mic .t b{display:block; font-size:14px; font-weight:560}
+.mic .t span{font-size:11.5px; color:var(--ink-2)}
+.mic.rec{border-color:var(--signal)}
+.mic.rec .dot{animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1); opacity:1} 50%{transform:scale(.9); opacity:.72}}
+.wave{display:flex; align-items:center; gap:3px; height:26px; flex:none}
+.wave i{width:3px; height:5px; border-radius:2px; background:var(--signal); animation:vu .9s ease-in-out infinite}
+.wave i:nth-child(2){animation-delay:.1s} .wave i:nth-child(3){animation-delay:.2s}
+.wave i:nth-child(4){animation-delay:.3s} .wave i:nth-child(5){animation-delay:.15s}
+.wave i:nth-child(6){animation-delay:.25s} .wave i:nth-child(7){animation-delay:.05s}
+@keyframes vu{0%,100%{height:5px} 50%{height:22px}}
+.heard{
+  font-family:var(--mono); font-size:12.5px; line-height:1.5; color:var(--ink-2);
+  border-left:2px solid var(--signal); padding-left:10px; margin-top:8px;
+}
+.heard b{color:var(--ink); font-weight:600}
+.srcnote{
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-3); margin-top:9px; display:flex; align-items:center; gap:6px;
+}
+.srcnote::before{content:""; width:5px; height:5px; border-radius:50%; background:var(--ok); flex:none}
+
 .typing{display:flex; gap:4px; padding:4px 2px}
 .typing i{width:6px; height:6px; border-radius:50%; background:var(--ink-3); animation:blip 1.1s infinite}
 .typing i:nth-child(2){animation-delay:.16s} .typing i:nth-child(3){animation-delay:.32s}
@@ -519,6 +604,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <section class="pane" id="pane-guides"></section>
         <!-- MONEY -->
         <section class="pane" id="pane-money"></section>
+        <!-- BOARD -->
+        <section class="pane" id="pane-board"></section>
       </div>
 
       <nav class="tabs" id="tabs">
@@ -533,6 +620,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <button data-tab="money">
           <svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>
           <span>Money</span>
+        </button>
+        <button data-tab="board">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/></svg>
+          <span>Board</span>
         </button>
       </nav>
 
@@ -599,8 +690,43 @@ const SEED = {
   settle: 96300,
   contra: 71500,
   claimNo: 7,
-  done: {}
+  done: {},
+
+  // The baseline is created when a tender is locked and never edited again.
+  // Everything downstream is measured against it, which is what makes the
+  // tender the opening balance of the project rather than a filed document.
+  baseline: {
+    ref:"T-104", locked:"2026-01-27",
+    value:48240000, pg:3180000, contingency:965000,
+    weeks:57, margin:7.4, staff:14
+  },
+  actual:{ value:48844800, pg:3180000, contingencyLeft:412000, weeks:60, margin:6.9 },
+
+  // Other live projects, for the board view
+  fleet:[
+    { id:"lou", name:"Lourensford Office Park Ph2", town:"Somerset West", ed:"05/2018",
+      stage:"site", value:48240000, base:7.4, now:6.9, risk:205040, clock:17, clockOf:"Notice on SI-114" },
+    { id:"tyg", name:"Tygerberg Retail Centre", town:"Bellville", ed:"03/2014",
+      stage:"claims", value:71600000, base:8.1, now:8.4, risk:0, clock:31, clockOf:"Claim 14 cut-off" },
+    { id:"str", name:"Strand Beachfront Apartments", town:"Strand", ed:"05/2018",
+      stage:"completion", value:39900000, base:6.6, now:5.2, risk:486000, clock:4, clockOf:"Works completion list" },
+    { id:"wor", name:"Worcester Clinic Upgrade", town:"Worcester", ed:"Minor Works",
+      stage:"site", value:12400000, base:9.2, now:9.6, risk:0, clock:22, clockOf:"Sub retention release" },
+    { id:"ste", name:"Stellenbosch Cellar Extension", town:"Stellenbosch", ed:"07/2007",
+      stage:"final", value:26800000, base:7.8, now:4.1, risk:1240000, clock:2, clockOf:"Object to final account" }
+  ],
+  pipeline:[
+    { name:"Paarl Medical Centre", value:31480000, closes:"2026-08-27", state:"adjudicating" },
+    { name:"Durbanville School Hall", value:18900000, closes:"2026-09-03", state:"pricing" },
+    { name:"Brackenfell Warehouse", value:44200000, closes:"2026-09-11", state:"pricing" }
+  ]
 };
+
+// The end-to-end spine. A project is always at exactly one of these.
+const LIFECYCLE = [
+  ["tender","Tender"], ["baseline","Baseline"], ["site","On site"],
+  ["claims","Claims"], ["completion","Completion"], ["final","Final account"]
+];
 let S = JSON.parse(JSON.stringify(SEED));
 try { const raw = localStorage.getItem("plumbline"); if (raw) S = JSON.parse(raw); } catch(e){}
 const save = () => { try { localStorage.setItem("plumbline", JSON.stringify(S)); } catch(e){} };
@@ -705,15 +831,30 @@ const FLOWS = {
           return "Good. You are inside the window either way. Getting the notice out before you start is the cleanest position.";
         } },
 
+      { kind:"voice", stage:"Price", q:"Labour, plant and material",
+        msg:"Now the actual cost. Not a rate out of the bill, what it actually cost you. You can just tell me, and you can do it from the bakkie.",
+        why:"voMarkup",
+        hint:"Say the labour, plant and material",
+        demo:"Rock at the lift pit. Labour was sixty four thousand two hundred, plant eighty eight thousand four hundred, and material thirty three thousand eight hundred.",
+        back:"Here is what I took from that.",
+        keys:[
+          {key:"labour",   label:"Labour",   re:/\b(labour|labor|the guys|my team)\b/},
+          {key:"plant",    label:"Plant",    re:/\b(plant|machine|machinery|the breaker)\b/},
+          {key:"material", label:"Material", re:/\b(material|materials|stock)\b/}
+        ] },
+
       { kind:"number", stage:"Price", q:"Labour", pre:"R", def:"64200",
-        msg:"Now the actual cost. Not a rate out of the bill, what it actually cost you. <b>Labour</b> first: own team plus the labour-only sub.",
+        skipIf(st){ return st.voice; },
+        msg:"<b>Labour</b> first: own team plus the labour-only sub.",
         why:"voMarkup", key:"labour" },
 
       { kind:"number", stage:"Price", q:"Plant", pre:"R", def:"88400",
+        skipIf(st){ return st.voice; },
         msg:"<b>Plant.</b> The breaker and the 8-tonner. Include standing time if the machine sat waiting for the instruction.",
         why:"voMarkup", key:"plant" },
 
       { kind:"number", stage:"Price", q:"Material", pre:"R", def:"33800",
+        skipIf(st){ return st.voice; },
         msg:"<b>Material.</b> Cart-away, the extra blinding and the mesh.",
         why:"voMarkup", key:"material" },
 
@@ -729,9 +870,23 @@ const FLOWS = {
         },
         opts:[{label:"Correct", cls:"primary full"}] },
 
-      { kind:"photo", stage:"Evidence",
-        msg:"Photograph the excavation now, with the pegs visible. Evidence attached to the notice is what stops this becoming an argument in six months.",
-        why:"voClaim" },
+      { kind:"vision", stage:"Evidence", ref:"SI-114 / GRID C4", label:"Photograph the excavation",
+        msg:"Photograph it now, with the pegs visible. Evidence attached to the notice is what stops this becoming an argument in six months.",
+        why:"voClaim",
+        read(st){
+          return {
+            msg:"Read off the photograph, checked against the drawing for grid C4 to D5:",
+            rows:[
+              ["Excavation depth","2.4 m against 1.1 m on the drawing"],
+              ["Material at face","Rock, not the clay that was priced"],
+              ["Volume to cart","62 m3 estimated"],
+              ["Pegs and level datum","Visible and legible"],
+              ["Stamped","Geotag, time, SI-114",true]
+            ],
+            note:"The depth reading is the one that matters. It is the difference between the priced excavation and what is actually in the hole, and it is now on a photograph that cannot be edited."
+          };
+        },
+        opts:[{label:"Attach to the notice", cls:"primary full"}] },
 
       { kind:"choice", stage:"Time", q:"Did it cost you days?",
         msg:"Here is the part most people skip. Did the rock cost you <b>time</b> on the critical path, not just money?",
@@ -953,14 +1108,149 @@ const FLOWS = {
     ]
   },
 
-  tender_adj: {
-    title:"Tender adjudication",
-    clause:"Pre-project",
+  progress_report: {
+    title:"Progress report, week 29",
+    clause:"Programme",
     steps:[
       { kind:"say", stage:"Open",
-        msg:["<b>Paarl Medical Centre</b>. Bill returned by the adjudicator at <code>"+R(31480000)+"</code>. Tender closes Thursday.",
-             "Before it goes out I need to check five things. This is where the job is won or lost, not on site."],
-        opts:[{label:"Check it", cls:"primary full"}] },
+        msg:["Weekly progress report. I have last week's in front of me, so this one gets written against it rather than from scratch.",
+             "Walk the two blocks and photograph them. I will read the progress off the pictures and you tell me where I am wrong."],
+        opts:[{label:"Start the walk", cls:"primary full"}] },
+
+      { kind:"vision", stage:"Read", ref:"BLOCK C / EAST ELEVATION", label:"Photograph block C",
+        msg:"<b>Block C first.</b> Stand back far enough to get the full elevation in, east side.",
+        read(st){
+          st.cPct = 78;
+          return {
+            msg:"Block C, read against the programme for week 29:",
+            rows:[
+              ["Columns to first floor","Cast, 14 of 14"],
+              ["Slab formwork","Up, roughly 80%"],
+              ["Reinforcement","Partially fixed"],
+              ["First floor slab","Not poured"],
+              ["Milestone complete","78%",true]
+            ],
+            note:"The programme has this slab poured by <b>"+fmt(new Date(2026,7,21))+"</b>. It is not poured, so block C is running <b>4 working days</b> behind on this element."
+          };
+        },
+        opts:[{label:"That is right", cls:"primary full"}] },
+
+      { kind:"vision", stage:"Read", ref:"BLOCK D / NORTH ELEVATION", label:"Photograph block D",
+        msg:"<b>Block D.</b> Same again from the north.",
+        read(st){
+          st.dPct = 96;
+          return {
+            msg:"Block D:",
+            rows:[
+              ["Slab","Cast and cured"],
+              ["Blockwork to first floor","Complete"],
+              ["First fix drainage","Open, no visible progress since week 27"],
+              ["Milestone complete","96%",true]
+            ],
+            note:"Blockwork is ahead. The drainage is the sub-contractor already on a default notice, and the photograph now dates that standstill to two weeks."
+          };
+        },
+        opts:[{label:"That is right", cls:"primary full"}] },
+
+      { kind:"compute", stage:"Reconcile",
+        run(st){
+          const slip = 4;
+          st.slip = slip;
+          st.cost = slip * S.eot.perDay;
+          return { msg:"Against last week's report and the baseline programme:",
+            calc:[["Reported last week","74% / 93%"],["Read this week",st.cPct+"% / "+st.dPct+"%"],
+                  ["Programme position","4 wd behind"],
+                  ["Time-related P&G exposure",R(st.cost),true]],
+            note:"Last week you reported 74% on block C and forecast the pour for Monday. It did not happen, and this is the second week it has moved. That pattern is the thing a monthly report hides and a weekly one cannot."
+          };
+        },
+        opts:[{label:"Continue", cls:"primary full"}] },
+
+      { kind:"choice", stage:"Reconcile", q:"What moved the pour?",
+        msg:"Four days on the critical path is a claim or it is your cost. Which was it?",
+        why:"eotNotice",
+        opts:[
+          {label:"Late reinforcement detail from the engineer", v:"info", cls:"sig"},
+          {label:"Rain", v:"rain"},
+          {label:"Our own sequencing", v:"own"}
+        ],
+        key:"cause",
+        after(v, st){
+          if (v==="info") return "Then it is an information delay and the days are claimable. I have pulled RFI-042, which has been open <b>9 working days</b> against a 5 day turnaround, and I will attach it to the notice.";
+          if (v==="rain") return "Then I need the rain meter readings for those days. I have them from the site log: 3 of the 4 days recorded above the threshold in the contract data, so 3 days are claimable and 1 is not.";
+          return "Then it is your cost and it stays out of the claim. Recorded honestly, which matters, because a claim history with your own delays in it is the one a principal agent believes.";
+        } },
+
+      { kind:"checks", stage:"Write",
+        msg:"The report does not go out until these are true. Every one of them is something a principal agent will ask for later.",
+        why:"measure",
+        items:[
+          {t:"Every item from last week's report answered", e:"Open items carried forward, not dropped"},
+          {t:"Photographs attached and dated", e:"Block C and block D, this week"},
+          {t:"Programme updated to reflect the actual position", e:"Not the position you hope to be in"},
+          {t:"Delay events noted with their cause", e:"Claimable and non-claimable both recorded"}
+        ] },
+
+      { kind:"doc", stage:"Issue",
+        build(st){
+          const noticeDue = addWorkdays(TODAY, 20);
+          return {
+            msg:"Progress report 29, ready to issue.",
+            title:"Progress report 29",
+            sub:"Week ending "+fmt(TODAY),
+            rows:[
+              ["Block C", st.cPct+"%  (74% last week)"],
+              ["Block D", st.dPct+"%  (93% last week)"],
+              ["Programme", st.slip+" wd behind"],
+              ["Cause", st.cause==="info" ? "Information delay, RFI-042" : st.cause==="rain" ? "Weather, 3 of 4 days claimable" : "Own sequencing, not claimable"],
+              ["Exposure", R(st.cost)],
+              ["Notice due by", st.cause==="own" ? "Not applicable" : fmt(noticeDue)]
+            ],
+            note: st.cause==="own"
+              ? "No notice, because there is nothing to claim. The report still records the delay, which is what stops it turning up as a surprise at final account."
+              : "I have drafted the delay notice off this report. It needs to reach the principal agent by <b>"+fmt(noticeDue)+"</b>, and I will keep asking until it has gone."
+          };
+        },
+        opts:[{label:"Issue the report", cls:"sig full"}] },
+
+      { kind:"finish",
+        apply(st){
+          S.done.progress = true;
+          if (st.cause !== "own"){ S.eot.pending += (st.cause==="rain" ? 3 : 4); }
+          S.actual.weeks = S.baseline.weeks + 3;
+        },
+        msg(st){ return ["<b>Issued.</b> Report 29 is with the principal agent and the programme is updated to the actual position.",
+                         st.cause==="own"
+                           ? "Next week's report will open with block C, because I do not let an open item disappear between reports."
+                           : "Next week's report will open with block C and RFI-042, and the delay notice is diarised. Neither of them can quietly vanish."]; },
+        toast:"Progress report 29 issued" }
+    ]
+  },
+
+  tender_adj: {
+    title:"Tender to baseline",
+    clause:"Pre-project",
+    steps:[
+      { kind:"say", stage:"Load",
+        msg:["<b>Paarl Medical Centre</b>. Tender closes Thursday.",
+             "Everything a project ever gets measured against is decided in the next four minutes, so let's load it properly and then lock it."],
+        opts:[{label:"Load the tender", cls:"primary full"}] },
+
+      { kind:"compute", stage:"Load",
+        run(st){
+          st.adj = 31480000;
+          return { msg:"Loaded from the estimate.",
+            calc:[["Bill of quantities","1 284 items"],["Priced trades","31"],
+                  ["Programme","46 weeks"],["Site team planned","11"],
+                  ["Adjudicated price",R(st.adj),true]],
+            note:"This is the pack the estimator hands over. From here on, nothing in it changes: what happens on site gets measured against it, not merged into it."
+          };
+        },
+        opts:[{label:"Continue", cls:"primary full"}] },
+
+      { kind:"number", stage:"Load", q:"Contingency carried", pre:"R", def:"780000",
+        msg:"<b>Contingency.</b> What are you actually carrying on this one? Not last tender's figure.",
+        why:"adjudicate", key:"cont" },
 
       { kind:"number", stage:"P&G", q:"P&G required", pre:"R", def:"2960000",
         msg:"<b>P&amp;G first.</b> Measure it off the drawings for this site: access, the slope, the distance to the nearest hardware. What does it actually need?",
@@ -1003,19 +1293,21 @@ const FLOWS = {
           return "Then it goes into the tender qualifications as an express exclusion, worded so that rock becomes a variation and not your problem. I have drafted it.";
         } },
 
-      { kind:"doc", stage:"Submit",
+      { kind:"doc", stage:"Lock",
         build(st){
-          const adj = 31480000;
-          const net = adj + Math.max(0, st.pgGap);
+          st.net = st.adj + Math.max(0, st.pgGap);
           return {
-            msg:"Tender position.",
-            title:"Adjudication summary",
+            msg:"This is the baseline you are about to lock.",
+            title:"Baseline T-119",
             sub:"Paarl Medical Centre / "+fmt(TODAY),
             rows:[
-              ["Adjudicated", R(adj)],
+              ["Adjudicated", R(st.adj)],
               ["P&G correction", (st.pgGap>0?"+ ":"")+R(st.pgGap)],
-              ["Submit at", R(net)],
-              ["Margin at this price", "6.8%"],
+              ["Contract value", R(st.net)],
+              ["P&G", R(st.pgNeed)],
+              ["Contingency", R(st.cont)],
+              ["Programme", "46 weeks"],
+              ["Margin", "6.8%"],
               ["Qualifications", st.geo==="ok" ? "Standard" : "Standard + ground conditions"]
             ],
             note: st.pgGap>0
@@ -1023,13 +1315,24 @@ const FLOWS = {
               : "Priced correctly as it stands."
           };
         },
-        opts:[{label:"Lock the tender", cls:"sig full"}] },
+        opts:[{label:"Lock the baseline", cls:"sig full"}] },
 
       { kind:"finish",
-        apply(){},
-        msg(st){ return ["<b>Locked.</b> If this one converts, the priced bill, the P&G breakdown and the qualifications carry straight into the contract and the baseline programme.",
-                         "That is the point. The tender is not a document you file. It is the opening balance of everything that happens on site."]; },
-        toast:"Tender locked" }
+        apply(st){
+          // Locking a tender creates the project. This is the join between the
+          // two halves of the business, and the reason the tender is not a
+          // document you file.
+          S.pipeline = S.pipeline.filter(p => p.name !== "Paarl Medical Centre");
+          if (!S.fleet.some(p => p.id === "prl")){
+            S.fleet.push({ id:"prl", name:"Paarl Medical Centre", town:"Paarl", ed:"05/2018",
+              stage:"baseline", value:st.net, base:6.8, now:6.8, risk:0,
+              clock:46, clockOf:"Site handover" });
+          }
+        },
+        msg(st){ return ["<b>Locked.</b> Baseline T-119 is now the opening balance for this project: contract value, P&amp;G breakdown, contingency, programme and the qualifications, all frozen.",
+                         "Paarl Medical Centre is on the board at the baseline stage. Every variation, claim and progress report from here reads against these numbers, and none of them can quietly edit them.",
+                         "That is the whole end to end shape of it: tender, baseline, site, claims, completion, final account."]; },
+        toast:"Baseline locked, project created" }
     ]
   }
 };
@@ -1041,14 +1344,32 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const ARROW = '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
+// The spine is drawn on every view that belongs to a project, so the end to end
+// shape of the job is never more than a glance away.
+function spine(at){
+  const i = LIFECYCLE.findIndex(x => x[0] === at);
+  return `<div class="spine">` + LIFECYCLE.map(([k,label],n) =>
+    `<div class="${n<i?"past":n===i?"now":""}">${label}</div>`).join("") + `</div>`;
+}
+
+// Variance against the locked baseline. Direction matters more than magnitude:
+// good is not "up", it is "the way that makes money on this particular line".
+function vline(label, base, now, fmtFn, goodUp){
+  const d = now - base, flat = Math.abs(d) < 1e-9;
+  const cls = flat ? "fl" : ((d > 0) === !!goodUp ? "up" : "dn");
+  const sign = flat ? "" : (d > 0 ? "+" : "-");
+  return `<div class="row"><span>${esc(label)}</span>
+    <span class="v2"><b>${fmtFn(now)}</b><i class="${cls}">${flat?"on baseline":sign+fmtFn(Math.abs(d))}</i></span></div>`;
+}
+
 function renderToday(){
   const t = tasks();
   const pcDue = new Date(2027,2,19);
   const left = workdaysBetween(TODAY, pcDue);
   const money = t.reduce((a,x)=>a+(x.id==="si114"?205040:0),0);
 
-  let h = `
-    <div class="clock">
+  let h = spine("site") + `
+    <div class="clock" style="margin-top:10px">
       <div class="row">
         <div>
           <div class="lab">Working days to practical completion</div>
@@ -1061,6 +1382,20 @@ function renderToday(){
         </div>
       </div>
     </div>`;
+
+  const B = S.baseline, A = S.actual;
+  h += `<div class="sec"><span class="lab">Against the locked baseline</span></div>
+    <div class="card base">
+      <div class="hd">
+        <b>${esc(B.ref)}</b>
+        <span>Locked ${esc(B.locked)}</span>
+      </div>
+      ${vline("Contract value", B.value, A.value, R, true)}
+      ${vline("Margin", B.margin, A.margin, n=>n.toFixed(1)+"%", true)}
+      ${vline("Programme", B.weeks, A.weeks, n=>n+" wks", false)}
+      ${vline("Contingency left", B.contingency, A.contingencyLeft, R, true)}
+    </div>
+    <p class="foot-note" style="margin-top:9px">Every figure here was set when the tender was locked and has not been edited since. The variance is what the site has done to it.</p>`;
 
   h += `<div class="sec"><span class="lab">Needs you now</span><span class="lab">${t.length} open</span></div>`;
 
@@ -1104,16 +1439,16 @@ function renderToday(){
 
 function renderGuides(){
   const built = [
-    ["01","Tender adjudication","Net price + P&G + risk, before it goes out","tender_adj"],
-    ["02","Site instruction to variation","Price, notice, EOT link, submit","si_to_vo"],
-    ["03","Monthly claim","Measure, reconcile, deduct, submit","monthly_claim"],
-    ["04","Sub-contractor default","Notice, remedy period, termination","sub_default"]
+    ["01","Tender to baseline","Load the bill, price it, lock the baseline","tender_adj"],
+    ["02","Site instruction to variation","Speak it, price it, notice, EOT link","si_to_vo"],
+    ["03","Progress report","Read off site photos, forced against last week","progress_report"],
+    ["04","Monthly claim","Measure, reconcile, deduct, submit","monthly_claim"],
+    ["05","Sub-contractor default","Notice, remedy period, termination","sub_default"]
   ];
   const soon = [
-    ["05","Appointments & bulk orders","Adjudication, settlement discount, PO"],
-    ["06","Progress report","Forced update against the previous report"],
+    ["06","Appointments & bulk orders","Adjudication, settlement discount, PO"],
     ["07","Practical completion","Inspection, list, deemed completion"],
-    ["08","Final account","90 working days, 45 to object"],
+    ["08","Final account","60 or 90 working days, by edition"],
     ["09","Quality & concrete register","Cast register, cube results, defects"],
     ["10","Sign-off project","9-point closure, guarantee cancellation"]
   ];
@@ -1187,7 +1522,101 @@ function renderMoney(){
     <p class="foot-note">Every line is a step in the process that either happened on time or did not. The five places a building contractor actually makes money (tender, appointments, programme, RFI, claim cycle) are exactly these five lines.</p>`;
 }
 
-function renderAll(){ renderToday(); renderGuides(); renderMoney(); }
+/* The board: what a director wants, which is not a rollup of progress bars.
+   It is which jobs are drifting off the price they were won at, and which
+   contractual clock runs out first. */
+function renderBoard(){
+  const F = S.fleet;
+  const value = F.reduce((a,p)=>a+p.value,0);
+  const risk  = F.reduce((a,p)=>a+p.risk,0);
+  const wBase = F.reduce((a,p)=>a+p.base*p.value,0)/value;
+  const wNow  = F.reduce((a,p)=>a+p.now*p.value,0)/value;
+  const drift = wNow - wBase;
+  const pipe  = S.pipeline.reduce((a,p)=>a+p.value,0);
+  const sorted = F.slice().sort((a,b)=> a.clock - b.clock);
+  const stageName = k => (LIFECYCLE.find(x=>x[0]===k)||["","?"])[1];
+
+  const sev = p => p.clock <= 5 ? "crit" : p.clock <= 20 ? "warn" : "ok";
+
+  $("#pane-board").innerHTML = `
+    <div class="sec" style="margin-top:2px"><span class="lab">${F.length} live projects</span><span class="lab">${fmt(TODAY)}</span></div>
+
+    <div class="clock">
+      <div class="row">
+        <div>
+          <div class="lab">Margin against the price it was won at</div>
+          <div class="big">${wNow.toFixed(1)}<small>% / ${wBase.toFixed(1)}%</small></div>
+        </div>
+        <div class="meta">
+          <span class="lab">At risk now</span>
+          <b style="color:var(--crit)">${R(risk)}</b>
+          ${R(value)} under contract
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:10px">
+      <div class="card stat ${drift<0?"leak":"gain"}">
+        <span class="lab">Margin drift</span>
+        <div class="v">${drift>=0?"+":"-"}${Math.abs(drift).toFixed(1)} pts</div>
+        <div class="d">${R(Math.abs(drift/100*value))} against baseline</div>
+      </div>
+      <div class="card stat">
+        <span class="lab">Tender pipeline</span>
+        <div class="v">${R(pipe)}</div>
+        <div class="d">${S.pipeline.length} out, next closes ${esc(S.pipeline[0].closes)}</div>
+      </div>
+    </div>
+
+    <div class="sec"><span class="lab">Soonest clock first</span><span class="lab">Working days</span></div>
+    <div class="card">${sorted.map(p=>`
+      <div class="proj">
+        <div class="l1">
+          <b>${esc(p.name)}</b>
+          <span class="edch">${esc(p.ed)}</span>
+        </div>
+        <div class="l2">
+          <span class="pill ${sev(p)}">${p.clock} wd</span>
+          <span class="m">${esc(p.clockOf)}</span>
+        </div>
+        <div class="l2">
+          <span class="pill flat">${esc(stageName(p.stage))}</span>
+          <span class="m">${R(p.value)}</span>
+          <span class="m" style="color:var(--${p.now>=p.base?"ok":"crit"})">
+            ${p.now.toFixed(1)}% vs ${p.base.toFixed(1)}%</span>
+          ${p.risk?`<span class="pill crit">${R(p.risk)}</span>`:""}
+        </div>
+      </div>`).join("")}</div>
+
+    <div class="sec"><span class="lab">Where each one sits</span></div>
+    <div class="card" style="padding:12px 13px">
+      ${F.map(p=>`
+        <div style="margin-bottom:13px">
+          <div class="lab" style="margin-bottom:5px">${esc(p.name.replace(/ Ph2$/,""))}</div>
+          ${spine(p.stage)}
+        </div>`).join("").replace(/<div style="margin-bottom:13px">(?![\s\S]*<div style="margin-bottom:13px">)/, '<div style="margin-bottom:0">')}
+    </div>
+
+    <p class="foot-note">Three of these five run on different editions of the contract, so the same milestone gives three different deadlines. The countdowns above are computed per project from the edition it was signed under, which is the only way this column can be trusted.</p>`;
+}
+
+// The header names whatever the current view is about: one project on the site
+// tabs, the whole book of work on the board.
+function setBar(board){
+  const F = S.fleet, value = F.reduce((a,p)=>a+p.value,0);
+  $(".bar-id .proj").textContent = board
+    ? "JC v/d Linde & Venter Projects"
+    : "Lourensford Office Park Ph2";
+  $(".bar-id .chip").textContent = board
+    ? F.length + " projects / " + R(value)
+    : "JBCC PBA May 2018";
+  $(".avatar").textContent = board ? "BD" : "RB";
+}
+
+function renderAll(){
+  renderToday(); renderGuides(); renderMoney(); renderBoard();
+  setBar(document.querySelector('#tabs [data-tab="board"]').classList.contains("on"));
+}
 
 /* ================================================================
    6. CHAT ENGINE - runs a flow, one forced step at a time
@@ -1329,6 +1758,47 @@ async function step(){
     });
   }
 
+  else if (s.kind === "voice"){
+    await botSay(s.msg, s.why);
+    rail(`<div class="q">${esc(s.q)}</div>
+      <button class="mic" id="mic">
+        <span class="dot"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></span>
+        <span class="t"><b>Hold to talk</b><span>${esc(s.hint)}</span></span>
+      </button>
+      <div class="opts"><button class="opt" data-n="0">Type it instead</button></div>`);
+    $("#rail").querySelector(".opt").onclick = () => { st.voice = false; next(); };
+    $("#mic").onclick = () => runVoice(s);
+  }
+
+  else if (s.kind === "vision"){
+    await botSay(s.msg, s.why);
+    rail(`<div class="opts">
+      <button class="opt sig full" data-n="0">
+        <svg viewBox="0 0 24 24"><path d="M3 8.5A1.5 1.5 0 014.5 7h2L8 5h8l1.5 2h2A1.5 1.5 0 0121 8.5v9A1.5 1.5 0 0119.5 19h-15A1.5 1.5 0 013 17.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg>
+        ${esc(s.label || "Photograph the work")}</button></div>`);
+    bind(async ()=>{
+      const b = bubble(`<p>${esc(s.label || "Photograph the work")}</p>`, "me");
+      b.insertAdjacentHTML("beforeend",
+        `<div class="shot"><div class="img"></div>
+         <div class="cap"><span>${esc(s.ref)}</span><span>${iso(TODAY)} 07:41</span><span>-34.0791, 18.8442</span></div></div>`);
+      $("#log").scrollTop = $("#log").scrollHeight;
+      busy = true;
+      await typing(900);
+      const r = s.read(st);
+      const rb = bubble(`<p>${r.msg}</p>`, "bot");
+      rb.insertAdjacentHTML("beforeend",
+        `<div class="calc">` + r.rows.map(([k,v,tot])=>
+          `<div class="${tot?"tot":""}"><span>${esc(k)}</span><span>${esc(v)}</span></div>`).join("") + `</div>`);
+      if (r.note) rb.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${r.note}</p>`);
+      rb.insertAdjacentHTML("beforeend",
+        `<div class="srcnote">Vision output is illustrative in this prototype</div>`);
+      $("#log").scrollTop = $("#log").scrollHeight;
+      busy = false;
+      rail(optBtns(s.opts));
+      bind(()=> next());
+    });
+  }
+
   else if (s.kind === "checks"){
     await botSay(s.msg, s.why);
     const state = s.items.map(()=>false);
@@ -1375,6 +1845,134 @@ async function step(){
   busy = false;
 }
 
+/* -- Speech ------------------------------------------------------
+   Uses the browser recogniser when the page is allowed a microphone,
+   and a scripted capture when it is not, which is the usual case inside
+   an embedded frame. On a handset this is an on-device model: the point
+   of the design is that whatever produces the words, the words only ever
+   become fields. The arithmetic downstream never sees the audio.
+   ---------------------------------------------------------------- */
+const NUMW = {zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,
+  ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,
+  eighteen:18,nineteen:19,twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,
+  eighty:80,ninety:90,hundred:100,thousand:1000,million:1000000};
+
+function words2num(text){
+  const digits = text.replace(/[,\s]/g,"").match(/\d{3,}/);
+  if (digits) return parseInt(digits[0],10);
+  let total = 0, run = 0, seen = false;
+  for (const w of text.toLowerCase().replace(/[^a-z\s]/g," ").split(/\s+/)){
+    const v = NUMW[w];
+    if (v === undefined) continue;
+    seen = true;
+    if (v === 100){ run = (run||1)*100; }
+    else if (v >= 1000){ total += (run||1)*v; run = 0; }
+    else run += v;
+  }
+  const n = total + run;
+  return seen && n ? n : null;
+}
+
+// Pull one amount per keyword out of a freely spoken sentence. Each key carries
+// its own alternation so "labour", "labor" and "the guys" all land in one field.
+function parseSpoken(text, keys){
+  const low = " " + text.toLowerCase().replace(/\brand\b/g," ") + " ";
+  const marks = [];
+  keys.forEach(k => {
+    const m = low.match(k.re);
+    if (m) marks.push({ key:k.key, start:m.index, after:m.index + m[0].length });
+  });
+  marks.sort((a,b) => a.start - b.start);
+  const out = {};
+  marks.forEach((m, n) => {
+    const end = n+1 < marks.length ? marks[n+1].start : low.length;
+    out[m.key] = words2num(low.slice(m.after, end));
+  });
+  return out;
+}
+
+function listen(ms){
+  return new Promise(resolve => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR || !window.isSecureContext) return resolve(null);
+    let r;
+    try { r = new SR(); } catch(e){ return resolve(null); }
+    r.lang = "en-ZA"; r.continuous = true; r.interimResults = true; r.maxAlternatives = 1;
+    let text = "", done = false;
+    const finish = v => { if (done) return; done = true; try { r.stop(); } catch(e){} resolve(v); };
+    r.onresult = e => {
+      text = "";
+      for (let i = 0; i < e.results.length; i++) text += e.results[i][0].transcript;
+      const live = $("#heard"); if (live) live.textContent = text;
+    };
+    r.onerror = () => finish(null);
+    r.onend = () => finish(text.trim() || null);
+    try { r.start(); } catch(e){ return resolve(null); }
+    setTimeout(() => finish(text.trim() || null), ms);
+  });
+}
+
+async function runVoice(s){
+  const mic = $("#mic");
+  if (!mic) return;
+  busy = true;
+  mic.classList.add("rec");
+  mic.querySelector(".t").innerHTML =
+    `<b>Listening</b><span id="heard">${esc(s.hint)}</span>`;
+  mic.insertAdjacentHTML("beforeend", `<span class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>`);
+  $("#rail").querySelector(".opts").remove();
+
+  let heard = await listen(7000);
+  const live = heard !== null;
+  if (!live){
+    // scripted capture, revealed at speaking pace
+    heard = "";
+    const words = s.demo.split(" ");
+    for (const w of words){
+      heard += (heard ? " " : "") + w;
+      const el = $("#heard"); if (el) el.textContent = heard;
+      await new Promise(r => setTimeout(r, 105));
+    }
+    await new Promise(r => setTimeout(r, 420));
+  }
+
+  rail("");
+  const b = bubble(`<p>${esc(heard)}</p>`, "me");
+  $("#log").scrollTop = $("#log").scrollHeight;
+
+  const got = parseSpoken(heard, s.keys);
+  const missing = s.keys.filter(k => !got[k.key]);
+  if (missing.length){
+    // never guess at a number that was not clearly said
+    const fallback = parseSpoken(s.demo, s.keys);
+    missing.forEach(k => got[k.key] = fallback[k.key]);
+  }
+  s.keys.forEach(k => st[k.key] = got[k.key]);
+  st.voice = true;
+
+  await typing(760);
+  const rb = bubble(`<p>${s.back}</p>`, "bot");
+  rb.insertAdjacentHTML("beforeend",
+    `<div class="calc">` + s.keys.map(k =>
+      `<div><span>${esc(k.label)}</span><span>${R(got[k.key])}</span></div>`).join("") + `</div>`);
+  rb.insertAdjacentHTML("beforeend",
+    `<p style="margin-top:9px">Read that back before I use it. A number heard wrong is a number claimed wrong.</p>`);
+  rb.insertAdjacentHTML("beforeend",
+    `<div class="srcnote">${live
+      ? "Captured with the browser recogniser"
+      : "Scripted capture: this frame is not allowed a microphone"}</div>`);
+  $("#log").scrollTop = $("#log").scrollHeight;
+  busy = false;
+
+  rail(`<div class="opts">
+    <button class="opt sig full" data-n="0">All three correct</button>
+    <button class="opt full" data-n="1">Say it again</button></div>`);
+  $("#rail").querySelectorAll(".opt").forEach(el => el.onclick = () => {
+    if (+el.dataset.n === 1){ st.voice = false; step(); }
+    else next();
+  });
+}
+
 function bind(fn){
   $("#rail").querySelectorAll(".opt").forEach(el =>
     el.onclick = () => { if (!busy) fn(+el.dataset.n || 0); });
@@ -1400,6 +1998,7 @@ document.addEventListener("click", e => {
     document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b === tab));
     document.querySelectorAll(".pane").forEach(p => p.classList.toggle("on", p.id === "pane-"+tab.dataset.tab));
     $(".scroll").scrollTop = 0;
+    setBar(tab.dataset.tab === "board");
   }
 });
 $("#chat-back").onclick = closeFlow;
