@@ -38,7 +38,7 @@ const PAGES = [
     src: "src/teardown.html",
     out: "teardown/index.html",
     desc:
-      "What is actually encoded in the VDLV A0 flowchart, read box by box, and what it " +
+      "What is actually encoded in the contractor's A0 flowchart, read box by box, and what it " +
       "tells us to build.",
   },
 ];

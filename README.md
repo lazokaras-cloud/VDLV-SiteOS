@@ -1,7 +1,7 @@
 # constrAI
 
 A construction operating system that starts at tender and runs to final account, built on
-JC van der Linde & Venter Projects' own A0 process flowchart (Rev 11).
+a working commercial building contractor's own A0 process flowchart (Rev 11).
 
 Two pages, both static, both mobile first:
 
@@ -14,7 +14,7 @@ Two pages, both static, both mobile first:
 
 Commercial building in South Africa runs on JBCC contracts whose deadlines are counted in
 working days. Miss the notice window and a valid claim is worth nothing. The process that
-prevents this already exists at VDLV, drawn on a 1.6 metre sheet on a wall, with 48 steps
+prevents this already exists at the contractor, drawn on a 1.6 metre sheet on a wall, with 48 steps
 that each carry an owner, a target date and a binary status. Nobody can carry that in their
 head, and no estimating or accounting package tracks it. This is the gap: not a portfolio
 dashboard of things that already happened, but the one thing that is about to stop happening,
@@ -26,7 +26,7 @@ Working prototype. The guidance is a **deterministic rules engine**, not a langu
 working days are computed against the South African public holiday calendar, and every
 contractual date and rand amount is calculated rather than generated. Project data is
 illustrative, shaped to be plausible for a job of this size, and is not taken from a real
-VDLV contract.
+contract.
 
 ## Layout
 

@@ -6,25 +6,25 @@
    Light is the default (site = daylight). Dark redefines tokens only.
    ------------------------------------------------------------- */
 :root{
-  --ground:#E6E7E3;      /* cool concrete slab */
-  --field:#DBDDD7;       /* workbench behind the device */
-  --surface:#FBFBF9;     /* drawing paper */
-  --surface-2:#F1F2EE;
-  --ink:#101317;
-  --ink-2:#5C636B;       /* grey, biased blue */
-  --ink-3:#878E96;
-  --rule:#CBCEC8;
-  --rule-2:#E1E3DD;
-  --signal:#E5AE0B;      /* VDLV gold / hazard, used sparingly */
-  --signal-ink:#3A2C00;
-  --stamp:#23477F;       /* drawing-stamp blue */
-  --stamp-wash:#E7EDF7;
-  --ok:#2A7A4C;
-  --ok-wash:#E3F1E8;
-  --warn:#B9720B;
-  --warn-wash:#FAEEDB;
-  --crit:#B93A2E;
-  --crit-wash:#FBE7E4;
+  --ground:#EDEFF1;      /* light: brushed silver */
+  --field:#DFE3E6;       /* bench behind the device */
+  --surface:#FFFFFF;     /* panel */
+  --surface-2:#F3F5F7;
+  --ink:#16191D;
+  --ink-2:#59626A;       /* silver grey */
+  --ink-3:#8B949C;
+  --rule:#D4D9DD;
+  --rule-2:#E8ECEF;
+  --signal:#00A28C;      /* the one accent, used sparingly */
+  --signal-ink:#FFFFFF;
+  --stamp:#4E5A64;       /* slate, structural secondary */
+  --stamp-wash:#EAEEF1;
+  --ok:#12855C;
+  --ok-wash:#E4F3EC;
+  --warn:#A5760E;
+  --warn-wash:#F8F0DE;
+  --crit:#C03A2D;
+  --crit-wash:#FBE8E5;
   --shadow:0 1px 2px rgba(16,19,23,.06), 0 8px 24px rgba(16,19,23,.08);
   --shadow-lift:0 2px 4px rgba(16,19,23,.08), 0 18px 48px rgba(16,19,23,.16);
 
@@ -36,27 +36,27 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ground:#15181C; --field:#0D0F12; --surface:#1C2026; --surface-2:#22272E;
-    --ink:#E8E9E5; --ink-2:#98A0A9; --ink-3:#727A83;
-    --rule:#2F343B; --rule-2:#262B31;
-    --signal:#F2C33F; --signal-ink:#241A00;
-    --stamp:#7FA3E0; --stamp-wash:#1B2533;
-    --ok:#54B57D; --ok-wash:#152A20;
-    --warn:#E0A03E; --warn-wash:#2C2113;
-    --crit:#E17264; --crit-wash:#301A18;
+    --ground:#0E1013; --field:#08090B; --surface:#16191D; --surface-2:#1E2227;
+    --ink:#EDEFF1; --ink-2:#9BA3AB; --ink-3:#6D767E;
+    --rule:#2A2F35; --rule-2:#202429;
+    --signal:#00D7B9; --signal-ink:#04201C;
+    --stamp:#9AA6B0; --stamp-wash:#1A2126;
+    --ok:#3FCF8E; --ok-wash:#10241C;
+    --warn:#E8B33A; --warn-wash:#2A2214;
+    --crit:#FF6B5E; --crit-wash:#2C1A18;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
     --shadow-lift:0 2px 4px rgba(0,0,0,.5), 0 18px 48px rgba(0,0,0,.6);
   }
 }
 :root[data-theme="dark"]{
-  --ground:#15181C; --field:#0D0F12; --surface:#1C2026; --surface-2:#22272E;
-  --ink:#E8E9E5; --ink-2:#98A0A9; --ink-3:#727A83;
-  --rule:#2F343B; --rule-2:#262B31;
-  --signal:#F2C33F; --signal-ink:#241A00;
-  --stamp:#7FA3E0; --stamp-wash:#1B2533;
-  --ok:#54B57D; --ok-wash:#152A20;
-  --warn:#E0A03E; --warn-wash:#2C2113;
-  --crit:#E17264; --crit-wash:#301A18;
+  --ground:#0E1013; --field:#08090B; --surface:#16191D; --surface-2:#1E2227;
+  --ink:#EDEFF1; --ink-2:#9BA3AB; --ink-3:#6D767E;
+  --rule:#2A2F35; --rule-2:#202429;
+  --signal:#00D7B9; --signal-ink:#04201C;
+  --stamp:#9AA6B0; --stamp-wash:#1A2126;
+  --ok:#3FCF8E; --ok-wash:#10241C;
+  --warn:#E8B33A; --warn-wash:#2A2214;
+  --crit:#FF6B5E; --crit-wash:#2C1A18;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
   --shadow-lift:0 2px 4px rgba(0,0,0,.5), 0 18px 48px rgba(0,0,0,.6);
 }
@@ -73,7 +73,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 .mono{font-family:var(--mono); font-variant-numeric:tabular-nums}
 .lab{
-  font-family:var(--mono); font-size:10px; letter-spacing:.14em;
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.24em;
   text-transform:uppercase; color:var(--ink-3);
 }
 
@@ -83,7 +83,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   gap:48px; padding:48px; align-items:start;
   background:
     linear-gradient(var(--field),var(--field)),
-    repeating-linear-gradient(90deg,transparent 0 39px,rgba(128,128,128,.07) 39px 40px);
+    repeating-linear-gradient(90deg,transparent 0 79px,rgba(128,128,128,.05) 79px 80px);
 }
 .titleblock{
   position:sticky; top:48px;
@@ -92,11 +92,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .tb-head{padding:18px 20px 14px; border-bottom:2px solid var(--ink)}
 .tb-mark{display:flex; align-items:baseline; gap:10px}
 .tb-mark h1{
-  margin:0; font-size:30px; font-weight:800; letter-spacing:-.025em; line-height:1;
+  margin:0; font-size:25px; font-weight:250; letter-spacing:.07em; line-height:1;
+  text-transform:uppercase;
 }
 .tb-mark .tick{
-  width:9px; height:9px; background:var(--signal);
-  box-shadow:0 0 0 3px var(--surface), 0 0 0 4px var(--ink);
+  width:9px; height:9px; background:transparent; border:2px solid var(--signal);
   border-radius:50%; flex:none; transform:translateY(-2px);
 }
 .tb-sub{margin:8px 0 0; color:var(--ink-2); font-size:13.5px; max-width:34ch}
@@ -109,10 +109,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .tb-note p:last-child{margin:0}
 .tb-note strong{color:var(--ink)}
 .stamp{
-  display:inline-block; margin:2px 0 12px; padding:5px 10px;
-  border:2px solid var(--crit); color:var(--crit); border-radius:3px;
-  font-family:var(--mono); font-size:10px; letter-spacing:.16em; font-weight:700;
-  transform:rotate(-1.6deg);
+  display:inline-block; margin:2px 0 12px; padding:5px 11px;
+  border:1px solid var(--signal); color:var(--signal); border-radius:2px;
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.24em; font-weight:500;
+  text-transform:uppercase;
 }
 .tb-foot{
   padding:12px 20px; border-top:1px solid var(--rule);
@@ -130,12 +130,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .device{
   width:390px; height:800px; flex:none; position:relative;
   background:var(--ground); border-radius:38px; box-shadow:var(--shadow-lift);
-  border:10px solid #1a1c1f; overflow:hidden;
+  border:10px solid #0A0C0E; overflow:hidden;
 }
 :root[data-theme="dark"] .device, :root:not([data-theme="light"]) .device{border-color:#000}
 .notch{
   position:absolute; top:0; left:50%; transform:translateX(-50%);
-  width:120px; height:22px; background:#1a1c1f; border-radius:0 0 12px 12px; z-index:40;
+  width:120px; height:22px; background:#0A0C0E; border-radius:0 0 12px 12px; z-index:40;
 }
 .app{height:100%; display:flex; flex-direction:column; background:var(--ground); position:relative}
 
@@ -170,7 +170,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 @media (max-width:1000px){ .bar{padding:12px 16px 10px} }
 .bar-id{min-width:0; flex:1}
 .bar-id .proj{
-  font-weight:700; font-size:14.5px; letter-spacing:-.01em; white-space:nowrap;
+  font-weight:520; font-size:14.5px; letter-spacing:0; white-space:nowrap;
   overflow:hidden; text-overflow:ellipsis;
 }
 .chip{
@@ -224,8 +224,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   box-shadow:var(--shadow); padding:14px 15px 13px; position:relative; overflow:hidden;
 }
 .clock::before{
-  content:""; position:absolute; inset:0 auto 0 0; width:4px;
-  background:repeating-linear-gradient(-45deg,var(--signal) 0 5px,var(--ink) 5px 10px);
+  content:""; position:absolute; inset:0 auto 0 0; width:2px; background:var(--signal);
+}
+.clock::after{
+  content:""; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg,var(--signal),transparent 62%); opacity:.5;
 }
 .clock .row{display:flex; align-items:flex-end; justify-content:space-between; gap:12px; padding-left:9px}
 .clock .big{font-family:var(--mono); font-size:34px; font-weight:700; line-height:1; letter-spacing:-.02em}
@@ -240,7 +243,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .task.info .sev{background:var(--stamp)} .task.ok .sev{background:var(--ok)}
 .task .body{flex:1; min-width:0; padding:12px 13px}
 .task .top{display:flex; align-items:center; gap:7px; margin-bottom:5px; flex-wrap:wrap}
-.task h3{margin:0; font-size:14.5px; font-weight:650; letter-spacing:-.01em; line-height:1.3}
+.task h3{margin:0; font-size:14.5px; font-weight:520; letter-spacing:0; line-height:1.32}
 .task p{margin:5px 0 0; font-size:13px; color:var(--ink-2); line-height:1.4}
 .task .foot{display:flex; align-items:center; gap:9px; margin-top:10px; flex-wrap:wrap}
 .pill{
@@ -293,7 +296,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .guide.locked:hover{background:none}
 .guide.locked .num{background:var(--surface-2); color:var(--ink-3); border:1px dashed var(--rule)}
 .guide .t{flex:1; min-width:0}
-.guide .t b{display:block; font-size:14px; font-weight:650; letter-spacing:-.01em}
+.guide .t b{display:block; font-size:14px; font-weight:520; letter-spacing:0}
 .guide .t span{font-size:12px; color:var(--ink-2)}
 
 /* -- Chat -------------------------------------------------------- */
@@ -304,7 +307,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 @media (max-width:1000px){ .chat-bar{padding-top:12px} }
 .chat-bar .r1{display:flex; align-items:center; gap:10px; padding-bottom:9px}
-.chat-bar h2{margin:0; font-size:14.5px; font-weight:700; letter-spacing:-.015em; flex:1; min-width:0}
+.chat-bar h2{margin:0; font-size:14.5px; font-weight:520; letter-spacing:0; flex:1; min-width:0}
 .iconbtn{width:30px; height:30px; flex:none; display:grid; place-items:center; border-radius:5px; color:var(--ink-2)}
 .iconbtn:hover{background:var(--surface-2); color:var(--ink)}
 .iconbtn svg{width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2}
@@ -317,8 +320,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .steps i.done{background:var(--ok)}
 .steps i.now{background:var(--signal)}
 .steps i.lock{
-  background:repeating-linear-gradient(-45deg,var(--rule-2) 0 3px,transparent 3px 6px);
-  box-shadow:inset 0 0 0 1px var(--rule-2);
+  background:var(--rule-2); opacity:.55;
 }
 
 .log{flex:1; overflow-y:auto; padding:16px 14px 8px; display:flex; flex-direction:column; gap:12px}
@@ -333,7 +335,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   padding:10px 12px; font-size:14px; line-height:1.45; box-shadow:var(--shadow); max-width:84%;
 }
 .bub p{margin:0 0 8px} .bub p:last-child{margin:0}
-.bub b{font-weight:650}
+.bub b{font-weight:560}
 .bub code{
   font-family:var(--mono); font-size:12.5px; background:var(--surface-2);
   padding:1px 5px; border-radius:3px; font-variant-numeric:tabular-nums;
@@ -473,7 +475,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       <p class="tb-sub">The process, on the phone, with the contract clock running.</p>
     </div>
     <div class="tb-rows">
-      <div><span class="lab">Client</span><b>JC v/d Linde &amp; Venter</b></div>
+      <div><span class="lab">Demo client</span><b>JC v/d Linde &amp; Venter</b></div>
       <div><span class="lab">Drawn</span><b>2026-08-24</b></div>
       <div><span class="lab">Source</span><b>A0 Flowchart Rev 11</b></div>
       <div><span class="lab">Contract</span><b>JBCC PBA May 2018</b></div>
@@ -482,8 +484,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       <span class="stamp">Working prototype</span>
       <p>Every enterprise tool shows a <strong>site agent a portfolio</strong>. This one shows him the
          <strong>one thing that is about to cost money</strong>, then walks him through it.</p>
-      <p>The guidance is a deterministic rules engine reading the JBCC clauses and VDLV's own
-         flowchart. Working days are computed against the SA public holiday calendar. Nothing here
+      <p>The guidance is a deterministic rules engine reading the JBCC clauses and the contractor's
+         own flowchart. Working days are computed against the SA public holiday calendar. Nothing here
          calls a language model yet.</p>
       <p><strong>Try:</strong> the red card on Today.</p>
     </div>
@@ -979,7 +981,7 @@ const FLOWS = {
         opts:[{label:"Continue", cls:"primary full"}] },
 
       { kind:"checks", stage:"Risk",
-        msg:"Now the adjudicator's work. Each of these has cost VDLV money before.",
+        msg:"Now the adjudicator's work. Each of these has cost this contractor money before.",
         why:"adjudicate",
         items:[
           {t:"Rates checked against actual quotes held", e:"Including terms and settlement discount"},
@@ -1064,7 +1066,7 @@ function renderToday(){
 
   if (!t.length){
     h += `<div class="card" style="padding:26px 16px;text-align:center">
-      <div style="font-size:15px;font-weight:650">Nothing is running out today.</div>
+      <div style="font-size:15px;font-weight:520">Nothing is running out today.</div>
       <p style="margin:7px 0 0;font-size:13px;color:var(--ink-2)">Every open contractual clock on this project is inside its window.</p>
     </div>`;
   } else {
@@ -1182,7 +1184,7 @@ function renderMoney(){
       </table>
     </div>
 
-    <p class="foot-note">Every line is a step in the A0 flowchart that either happened on time or did not. The five money-makers on the whiteboard (tender, appointments, programme, RFI, claim cycle) are exactly these five lines.</p>`;
+    <p class="foot-note">Every line is a step in the A0 flowchart that either happened on time or did not. The five money-makers identified on the process sheet (tender, appointments, programme, RFI, claim cycle) are exactly these five lines.</p>`;
 }
 
 function renderAll(){ renderToday(); renderGuides(); renderMoney(); }

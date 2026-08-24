@@ -2,40 +2,40 @@
 
 <style>
 :root{
-  --ground:#E6E7E3; --surface:#FBFBF9; --surface-2:#F1F2EE;
-  --ink:#101317; --ink-2:#5C636B; --ink-3:#878E96;
-  --rule:#CBCEC8; --rule-2:#E1E3DD;
-  --signal:#E5AE0B; --signal-ink:#3A2C00;
-  --stamp:#23477F; --stamp-wash:#E7EDF7;
-  --ok:#2A7A4C; --ok-wash:#E3F1E8;
-  --warn:#B9720B; --warn-wash:#FAEEDB;
-  --crit:#B93A2E; --crit-wash:#FBE7E4;
+  --ground:#EDEFF1; --surface:#FFFFFF; --surface-2:#F3F5F7;
+  --ink:#16191D; --ink-2:#59626A; --ink-3:#8B949C;
+  --rule:#D4D9DD; --rule-2:#E8ECEF;
+  --signal:#00A28C; --signal-ink:#FFFFFF;
+  --stamp:#4E5A64; --stamp-wash:#EAEEF1;
+  --ok:#12855C; --ok-wash:#E4F3EC;
+  --warn:#A5760E; --warn-wash:#F8F0DE;
+  --crit:#C03A2D; --crit-wash:#FBE8E5;
   --shadow:0 1px 2px rgba(16,19,23,.05), 0 8px 24px rgba(16,19,23,.07);
   --mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,"Roboto Mono",Menlo,monospace;
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ground:#15181C; --surface:#1C2026; --surface-2:#22272E;
-    --ink:#E8E9E5; --ink-2:#98A0A9; --ink-3:#727A83;
-    --rule:#2F343B; --rule-2:#262B31;
-    --signal:#F2C33F; --signal-ink:#241A00;
-    --stamp:#7FA3E0; --stamp-wash:#1B2533;
-    --ok:#54B57D; --ok-wash:#152A20;
-    --warn:#E0A03E; --warn-wash:#2C2113;
-    --crit:#E17264; --crit-wash:#301A18;
+    --ground:#0E1013; --surface:#16191D; --surface-2:#1E2227;
+    --ink:#EDEFF1; --ink-2:#9BA3AB; --ink-3:#6D767E;
+    --rule:#2A2F35; --rule-2:#202429;
+    --signal:#00D7B9; --signal-ink:#04201C;
+    --stamp:#9AA6B0; --stamp-wash:#1A2126;
+    --ok:#3FCF8E; --ok-wash:#10241C;
+    --warn:#E8B33A; --warn-wash:#2A2214;
+    --crit:#FF6B5E; --crit-wash:#2C1A18;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
   }
 }
 :root[data-theme="dark"]{
-  --ground:#15181C; --surface:#1C2026; --surface-2:#22272E;
-  --ink:#E8E9E5; --ink-2:#98A0A9; --ink-3:#727A83;
-  --rule:#2F343B; --rule-2:#262B31;
-  --signal:#F2C33F; --signal-ink:#241A00;
-  --stamp:#7FA3E0; --stamp-wash:#1B2533;
-  --ok:#54B57D; --ok-wash:#152A20;
-  --warn:#E0A03E; --warn-wash:#2C2113;
-  --crit:#E17264; --crit-wash:#301A18;
+  --ground:#0E1013; --surface:#16191D; --surface-2:#1E2227;
+  --ink:#EDEFF1; --ink-2:#9BA3AB; --ink-3:#6D767E;
+  --rule:#2A2F35; --rule-2:#202429;
+  --signal:#00D7B9; --signal-ink:#04201C;
+  --stamp:#9AA6B0; --stamp-wash:#1A2126;
+  --ok:#3FCF8E; --ok-wash:#10241C;
+  --warn:#E8B33A; --warn-wash:#2A2214;
+  --crit:#FF6B5E; --crit-wash:#2C1A18;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
 }
 
@@ -52,7 +52,7 @@ body{
 .col{max-width:68ch}
 .mono{font-family:var(--mono); font-variant-numeric:tabular-nums}
 .lab{
-  font-family:var(--mono); font-size:10.5px; letter-spacing:.15em;
+  font-family:var(--mono); font-size:10px; letter-spacing:.24em;
   text-transform:uppercase; color:var(--ink-3);
 }
 
@@ -62,8 +62,8 @@ header.top{
   padding:56px 0 20px;
 }
 header.top h1{
-  margin:0; font-size:clamp(38px,7vw,62px); font-weight:800;
-  letter-spacing:-.035em; line-height:.97; text-wrap:balance;
+  margin:0; font-size:clamp(32px,6vw,54px); font-weight:250;
+  letter-spacing:.05em; line-height:1.02; text-wrap:balance; text-transform:uppercase;
 }
 header.top .dek{
   margin:16px 0 0; font-size:19px; color:var(--ink-2); max-width:56ch; text-wrap:balance;
@@ -78,12 +78,12 @@ header.top .dek{
 /* sections */
 section{margin:56px 0 0}
 h2{
-  margin:0 0 4px; font-size:clamp(24px,3.4vw,31px); font-weight:750;
-  letter-spacing:-.025em; line-height:1.15; text-wrap:balance;
+  margin:0 0 4px; font-size:clamp(23px,3.2vw,30px); font-weight:350;
+  letter-spacing:-.005em; line-height:1.2; text-wrap:balance;
 }
 h2 + .kick{margin:0 0 20px; color:var(--ink-2); font-size:16px; max-width:60ch}
 h3{
-  margin:34px 0 8px; font-size:18px; font-weight:700; letter-spacing:-.012em;
+  margin:34px 0 8px; font-size:17px; font-weight:550; letter-spacing:.005em;
 }
 p{margin:0 0 16px}
 .col p, .col ul, .col ol{max-width:68ch}
@@ -91,7 +91,7 @@ a{color:var(--stamp); text-underline-offset:3px}
 
 .eyebrow{
   display:inline-flex; align-items:center; gap:8px; margin-bottom:12px;
-  font-family:var(--mono); font-size:10.5px; letter-spacing:.15em; text-transform:uppercase;
+  font-family:var(--mono); font-size:10px; letter-spacing:.24em; text-transform:uppercase;
   color:var(--ink-3);
 }
 .eyebrow::before{content:""; width:22px; height:2px; background:var(--signal)}
@@ -194,7 +194,7 @@ footer p{max-width:68ch}
 <header class="top">
   <div class="eyebrow">Teardown</div>
   <h1>Rev 11 Teardown</h1>
-  <p class="dek">What is actually encoded in the VDLV A0 flowchart, read box by box, and what it tells us to build.</p>
+  <p class="dek">What is actually encoded in the contractor's A0 flowchart, read box by box, and what it tells us to build.</p>
   <div class="meta">
     <div><span class="lab">Source</span><b>A0 project flowchart Rev 11</b></div>
     <div><span class="lab">Sheet</span><b>1157 x 1609 mm</b></div>
@@ -204,7 +204,7 @@ footer p{max-width:68ch}
 </header>
 
 <div class="col">
-<p>Lazo said the ontology would not really help and that the canvas is clear enough. He is half right. The canvas is clear, but it is not a picture. It is a database that happens to have been drawn, and once you read it mechanically it hands you the data model, the state machine, the rules engine and the build backlog, in that order.</p>
+<p>A wall chart this size is normally treated as a picture: something pointed at during an induction and then ignored, because no one can hold 400 boxes in their head. Read mechanically, it is not a picture at all. It is a database that happens to have been drawn, and it hands over the data model, the state machine, the rules engine and the build backlog, in that order.</p>
 
 <p>Here is what is on the sheet.</p>
 </div>
@@ -235,7 +235,7 @@ footer p{max-width:68ch}
 </div>
 
 <div class="col">
-  <p>Forty-eight of each, no more and no less. Those three fields are the task entity for the whole product, and VDLV wrote them before anyone mentioned software. The binary status is the interesting part: there is no "in progress", no percentage. A step is done or it is not, which is exactly the discipline you want on a phone and exactly what makes a completion bar honest.</p>
+  <p>Forty-eight of each, no more and no less. Those three fields are the task entity for the whole product, and the contractor wrote them before anyone mentioned software. The binary status is the interesting part: there is no "in progress", no percentage. A step is done or it is not, which is exactly the discipline you want on a phone and exactly what makes a completion bar honest.</p>
 
   <p>They are not sprinkled randomly either. They sit in two vertical rails, one per phase, with the process content to the left of each rail. The sheet is laid out like a form, with the work on one side and the accountability on the other.</p>
 </div>
@@ -256,7 +256,7 @@ footer p{max-width:68ch}
   <li><b>12</b><em>Company flowchart, allocate responsibilities</em></li>
   <li><b>13</b><em>Standard consumables</em></li>
   <li><b>14</b><em>Sectional foremen</em></li>
-  <li><b>15</b><em>Skilled labour (VDLV and labour sub-contractor)</em></li>
+  <li><b>15</b><em>Skilled labour (own and labour sub-contractor)</em></li>
   <li><b>16</b><em>Financial department and procurement process</em></li>
   <li><b>17</b><em>Credit card application</em></li>
   <li><b>18</b><em>Training</em></li>
@@ -352,7 +352,7 @@ footer p{max-width:68ch}
       <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
     </marker>
     <marker id="arS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0 0 L10 5 L0 10 z" fill="#B93A2E"/>
+      <path d="M0 0 L10 5 L0 10 z" fill="#E04B3C"/>
     </marker>
   </defs>
 
@@ -367,7 +367,7 @@ footer p{max-width:68ch}
     <!-- fan lines -->
     <path d="M166 150 C 208 150, 208 60, 250 60"  fill="none" stroke="currentColor" stroke-width="1.4" marker-end="url(#ar)" opacity=".8"/>
     <path d="M166 150 L 250 150"                   fill="none" stroke="currentColor" stroke-width="1.4" marker-end="url(#ar)" opacity=".8"/>
-    <path d="M166 150 C 208 150, 208 240, 250 240" fill="none" stroke="#B93A2E" stroke-width="2" marker-end="url(#arS)"/>
+    <path d="M166 150 C 208 150, 208 240, 250 240" fill="none" stroke="#E04B3C" stroke-width="2" marker-end="url(#arS)"/>
 
     <!-- lane 1 -->
     <text x="258" y="46" font-size="10" opacity=".62">JBCC JULY 2007</text>
@@ -388,17 +388,17 @@ footer p{max-width:68ch}
     <text x="616" y="164" font-size="11" opacity=".62">cl. 26.10 / 26.11</text>
 
     <!-- lane 3, the short one -->
-    <text x="258" y="226" font-size="10" fill="#B93A2E" font-weight="700">JBCC MAY 2018</text>
-    <rect x="256" y="232" width="150" height="34" rx="5" fill="none" stroke="#B93A2E" stroke-width="1.8"/>
-    <text x="331" y="254" text-anchor="middle" fill="#B93A2E" font-weight="700">60 wd to account</text>
-    <line x1="406" y1="249" x2="452" y2="249" stroke="#B93A2E" stroke-width="1.6" marker-end="url(#arS)"/>
-    <rect x="452" y="232" width="150" height="34" rx="5" fill="none" stroke="#B93A2E" stroke-width="1.8"/>
-    <text x="527" y="254" text-anchor="middle" fill="#B93A2E" font-weight="700">30 wd to object</text>
-    <text x="616" y="254" font-size="11" fill="#B93A2E">cl. 26.10 / 26.11</text>
+    <text x="258" y="226" font-size="10" fill="#E04B3C" font-weight="700">JBCC MAY 2018</text>
+    <rect x="256" y="232" width="150" height="34" rx="5" fill="none" stroke="#E04B3C" stroke-width="1.8"/>
+    <text x="331" y="254" text-anchor="middle" fill="#E04B3C" font-weight="700">60 wd to account</text>
+    <line x1="406" y1="249" x2="452" y2="249" stroke="#E04B3C" stroke-width="1.6" marker-end="url(#arS)"/>
+    <rect x="452" y="232" width="150" height="34" rx="5" fill="none" stroke="#E04B3C" stroke-width="1.8"/>
+    <text x="527" y="254" text-anchor="middle" fill="#E04B3C" font-weight="700">30 wd to object</text>
+    <text x="616" y="254" font-size="11" fill="#E04B3C">cl. 26.10 / 26.11</text>
 
     <!-- the gap -->
-    <line x1="527" y1="176" x2="527" y2="230" stroke="#B93A2E" stroke-width="1" stroke-dasharray="3 3"/>
-    <text x="540" y="207" font-size="11" fill="#B93A2E">15 working days shorter</text>
+    <line x1="527" y1="176" x2="527" y2="230" stroke="#E04B3C" stroke-width="1" stroke-dasharray="3 3"/>
+    <text x="540" y="207" font-size="11" fill="#E04B3C">15 working days shorter</text>
   </g>
 </svg>
 <figcaption><b>The same milestone, three different clocks.</b> A site agent trained on a 2014 contract carries 45 working days in his head. On a 2018 contract the window closes at 30, and the final account is usually the biggest number on the job. The edition is a property of the contract, so the app should read it once at handover and never ask again.</figcaption>
@@ -420,7 +420,7 @@ footer p{max-width:68ch}
   <h2>They already wrote the build backlog</h2>
   <p class="kick">Thirteen boxes on the sheet are annotated "Online". That is the scope, chosen by the people who do the work.</p>
 
-  <p>Both the printed sheet and Lazo's marker pen agree on where the system has to live. The printed boxes marked online, in their own words:</p>
+  <p>Thirteen boxes on the sheet are annotated <strong>Online</strong>. Nobody added those in a workshop; they were written by the people who run the process, in their own words:</p>
 </div>
 
 <div class="tw">
@@ -445,9 +445,9 @@ footer p{max-width:68ch}
 </div>
 
 <div class="col">
-  <p>Then the marker pen adds five more, circled and labelled "force process": progress report, EOT, subbie default, late payment, disputes and handover.</p>
+  <p>Five more are marked up by hand under the heading <strong>force process</strong>: progress report, extension of time, sub-contractor default, late payment, and disputes and handover.</p>
 
-  <p>Nothing on that list is speculative. It is eighteen features, prioritised, specified at the level of a sentence each, by the company that will pay for them.</p>
+  <p>Nothing on that list is speculative. It is eighteen features, prioritised and specified at the level of a sentence each, by the people who run the process every day.</p>
 </div>
 </section>
 
@@ -459,7 +459,7 @@ footer p{max-width:68ch}
   <h2>The systems seam is where the product lives</h2>
   <p class="kick">Candy, BuildSmart and "online" appear 8, 8 and 14 times. The gaps between them are the whole opportunity.</p>
 
-  <p>VDLV are not running on paper. They have estimating and programming in <strong>Candy</strong> and accounting in <strong>BuildSmart</strong>, both mature CCS products, plus a Trimble total station for setting out. Neither of those is going anywhere and neither should we try to replace them.</p>
+  <p>The contractor is not running on paper. They have estimating and programming in <strong>Candy</strong> and accounting in <strong>BuildSmart</strong>, both mature CCS products, plus a Trimble total station for setting out. Neither of those is going anywhere and neither should we try to replace them.</p>
 
   <p>What neither of them does is the bit in between: the site agent standing in the rain who has just been handed an instruction, and the contractual clock that started the moment he read it. Candy knows the rate. BuildSmart knows the cost. Nothing knows that a notice is due in seventeen working days.</p>
 </div>
@@ -477,7 +477,7 @@ footer p{max-width:68ch}
 </div>
 
 <div class="col">
-  <p>Read against the competitor deck, this is the whole argument. Their screens show a portfolio rollup of things that already happened. The gap is about things that are about to stop happening.</p>
+  <p>This is the whole argument for the product. A portfolio dashboard reports things that already happened. The gap is about the thing that is about to stop happening, in front of the person who can still act on it.</p>
 </div>
 </section>
 
@@ -495,7 +495,7 @@ footer p{max-width:68ch}
 
   <p><strong>Hands.</strong> The site agent is holding a tape, a drawing and a phone. Voice is not a novelty here, it is the only input mode that works while the work is happening. Typing a variation into a form at 16:30 back in the container is how the detail gets lost.</p>
 
-  <p><strong>Language.</strong> This is the one no American competitor can copy quickly. A foreman describing a defect in Afrikaans or isiXhosa, transcribed and slot-filled on the device, is a genuine moat on a South African site and it travels to every market where the person doing the work does not draft in the contract language.</p>
+  <p><strong>Language.</strong> This is the part that does not travel backwards from an overseas product. A foreman describing a defect in Afrikaans or isiXhosa, transcribed and slot-filled on the device, is a genuine moat on a South African site and it travels to every market where the person doing the work does not draft in the contract language.</p>
 </div>
 
 <figure>
@@ -505,7 +505,7 @@ footer p{max-width:68ch}
       <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
     </marker>
     <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0 0 L10 5 L0 10 z" fill="#2A7A4C"/>
+      <path d="M0 0 L10 5 L0 10 z" fill="#0FB39A"/>
     </marker>
   </defs>
   <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="11.5" fill="currentColor">
@@ -528,10 +528,10 @@ footer p{max-width:68ch}
     <text x="410" y="146" text-anchor="middle" opacity=".62">intent + slots</text>
     <text x="410" y="160" text-anchor="middle" opacity=".62">read-back copy</text>
 
-    <rect x="520" y="104" width="172" height="70" rx="6" fill="none" stroke="#2A7A4C" stroke-width="2.2"/>
-    <text x="606" y="126" text-anchor="middle" fill="#2A7A4C" font-weight="700">Rules engine</text>
-    <text x="606" y="142" text-anchor="middle" fill="#2A7A4C">deterministic</text>
-    <text x="606" y="158" text-anchor="middle" fill="#2A7A4C" opacity=".8">dates, markup, gates</text>
+    <rect x="520" y="104" width="172" height="70" rx="6" fill="none" stroke="#0FB39A" stroke-width="2.2"/>
+    <text x="606" y="126" text-anchor="middle" fill="#0FB39A" font-weight="700">Rules engine</text>
+    <text x="606" y="142" text-anchor="middle" fill="#0FB39A">deterministic</text>
+    <text x="606" y="158" text-anchor="middle" fill="#0FB39A" opacity=".8">dates, markup, gates</text>
 
     <!-- flow -->
     <line x1="138" y1="139" x2="178" y2="139" stroke="currentColor" stroke-width="1.4" marker-end="url(#a2)"/>
@@ -543,8 +543,8 @@ footer p{max-width:68ch}
     <line x1="476" y1="132" x2="516" y2="132" stroke="currentColor" stroke-width="1.4" marker-end="url(#a2)"/>
     <text x="496" y="122" text-anchor="middle" font-size="10" opacity=".7">fields</text>
 
-    <path d="M516 156 L 480 156" fill="none" stroke="#2A7A4C" stroke-width="1.4" marker-end="url(#a3)"/>
-    <text x="497" y="172" text-anchor="middle" font-size="10" fill="#2A7A4C">facts</text>
+    <path d="M516 156 L 480 156" fill="none" stroke="#0FB39A" stroke-width="1.4" marker-end="url(#a3)"/>
+    <text x="497" y="172" text-anchor="middle" font-size="10" fill="#0FB39A">facts</text>
 
     <!-- read back loop -->
     <path d="M410 166 C 410 214, 200 214, 200 172" fill="none" stroke="currentColor" stroke-width="1.3" marker-end="url(#a2)" opacity=".75"/>
@@ -607,7 +607,7 @@ footer p{max-width:68ch}
   <p>Points and badges will be laughed off a construction site inside a week. What will not be laughed off is a score that people already get paid on, and Rev 11 already has the hook drawn on it: <strong>"Performance ratings of team on project, yearly increases and bonuses, online function"</strong>. The game is not an addition to their process. It is a box they have already drawn and never built.</p>
   <ul>
     <li><strong>The score is rand and days, not points.</strong> Money protected, notices served in time, days of extension claimed. Real outcomes from real claims, per site agent, per project.</li>
-    <li><strong>Streaks on the three daily forced items.</strong> RFI updated, cast register updated, progress report against the previous report. These are exactly the three things Lazo circled and wrote "force process" next to, and they are the ones that decay quietly.</li>
+    <li><strong>Streaks on the three daily forced items.</strong> RFI updated, cast register updated, progress report against the previous report. These are exactly the three items circled on the sheet with "force process" written next to them, and they are the ones that decay quietly.</li>
     <li><strong>The completion bar is 48 over 48.</strong> Not invented, not a percentage of a guess. Every project shows the same denominator and a named owner against every open one, which makes it social without anyone being named and shamed by the software.</li>
     <li><strong>The guides are the certification.</strong> Run a flow with the chatbot three times and it stops holding your hand; the record shows you can run it unsupervised. That is a training programme that costs nothing to deliver and produces an audit trail of competence, which is also useful for the health and safety file.</li>
     <li><strong>Toolbox talks as short quizzes.</strong> Induction and toolbox talks are already control points on the sheet. Two questions on a phone, logged, is better evidence than a signature on a sheet in a container.</li>
@@ -629,16 +629,16 @@ footer p{max-width:68ch}
   <h2>What I would build in the next cut</h2>
   <ol>
     <li><strong>Contract edition as a first-class object.</strong> Set it once at handover, and every deadline in the app derives from it. This is a day of work and it is the difference between a demo and a product.</li>
-    <li><strong>The progress report flow.</strong> Forced update against the previous report, allowable versus actual, the saving surfaced. It is circled twice on the whiteboard and it is the piece that makes the monitoring half of the story real.</li>
+    <li><strong>The progress report flow.</strong> Forced update against the previous report, allowable versus actual, the saving surfaced. It is marked up twice on the sheet and it is the piece that makes the monitoring half of the story real.</li>
     <li><strong>Voice capture on one flow only.</strong> Site instruction to variation order, with read-back confirmation. One flow done properly proves the whole architecture and demos better than six half-flows.</li>
-    <li><strong>The 48-point project spine.</strong> Owner, target date, binary status, straight off Rev 11. This is the object every other feature hangs from, and it is the one thing a competitor cannot invent because they do not have the sheet.</li>
+    <li><strong>The 48-point project spine.</strong> Owner, target date, binary status, straight off Rev 11. Every other feature hangs off this object, and it cannot be invented from the outside because it comes from the sheet.</li>
   </ol>
 </div>
 </section>
 
 <footer>
   <p><span class="lab">Method</span></p>
-  <p>Text and vector geometry extracted from the Rev 11 PDF, 552 text blocks resolved against 1 046 drawn boxes, control-point scaffolds located by their three-field signature and matched to the nearest process box on their left. Deadlines, clause citations and edition references are quoted as they appear on the sheet and have not been checked against the published JBCC documents, which is the next thing to do before any of this is said to a client.</p>
+  <p>Text and vector geometry extracted from the Rev 11 PDF, 552 text blocks resolved against 1 046 drawn boxes, control-point scaffolds located by their three-field signature and matched to the nearest process box on their left. Deadlines, clause citations and edition references are quoted as they appear on the sheet and have not been checked against the published JBCC documents, which is the next thing to do before any of it is relied on.</p>
 </footer>
 
 </div>
