@@ -1,0 +1,164 @@
+<title>constrAI</title>
+
+<style>
+:root{
+  --ground:#E6E7E3; --surface:#FBFBF9; --surface-2:#F1F2EE;
+  --ink:#101317; --ink-2:#5C636B; --ink-3:#878E96;
+  --rule:#CBCEC8; --rule-2:#E1E3DD;
+  --signal:#E5AE0B; --signal-ink:#3A2C00;
+  --stamp:#23477F; --stamp-wash:#E7EDF7;
+  --shadow:0 1px 2px rgba(16,19,23,.05), 0 10px 30px rgba(16,19,23,.09);
+  --shadow-lift:0 2px 4px rgba(16,19,23,.08), 0 20px 50px rgba(16,19,23,.14);
+  --mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,"Roboto Mono",Menlo,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#15181C; --surface:#1C2026; --surface-2:#22272E;
+    --ink:#E8E9E5; --ink-2:#98A0A9; --ink-3:#727A83;
+    --rule:#2F343B; --rule-2:#262B31;
+    --signal:#F2C33F; --signal-ink:#241A00;
+    --stamp:#7FA3E0; --stamp-wash:#1B2533;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.45);
+    --shadow-lift:0 2px 4px rgba(0,0,0,.5), 0 20px 50px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#15181C; --surface:#1C2026; --surface-2:#22272E;
+  --ink:#E8E9E5; --ink-2:#98A0A9; --ink-3:#727A83;
+  --rule:#2F343B; --rule-2:#262B31;
+  --signal:#F2C33F; --signal-ink:#241A00;
+  --stamp:#7FA3E0; --stamp-wash:#1B2533;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.45);
+  --shadow-lift:0 2px 4px rgba(0,0,0,.5), 0 20px 50px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--sans); font-size:16.5px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  background-image:repeating-linear-gradient(90deg,transparent 0 63px,rgba(128,128,128,.055) 63px 64px);
+}
+@media (prefers-reduced-motion: reduce){ *{animation:none!important; transition:none!important} }
+:focus-visible{outline:2px solid var(--stamp); outline-offset:3px}
+a{color:inherit; text-decoration:none}
+
+.wrap{max-width:960px; margin:0 auto; padding:0 24px 80px}
+
+header{padding:64px 0 24px; border-bottom:2px solid var(--ink)}
+.mark{display:flex; align-items:baseline; gap:11px}
+.mark h1{margin:0; font-size:clamp(34px,7vw,52px); font-weight:800; letter-spacing:-.035em; line-height:1}
+.mark i{
+  width:11px; height:11px; background:var(--signal); border-radius:50%;
+  box-shadow:0 0 0 3px var(--ground), 0 0 0 4.5px var(--ink); flex:none; transform:translateY(-3px);
+}
+header p{margin:18px 0 0; font-size:19px; color:var(--ink-2); max-width:54ch; text-wrap:balance}
+.lab{font-family:var(--mono); font-size:10.5px; letter-spacing:.15em; text-transform:uppercase; color:var(--ink-3)}
+
+.meta{display:flex; flex-wrap:wrap; gap:6px 28px; margin:24px 0 0}
+.meta div{display:flex; flex-direction:column; gap:1px}
+.meta b{font-family:var(--mono); font-size:13px; font-weight:600}
+
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; margin:40px 0 0}
+.card{
+  display:flex; flex-direction:column; background:var(--surface);
+  border:1px solid var(--rule); border-radius:12px; box-shadow:var(--shadow);
+  overflow:hidden; transition:transform .16s ease, box-shadow .16s ease;
+}
+.card:hover{transform:translateY(-3px); box-shadow:var(--shadow-lift)}
+.card .top{padding:20px 20px 0; display:flex; align-items:center; justify-content:space-between; gap:10px}
+.chip{
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase;
+  padding:3px 8px; border-radius:3px; background:var(--stamp-wash); color:var(--stamp);
+}
+.chip.sig{background:var(--signal); color:var(--signal-ink); font-weight:700}
+.card h2{margin:14px 20px 0; font-size:23px; font-weight:750; letter-spacing:-.022em; line-height:1.2}
+.card p{margin:9px 20px 0; font-size:15px; color:var(--ink-2); flex:1}
+.card ul{margin:14px 20px 0; padding-left:18px; font-size:14px; color:var(--ink-2)}
+.card li{margin-bottom:5px}
+.card li::marker{color:var(--ink-3)}
+.card .go{
+  margin:20px; padding:11px 14px; border-radius:8px; background:var(--ink); color:var(--ground);
+  font-family:var(--mono); font-size:11px; letter-spacing:.11em; text-transform:uppercase; font-weight:700;
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+}
+.card:hover .go svg{transform:translateX(3px)}
+.card .go svg{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2.2; transition:transform .16s}
+
+.strip{
+  margin:44px 0 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1px; background:var(--rule); border:1px solid var(--rule); border-radius:10px; overflow:hidden;
+}
+.strip div{background:var(--surface); padding:14px 16px}
+.strip b{display:block; font-family:var(--mono); font-size:26px; font-weight:700; letter-spacing:-.03em; line-height:1.1; margin-top:3px}
+.strip span.d{display:block; font-size:12px; color:var(--ink-2); margin-top:2px; line-height:1.35}
+
+.note{
+  margin:36px 0 0; border-left:3px solid var(--signal); background:var(--surface);
+  padding:15px 18px; border-radius:0 8px 8px 0; box-shadow:var(--shadow); font-size:15px;
+}
+.note p{margin:0} .note .lab{display:block; margin-bottom:5px}
+
+footer{margin-top:52px; padding-top:18px; border-top:1px solid var(--rule); font-size:13px; color:var(--ink-3)}
+footer a{color:var(--stamp); text-decoration:underline; text-underline-offset:3px}
+</style>
+
+<div class="wrap">
+
+<header>
+  <div class="mark"><h1>constrAI</h1><i></i></div>
+  <p>A construction operating system that starts at tender and runs to final account, built on JC van der Linde &amp; Venter's own process.</p>
+  <div class="meta">
+    <div><span class="lab">Status</span><b>Working prototype</b></div>
+    <div><span class="lab">Built from</span><b>A0 flowchart Rev 11</b></div>
+    <div><span class="lab">Contract</span><b>JBCC PBA</b></div>
+    <div><span class="lab">Updated</span><b>2026-08-24</b></div>
+  </div>
+</header>
+
+<div class="cards">
+
+  <a class="card" href="/plumbline">
+    <div class="top"><span class="chip sig">Try it</span><span class="lab">Mobile</span></div>
+    <h2>Plumbline</h2>
+    <p>The site app. A guided chat forces the employee through the process, one question per screen, while the contractual clock runs in the background.</p>
+    <ul>
+      <li>Working days computed against the SA holiday calendar</li>
+      <li>Four flows live: tender, variation, claim, sub-contractor default</li>
+      <li>Checklist gates that actually block submission</li>
+    </ul>
+    <div class="go">Open the app <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+  </a>
+
+  <a class="card" href="/teardown">
+    <div class="top"><span class="chip">Analysis</span><span class="lab">Read</span></div>
+    <h2>Rev 11 Teardown</h2>
+    <p>What is actually encoded in the A0 flowchart, read box by box: the data model, the deadlines, and the build backlog VDLV wrote themselves.</p>
+    <ul>
+      <li>48 control points, each with an owner and a binary status</li>
+      <li>Five JBCC editions running in parallel, with different clocks</li>
+      <li>Where an on-device model and voice fit, and where they must not</li>
+    </ul>
+    <div class="go">Read the teardown <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+  </a>
+
+</div>
+
+<div class="strip">
+  <div><span class="lab">Control points</span><b>48</b><span class="d">Owner, date, status</span></div>
+  <div><span class="lab">Contract editions</span><b>5</b><span class="d">Running at once</span></div>
+  <div><span class="lab">Hard deadlines</span><b>24</b><span class="d">Mostly working days</span></div>
+  <div><span class="lab">Flows live</span><b>4</b><span class="d">Of ten mapped</span></div>
+</div>
+
+<div class="note">
+  <span class="lab">Read this first</span>
+  <p>The guidance in the app is a deterministic rules engine, not a language model. Dates and money are computed, never generated. The project data is illustrative and shaped to be plausible for a job of this size, not taken from a real VDLV contract.</p>
+</div>
+
+<footer>
+  Source on <a href="https://github.com/tobievii/constrAI">github.com/tobievii/constrAI</a>. Best viewed on a phone, which is the point.
+</footer>
+
+</div>

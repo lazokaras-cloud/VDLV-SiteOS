@@ -1,0 +1,65 @@
+# constrAI
+
+A construction operating system that starts at tender and runs to final account, built on
+JC van der Linde & Venter Projects' own A0 process flowchart (Rev 11).
+
+Two pages, both static, both mobile first:
+
+| Page | What it is |
+| --- | --- |
+| [`/plumbline`](https://constr-ai.vercel.app/plumbline) | The site app. A guided chat forces the employee through the process one question at a time while the JBCC contractual clock runs in the background. |
+| [`/teardown`](https://constr-ai.vercel.app/teardown) | Analysis of what is actually encoded in the A0 flowchart: the data model, the deadlines, the build backlog. |
+
+## The idea in one paragraph
+
+Commercial building in South Africa runs on JBCC contracts whose deadlines are counted in
+working days. Miss the notice window and a valid claim is worth nothing. The process that
+prevents this already exists at VDLV, drawn on a 1.6 metre sheet on a wall, with 48 steps
+that each carry an owner, a target date and a binary status. Nobody can carry that in their
+head, and no estimating or accounting package tracks it. This is the gap: not a portfolio
+dashboard of things that already happened, but the one thing that is about to stop happening,
+on the phone of the person who can still do something about it.
+
+## Status
+
+Working prototype. The guidance is a **deterministic rules engine**, not a language model:
+working days are computed against the South African public holiday calendar, and every
+contractual date and rand amount is calculated rather than generated. Project data is
+illustrative, shaped to be plausible for a job of this size, and is not taken from a real
+VDLV contract.
+
+## Layout
+
+```
+src/                 page fragments, authored without <head>
+  index.html           landing
+  plumbline.html       the site app
+  teardown.html        the analysis
+build.mjs            wraps each fragment into a standalone document
+index.html           generated, committed
+plumbline/index.html generated, committed
+teardown/index.html  generated, committed
+```
+
+Fragments are authored without a `<head>` so the same file can be published directly as a
+Claude artifact, which supplies its own skeleton. `build.mjs` adds the doctype, charset,
+viewport and social tags for the web build.
+
+## Build
+
+```bash
+node build.mjs
+```
+
+No dependencies and no build step on Vercel. The generated files are committed so the repo
+deploys as plain static hosting.
+
+## Roadmap
+
+Ten flows are mapped off Rev 11. Four are live: tender adjudication, site instruction to
+variation order, monthly claim, sub-contractor default. Next up:
+
+1. Contract edition as a first-class object, so every deadline derives from it
+2. The progress report flow, forced against the previous report
+3. Voice capture on one flow, with an on-device model handling language only
+4. The 48-point project spine as the object everything else hangs from
