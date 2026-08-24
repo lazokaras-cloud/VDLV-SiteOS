@@ -1,14 +1,14 @@
 # constrAI
 
 A construction operating system that starts at tender and runs to final account, built on
-a working commercial building contractor's own A0 process flowchart (Rev 11).
+the way a commercial building contract actually runs, from tender to final account.
 
 Two pages, both static, both mobile first:
 
 | Page | What it is |
 | --- | --- |
 | [`/plumbline`](https://constr-ai.vercel.app/plumbline) | The site app. A guided chat forces the employee through the process one question at a time while the JBCC contractual clock runs in the background. |
-| [`/teardown`](https://constr-ai.vercel.app/teardown) | Analysis of what is actually encoded in the A0 flowchart: the data model, the deadlines, the build backlog. |
+| [`/workflow`](https://constr-ai.vercel.app/workflow) | The method. Control points, contract deadlines, where an on-device model fits, and how the training turns into a game. |
 
 ## The idea in one paragraph
 
@@ -34,11 +34,11 @@ contract.
 src/                 page fragments, authored without <head>
   index.html           landing
   plumbline.html       the site app
-  teardown.html        the analysis
+  teardown.html        the method piece, served at /workflow
 build.mjs            wraps each fragment into a standalone document
 index.html           generated, committed
 plumbline/index.html generated, committed
-teardown/index.html  generated, committed
+workflow/index.html  generated, committed
 ```
 
 Fragments are authored without a `<head>` so the same file can be published directly as a
@@ -56,7 +56,7 @@ deploys as plain static hosting.
 
 ## Roadmap
 
-Ten flows are mapped off Rev 11. Four are live: tender adjudication, site instruction to
+Ten flows are mapped. Four are live: tender adjudication, site instruction to
 variation order, monthly claim, sub-contractor default. Next up:
 
 1. Contract edition as a first-class object, so every deadline derives from it

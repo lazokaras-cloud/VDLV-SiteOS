@@ -499,16 +499,16 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     <div class="tb-rows">
       <div><span class="lab">Demo client</span><b>JC v/d Linde &amp; Venter</b></div>
       <div><span class="lab">Drawn</span><b>2026-08-24</b></div>
-      <div><span class="lab">Source</span><b>A0 Flowchart Rev 11</b></div>
+      <div><span class="lab">Scope</span><b>Tender to final account</b></div>
       <div><span class="lab">Contract</span><b>JBCC PBA May 2018</b></div>
     </div>
     <div class="tb-note">
       <span class="stamp">Working prototype</span>
       <p>Every enterprise tool shows a <strong>site agent a portfolio</strong>. This one shows him the
          <strong>one thing that is about to cost money</strong>, then walks him through it.</p>
-      <p>The guidance is a deterministic rules engine reading the JBCC clauses and the contractor's
-         own flowchart. Working days are computed against the SA public holiday calendar. Nothing here
-         calls a language model yet.</p>
+      <p>The guidance is a deterministic rules engine reading the JBCC clauses and the standard
+         building workflow. Working days are computed against the SA public holiday calendar.
+         Nothing here calls a language model yet.</p>
       <p><strong>Try:</strong> the red card on Today.</p>
     </div>
     <div class="tb-foot">
@@ -527,7 +527,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <div class="avatar">RB</div>
         <div class="bar-id">
           <div class="proj">Lourensford Office Park Ph2</div>
-          <span class="chip">JBCC PBA May 2018 / Rev 11</span>
+          <span class="chip">JBCC PBA May 2018</span>
         </div>
         <button class="iconbtn" id="theme2" aria-label="Flip theme">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -682,20 +682,20 @@ function tasks(){
 }
 
 /* ================================================================
-   3. THE RULES - every one traceable to the A0 or a JBCC clause.
+   3. THE RULES - every one traceable to a contract clause or standard practice.
    ================================================================ */
 const RULE = {
-  voMarkup:   {txt:"A variation is priced at actual cost of labour, plant and material, plus 10% markup. If you price it off a rate instead of actual cost, you give away the markup.", cl:"VDLV A0 / Site instructions and variation orders"},
+  voMarkup:   {txt:"A variation is priced at actual cost of labour, plant and material, plus 10% markup. If you price it off a rate instead of actual cost, you give away the markup.", cl:"Standard practice / Site instructions and variation orders"},
   voNotice:   {txt:"Notice of the expense must reach the principal agent within 20 working days of becoming aware of it. Miss it and the claim is out of time no matter how good it is.", cl:"JBCC PBA 05/2018 / recovery of expense and/or loss"},
   voClaim:    {txt:"The priced claim follows within 40 working days. The principal agent then has 20 working days to act. If he does nothing, it is deemed refused, which is what you want on record, because a deemed refusal is a dispute you can run.", cl:"JBCC PBA 05/2018 / recovery of expense and-or loss"},
-  eotLink:    {txt:"If the instruction also costs you time, that is a separate claim, and the time-related P&G runs with it. Most contractors claim the money and forget the days. The days are usually worth more.", cl:"VDLV A0 / EOT (claim time related P&G)"},
+  eotLink:    {txt:"If the instruction also costs you time, that is a separate claim, and the time-related P&G runs with it. Most contractors claim the money and forget the days. The days are usually worth more.", cl:"Standard practice / EOT (claim time related P&G)"},
   eotNotice:  {txt:"Notice within 20 working days of becoming aware of the delay. The revision of the practical completion date follows within 40 working days from when you can quantify the delay.", cl:"JBCC PBA 05/2018 / revision of date for practical completion"},
-  pgOffDrawing:{txt:"P&G is not measured in the bill of quantities. It gets measured off the drawings for the actual site you are going to build, or you carry the shortfall for the whole contract.", cl:"VDLV A0 / Tender: P&G not measured in BoQ"},
-  subPay:     {txt:"Sub-contractors are paid 7 calendar days after the certificate is approved, and only once the client has paid. Their rates are paid without the 10% markup. The markup is yours.", cl:"VDLV A0 / Payment procedure"},
-  contra:     {txt:"Contra charges must be current and deducted before the claim goes out. A contra raised after the certificate is money you chase instead of money you keep.", cl:"VDLV A0 / Claim procedure"},
-  measure:    {txt:"Measure your own work and reconcile it against actual cost in the cost report before it goes on the claim. Allowable versus actual is where the saving shows up.", cl:"VDLV A0 / Claim procedure / cost report"},
+  pgOffDrawing:{txt:"P&G is not measured in the bill of quantities. It gets measured off the drawings for the actual site you are going to build, or you carry the shortfall for the whole contract.", cl:"Standard practice / Tender: P&G not measured in BoQ"},
+  subPay:     {txt:"Sub-contractors are paid 7 calendar days after the certificate is approved, and only once the client has paid. Their rates are paid without the 10% markup. The markup is yours.", cl:"Standard practice / Payment procedure"},
+  contra:     {txt:"Contra charges must be current and deducted before the claim goes out. A contra raised after the certificate is money you chase instead of money you keep.", cl:"Standard practice / Claim procedure"},
+  measure:    {txt:"Measure your own work and reconcile it against actual cost in the cost report before it goes on the claim. Allowable versus actual is where the saving shows up.", cl:"Standard practice / Claim procedure / cost report"},
   remedy:     {txt:"Serve notice, give 5 working days to remedy. If the sub-contractor is still in default after that, the termination process opens and the cost to complete goes to his account.", cl:"JBCC PBA 05/2018 / sub-contractor default"},
-  adjudicate: {txt:"Check the adjudicator's rates against the actual quotes you hold, including P&G and terms. Risk you did not qualify at tender is risk you own for the whole contract.", cl:"VDLV A0 / Tender: check rates and details on actual quotes"}
+  adjudicate: {txt:"Check the adjudicator's rates against the actual quotes you hold, including P&G and terms. Risk you did not qualify at tender is risk you own for the whole contract.", cl:"Standard practice / Tender: check rates and details on actual quotes"}
 };
 
 /* ================================================================
@@ -1155,7 +1155,7 @@ function renderGuides(){
         <span class="t"><b>${t}</b><span>${esc(s)}</span></span>
       </div>`).join("")}</div>
 
-    <p class="foot-note">All ten come straight off the A0 flowchart Rev 11. The process already exists and is already correct. It just lives on a wall where nobody uses it, which is why it has to be taught to every new site agent by hand.</p>`;
+    <p class="foot-note">All ten are standard commercial building process. The process already exists and is already correct at most contractors. It just lives in a document nobody opens, which is why it has to be taught to every new site agent by hand.</p>`;
 }
 
 function renderMoney(){
@@ -1206,7 +1206,7 @@ function renderMoney(){
       </table>
     </div>
 
-    <p class="foot-note">Every line is a step in the A0 flowchart that either happened on time or did not. The five money-makers identified on the process sheet (tender, appointments, programme, RFI, claim cycle) are exactly these five lines.</p>`;
+    <p class="foot-note">Every line is a step in the process that either happened on time or did not. The five places a building contractor actually makes money (tender, appointments, programme, RFI, claim cycle) are exactly these five lines.</p>`;
 }
 
 function renderAll(){ renderToday(); renderGuides(); renderMoney(); }
@@ -1416,7 +1416,7 @@ function toast(txt){
    ================================================================ */
 document.addEventListener("click", e => {
   const t = e.target.closest("[data-flow]");
-  if (t){ const f = t.dataset.flow; if (f === "locked") toast("Mapped on the A0, not built in this prototype."); else openFlow(f); }
+  if (t){ const f = t.dataset.flow; if (f === "locked") toast("Mapped, not built in this prototype."); else openFlow(f); }
   const tab = e.target.closest("[data-tab]");
   if (tab){
     document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b === tab));

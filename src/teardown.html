@@ -1,4 +1,4 @@
-<title>Rev 11 Teardown</title>
+<title>The Smart Way</title>
 
 <style>
 :root{
@@ -192,38 +192,37 @@ footer p{max-width:68ch}
 <div class="wrap">
 
 <header class="top">
-  <div class="eyebrow">Teardown</div>
-  <h1>Rev 11 Teardown</h1>
-  <p class="dek">What is actually encoded in the contractor's A0 flowchart, read box by box, and what it tells us to build.</p>
+  <div class="eyebrow">Method</div>
+  <h1>The Smart Way</h1>
+  <p class="dek">How a commercial building contract actually runs, why the process that protects the money never survives contact with a site, and what a system has to do about it.</p>
   <div class="meta">
-    <div><span class="lab">Source</span><b>A0 project flowchart Rev 11</b></div>
-    <div><span class="lab">Sheet</span><b>1157 x 1609 mm</b></div>
-    <div><span class="lab">Method</span><b>Vector text + geometry extract</b></div>
-    <div><span class="lab">Date</span><b>2026-08-24</b></div>
+    <div><span class="lab">Scope</span><b>Tender to final account</b></div>
+    <div><span class="lab">Contract</span><b>JBCC principal building agreement</b></div>
+    <div><span class="lab">Market</span><b>Commercial building, South Africa</b></div>
+    <div><span class="lab">Updated</span><b>2026-08-24</b></div>
   </div>
 </header>
 
 <div class="col">
-<p>A wall chart this size is normally treated as a picture: something pointed at during an induction and then ignored, because no one can hold 400 boxes in their head. Read mechanically, it is not a picture at all. It is a database that happens to have been drawn, and it hands over the data model, the state machine, the rules engine and the build backlog, in that order.</p>
+<p>Every well-run building contractor already has a process. It is written down, it is usually correct, and it is almost never followed, because it runs to several hundred steps and nobody can hold that in their head while standing in a trench. The process is not the problem. Carrying it is.</p>
 
-<p>Here is what is on the sheet.</p>
+<p>Reduce a commercial building contract to the parts that actually decide whether the job makes money, and you are left with a small, hard set of numbers.</p>
 </div>
 
 <div class="stats">
-  <div><span class="lab">Content blocks</span><b>408</b><span class="d">Distinct process steps and notes</span></div>
-  <div><span class="lab">Control points</span><b>48</b><span class="d">Steps with owner, date and status</span></div>
+  <div><span class="lab">Control points</span><b>48</b><span class="d">Steps with an owner and a date</span></div>
   <div><span class="lab">Contract editions</span><b>5</b><span class="d">Running in parallel</span></div>
-  <div><span class="lab">Hard deadlines</span><b>24</b><span class="d">Distinct, most in working days</span></div>
-  <div><span class="lab">Marked "Online"</span><b>13</b><span class="d">Their own build backlog</span></div>
+  <div><span class="lab">Hard deadlines</span><b>24</b><span class="d">Mostly counted in working days</span></div>
+  <div><span class="lab">Flows</span><b>10</b><span class="d">Tender through to sign-off</span></div>
 </div>
 
 <section>
 <div class="col">
-  <div class="eyebrow">Finding 01</div>
-  <h2>The A0 is already a task tracker, drawn sideways</h2>
-  <p class="kick">Forty-eight steps carry a three-field scaffold. That is not decoration. It is a schema.</p>
+  <div class="eyebrow">01</div>
+  <h2>A building contract is a task list with a clock on it</h2>
+  <p class="kick">Strip out the detail and a whole project resolves to about 48 steps that somebody has to own on a date. Each one needs the same three fields, and only three.</p>
 
-  <p>Scattered through the sheet, exactly 48 boxes carry the same three lines underneath them:</p>
+  <p>Every step that costs money when it slips carries the same shape:</p>
 </div>
 
 <div class="tw" style="max-width:620px">
@@ -235,12 +234,12 @@ footer p{max-width:68ch}
 </div>
 
 <div class="col">
-  <p>Forty-eight of each, no more and no less. Those three fields are the task entity for the whole product, and the contractor wrote them before anyone mentioned software. The binary status is the interesting part: there is no "in progress", no percentage. A step is done or it is not, which is exactly the discipline you want on a phone and exactly what makes a completion bar honest.</p>
+  <p>Three fields, and the third is the interesting one. There is no "in progress" and no percentage complete. A step is done or it is not. That is the right discipline for a phone, and it is the only way a completion bar tells the truth.</p>
 
-  <p>They are not sprinkled randomly either. They sit in two vertical rails, one per phase, with the process content to the left of each rail. The sheet is laid out like a form, with the work on one side and the accountability on the other.</p>
+  <p>They split cleanly in two: what must be true before anybody is on site, and what runs while the work is happening. Different owners, different rhythms, and very different consequences for missing them.</p>
 </div>
 
-<h3>Pre-project rail, 21 control points</h3>
+<h3>Before site, 21 control points</h3>
 <ul class="rail">
   <li><b>01</b><em>Tender strategy</em></li>
   <li><b>02</b><em>Principal building agreement, signed hard and soft copy</em></li>
@@ -265,7 +264,7 @@ footer p{max-width:68ch}
   <li><b>21</b><em>Building inspector document and inspection list</em></li>
 </ul>
 
-<h3>Project rail, 27 control points</h3>
+<h3>On site, 27 control points</h3>
 <ul class="rail">
   <li><b>01</b><em>Information required schedule</em></li>
   <li><b>02</b><em>Receive drawings, three copies per drawing</em></li>
@@ -298,8 +297,8 @@ footer p{max-width:68ch}
 
 <div class="col">
   <div class="note">
-    <span class="lab">What this buys us</span>
-    <p>A project's completion bar is not invented for the demo. It is 48 over 48, and every one of those 48 has a named owner. That is the honest progress metric, and it is theirs.</p>
+    <span class="lab">Why it matters</span>
+    <p>A project is 48 over 48, and each of the 48 has a named owner. That is a progress number a director can trust, because nothing in it is a judgement call.</p>
   </div>
 </div>
 </section>
@@ -308,11 +307,11 @@ footer p{max-width:68ch}
 
 <section>
 <div class="col">
-  <div class="eyebrow">Finding 02</div>
+  <div class="eyebrow">02</div>
   <h2>Five contract editions, running at the same time</h2>
-  <p class="kick">This is the one that justifies the whole product. It is also the thing I got wrong in the first prototype.</p>
+  <p class="kick">This is the one that justifies the whole product.</p>
 
-  <p>The sheet references five JBCC editions: March 2005, July 2007, March 2014, May 2018, and Minor Works. Not as history. In parallel, because a contractor's live projects were signed in different years and each one runs on the edition it was signed under.</p>
+  <p>A contractor with eight live projects is running five editions of the same contract at once: March 2005, July 2007, March 2014, May 2018 and Minor Works. Not as history, but concurrently, because every job runs on the edition it was signed under and a building contract lasts years.</p>
 
   <p>The clause numbers move between editions. Worse, the deadlines move. Same event, same company, same site agent, different arithmetic:</p>
 </div>
@@ -334,7 +333,7 @@ footer p{max-width:68ch}
     <tr class="hi"><td>Contractor objects within</td><td class="num">45 wd</td><td class="num">45 wd</td><td class="num">30 wd</td></tr>
     <tr><td>PA inspects or deemed complete</td><td class="num">7 days</td><td class="num">5 wd + 5 wd</td><td class="num">5 wd + 5 wd</td></tr>
     <tr><td>Latent defects liability</td><td class="num">5 years</td><td class="num">5 years</td><td class="num">5 years</td></tr>
-    <tr><td>Clause cited on the sheet</td><td class="num">34.1 / 34.4</td><td class="num">26.10 / 26.11</td><td class="num">26.10 / 26.11</td></tr>
+    <tr><td>Clause reference</td><td class="num">34.1 / 34.4</td><td class="num">26.10 / 26.11</td><td class="num">26.10 / 26.11</td></tr>
   </tbody>
 </table>
 </div>
@@ -406,8 +405,8 @@ footer p{max-width:68ch}
 
 <div class="col">
   <div class="note red">
-    <span class="lab">Correction to the prototype</span>
-    <p>My first cut showed "final account window from PC: 90 wd" on a May 2018 job. Per Rev 11 that is the 2007 and 2014 figure. May 2018 is 60. I have fixed it, and dropped the clause numbers I could not source from the sheet. The lesson is the product: I made exactly the mistake the tool exists to prevent, from the same habit of using the number I had seen most often.</p>
+    <span class="lab">How easy this is to get wrong</span>
+    <p>The first cut of the app used 90 working days for the final account on a May 2018 job, because 90 is the figure that appears most often. It is the 2007 and 2014 number. The 2018 number is 60. That is the exact mistake the tool exists to prevent, made deliberately and carefully by someone with the contract open, which is the strongest argument there is for never asking a person to recall the figure at all.</p>
   </div>
 </div>
 </section>
@@ -416,16 +415,16 @@ footer p{max-width:68ch}
 
 <section>
 <div class="col">
-  <div class="eyebrow">Finding 03</div>
-  <h2>They already wrote the build backlog</h2>
-  <p class="kick">Thirteen boxes on the sheet are annotated "Online". That is the scope, chosen by the people who do the work.</p>
+  <div class="eyebrow">03</div>
+  <h2>What actually has to be on the phone</h2>
+  <p class="kick">Not everything. Thirteen recurring events carry nearly all the exposure.</p>
 
-  <p>Thirteen boxes on the sheet are annotated <strong>Online</strong>. Nobody added those in a workshop; they were written by the people who run the process, in their own words:</p>
+  <p>Ranked by what it costs when the step is late, rather than by how often anybody asks for it:</p>
 </div>
 
 <div class="tw">
 <table>
-  <thead><tr><th>Marked online on Rev 11</th><th>What it really is</th><th class="num">Cadence</th><th class="num">Money</th></tr></thead>
+  <thead><tr><th>Event</th><th>What it really is</th><th class="num">Cadence</th><th class="num">Money</th></tr></thead>
   <tbody>
     <tr><td>Variation orders</td><td>Cost plus 10% markup, notice, claim</td><td class="num">Per instruction</td><td><span class="tag crit">High</span></td></tr>
     <tr><td>Submit variation order, adjustment to contract value</td><td>The notice that starts the clock</td><td class="num">Per instruction</td><td><span class="tag crit">High</span></td></tr>
@@ -445,9 +444,9 @@ footer p{max-width:68ch}
 </div>
 
 <div class="col">
-  <p>Five more are marked up by hand under the heading <strong>force process</strong>: progress report, extension of time, sub-contractor default, late payment, and disputes and handover.</p>
+  <p>Five more sit behind those, and each is a process that has to be forced rather than offered: the progress report, extension of time, sub-contractor default, late payment, and disputes and handover.</p>
 
-  <p>Nothing on that list is speculative. It is eighteen features, prioritised and specified at the level of a sentence each, by the people who run the process every day.</p>
+  <p>Eighteen events, each specifiable in a sentence, each with a number attached to getting it wrong. That is a product scope, and none of it is guesswork.</p>
 </div>
 </section>
 
@@ -455,13 +454,13 @@ footer p{max-width:68ch}
 
 <section>
 <div class="col">
-  <div class="eyebrow">Finding 04</div>
-  <h2>The systems seam is where the product lives</h2>
-  <p class="kick">Candy, BuildSmart and "online" appear 8, 8 and 14 times. The gaps between them are the whole opportunity.</p>
+  <div class="eyebrow">04</div>
+  <h2>The seam between the existing systems is where the product lives</h2>
+  <p class="kick">South African contractors are not running on paper. They are running on two good products with a gap between them.</p>
 
-  <p>The contractor is not running on paper. They have estimating and programming in <strong>Candy</strong> and accounting in <strong>BuildSmart</strong>, both mature CCS products, plus a Trimble total station for setting out. Neither of those is going anywhere and neither should we try to replace them.</p>
+  <p>Estimating and programming sit in <strong>Candy</strong>. Accounting sits in <strong>BuildSmart</strong>. Both are mature, both are entrenched, and neither is going anywhere. Replacing them is not the opportunity, and attempting it is how these projects die.</p>
 
-  <p>What neither of them does is the bit in between: the site agent standing in the rain who has just been handed an instruction, and the contractual clock that started the moment he read it. Candy knows the rate. BuildSmart knows the cost. Nothing knows that a notice is due in seventeen working days.</p>
+  <p>What neither does is the bit in between: the site agent standing in the rain who has just been handed an instruction, and the contractual clock that started the moment he read it. Candy knows the rate. BuildSmart knows the cost. Nothing knows that a notice is due in seventeen working days.</p>
 </div>
 
 <div class="tw">
@@ -604,11 +603,11 @@ footer p{max-width:68ch}
   </ul>
 
   <h3>Gamified, in a way that survives contact with a foreman</h3>
-  <p>Points and badges will be laughed off a construction site inside a week. What will not be laughed off is a score that people already get paid on, and Rev 11 already has the hook drawn on it: <strong>"Performance ratings of team on project, yearly increases and bonuses, online function"</strong>. The game is not an addition to their process. It is a box they have already drawn and never built.</p>
+  <p>Points and badges will be laughed off a construction site inside a week. What will not be laughed off is a score people already get paid on. Contractors already rate their site teams once a year and hang increases and bonuses off that rating, usually from memory and a spreadsheet. The game is not an addition to the process. It is something the business already does badly, done properly.</p>
   <ul>
     <li><strong>The score is rand and days, not points.</strong> Money protected, notices served in time, days of extension claimed. Real outcomes from real claims, per site agent, per project.</li>
-    <li><strong>Streaks on the three daily forced items.</strong> RFI updated, cast register updated, progress report against the previous report. These are exactly the three items circled on the sheet with "force process" written next to them, and they are the ones that decay quietly.</li>
-    <li><strong>The completion bar is 48 over 48.</strong> Not invented, not a percentage of a guess. Every project shows the same denominator and a named owner against every open one, which makes it social without anyone being named and shamed by the software.</li>
+    <li><strong>Streaks on the three daily forced items.</strong> RFI updated, concrete cast register updated, progress report written against the previous report. These are the three that decay quietly, and the three nobody misses until a claim needs them.</li>
+    <li><strong>The completion bar is 48 over 48.</strong> Not a percentage of a guess. Every project carries the same denominator and a named owner against every open item, which makes it social without the software naming and shaming anybody.</li>
     <li><strong>The guides are the certification.</strong> Run a flow with the chatbot three times and it stops holding your hand; the record shows you can run it unsupervised. That is a training programme that costs nothing to deliver and produces an audit trail of competence, which is also useful for the health and safety file.</li>
     <li><strong>Toolbox talks as short quizzes.</strong> Induction and toolbox talks are already control points on the sheet. Two questions on a phone, logged, is better evidence than a signature on a sheet in a container.</li>
     <li><strong>Reward the early notice, not the volume.</strong> Whatever gets scored gets gamed, so score the thing that cannot be gamed usefully: serving the notice inside the window. A contractor who games that metric is a contractor who never misses a claim.</li>
@@ -629,16 +628,16 @@ footer p{max-width:68ch}
   <h2>What I would build in the next cut</h2>
   <ol>
     <li><strong>Contract edition as a first-class object.</strong> Set it once at handover, and every deadline in the app derives from it. This is a day of work and it is the difference between a demo and a product.</li>
-    <li><strong>The progress report flow.</strong> Forced update against the previous report, allowable versus actual, the saving surfaced. It is marked up twice on the sheet and it is the piece that makes the monitoring half of the story real.</li>
+    <li><strong>The progress report flow.</strong> Forced update against the previous report, allowable versus actual, the saving surfaced. It is the piece that makes the monitoring half of the story real.</li>
     <li><strong>Voice capture on one flow only.</strong> Site instruction to variation order, with read-back confirmation. One flow done properly proves the whole architecture and demos better than six half-flows.</li>
-    <li><strong>The 48-point project spine.</strong> Owner, target date, binary status, straight off Rev 11. Every other feature hangs off this object, and it cannot be invented from the outside because it comes from the sheet.</li>
+    <li><strong>The 48-point project spine.</strong> Owner, target date, binary status. Every other feature hangs off this one object, and getting its shape right is worth more than any three features.</li>
   </ol>
 </div>
 </section>
 
 <footer>
-  <p><span class="lab">Method</span></p>
-  <p>Text and vector geometry extracted from the Rev 11 PDF, 552 text blocks resolved against 1 046 drawn boxes, control-point scaffolds located by their three-field signature and matched to the nearest process box on their left. Deadlines, clause citations and edition references are quoted as they appear on the sheet and have not been checked against the published JBCC documents, which is the next thing to do before any of it is relied on.</p>
+  <p><span class="lab">Note on the numbers</span></p>
+  <p>Clause references, deadlines and edition differences are set out here to show the shape of the problem, not as legal advice, and have not been verified line by line against the published JBCC documents. Any implementation has to do that verification against the executed contract for the specific project, which is exactly the work the system exists to take off a person.</p>
 </footer>
 
 </div>

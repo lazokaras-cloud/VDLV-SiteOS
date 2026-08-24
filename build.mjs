@@ -25,7 +25,7 @@ const PAGES = [
     out: "index.html",
     desc:
       "A construction operating system that starts at tender and runs to final account, " +
-      "built on JC van der Linde & Venter's own process.",
+      "built on the way a commercial building contract actually runs.",
   },
   {
     src: "src/plumbline.html",
@@ -36,10 +36,10 @@ const PAGES = [
   },
   {
     src: "src/teardown.html",
-    out: "teardown/index.html",
+    out: "workflow/index.html",
     desc:
-      "What is actually encoded in the contractor's A0 flowchart, read box by box, and what it " +
-      "tells us to build.",
+      "How a commercial building contract actually runs: the control points, the deadlines, " +
+      "and where a system has to step in.",
   },
 ];
 
