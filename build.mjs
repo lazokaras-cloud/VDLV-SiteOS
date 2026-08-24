@@ -43,7 +43,10 @@ const PAGES = [
   },
 ];
 
-const SITE = "https://constr-ai.vercel.app";
+// No absolute site URL is baked in: the vercel.app subdomains that match this
+// project name belong to unrelated projects, so canonical and og:url are left
+// relative until a real domain is attached.
+const SITE = process.env.SITE_URL || "";
 
 function build({ src, out, desc }) {
   let body = readFileSync(join(ROOT, src), "utf8");
@@ -52,7 +55,8 @@ function build({ src, out, desc }) {
   const title = m ? m[1].trim() : "constrAI";
   body = body.replace(/<title>[^<]*<\/title>\s*/i, "");
 
-  const canonical = SITE + "/" + out.replace(/(^|\/)index\.html$/, "$1").replace(/\/$/, "");
+  const path = "/" + out.replace(/(^|\/)index\.html$/, "$1").replace(/\/$/, "");
+  const canonical = SITE ? SITE + path : path;
 
   const doc = `<!doctype html>
 <html lang="en">
@@ -66,14 +70,14 @@ function build({ src, out, desc }) {
 <meta name="theme-color" content="#15181C" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="${FAVICON}">
 <link rel="apple-touch-icon" href="${FAVICON}">
-<link rel="canonical" href="${canonical || SITE}">
+<link rel="canonical" href="${canonical}">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="constrAI">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
-<meta property="og:url" content="${canonical || SITE}">
+<meta property="og:url" content="${canonical}">
 <meta name="twitter:card" content="summary">
 <meta name="robots" content="noindex">
 </head>

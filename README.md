@@ -7,8 +7,8 @@ Two pages, both static, both mobile first:
 
 | Page | What it is |
 | --- | --- |
-| [`/plumbline`](https://constr-ai.vercel.app/plumbline) | The site app. A guided chat forces the employee through the process one question at a time while the JBCC contractual clock runs in the background. |
-| [`/workflow`](https://constr-ai.vercel.app/workflow) | The method. Control points, contract deadlines, where an on-device model fits, and how the training turns into a game. |
+| `/plumbline` | The site app. A guided chat forces the employee through the process one question at a time while the JBCC contractual clock runs in the background. |
+| `/workflow` | The method. Control points, contract deadlines, where an on-device model fits, and how the training turns into a game. |
 
 ## The idea in one paragraph
 
@@ -52,7 +52,10 @@ node build.mjs
 ```
 
 No dependencies and no build step on Vercel. The generated files are committed so the repo
-deploys as plain static hosting.
+deploys as plain static hosting: framework preset **Other**, no build command, output
+directory the repository root.
+
+Pages carry `noindex`, so the site can be shared by link without turning up in search.
 
 ## Roadmap
 
