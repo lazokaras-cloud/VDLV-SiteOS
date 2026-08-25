@@ -35,6 +35,13 @@ const PAGES = [
       "JBCC clock runs in the background.",
   },
   {
+    src: "src/brief.html",
+    out: "brief/index.html",
+    desc:
+      "A template for capturing how a construction business actually runs, in the one " +
+      "shape a system can be built from.",
+  },
+  {
     src: "src/teardown.html",
     out: "workflow/index.html",
     desc:
