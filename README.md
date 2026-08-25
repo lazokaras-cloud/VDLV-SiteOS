@@ -22,6 +22,14 @@ on the phone of the person who can still do something about it.
 
 ## Status
 
+Bilingual. A language button switches the whole app between English and Afrikaans,
+which on a Western Cape site is not a nicety: a system that forces a foreman to work
+in his second language is a system he works around. The chrome, all four panes and
+the site-instruction-to-variation flow are fully translated, including the spoken
+number parser, so "vier en sestig duisend twee honderd" resolves to R64 200. The
+remaining four flows open with an Afrikaans notice saying their copy is still English,
+rather than switching language halfway through a conversation.
+
 Working prototype. The guidance is a **deterministic rules engine**, not a language model:
 working days are computed against the South African public holiday calendar, and every
 contractual date and rand amount is calculated rather than generated. Project data is

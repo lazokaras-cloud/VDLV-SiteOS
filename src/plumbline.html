@@ -361,6 +361,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .iconbtn{width:30px; height:30px; flex:none; display:grid; place-items:center; border-radius:5px; color:var(--ink-2)}
 .iconbtn:hover{background:var(--surface-2); color:var(--ink)}
 .iconbtn svg{width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2}
+.langbtn{
+  flex:none; padding:5px 9px; border:1px solid var(--rule); border-radius:5px;
+  font-family:var(--mono); font-size:10px; letter-spacing:.14em; font-weight:600;
+  color:var(--ink-2); background:var(--surface);
+}
+.langbtn:hover{border-color:var(--ink); color:var(--ink)}
+.langbtn.af{border-color:var(--signal); color:var(--signal)}
 
 /* forced-sequence stepper */
 .steps{display:flex; gap:3px; padding:0 0 9px}
@@ -592,6 +599,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
           <div class="proj">Lourensford Office Park Ph2</div>
           <span class="chip">JBCC PBA May 2018</span>
         </div>
+        <button class="langbtn" id="lang" aria-label="Taal / Language">EN</button>
         <button class="iconbtn" id="theme2" aria-label="Flip theme">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
         </button>
@@ -679,7 +687,286 @@ function workdaysBetween(a, b){          // exclusive of a, inclusive of b
 const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const fmt = d => d.getDate()+" "+MON[d.getMonth()]+" "+d.getFullYear();
 const plural = (n, w) => n + " " + w + (n === 1 ? "" : "s");
+const pluralT = n => n + " " + (n === 1 ? t("working day") : t("working days"));
 const R = n => "R"+Math.round(n).toLocaleString("en-ZA").replace(/,/g," ");
+
+/* ================================================================
+   1b. LANGUAGE
+   Afrikaans is not a translation layer bolted on for show. On a Western
+   Cape site it is the language the work is actually discussed in, and a
+   system that forces a foreman to operate in his second language is a
+   system he will work around. Keys are the English strings; anything
+   without an entry falls through to English rather than breaking.
+   ================================================================ */
+let LANG = "en";
+try { LANG = localStorage.getItem("plumbline.lang") || "en"; } catch(e){}
+
+function t(s, ...args){
+  let out = (LANG === "af" && AF[s]) ? AF[s] : s;
+  args.forEach((v, i) => { out = out.split("{"+i+"}").join(v); });
+  return out;
+}
+
+const AF = {
+  /* chrome */
+  "Today":"Vandag", "Guides":"Gidse", "Money":"Geld", "Board":"Direksie",
+  "Flip theme":"Wissel tema", "Reset demo":"Herstel demo",
+  "Working days to practical completion":"Werksdae tot praktiese voltooiing",
+  "At risk today":"Op die spel vandag", "Clear":"Skoon",
+  "Against the locked baseline":"Teen die vasgestelde basislyn",
+  "Locked {0}":"Vasgestel {0}",
+  "Contract value":"Kontrakwaarde", "Margin":"Marge", "Programme":"Program",
+  "Contingency left":"Gebeurlikheid oor",
+  "on baseline":"op basislyn", "wks":"wke",
+  "Every figure here was set when the tender was locked and has not been edited since. The variance is what the site has done to it.":
+    "Elke syfer hier is vasgestel toe die tender gesluit is en is nooit weer verander nie. Die verskil is wat die werf daaraan gedoen het.",
+  "Needs you now":"Vra jou nou", "{0} open":"{0} oop",
+  "Running quietly":"Loop stil aan", "Open":"Maak oop", "Soon":"Binnekort",
+  "Nothing is running out today.":"Niks loop vandag uit nie.",
+  "Every open contractual clock on this project is inside its window.":
+    "Elke oop kontraktuele klok op hierdie projek is binne sy venster.",
+  "Deemed-refusal watch / VO-109":"Geagte-weiering wag / VO-109",
+  "Defects liability opens on works completion":"Gebrekeaanspreeklikheid begin by werkvoltooiing",
+  "Final account from PC (2018 ed.)":"Finale rekening vanaf PV (2018 uitg.)",
+  "Performance guarantee expiry":"Prestasiewaarborg verval",
+  "Working days exclude weekends and South African public holidays. Countdowns are computed live from the instruction dates, not typed in.":
+    "Werksdae sluit naweke en Suid-Afrikaanse openbare vakansiedae uit. Aftellings word lewendig uit die opdragdatums bereken, nie ingetik nie.",
+
+  /* lifecycle */
+  "Tender":"Tender", "Baseline":"Basislyn", "On site":"Op werf",
+  "Claims":"Eise", "Completion":"Voltooiing", "Final account":"Finale rekening",
+
+  /* today cards */
+  "Rock excavation to lift pit, no variation order raised":
+    "Rotsuitgrawing by hysbakput, geen variasie-opdrag opgestel nie",
+  "Site instruction from the principal agent 3 working days ago. Nothing has been priced, no notice has gone out.":
+    "Werfopdrag van die hoofagent 3 werksdae gelede. Niks is geprys nie, geen kennisgewing het uitgegaan nie.",
+  "{0} wd to notice":"{0} wd tot kennisgewing",
+  "Default notice runs out in {0}":"Verstekkennisgewing verstryk oor {0}",
+  "working day":"werksdag", "working days":"werksdae",
+  "First-fix drainage to blocks C and D is 11 days behind the baseline. The 5-day notice was served on {0}.":
+    "Eerste-vas riolering by blokke C en D is 11 dae agter die basislyn. Die 5-dag kennisgewing is op {0} beteken.",
+  "Day {0} of 5":"Dag {0} van 5", "Contra {0}":"Kontra {0}",
+  "Monthly claim closes tomorrow":"Maandelikse eis sluit môre",
+  "Own measure, sub-contractor claims and contra charges must be reconciled against the cost report before cut-off.":
+    "Eie meting, subkontrakteur-eise en kontra-heffings moet teen die kosteverslag gerekonsilieer word voor sluitingstyd.",
+  "Cut-off {0}":"Sluit {0}", "4 of 9 subs in":"4 van 9 subs in",
+  "Quality":"Gehalte",
+  "Concrete cast register not updated since {0}":"Betonstortregister nie opgedateer sedert {0} nie",
+  "Two pours logged on paper. Test cube results for the block C raft are outstanding.":
+    "Twee storte op papier aangeteken. Toetskubusuitslae vir die blok C vlot is uitstaande.",
+  "2 pours open":"2 storte oop",
+  "Mapped, not built in this prototype.":"Gekarteer, nie in hierdie prototipe gebou nie.",
+
+  /* guides */
+  "Live in this prototype":"Lewendig in hierdie prototipe",
+  "Mapped, not yet built":"Gekarteer, nog nie gebou nie",
+  "Tender to baseline":"Tender tot basislyn",
+  "Load the bill, price it, lock the baseline":"Laai die lys, prys dit, sluit die basislyn",
+  "Site instruction to variation":"Werfopdrag tot variasie",
+  "Speak it, price it, notice, EOT link":"Sê dit, prys dit, kennisgewing, tydsverlenging",
+  "Progress report":"Vorderingsverslag",
+  "Read off site photos, forced against last week":"Gelees van werffoto's, afgedwing teen verlede week",
+  "Monthly claim":"Maandelikse eis",
+  "Measure, reconcile, deduct, submit":"Meet, rekonsilieer, trek af, dien in",
+  "Sub-contractor default":"Subkontrakteur in verstek",
+  "Notice, remedy period, termination":"Kennisgewing, hersteltyd, beëindiging",
+  "Appointments & bulk orders":"Aanstellings en grootmaatbestellings",
+  "Adjudication, settlement discount, PO":"Beoordeling, vereffeningskorting, bestelling",
+  "Practical completion":"Praktiese voltooiing",
+  "Inspection, list, deemed completion":"Inspeksie, lys, geagte voltooiing",
+  "60 or 90 working days, by edition":"60 of 90 werksdae, volgens uitgawe",
+  "Quality & concrete register":"Gehalte en betonregister",
+  "Cast register, cube results, defects":"Stortregister, kubusuitslae, gebreke",
+  "Sign-off project":"Teken projek af",
+  "9-point closure, guarantee cancellation":"9-punt afsluiting, waarborgkansellasie",
+  "All ten are standard commercial building process. The process already exists and is already correct at most contractors. It just lives in a document nobody opens, which is why it has to be taught to every new site agent by hand.":
+    "Al tien is standaard kommersiële bouproses. Die proses bestaan reeds en is reeds korrek by die meeste kontrakteurs. Dit lê net in 'n dokument wat niemand oopmaak nie, en daarom moet dit met die hand aan elke nuwe terreinagent geleer word.",
+
+  /* money */
+  "This project":"Hierdie projek", "Contract {0}":"Kontrak {0}",
+  "Variation markup recovered":"Variasie-opslag verhaal",
+  "{0}% of {1} identified.":"{0}% van {1} geïdentifiseer.",
+  "{0} still unclaimed.":"{0} nog nie geëis nie.",
+  "Nothing outstanding.":"Niks uitstaande nie.",
+  "EOT days granted":"Tydsverlenging toegestaan",
+  "{0} of time-related P&amp;G":"{0} se tydverwante P&amp;G",
+  "Days pending":"Dae hangende", "{0} on the clock":"{0} op die klok",
+  "Settlement discount":"Vereffeningskorting", "Taken at adjudication":"Geneem by beoordeling",
+  "Contra recovered":"Kontra verhaal", "Deducted before certificate":"Afgetrek voor sertifikaat",
+  "Where it comes from":"Waarvandaan dit kom",
+  "Variations at cost + 10%":"Variasies teen koste plus 10%",
+  "Time-related P&amp;G on granted EOT":"Tydverwante P&amp;G op toegestane verlenging",
+  "Settlement discount on bulk orders":"Vereffeningskorting op grootmaatbestellings",
+  "Contra charges recovered":"Kontra-heffings verhaal",
+  "Variations identified but never claimed":"Variasies geïdentifiseer maar nooit geëis nie",
+  "Every line is a step in the process that either happened on time or did not. The five places a building contractor actually makes money (tender, appointments, programme, RFI, claim cycle) are exactly these five lines.":
+    "Elke lyn is 'n stap in die proses wat óf betyds gebeur het óf nie. Die vyf plekke waar 'n boukontrakteur werklik geld maak (tender, aanstellings, program, navrae, eissiklus) is presies hierdie vyf lyne.",
+
+  /* board */
+  "{0} live projects":"{0} lewende projekte",
+  "Margin against the price it was won at":"Marge teen die prys waarteen dit gewen is",
+  "At risk now":"Op die spel nou", "{0} under contract":"{0} onder kontrak",
+  "Margin drift":"Margedrywing", "{0} against baseline":"{0} teen basislyn",
+  "Tender pipeline":"Tenderpyplyn", "{0} out, next closes {1}":"{0} uit, volgende sluit {1}",
+  "Soonest clock first":"Kortste klok eerste", "Working days":"Werksdae",
+  "Where each one sits":"Waar elkeen staan",
+  "Three of these five run on different editions of the contract, so the same milestone gives three different deadlines. The countdowns above are computed per project from the edition it was signed under, which is the only way this column can be trusted.":
+    "Drie van hierdie vyf loop op verskillende uitgawes van die kontrak, so dieselfde mylpaal gee drie verskillende sperdatums. Die aftellings hierbo word per projek bereken uit die uitgawe waaronder dit geteken is, en dit is die enigste manier waarop hierdie kolom vertrou kan word.",
+  "Object to final account":"Beswaar teen finale rekening",
+  "Works completion list":"Werkvoltooiingslys",
+  "Notice on SI-114":"Kennisgewing op WO-114",
+  "Claim 14 cut-off":"Eis 14 sluitingstyd",
+  "Sub retention release":"Sub-retensie vrystelling",
+  "Site handover":"Werfoorhandiging",
+
+  /* chat chrome */
+  "Why this matters":"Hoekom dit saak maak",
+  "Back to today":"Terug na vandag",
+  "Continue":"Gaan voort", "Correct":"Korrek", "Start":"Begin",
+  "All confirmed, continue":"Alles bevestig, gaan voort",
+  "{0} of {1}. You cannot submit until all are true":"{0} van {1}. Jy kan nie indien voor almal waar is nie",
+  "All {0} confirmed":"Al {0} bevestig",
+  "Take photo":"Neem foto", "Photo attached":"Foto aangeheg",
+  "Hold to talk":"Hou in om te praat", "Listening":"Luister",
+  "Type it instead":"Tik dit eerder", "All three correct":"Al drie korrek",
+  "Say it again":"Sê dit weer",
+  "Here is what I took from that.":"Hier is wat ek daaruit gekry het.",
+  "Read that back before I use it. A number heard wrong is a number claimed wrong.":
+    "Kyk dit na voor ek dit gebruik. 'n Syfer wat verkeerd gehoor is, is 'n syfer wat verkeerd geëis word.",
+  "Captured with the browser recogniser":"Met die blaaier se herkenner opgeneem",
+  "Scripted capture: this frame is not allowed a microphone":
+    "Geskrewe opname: hierdie raam kry nie 'n mikrofoon nie",
+  "Vision output is illustrative in this prototype":
+    "Beelduitset is slegs illustratief in hierdie prototipe",
+  "Labour":"Arbeid", "Plant":"Toerusting", "Material":"Materiaal",
+  "Net cost":"Netto koste", "Markup 10%":"Opslag 10%", "VO-114 total":"VO-114 totaal",
+  "Demo reset":"Demo herstel",
+  "Language set to Afrikaans":"Taal gestel op Afrikaans",
+  "Language set to English":"Language set to English",
+  "Tender to baseline ":"Tender tot basislyn ",
+  "Pre-project":"Voor-projek", "Programme ":"Program ",
+  "Payment":"Betaling", "Default":"Verstek",
+  "Progress report, week 29":"Vorderingsverslag, week 29",
+  "Monthly claim, cycle 07":"Maandelikse eis, siklus 07",
+  "Sub-contractor default: Bekker":"Subkontrakteur in verstek: Bekker",
+  "Standard practice / Site instructions and variation orders":"Standaardpraktyk / Werfopdragte en variasie-opdragte",
+  "JBCC PBA 05/2018 / recovery of expense and-or loss":"JBCC PBA 05/2018 / verhaling van uitgawe en-of verlies",
+  "JBCC PBA 05/2018 / revision of date for practical completion":"JBCC PBA 05/2018 / hersiening van datum vir praktiese voltooiing",
+  "JBCC PBA 05/2018 / sub-contractor default":"JBCC PBA 05/2018 / subkontrakteur in verstek",
+  "Standard practice / Tender: P&G not measured in BoQ":"Standaardpraktyk / Tender: P&G nie in hoeveelheidslys gemeet nie",
+  "Standard practice / Payment procedure":"Standaardpraktyk / Betaalprosedure",
+  "Standard practice / Claim procedure":"Standaardpraktyk / Eisprosedure",
+  "Standard practice / Claim procedure / cost report":"Standaardpraktyk / Eisprosedure / kosteverslag",
+  "Standard practice / EOT (claim time related P&G)":"Standaardpraktyk / Tydsverlenging (eis tydverwante P&G)",
+  "Standard practice / Tender: check rates and details on actual quotes":"Standaardpraktyk / Tender: kontroleer tariewe en besonderhede op werklike kwotasies",
+
+  /* ---- rules: the training text ---- */
+  "A variation is priced at actual cost of labour, plant and material, plus 10% markup. If you price it off a rate instead of actual cost, you give away the markup.":
+    "'n Variasie word teen werklike koste van arbeid, toerusting en materiaal geprys, plus 10% opslag. As jy dit teen 'n tarief prys in plaas van werklike koste, gee jy die opslag weg.",
+  "Notice of the expense must reach the principal agent within 20 working days of becoming aware of it. Miss it and the claim is out of time no matter how good it is.":
+    "Kennisgewing van die uitgawe moet die hoofagent binne 20 werksdae bereik nadat jy daarvan bewus geword het. Mis dit, en die eis is uit tyd uit, maak nie saak hoe goed dit is nie.",
+  "The priced claim follows within 40 working days. The principal agent then has 20 working days to act. If he does nothing, it is deemed refused, which is what you want on record, because a deemed refusal is a dispute you can run.":
+    "Die geprysde eis volg binne 40 werksdae. Die hoofagent het dan 20 werksdae om op te tree. Doen hy niks, word dit geag geweier te wees, en dit is wat jy op rekord wil hê, want 'n geagte weiering is 'n dispuut wat jy kan voer.",
+  "If the instruction also costs you time, that is a separate claim, and the time-related P&G runs with it. Most contractors claim the money and forget the days. The days are usually worth more.":
+    "As die opdrag jou ook tyd kos, is dit 'n aparte eis, en die tydverwante P&G loop saam daarmee. Die meeste kontrakteurs eis die geld en vergeet die dae. Die dae is gewoonlik meer werd.",
+  "Notice within 20 working days of becoming aware of the delay. The revision of the practical completion date follows within 40 working days from when you can quantify the delay.":
+    "Kennisgewing binne 20 werksdae nadat jy van die vertraging bewus geword het. Die hersiening van die praktiese voltooiingsdatum volg binne 40 werksdae vandat jy die vertraging kan kwantifiseer.",
+  "P&G is not measured in the bill of quantities. It gets measured off the drawings for the actual site you are going to build, or you carry the shortfall for the whole contract.":
+    "P&G word nie in die hoeveelheidslys gemeet nie. Dit word van die tekeninge af gemeet vir die werklike werf waarop jy gaan bou, anders dra jy die tekort vir die hele kontrak.",
+  "Sub-contractors are paid 7 calendar days after the certificate is approved, and only once the client has paid. Their rates are paid without the 10% markup. The markup is yours.":
+    "Subkontrakteurs word 7 kalenderdae na goedkeuring van die sertifikaat betaal, en eers nadat die kliënt betaal het. Hulle tariewe word sonder die 10% opslag betaal. Die opslag is joune.",
+  "Contra charges must be current and deducted before the claim goes out. A contra raised after the certificate is money you chase instead of money you keep.":
+    "Kontra-heffings moet op datum wees en afgetrek word voor die eis uitgaan. 'n Kontra wat na die sertifikaat opgestel word, is geld wat jy jaag in plaas van geld wat jy hou.",
+  "Measure your own work and reconcile it against actual cost in the cost report before it goes on the claim. Allowable versus actual is where the saving shows up.":
+    "Meet jou eie werk en rekonsilieer dit teen werklike koste in die kosteverslag voordat dit op die eis gaan. Toelaatbaar teenoor werklik is waar die besparing wys.",
+  "Serve notice, give 5 working days to remedy. If the sub-contractor is still in default after that, the termination process opens and the cost to complete goes to his account.":
+    "Beteken kennisgewing, gee 5 werksdae om reg te stel. Is die subkontrakteur daarna steeds in verstek, open die beëindigingsproses en die koste om klaar te maak gaan op sy rekening.",
+  "Check the adjudicator's rates against the actual quotes you hold, including P&G and terms. Risk you did not qualify at tender is risk you own for the whole contract.":
+    "Kontroleer die beoordelaar se tariewe teen die werklike kwotasies wat jy het, insluitend P&G en terme. Risiko wat jy nie by tender gekwalifiseer het nie, is risiko wat jy vir die hele kontrak besit.",
+
+  /* ---- si_to_vo ---- */
+  "Site instruction to variation order":"Werfopdrag tot variasie-opdrag",
+  "Expense / loss":"Uitgawe / verlies",
+  "Morning Ruan. <b>SI-114</b> came in on {0}: rock excavation to the lift pit, grids C4 to D5.":
+    "Môre Ruan. <b>WO-114</b> het op {0} ingekom: rotsuitgrawing by die hysbakput, roosters C4 tot D5.",
+  "Nothing has been priced against it. Let's get the notice out before the clock runs down. This takes about four minutes.":
+    "Niks is daarteen geprys nie. Kom ons kry die kennisgewing uit voor die klok afloop. Dit vat omtrent vier minute.",
+  "Has the work started?":"Het die werk begin?",
+  "First thing: has any of this work actually started on site?":
+    "Eerste ding: het enige van hierdie werk regtig op die werf begin?",
+  "Started Friday":"Vrydag begin", "Not yet":"Nog nie", "Already finished":"Reeds klaar",
+  "Then the 20 working days ran from the instruction, not from today. You have <b>{0} working days</b> left on the notice. Keep going.":
+    "Dan het die 20 werksdae van die opdrag af geloop, nie van vandag af nie. Jy het <b>{0} werksdae</b> oor op die kennisgewing. Gaan aan.",
+  "Good. You are inside the window either way. Getting the notice out before you start is the cleanest position.":
+    "Goed. Jy is in elk geval binne die venster. Om die kennisgewing uit te kry voor jy begin, is die skoonste posisie.",
+  "Labour, plant and material":"Arbeid, toerusting en materiaal",
+  "Now the actual cost. Not a rate out of the bill, what it actually cost you. You can just tell me, and you can do it from the bakkie.":
+    "Nou die werklike koste. Nie 'n tarief uit die lys nie, wat dit jou werklik gekos het. Jy kan dit sommer vir my sê, en jy kan dit uit die bakkie doen.",
+  "Say the labour, plant and material":"Sê die arbeid, toerusting en materiaal",
+  "<b>Labour</b> first: own team plus the labour-only sub.":
+    "<b>Arbeid</b> eerste: eie span plus die arbeid-alleen sub.",
+  "<b>Plant.</b> The breaker and the 8-tonner. Include standing time if the machine sat waiting for the instruction.":
+    "<b>Toerusting.</b> Die breker en die 8-tonner. Sluit staantyd in as die masjien gewag het vir die opdrag.",
+  "<b>Material.</b> Cart-away, the extra blinding and the mesh.":
+    "<b>Materiaal.</b> Wegkarwei, die ekstra blinding en die matwerk.",
+  "That is your priced variation.":"Dit is jou geprysde variasie.",
+  "The <b>{0}</b> markup only survives if this is submitted as actual cost. Priced off a bill rate, it disappears.":
+    "Die <b>{0}</b> opslag oorleef net as dit as werklike koste ingedien word. Teen 'n lystarief geprys, verdwyn dit.",
+  "Photograph the excavation":"Fotografeer die uitgrawing",
+  "Photograph it now, with the pegs visible. Evidence attached to the notice is what stops this becoming an argument in six months.":
+    "Neem nou 'n foto, met die penne sigbaar. Bewyse wat by die kennisgewing aangeheg is, keer dat dit oor ses maande 'n argument word.",
+  "Read off the photograph, checked against the drawing for grid C4 to D5:":
+    "Van die foto afgelees, gekontroleer teen die tekening vir rooster C4 tot D5:",
+  "Excavation depth":"Uitgrawingsdiepte", "Material at face":"Materiaal by die front",
+  "Volume to cart":"Volume om weg te karwei", "Pegs and level datum":"Penne en vlakdatum",
+  "Stamped":"Gestempel",
+  "2.4 m against 1.1 m on the drawing":"2,4 m teenoor 1,1 m op die tekening",
+  "Rock, not the clay that was priced":"Rots, nie die klei wat geprys is nie",
+  "62 m3 estimated":"62 m3 geraam", "Visible and legible":"Sigbaar en leesbaar",
+  "Geotag, time, SI-114":"Geomerker, tyd, WO-114",
+  "The depth reading is the one that matters. It is the difference between the priced excavation and what is actually in the hole, and it is now on a photograph that cannot be edited.":
+    "Die dieptelesing is die een wat saak maak. Dit is die verskil tussen die geprysde uitgrawing en wat werklik in die gat is, en dit is nou op 'n foto wat nie verander kan word nie.",
+  "Attach to the notice":"Heg aan by die kennisgewing",
+  "Did it cost you days?":"Het dit jou dae gekos?",
+  "Here is the part most people skip. Did the rock cost you <b>time</b> on the critical path, not just money?":
+    "Hier is die deel wat die meeste mense oorslaan. Het die rots jou <b>tyd</b> op die kritieke pad gekos, nie net geld nie?",
+  "Yes, about 4 days":"Ja, omtrent 4 dae", "Yes, more than a week":"Ja, meer as 'n week",
+  "No time lost":"Geen tyd verloor",
+  "Understood. Money claim only. I will note that no delay was claimed against SI-114.":
+    "Verstaan. Net 'n geldeis. Ek sal aanteken dat geen vertraging teen WO-114 geëis is nie.",
+  "Then there is a second claim here. Time-related P&G on this contract runs at <code>{0}</code> per working day. {1} days is <b>{2}</b> that would have gone unclaimed, more than the variation itself.":
+    "Dan is daar 'n tweede eis hier. Tydverwante P&G op hierdie kontrak loop teen <code>{0}</code> per werksdag. {1} dae is <b>{2}</b> wat ongeëis sou gebly het, meer as die variasie self.",
+  "Last gate. I cannot submit until all four are true. These are the ones that get claims thrown out.":
+    "Laaste hek. Ek kan nie indien voor al vier waar is nie. Dit is die goed wat eise laat uitgooi word.",
+  "Priced on actual cost, not bill rates":"Geprys op werklike koste, nie lystariewe nie",
+  "Protects the 10% markup":"Beskerm die 10% opslag",
+  "Instruction is in writing from the principal agent":"Opdrag is skriftelik van die hoofagent",
+  "A verbal instruction is not a variation":"'n Mondelinge opdrag is nie 'n variasie nie",
+  "Photographs and the site diary entry attached":"Foto's en die werfdagboek-inskrywing aangeheg",
+  "Evidence dated before the claim":"Bewyse gedateer voor die eis",
+  "Foreman's daywork sheets signed":"Voorman se dagwerkstate geteken",
+  "Labour and plant hours substantiated":"Arbeid- en toerustingure gestaaf",
+  "Done. Here is what goes out under your name today.":
+    "Klaar. Hier is wat vandag onder jou naam uitgaan.",
+  "Notice to principal agent":"Kennisgewing aan hoofagent",
+  "Instruction":"Opdrag", "Amount":"Bedrag", "Notice due":"Kennisgewing teen",
+  "Priced claim by":"Geprysde eis teen", "PA must act by":"Hoofagent moet optree teen",
+  "Delay claimed":"Vertraging geëis", "None":"Geen", "net":"netto",
+  "{0} wd left":"{0} wd oor",
+  "If the principal agent does not respond by <b>{0}</b>, it is deemed refused and I will open the dispute file automatically.":
+    "As die hoofagent nie teen <b>{0}</b> reageer nie, word dit geag geweier te wees en ek open die dispuutlêer outomaties.",
+  "Submit to principal agent":"Dien in by hoofagent",
+  "<b>Submitted.</b> {0} on the variation{1}.":"<b>Ingedien.</b> {0} op die variasie{1}.",
+  " and {0} days of extension worth {1}":" en {0} dae verlenging ter waarde van {1}",
+  "Four minutes of work, <b>{0}</b> on the certificate. I have diarised the 40-day claim date and set the deemed-refusal trigger. Nothing else for you to remember.":
+    "Vier minute se werk, <b>{0}</b> op die sertifikaat. Ek het die 40-dag eisdatum gedagboek en die geagte-weiering sneller gestel. Niks anders vir jou om te onthou nie.",
+  "SI-114 closed out":"WO-114 afgehandel",
+  "That guide is mapped but not built in this prototype.":
+    "Daardie gids is gekarteer maar nie in hierdie prototipe gebou nie.",
+  "Hierdie gids is nog net in Engels. Die res van die app is in Afrikaans.":
+    "Hierdie gids is nog net in Engels. Die res van die app is in Afrikaans."
+};
 
 /* ================================================================
    2. PROJECT STATE
@@ -737,52 +1024,52 @@ const CLAIM_CUTOFF = new Date(2026,7,25);     // Tue 25 Aug 2026
 const CAST_LAST    = new Date(2026,7,20);
 
 function tasks(){
-  const t = [];
+  const rows = [];
 
   const noticeDue = addWorkdays(SI114_ISSUED, 20);
-  t.push({
+  rows.push({
     id:"si114", sev:"crit", flow:"si_to_vo",
     tag:"SI-114", tagCls:"crit",
-    title:"Rock excavation to lift pit, no variation order raised",
-    body:"Site instruction from the principal agent 3 working days ago. Nothing has been priced, no notice has gone out.",
+    title:t("Rock excavation to lift pit, no variation order raised"),
+    body:t("Site instruction from the principal agent 3 working days ago. Nothing has been priced, no notice has gone out."),
     pills:[
-      {cls:"crit", txt:workdaysBetween(TODAY,noticeDue)+" wd to notice"},
+      {cls:"crit", txt:t("{0} wd to notice", workdaysBetween(TODAY,noticeDue))},
       {cls:"flat", txt:"~"+R(186400)+" + 10%"}
     ]
   });
 
   const remedyDue = addWorkdays(SUB_NOTICE, 5);
-  t.push({
+  rows.push({
     id:"bekker", sev:"warn", flow:"sub_default",
     tag:"Bekker Plumbing", tagCls:"warn",
-    title:"Default notice runs out in "+plural(workdaysBetween(TODAY,remedyDue),"working day"),
-    body:"First-fix drainage to blocks C and D is 11 days behind the baseline. The 5-day notice was served on "+fmt(SUB_NOTICE)+".",
+    title:t("Default notice runs out in {0}", pluralT(workdaysBetween(TODAY,remedyDue))),
+    body:t("First-fix drainage to blocks C and D is 11 days behind the baseline. The 5-day notice was served on {0}.", fmt(SUB_NOTICE)),
     pills:[
-      {cls:"warn", txt:"Day "+(5-workdaysBetween(TODAY,remedyDue))+" of 5"},
-      {cls:"flat", txt:"Contra "+R(71500)}
+      {cls:"warn", txt:t("Day {0} of 5", 5-workdaysBetween(TODAY,remedyDue))},
+      {cls:"flat", txt:t("Contra {0}", R(71500))}
     ]
   });
 
-  t.push({
+  rows.push({
     id:"claim7", sev:"warn", flow:"monthly_claim",
     tag:"Claim 07", tagCls:"warn",
-    title:"Monthly claim closes tomorrow",
-    body:"Own measure, sub-contractor claims and contra charges must be reconciled against the cost report before cut-off.",
+    title:t("Monthly claim closes tomorrow"),
+    body:t("Own measure, sub-contractor claims and contra charges must be reconciled against the cost report before cut-off."),
     pills:[
-      {cls:"warn", txt:"Cut-off "+fmt(CLAIM_CUTOFF)},
-      {cls:"flat", txt:"4 of 9 subs in"}
+      {cls:"warn", txt:t("Cut-off {0}", fmt(CLAIM_CUTOFF))},
+      {cls:"flat", txt:t("4 of 9 subs in")}
     ]
   });
 
-  t.push({
+  rows.push({
     id:"cast", sev:"info", flow:"locked",
-    tag:"Quality", tagCls:"info",
-    title:"Concrete cast register not updated since "+fmt(CAST_LAST),
-    body:"Two pours logged on paper. Test cube results for the block C raft are outstanding.",
-    pills:[{cls:"info", txt:"2 pours open"}]
+    tag:t("Quality"), tagCls:"info",
+    title:t("Concrete cast register not updated since {0}", fmt(CAST_LAST)),
+    body:t("Two pours logged on paper. Test cube results for the block C raft are outstanding."),
+    pills:[{cls:"info", txt:t("2 pours open")}]
   });
 
-  return t.filter(x => !S.done[x.id]);
+  return rows.filter(x => !S.done[x.id]);
 }
 
 /* ================================================================
@@ -808,12 +1095,13 @@ const RULE = {
 const FLOWS = {
 
   si_to_vo: {
+    af:true,
     title:"Site instruction to variation order",
     clause:"Expense / loss",
     task:"si114",
     steps:[
       { kind:"say", stage:"Confirm",
-        msg:["Morning Ruan. <b>SI-114</b> came in on "+fmt(SI114_ISSUED)+": rock excavation to the lift pit, grids C4 to D5.",
+        msg:() => [t("Morning Ruan. <b>SI-114</b> came in on {0}: rock excavation to the lift pit, grids C4 to D5.", fmt(SI114_ISSUED)),
              "Nothing has been priced against it. Let's get the notice out before the clock runs down. This takes about four minutes."],
         opts:[{label:"Start", cls:"primary full"}] },
 
@@ -827,7 +1115,7 @@ const FLOWS = {
         ],
         after(v){
           if (v==="started" || v==="done")
-            return "Then the 20 working days ran from the instruction, not from today. You have <b>"+workdaysBetween(TODAY, addWorkdays(SI114_ISSUED,20))+" working days</b> left on the notice. Keep going.";
+            return t("Then the 20 working days ran from the instruction, not from today. You have <b>{0} working days</b> left on the notice. Keep going.", workdaysBetween(TODAY, addWorkdays(SI114_ISSUED,20)));
           return "Good. You are inside the window either way. Getting the notice out before you start is the cleanest position.";
         } },
 
@@ -836,11 +1124,17 @@ const FLOWS = {
         why:"voMarkup",
         hint:"Say the labour, plant and material",
         demo:"Rock at the lift pit. Labour was sixty four thousand two hundred, plant eighty eight thousand four hundred, and material thirty three thousand eight hundred.",
+        demoAf:"Rots by die hysbakput. Arbeid was vier en sestig duisend twee honderd, toerusting agt en tagtig duisend vier honderd, en materiaal drie en dertig duisend agt honderd.",
         back:"Here is what I took from that.",
         keys:[
           {key:"labour",   label:"Labour",   re:/\b(labour|labor|the guys|my team)\b/},
           {key:"plant",    label:"Plant",    re:/\b(plant|machine|machinery|the breaker)\b/},
           {key:"material", label:"Material", re:/\b(material|materials|stock)\b/}
+        ],
+        keysAf:[
+          {key:"labour",   label:"Labour",   re:/\b(arbeid|my span|die manne)\b/},
+          {key:"plant",    label:"Plant",    re:/\b(toerusting|masjien|masjinerie|die breker)\b/},
+          {key:"material", label:"Material", re:/\b(materiaal|voorraad)\b/}
         ] },
 
       { kind:"number", stage:"Price", q:"Labour", pre:"R", def:"64200",
@@ -865,7 +1159,7 @@ const FLOWS = {
           return { msg:"That is your priced variation.",
             calc:[["Labour",R(st.labour)],["Plant",R(st.plant)],["Material",R(st.material)],
                   ["Net cost",R(net)],["Markup 10%",R(st.markup)],["VO-114 total",R(st.gross),true]],
-            note:"The <b>"+R(st.markup)+"</b> markup only survives if this is submitted as actual cost. Priced off a bill rate, it disappears."
+            note:t("The <b>{0}</b> markup only survives if this is submitted as actual cost. Priced off a bill rate, it disappears.", R(st.markup))
           };
         },
         opts:[{label:"Correct", cls:"primary full"}] },
@@ -900,7 +1194,7 @@ const FLOWS = {
         after(v, st){
           if (!v) return "Understood. Money claim only. I will note that no delay was claimed against SI-114.";
           st.eotValue = v * S.eot.perDay;
-          return "Then there is a second claim here. Time-related P&G on this contract runs at <code>"+R(S.eot.perDay)+"</code> per working day. "+v+" days is <b>"+R(st.eotValue)+"</b> that would have gone unclaimed, more than the variation itself.";
+          return t("Then there is a second claim here. Time-related P&G on this contract runs at <code>{0}</code> per working day. {1} days is <b>{2}</b> that would have gone unclaimed, more than the variation itself.", R(S.eot.perDay), v, R(st.eotValue));
         } },
 
       { kind:"checks", stage:"Check",
@@ -924,13 +1218,13 @@ const FLOWS = {
             sub:"Recovery of expense / SI-114 / JBCC PBA May 2018",
             rows:[
               ["Instruction","SI-114 / "+fmt(SI114_ISSUED)],
-              ["Amount", R(st.gross)+"  (net "+R(st.net)+" + 10%)"],
-              ["Notice due", fmt(noticeDue)+"  ("+workdaysBetween(TODAY,noticeDue)+" wd left)"],
+              ["Amount", R(st.gross)+"  ("+t("net")+" "+R(st.net)+" + 10%)"],
+              ["Notice due", fmt(noticeDue)+"  ("+t("{0} wd left", workdaysBetween(TODAY,noticeDue))+")"],
               ["Priced claim by", fmt(claimDue)],
               ["PA must act by", fmt(paDue)],
-              st.days ? ["Delay claimed", st.days+" working days / "+R(st.eotValue)] : ["Delay claimed","None"]
+              st.days ? ["Delay claimed", st.days+" "+t("working days")+" / "+R(st.eotValue)] : ["Delay claimed","None"]
             ],
-            note:"If the principal agent does not respond by <b>"+fmt(paDue)+"</b>, it is deemed refused and I will open the dispute file automatically."
+            note:t("If the principal agent does not respond by <b>{0}</b>, it is deemed refused and I will open the dispute file automatically.", fmt(paDue))
           };
         },
         opts:[{label:"Submit to principal agent", cls:"sig full"}] },
@@ -944,8 +1238,8 @@ const FLOWS = {
         },
         msg(st){
           const total = st.gross + (st.eotValue||0);
-          return ["<b>Submitted.</b> "+R(st.gross)+" on the variation"+(st.days? " and "+st.days+" days of extension worth "+R(st.eotValue):"")+".",
-                  "Four minutes of work, <b>"+R(total)+"</b> on the certificate. I have diarised the 40-day claim date and set the deemed-refusal trigger. Nothing else for you to remember."];
+          return [t("<b>Submitted.</b> {0} on the variation{1}.", R(st.gross), st.days ? t(" and {0} days of extension worth {1}", st.days, R(st.eotValue)) : ""),
+                  t("Four minutes of work, <b>{0}</b> on the certificate. I have diarised the 40-day claim date and set the deemed-refusal trigger. Nothing else for you to remember.", R(total))];
         },
         toast:"SI-114 closed out" }
     ]
@@ -1349,7 +1643,7 @@ const ARROW = '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 function spine(at){
   const i = LIFECYCLE.findIndex(x => x[0] === at);
   return `<div class="spine">` + LIFECYCLE.map(([k,label],n) =>
-    `<div class="${n<i?"past":n===i?"now":""}">${label}</div>`).join("") + `</div>`;
+    `<div class="${n<i?"past":n===i?"now":""}">${esc(t(label))}</div>`).join("") + `</div>`;
 }
 
 // Variance against the locked baseline. Direction matters more than magnitude:
@@ -1358,54 +1652,54 @@ function vline(label, base, now, fmtFn, goodUp){
   const d = now - base, flat = Math.abs(d) < 1e-9;
   const cls = flat ? "fl" : ((d > 0) === !!goodUp ? "up" : "dn");
   const sign = flat ? "" : (d > 0 ? "+" : "-");
-  return `<div class="row"><span>${esc(label)}</span>
-    <span class="v2"><b>${fmtFn(now)}</b><i class="${cls}">${flat?"on baseline":sign+fmtFn(Math.abs(d))}</i></span></div>`;
+  return `<div class="row"><span>${esc(t(label))}</span>
+    <span class="v2"><b>${fmtFn(now)}</b><i class="${cls}">${flat?t("on baseline"):sign+fmtFn(Math.abs(d))}</i></span></div>`;
 }
 
 function renderToday(){
-  const t = tasks();
+  const tk = tasks();
   const pcDue = new Date(2027,2,19);
   const left = workdaysBetween(TODAY, pcDue);
-  const money = t.reduce((a,x)=>a+(x.id==="si114"?205040:0),0);
+  const money = tk.reduce((a,x)=>a+(x.id==="si114"?205040:0),0);
 
   let h = spine("site") + `
     <div class="clock" style="margin-top:10px">
       <div class="row">
         <div>
-          <div class="lab">Working days to practical completion</div>
+          <div class="lab">${t("Working days to practical completion")}</div>
           <div class="big">${left}<small> / 285</small></div>
         </div>
         <div class="meta">
-          <span class="lab">At risk today</span>
-          <b>${money?R(money):"Clear"}</b>
+          <span class="lab">${t("At risk today")}</span>
+          <b>${money?R(money):t("Clear")}</b>
           ${fmt(TODAY)}
         </div>
       </div>
     </div>`;
 
   const B = S.baseline, A = S.actual;
-  h += `<div class="sec"><span class="lab">Against the locked baseline</span></div>
+  h += `<div class="sec"><span class="lab">${t("Against the locked baseline")}</span></div>
     <div class="card base">
       <div class="hd">
         <b>${esc(B.ref)}</b>
-        <span>Locked ${esc(B.locked)}</span>
+        <span>${t("Locked {0}", esc(B.locked))}</span>
       </div>
       ${vline("Contract value", B.value, A.value, R, true)}
       ${vline("Margin", B.margin, A.margin, n=>n.toFixed(1)+"%", true)}
-      ${vline("Programme", B.weeks, A.weeks, n=>n+" wks", false)}
+      ${vline("Programme", B.weeks, A.weeks, n=>n+" "+t("wks"), false)}
       ${vline("Contingency left", B.contingency, A.contingencyLeft, R, true)}
     </div>
-    <p class="foot-note" style="margin-top:9px">Every figure here was set when the tender was locked and has not been edited since. The variance is what the site has done to it.</p>`;
+    <p class="foot-note" style="margin-top:9px">${t("Every figure here was set when the tender was locked and has not been edited since. The variance is what the site has done to it.")}</p>`;
 
-  h += `<div class="sec"><span class="lab">Needs you now</span><span class="lab">${t.length} open</span></div>`;
+  h += `<div class="sec"><span class="lab">${t("Needs you now")}</span><span class="lab">${t("{0} open", tk.length)}</span></div>`;
 
-  if (!t.length){
+  if (!tk.length){
     h += `<div class="card" style="padding:26px 16px;text-align:center">
-      <div style="font-size:15px;font-weight:520">Nothing is running out today.</div>
-      <p style="margin:7px 0 0;font-size:13px;color:var(--ink-2)">Every open contractual clock on this project is inside its window.</p>
+      <div style="font-size:15px;font-weight:520">${t("Nothing is running out today.")}</div>
+      <p style="margin:7px 0 0;font-size:13px;color:var(--ink-2)">${t("Every open contractual clock on this project is inside its window.")}</p>
     </div>`;
   } else {
-    h += `<div class="stack">` + t.map(x=>`
+    h += `<div class="stack">` + tk.map(x=>`
       <button class="card task ${x.sev}" data-flow="${x.flow}">
         <i class="sev"></i>
         <div class="body">
@@ -1416,25 +1710,25 @@ function renderToday(){
           <p>${esc(x.body)}</p>
           <div class="foot">
             ${x.pills.map(p=>`<span class="pill ${p.cls}">${esc(p.txt)}</span>`).join("")}
-            <span class="go">${x.flow==="locked"?"Soon":"Open"} ${x.flow==="locked"?"":ARROW}</span>
+            <span class="go">${t(x.flow==="locked"?"Soon":"Open")} ${x.flow==="locked"?"":ARROW}</span>
           </div>
         </div>
       </button>`).join("") + `</div>`;
   }
 
-  h += `<div class="sec"><span class="lab">Running quietly</span></div>
+  h += `<div class="sec"><span class="lab">${t("Running quietly")}</span></div>
     <div class="card">
       <table class="ledger">
-        <tr><td>Deemed-refusal watch / VO-109</td><td class="mono">6 wd</td></tr>
-        <tr><td>Defects liability opens on works completion</td><td class="mono">90 cal</td></tr>
-        <tr><td>Final account from PC (2018 ed.)</td><td class="mono">60 wd</td></tr>
-        <tr><td>Performance guarantee expiry</td><td class="mono">2027-06-30</td></tr>
+        <tr><td>${t("Deemed-refusal watch / VO-109")}</td><td class="mono">6 wd</td></tr>
+        <tr><td>${t("Defects liability opens on works completion")}</td><td class="mono">90 cal</td></tr>
+        <tr><td>${t("Final account from PC (2018 ed.)")}</td><td class="mono">60 wd</td></tr>
+        <tr><td>${t("Performance guarantee expiry")}</td><td class="mono">2027-06-30</td></tr>
       </table>
     </div>
-    <p class="foot-note">Working days exclude weekends and South African public holidays. Countdowns are computed live from the instruction dates, not typed in.</p>`;
+    <p class="foot-note">${t("Working days exclude weekends and South African public holidays. Countdowns are computed live from the instruction dates, not typed in.")}</p>`;
 
   $("#pane-today").innerHTML = h;
-  $("#tabdot").style.display = t.some(x=>x.sev==="crit") ? "" : "none";
+  $("#tabdot").style.display = tk.some(x=>x.sev==="crit") ? "" : "none";
 }
 
 function renderGuides(){
@@ -1453,73 +1747,73 @@ function renderGuides(){
     ["10","Sign-off project","9-point closure, guarantee cancellation"]
   ];
   $("#pane-guides").innerHTML = `
-    <div class="sec"><span class="lab">Live in this prototype</span></div>
-    <div class="card">${built.map(([n,t,s,f])=>`
+    <div class="sec"><span class="lab">${t("Live in this prototype")}</span></div>
+    <div class="card">${built.map(([n,ttl,sub,f])=>`
       <button class="guide" data-flow="${f}">
         <span class="num">${n}</span>
-        <span class="t"><b>${t}</b><span>${esc(s)}</span></span>
+        <span class="t"><b>${esc(t(ttl))}</b><span>${esc(t(sub))}</span></span>
         <span class="go">${ARROW}</span>
       </button>`).join("")}</div>
 
-    <div class="sec"><span class="lab">Mapped, not yet built</span></div>
-    <div class="card">${soon.map(([n,t,s])=>`
+    <div class="sec"><span class="lab">${t("Mapped, not yet built")}</span></div>
+    <div class="card">${soon.map(([n,ttl,sub])=>`
       <div class="guide locked">
         <span class="num">${n}</span>
-        <span class="t"><b>${t}</b><span>${esc(s)}</span></span>
+        <span class="t"><b>${esc(t(ttl))}</b><span>${esc(t(sub))}</span></span>
       </div>`).join("")}</div>
 
-    <p class="foot-note">All ten are standard commercial building process. The process already exists and is already correct at most contractors. It just lives in a document nobody opens, which is why it has to be taught to every new site agent by hand.</p>`;
+    <p class="foot-note">${t("All ten are standard commercial building process. The process already exists and is already correct at most contractors. It just lives in a document nobody opens, which is why it has to be taught to every new site agent by hand.")}</p>`;
 }
 
 function renderMoney(){
   const leak = Math.max(0, S.vo.identified - S.vo.recovered);
   const pct = S.vo.identified ? Math.round(S.vo.recovered/S.vo.identified*100) : 100;
   $("#pane-money").innerHTML = `
-    <div class="sec"><span class="lab">This project</span><span class="lab">Contract ${R(48240000)}</span></div>
+    <div class="sec"><span class="lab">${t("This project")}</span><span class="lab">${t("Contract {0}", R(48240000))}</span></div>
 
     <div class="card stat">
-      <span class="lab">Variation markup recovered</span>
+      <span class="lab">${t("Variation markup recovered")}</span>
       <div class="v">${R(S.vo.recovered)}</div>
       <div class="bar-track"><div class="bar-fill part" style="--p:${pct}%;width:100%"></div></div>
-      <div class="d">${pct}% of ${R(S.vo.identified)} identified.
-        ${leak? `<b style="color:var(--crit)">${R(leak)} still unclaimed.</b>` : "Nothing outstanding."}</div>
+      <div class="d">${t("{0}% of {1} identified.", pct, R(S.vo.identified))}
+        ${leak? `<b style="color:var(--crit)">${t("{0} still unclaimed.", R(leak))}</b>` : t("Nothing outstanding.")}</div>
     </div>
 
     <div class="grid2" style="margin-top:10px">
       <div class="card stat gain">
-        <span class="lab">EOT days granted</span>
+        <span class="lab">${t("EOT days granted")}</span>
         <div class="v">${S.eot.granted}</div>
-        <div class="d">${R(S.eot.granted*S.eot.perDay)} of time-related P&amp;G</div>
+        <div class="d">${t("{0} of time-related P&amp;G", R(S.eot.granted*S.eot.perDay))}</div>
       </div>
       <div class="card stat">
-        <span class="lab">Days pending</span>
+        <span class="lab">${t("Days pending")}</span>
         <div class="v">${S.eot.pending}</div>
-        <div class="d">${R(S.eot.pending*S.eot.perDay)} on the clock</div>
+        <div class="d">${t("{0} on the clock", R(S.eot.pending*S.eot.perDay))}</div>
       </div>
       <div class="card stat gain">
-        <span class="lab">Settlement discount</span>
+        <span class="lab">${t("Settlement discount")}</span>
         <div class="v">${R(S.settle)}</div>
-        <div class="d">Taken at adjudication</div>
+        <div class="d">${t("Taken at adjudication")}</div>
       </div>
       <div class="card stat gain">
-        <span class="lab">Contra recovered</span>
+        <span class="lab">${t("Contra recovered")}</span>
         <div class="v">${R(S.contra)}</div>
-        <div class="d">Deducted before certificate</div>
+        <div class="d">${t("Deducted before certificate")}</div>
       </div>
     </div>
 
-    <div class="sec"><span class="lab">Where it comes from</span></div>
+    <div class="sec"><span class="lab">${t("Where it comes from")}</span></div>
     <div class="card">
       <table class="ledger">
-        <tr><td>Variations at cost + 10%</td><td class="pos">+ ${R(S.vo.recovered)}</td></tr>
-        <tr><td>Time-related P&amp;G on granted EOT</td><td class="pos">+ ${R(S.eot.granted*S.eot.perDay)}</td></tr>
-        <tr><td>Settlement discount on bulk orders</td><td class="pos">+ ${R(S.settle)}</td></tr>
-        <tr><td>Contra charges recovered</td><td class="pos">+ ${R(S.contra)}</td></tr>
-        <tr><td>Variations identified but never claimed</td><td class="neg">-${R(leak)}</td></tr>
+        <tr><td>${t("Variations at cost + 10%")}</td><td class="pos">+ ${R(S.vo.recovered)}</td></tr>
+        <tr><td>${t("Time-related P&amp;G on granted EOT")}</td><td class="pos">+ ${R(S.eot.granted*S.eot.perDay)}</td></tr>
+        <tr><td>${t("Settlement discount on bulk orders")}</td><td class="pos">+ ${R(S.settle)}</td></tr>
+        <tr><td>${t("Contra charges recovered")}</td><td class="pos">+ ${R(S.contra)}</td></tr>
+        <tr><td>${t("Variations identified but never claimed")}</td><td class="neg">-${R(leak)}</td></tr>
       </table>
     </div>
 
-    <p class="foot-note">Every line is a step in the process that either happened on time or did not. The five places a building contractor actually makes money (tender, appointments, programme, RFI, claim cycle) are exactly these five lines.</p>`;
+    <p class="foot-note">${t("Every line is a step in the process that either happened on time or did not. The five places a building contractor actually makes money (tender, appointments, programme, RFI, claim cycle) are exactly these five lines.")}</p>`;
 }
 
 /* The board: what a director wants, which is not a rollup of progress bars.
@@ -1539,36 +1833,36 @@ function renderBoard(){
   const sev = p => p.clock <= 5 ? "crit" : p.clock <= 20 ? "warn" : "ok";
 
   $("#pane-board").innerHTML = `
-    <div class="sec" style="margin-top:2px"><span class="lab">${F.length} live projects</span><span class="lab">${fmt(TODAY)}</span></div>
+    <div class="sec" style="margin-top:2px"><span class="lab">${t("{0} live projects", F.length)}</span><span class="lab">${fmt(TODAY)}</span></div>
 
     <div class="clock">
       <div class="row">
         <div>
-          <div class="lab">Margin against the price it was won at</div>
+          <div class="lab">${t("Margin against the price it was won at")}</div>
           <div class="big">${wNow.toFixed(1)}<small>% / ${wBase.toFixed(1)}%</small></div>
         </div>
         <div class="meta">
-          <span class="lab">At risk now</span>
+          <span class="lab">${t("At risk now")}</span>
           <b style="color:var(--crit)">${R(risk)}</b>
-          ${R(value)} under contract
+          ${t("{0} under contract", R(value))}
         </div>
       </div>
     </div>
 
     <div class="grid2" style="margin-top:10px">
       <div class="card stat ${drift<0?"leak":"gain"}">
-        <span class="lab">Margin drift</span>
+        <span class="lab">${t("Margin drift")}</span>
         <div class="v">${drift>=0?"+":"-"}${Math.abs(drift).toFixed(1)} pts</div>
-        <div class="d">${R(Math.abs(drift/100*value))} against baseline</div>
+        <div class="d">${t("{0} against baseline", R(Math.abs(drift/100*value)))}</div>
       </div>
       <div class="card stat">
-        <span class="lab">Tender pipeline</span>
+        <span class="lab">${t("Tender pipeline")}</span>
         <div class="v">${R(pipe)}</div>
-        <div class="d">${S.pipeline.length} out, next closes ${esc(S.pipeline[0].closes)}</div>
+        <div class="d">${t("{0} out, next closes {1}", S.pipeline.length, esc(S.pipeline[0].closes))}</div>
       </div>
     </div>
 
-    <div class="sec"><span class="lab">Soonest clock first</span><span class="lab">Working days</span></div>
+    <div class="sec"><span class="lab">${t("Soonest clock first")}</span><span class="lab">${t("Working days")}</span></div>
     <div class="card">${sorted.map(p=>`
       <div class="proj">
         <div class="l1">
@@ -1577,7 +1871,7 @@ function renderBoard(){
         </div>
         <div class="l2">
           <span class="pill ${sev(p)}">${p.clock} wd</span>
-          <span class="m">${esc(p.clockOf)}</span>
+          <span class="m">${esc(t(p.clockOf))}</span>
         </div>
         <div class="l2">
           <span class="pill flat">${esc(stageName(p.stage))}</span>
@@ -1588,7 +1882,7 @@ function renderBoard(){
         </div>
       </div>`).join("")}</div>
 
-    <div class="sec"><span class="lab">Where each one sits</span></div>
+    <div class="sec"><span class="lab">${t("Where each one sits")}</span></div>
     <div class="card" style="padding:12px 13px">
       ${F.map(p=>`
         <div style="margin-bottom:13px">
@@ -1597,7 +1891,7 @@ function renderBoard(){
         </div>`).join("").replace(/<div style="margin-bottom:13px">(?![\s\S]*<div style="margin-bottom:13px">)/, '<div style="margin-bottom:0">')}
     </div>
 
-    <p class="foot-note">Three of these five run on different editions of the contract, so the same milestone gives three different deadlines. The countdowns above are computed per project from the edition it was signed under, which is the only way this column can be trusted.</p>`;
+    <p class="foot-note">${t("Three of these five run on different editions of the contract, so the same milestone gives three different deadlines. The countdowns above are computed per project from the edition it was signed under, which is the only way this column can be trusted.")}</p>`;
 }
 
 // The header names whatever the current view is about: one project on the site
@@ -1647,8 +1941,8 @@ function bubble(html, who){
 }
 function whyBlock(key){
   const r = RULE[key]; if (!r) return "";
-  return `<details class="why"><summary>Why this matters</summary>
-    <div class="txt">${r.txt}<br><span class="cl">${esc(r.cl)}</span></div></details>`;
+  return `<details class="why"><summary>${esc(t("Why this matters"))}</summary>
+    <div class="txt">${t(r.txt)}<br><span class="cl">${esc(t(r.cl))}</span></div></details>`;
 }
 function typing(ms){
   return new Promise(res=>{
@@ -1660,7 +1954,7 @@ function typing(ms){
   });
 }
 async function botSay(parts, why){
-  const arr = Array.isArray(parts) ? parts : [parts];
+  const arr = (Array.isArray(parts) ? parts : [parts]).map(p => t(p));
   for (let n=0; n<arr.length; n++){
     await typing(n===0?420:560);
     const b = bubble(`<p>${arr[n]}</p>`, "bot");
@@ -1671,15 +1965,15 @@ async function botSay(parts, why){
 function rail(html){ $("#rail").innerHTML = html; }
 function optBtns(opts){
   return `<div class="opts">` + opts.map((o,n)=>
-    `<button class="opt ${o.cls||""}" data-n="${n}">${esc(o.label)}</button>`).join("") + `</div>`;
+    `<button class="opt ${o.cls||""}" data-n="${n}">${esc(t(o.label))}</button>`).join("") + `</div>`;
 }
 
 function openFlow(id){
   F = FLOWS[id];
-  if (!F){ toast("That guide is mapped but not built in this prototype."); return; }
+  if (!F){ toast(t("That guide is mapped but not built in this prototype.")); return; }
   i = 0; st = {}; stages = stageList(F);
-  $("#chat-title").textContent = F.title;
-  $("#chat-clause").textContent = F.clause;
+  $("#chat-title").textContent = t(F.title);
+  $("#chat-clause").textContent = t(F.clause);
   $("#log").innerHTML = ""; rail("");
   $("#chat").hidden = false;
   step();
@@ -1694,17 +1988,20 @@ async function step(){
   busy = true; drawSteps(); rail("");
 
   if (s.kind === "say"){
-    await botSay(s.msg, s.why);
+    if (i === 0 && LANG === "af" && !F.af){
+      bubble(`<p>${t("Hierdie gids is nog net in Engels. Die res van die app is in Afrikaans.")}</p>`, "bot");
+    }
+    await botSay(typeof s.msg === "function" ? s.msg(st) : s.msg, s.why);
     rail(optBtns(s.opts));
     bind(()=> next());
   }
 
   else if (s.kind === "choice"){
     await botSay(s.msg, s.why);
-    rail(`<div class="q">${esc(s.q)}</div>` + optBtns(s.opts));
+    rail(`<div class="q">${esc(t(s.q))}</div>` + optBtns(s.opts));
     bind(async n => {
       const o = s.opts[n];
-      bubble(`<p>${esc(o.label)}</p>`, "me");
+      bubble(`<p>${esc(t(o.label))}</p>`, "me");
       if (s.key) st[s.key] = o.v;
       rail("");
       if (s.after){ busy = true; await botSay(s.after(o.v, st)); busy = false; }
@@ -1714,7 +2011,7 @@ async function step(){
 
   else if (s.kind === "number"){
     await botSay(s.msg, s.why);
-    rail(`<div class="q">${esc(s.q)}</div>
+    rail(`<div class="q">${esc(t(s.q))}</div>
       <div class="num-in"><span class="pre">${s.pre||""}</span>
         <input type="text" inputmode="numeric" id="nin" value="${s.def||""}" autocomplete="off"></div>
       <div class="opts"><button class="opt primary full" data-n="0">Confirm</button></div>`);
@@ -1734,8 +2031,8 @@ async function step(){
     const b = bubble(`<p>${r.msg}</p>`, "bot");
     b.insertAdjacentHTML("beforeend",
       `<div class="calc">` + r.calc.map(([k,v,tot])=>
-        `<div class="${tot?"tot":""}"><span>${esc(k)}</span><span>${esc(v)}</span></div>`).join("") + `</div>`);
-    if (r.note) b.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${r.note}</p>`);
+        `<div class="${tot?"tot":""}"><span>${esc(t(k))}</span><span>${esc(t(v))}</span></div>`).join("") + `</div>`);
+    if (r.note) b.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${t(r.note)}</p>`);
     $("#log").scrollTop = $("#log").scrollHeight;
     rail(optBtns(s.opts));
     bind(()=> next());
@@ -1748,7 +2045,7 @@ async function step(){
         <svg viewBox="0 0 24 24"><path d="M3 8.5A1.5 1.5 0 014.5 7h2L8 5h8l1.5 2h2A1.5 1.5 0 0121 8.5v9A1.5 1.5 0 0119.5 19h-15A1.5 1.5 0 013 17.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg>
         Take photo</button></div>`);
     bind(async ()=>{
-      const b = bubble(`<p>Photo attached</p>`, "me");
+      const b = bubble(`<p>${esc(t("Photo attached"))}</p>`, "me");
       b.insertAdjacentHTML("beforeend",
         `<div class="shot"><div class="img"></div>
          <div class="cap"><span>SI-114 / GRID C4</span><span>${iso(TODAY)} 07:41</span><span>-34.0791, 18.8442</span></div></div>`);
@@ -1760,12 +2057,12 @@ async function step(){
 
   else if (s.kind === "voice"){
     await botSay(s.msg, s.why);
-    rail(`<div class="q">${esc(s.q)}</div>
+    rail(`<div class="q">${esc(t(s.q))}</div>
       <button class="mic" id="mic">
         <span class="dot"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></span>
-        <span class="t"><b>Hold to talk</b><span>${esc(s.hint)}</span></span>
+        <span class="t"><b>${esc(t("Hold to talk"))}</b><span>${esc(t(s.hint))}</span></span>
       </button>
-      <div class="opts"><button class="opt" data-n="0">Type it instead</button></div>`);
+      <div class="opts"><button class="opt" data-n="0">${esc(t("Type it instead"))}</button></div>`);
     $("#rail").querySelector(".opt").onclick = () => { st.voice = false; next(); };
     $("#mic").onclick = () => runVoice(s);
   }
@@ -1777,7 +2074,7 @@ async function step(){
         <svg viewBox="0 0 24 24"><path d="M3 8.5A1.5 1.5 0 014.5 7h2L8 5h8l1.5 2h2A1.5 1.5 0 0121 8.5v9A1.5 1.5 0 0119.5 19h-15A1.5 1.5 0 013 17.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg>
         ${esc(s.label || "Photograph the work")}</button></div>`);
     bind(async ()=>{
-      const b = bubble(`<p>${esc(s.label || "Photograph the work")}</p>`, "me");
+      const b = bubble(`<p>${esc(t(s.label || "Photograph the work"))}</p>`, "me");
       b.insertAdjacentHTML("beforeend",
         `<div class="shot"><div class="img"></div>
          <div class="cap"><span>${esc(s.ref)}</span><span>${iso(TODAY)} 07:41</span><span>-34.0791, 18.8442</span></div></div>`);
@@ -1788,10 +2085,10 @@ async function step(){
       const rb = bubble(`<p>${r.msg}</p>`, "bot");
       rb.insertAdjacentHTML("beforeend",
         `<div class="calc">` + r.rows.map(([k,v,tot])=>
-          `<div class="${tot?"tot":""}"><span>${esc(k)}</span><span>${esc(v)}</span></div>`).join("") + `</div>`);
-      if (r.note) rb.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${r.note}</p>`);
+          `<div class="${tot?"tot":""}"><span>${esc(t(k))}</span><span>${esc(t(v))}</span></div>`).join("") + `</div>`);
+      if (r.note) rb.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${t(r.note)}</p>`);
       rb.insertAdjacentHTML("beforeend",
-        `<div class="srcnote">Vision output is illustrative in this prototype</div>`);
+        `<div class="srcnote">${t("Vision output is illustrative in this prototype")}</div>`);
       $("#log").scrollTop = $("#log").scrollHeight;
       busy = false;
       rail(optBtns(s.opts));
@@ -1807,15 +2104,15 @@ async function step(){
       rail(`<div class="checks">` + s.items.map((it,n)=>
         `<button class="chk ${state[n]?"on":""}" data-c="${n}">
            <span class="box"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"/></svg></span>
-           <span class="t">${esc(it.t)}<em>${esc(it.e)}</em></span></button>`).join("") + `</div>` +
+           <span class="t">${esc(t(it.t))}<em>${esc(t(it.e))}</em></span></button>`).join("") + `</div>` +
         (all
-          ? `<div class="opts"><button class="opt sig full" data-n="0">All confirmed, continue</button></div>`
+          ? `<div class="opts"><button class="opt sig full" data-n="0">${esc(t("All confirmed, continue"))}</button></div>`
           : `<div class="gate"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
-             ${state.filter(Boolean).length} of ${s.items.length}. You cannot submit until all are true</div>`));
+             ${t("{0} of {1}. You cannot submit until all are true", state.filter(Boolean).length, s.items.length)}</div>`));
       $("#rail").querySelectorAll(".chk").forEach(el =>
         el.onclick = () => { const n = +el.dataset.c; state[n] = !state[n]; draw(); });
       const go = $("#rail").querySelector(".opt");
-      if (go) go.onclick = () => { bubble(`<p>All ${s.items.length} confirmed</p>`, "me"); next(); };
+      if (go) go.onclick = () => { bubble(`<p>${esc(t("All {0} confirmed", s.items.length))}</p>`, "me"); next(); };
     };
     draw();
   }
@@ -1825,18 +2122,18 @@ async function step(){
     await typing(760);
     const b = bubble(`<p>${d.msg}</p>`, "bot");
     b.insertAdjacentHTML("beforeend",
-      `<div class="doc"><div class="dh"><b>${esc(d.title)}</b><span class="lab">${esc(d.sub)}</span></div>
-       <dl>` + d.rows.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("") + `</dl></div>`);
-    if (d.note) b.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${d.note}</p>`);
+      `<div class="doc"><div class="dh"><b>${esc(t(d.title))}</b><span class="lab">${esc(d.sub)}</span></div>
+       <dl>` + d.rows.map(([k,v])=>`<dt>${esc(t(k))}</dt><dd>${esc(t(v))}</dd>`).join("") + `</dl></div>`);
+    if (d.note) b.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${t(d.note)}</p>`);
     $("#log").scrollTop = $("#log").scrollHeight;
     rail(optBtns(s.opts));
-    bind(()=>{ bubble(`<p>${esc(s.opts[0].label)}</p>`, "me"); next(); });
+    bind(()=>{ bubble(`<p>${esc(t(s.opts[0].label))}</p>`, "me"); next(); });
   }
 
   else if (s.kind === "finish"){
     s.apply(st); save();
     await botSay(typeof s.msg === "function" ? s.msg(st) : s.msg);
-    rail(`<div class="opts"><button class="opt primary full" data-n="0">Back to today</button></div>`);
+    rail(`<div class="opts"><button class="opt primary full" data-n="0">${esc(t("Back to today"))}</button></div>`);
     bind(()=>{ renderAll(); closeFlow(); if (s.toast) toast(s.toast); });
     busy = false;
     return;
@@ -1852,7 +2149,14 @@ async function step(){
    of the design is that whatever produces the words, the words only ever
    become fields. The arithmetic downstream never sees the audio.
    ---------------------------------------------------------------- */
-const NUMW = {zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,
+const NUMW = {
+  // Afrikaans
+  een:1,twee:2,drie:3,vier:4,vyf:5,ses:6,sewe:7,agt:8,nege:9,tien:10,elf:11,twaalf:12,
+  dertien:13,veertien:14,vyftien:15,sestien:16,sewentien:17,agtien:18,negentien:19,
+  twintig:20,dertig:30,veertig:40,vyftig:50,sestig:60,sewentig:70,tagtig:80,negentig:90,
+  honderd:100,duisend:1000,miljoen:1000000,
+  // English
+  zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,
   ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,
   eighteen:18,nineteen:19,twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,
   eighty:80,ninety:90,hundred:100,thousand:1000,million:1000000};
@@ -1897,7 +2201,7 @@ function listen(ms){
     if (!SR || !window.isSecureContext) return resolve(null);
     let r;
     try { r = new SR(); } catch(e){ return resolve(null); }
-    r.lang = "en-ZA"; r.continuous = true; r.interimResults = true; r.maxAlternatives = 1;
+    r.lang = LANG === "af" ? "af-ZA" : "en-ZA"; r.continuous = true; r.interimResults = true; r.maxAlternatives = 1;
     let text = "", done = false;
     const finish = v => { if (done) return; done = true; try { r.stop(); } catch(e){} resolve(v); };
     r.onresult = e => {
@@ -1918,16 +2222,19 @@ async function runVoice(s){
   busy = true;
   mic.classList.add("rec");
   mic.querySelector(".t").innerHTML =
-    `<b>Listening</b><span id="heard">${esc(s.hint)}</span>`;
+    `<b>${esc(t("Listening"))}</b><span id="heard">${esc(t(s.hint))}</span>`;
   mic.insertAdjacentHTML("beforeend", `<span class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>`);
   $("#rail").querySelector(".opts").remove();
+
+  const demo = (LANG === "af" && s.demoAf) ? s.demoAf : s.demo;
+  const keys = (LANG === "af" && s.keysAf) ? s.keysAf : s.keys;
 
   let heard = await listen(7000);
   const live = heard !== null;
   if (!live){
     // scripted capture, revealed at speaking pace
     heard = "";
-    const words = s.demo.split(" ");
+    const words = demo.split(" ");
     for (const w of words){
       heard += (heard ? " " : "") + w;
       const el = $("#heard"); if (el) el.textContent = heard;
@@ -1940,33 +2247,33 @@ async function runVoice(s){
   const b = bubble(`<p>${esc(heard)}</p>`, "me");
   $("#log").scrollTop = $("#log").scrollHeight;
 
-  const got = parseSpoken(heard, s.keys);
-  const missing = s.keys.filter(k => !got[k.key]);
+  const got = parseSpoken(heard, keys);
+  const missing = keys.filter(k => !got[k.key]);
   if (missing.length){
     // never guess at a number that was not clearly said
-    const fallback = parseSpoken(s.demo, s.keys);
+    const fallback = parseSpoken(demo, keys);
     missing.forEach(k => got[k.key] = fallback[k.key]);
   }
-  s.keys.forEach(k => st[k.key] = got[k.key]);
+  keys.forEach(k => st[k.key] = got[k.key]);
   st.voice = true;
 
   await typing(760);
-  const rb = bubble(`<p>${s.back}</p>`, "bot");
+  const rb = bubble(`<p>${t(s.back)}</p>`, "bot");
   rb.insertAdjacentHTML("beforeend",
-    `<div class="calc">` + s.keys.map(k =>
-      `<div><span>${esc(k.label)}</span><span>${R(got[k.key])}</span></div>`).join("") + `</div>`);
+    `<div class="calc">` + keys.map(k =>
+      `<div><span>${esc(t(k.label))}</span><span>${R(got[k.key])}</span></div>`).join("") + `</div>`);
   rb.insertAdjacentHTML("beforeend",
-    `<p style="margin-top:9px">Read that back before I use it. A number heard wrong is a number claimed wrong.</p>`);
+    `<p style="margin-top:9px">${t("Read that back before I use it. A number heard wrong is a number claimed wrong.")}</p>`);
   rb.insertAdjacentHTML("beforeend",
-    `<div class="srcnote">${live
+    `<div class="srcnote">${t(live
       ? "Captured with the browser recogniser"
-      : "Scripted capture: this frame is not allowed a microphone"}</div>`);
+      : "Scripted capture: this frame is not allowed a microphone")}</div>`);
   $("#log").scrollTop = $("#log").scrollHeight;
   busy = false;
 
   rail(`<div class="opts">
-    <button class="opt sig full" data-n="0">All three correct</button>
-    <button class="opt full" data-n="1">Say it again</button></div>`);
+    <button class="opt sig full" data-n="0">${esc(t("All three correct"))}</button>
+    <button class="opt full" data-n="1">${esc(t("Say it again"))}</button></div>`);
   $("#rail").querySelectorAll(".opt").forEach(el => el.onclick = () => {
     if (+el.dataset.n === 1){ st.voice = false; step(); }
     else next();
@@ -1982,7 +2289,7 @@ function next(){ i++; step(); }
 let toastT;
 function toast(txt){
   const el = $("#toast");
-  el.innerHTML = `<svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"/></svg><span>${esc(txt)}</span>`;
+  el.innerHTML = `<svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"/></svg><span>${esc(t(txt))}</span>`;
   el.hidden = false;
   clearTimeout(toastT); toastT = setTimeout(()=> el.hidden = true, 3200);
 }
@@ -1991,8 +2298,8 @@ function toast(txt){
    7. WIRING
    ================================================================ */
 document.addEventListener("click", e => {
-  const t = e.target.closest("[data-flow]");
-  if (t){ const f = t.dataset.flow; if (f === "locked") toast("Mapped, not built in this prototype."); else openFlow(f); }
+  const hit = e.target.closest("[data-flow]");
+  if (hit){ const f = hit.dataset.flow; if (f === "locked") toast(t("Mapped, not built in this prototype.")); else openFlow(f); }
   const tab = e.target.closest("[data-tab]");
   if (tab){
     document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b === tab));
@@ -2010,9 +2317,31 @@ function flip(){
 }
 $("#theme").onclick = flip;
 $("#theme2").onclick = flip;
+
+// Switching language closes any flow in progress. Half a conversation in one
+// language and half in another is worse than starting the step again.
+function paintLang(){
+  const b = $("#lang");
+  b.textContent = LANG === "af" ? "AF" : "EN";
+  b.classList.toggle("af", LANG === "af");
+  document.querySelectorAll("#tabs button span").forEach(sp => {
+    sp.textContent = t(sp.dataset.en || (sp.dataset.en = sp.textContent));
+  });
+  $("#theme").textContent = t("Flip theme");
+  $("#reset").textContent = t("Reset demo");
+}
+$("#lang").onclick = () => {
+  LANG = LANG === "af" ? "en" : "af";
+  try { localStorage.setItem("plumbline.lang", LANG); } catch(e){}
+  closeFlow();
+  paintLang();
+  renderAll();
+  toast(LANG === "af" ? "Taal gestel op Afrikaans" : "Language set to English");
+};
 $("#reset").onclick = () => {
   S = JSON.parse(JSON.stringify(SEED)); save(); renderAll(); closeFlow(); toast("Demo reset");
 };
 
+paintLang();
 renderAll();
 </script>
