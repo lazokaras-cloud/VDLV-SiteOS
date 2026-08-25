@@ -104,6 +104,15 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .tb-rows div{padding:11px 20px; border-bottom:1px solid var(--rule-2); border-right:1px solid var(--rule-2)}
 .tb-rows div:nth-child(2n){border-right:0}
 .tb-rows b{display:block; font-family:var(--mono); font-size:12.5px; font-weight:600; margin-top:3px}
+
+/* The customer's own mark, deliberately not in our palette: it is their brand
+   sitting on their demo project, not part of the product's identity. */
+.tb-rows .client{grid-column:1 / -1}
+.lockup{display:flex; align-items:center; gap:9px; margin-top:5px}
+.lockup .vv{width:26px; height:26px; flex:none; border-radius:2px}
+.lockup b{font-family:var(--sans); font-size:12px; font-weight:700; line-height:1.25; letter-spacing:-.01em; margin:0}
+.avatar.brand{background:#0B0B0B; padding:4px}
+.avatar.brand svg{width:100%; height:100%; display:block}
 .tb-note{padding:16px 20px; font-size:13px; color:var(--ink-2)}
 .tb-note p{margin:0 0 10px}
 .tb-note p:last-child{margin:0}
@@ -567,7 +576,17 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       <p class="tb-sub">The process, on the phone, with the contract clock running.</p>
     </div>
     <div class="tb-rows">
-      <div><span class="lab">Demo client</span><b>JC v/d Linde &amp; Venter</b></div>
+      <div class="client">
+        <span class="lab">Demo client</span>
+        <span class="lockup">
+          <svg class="vv" viewBox="0 0 100 100" role="img" aria-label="J.C. van der Linde and Venter Projects">
+            <rect width="100" height="100" fill="#0B0B0B"/>
+            <g transform="translate(6,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFC400"/></g>
+            <g transform="translate(52,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFC400"/></g>
+          </svg>
+          <b>J.C. van der Linde<br>&amp; Venter Projects</b>
+        </span>
+      </div>
       <div><span class="lab">Drawn</span><b>2026-08-24</b></div>
       <div><span class="lab">Scope</span><b>Tender to final account</b></div>
       <div><span class="lab">Contract</span><b>JBCC PBA May 2018</b></div>
@@ -1904,8 +1923,18 @@ function setBar(board){
   $(".bar-id .chip").textContent = board
     ? F.length + " projects / " + R(value)
     : "JBCC PBA May 2018";
-  $(".avatar").textContent = board ? "BD" : "RB";
+  // On the board the header speaks for the company, so it carries the company's
+  // mark. On the site tabs it speaks for one person, so it carries his initials.
+  const av = $(".avatar");
+  av.classList.toggle("brand", board);
+  av.innerHTML = board ? VV_MARK : "RB";
 }
+
+const VV_MARK =
+  '<svg viewBox="0 0 100 100" role="img" aria-label="J.C. van der Linde and Venter Projects">' +
+    '<g transform="translate(6,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFC400"/></g>' +
+    '<g transform="translate(52,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFC400"/></g>' +
+  '</svg>';
 
 function renderAll(){
   renderToday(); renderGuides(); renderMoney(); renderBoard();
