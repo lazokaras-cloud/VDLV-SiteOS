@@ -59,7 +59,7 @@ function build({ src, out, desc }) {
   let body = readFileSync(join(ROOT, src), "utf8");
 
   const m = body.match(/<title>([^<]*)<\/title>/i);
-  const title = m ? m[1].trim() : "constrAI";
+  const title = m ? m[1].trim() : "SiteOS";
   body = body.replace(/<title>[^<]*<\/title>\s*/i, "");
 
   const path = "/" + out.replace(/(^|\/)index\.html$/, "$1").replace(/\/$/, "");
@@ -81,7 +81,7 @@ function build({ src, out, desc }) {
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="constrAI">
+<meta property="og:site_name" content="SiteOS">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:url" content="${canonical}">
@@ -109,6 +109,6 @@ function esc(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-console.log("building constrAI");
+console.log("building SiteOS");
 PAGES.forEach(build);
 console.log("done");

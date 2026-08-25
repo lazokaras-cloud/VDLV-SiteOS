@@ -1,7 +1,10 @@
-# constrAI
+# SiteOS
 
 A construction operating system that starts at tender and runs to final account, built on
-the way a commercial building contract actually runs, from tender to final account.
+the way a commercial building contract actually runs.
+
+Repository and deployment are still named `constrAI` from before the rename; the product
+is SiteOS everywhere it is read.
 
 Two pages, both static, both mobile first:
 
