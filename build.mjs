@@ -35,6 +35,13 @@ const PAGES = [
       "JBCC clock runs in the background.",
   },
   {
+    src: "src/office.html",
+    out: "office/index.html",
+    desc:
+      "The head office console: every live project against the price it was won at, " +
+      "organised around the six value areas.",
+  },
+  {
     src: "src/brief.html",
     out: "brief/index.html",
     desc:

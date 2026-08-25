@@ -11,6 +11,7 @@ Two pages, both static, both mobile first:
 | Page | What it is |
 | --- | --- |
 | `/plumbline` | The site app. A guided chat forces the employee through the process one question at a time while the JBCC contractual clock runs in the background. |
+| `/office` | The head office console. Every live project against the price it was won at, organised around the six value areas: tender, procurement, site productivity, commercial, programme, knowledge. |
 | `/workflow` | The method. Control points, contract deadlines, where an on-device model fits, and how the training turns into a game. |
 
 ## The idea in one paragraph

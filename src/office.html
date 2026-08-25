@@ -1,0 +1,950 @@
+<title>Head Office</title>
+
+<style>
+:root{
+  --ground:#EDEFF1; --surface:#FFFFFF; --surface-2:#F3F5F7; --surface-3:#E9EDF0;
+  --ink:#16191D; --ink-2:#59626A; --ink-3:#8B949C;
+  --rule:#D4D9DD; --rule-2:#E8ECEF;
+  --signal:#00A28C; --signal-ink:#FFFFFF;
+  --stamp:#4E5A64; --stamp-wash:#EAEEF1;
+  --ok:#12855C; --ok-wash:#E4F3EC;
+  --warn:#A5760E; --warn-wash:#F8F0DE;
+  --crit:#C03A2D; --crit-wash:#FBE8E5;
+  --shadow:0 1px 2px rgba(16,19,23,.05), 0 8px 24px rgba(16,19,23,.07);
+  --mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,"Roboto Mono",Menlo,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E1013; --surface:#16191D; --surface-2:#1E2227; --surface-3:#252A31;
+    --ink:#EDEFF1; --ink-2:#9BA3AB; --ink-3:#6D767E;
+    --rule:#2A2F35; --rule-2:#202429;
+    --signal:#00D7B9; --signal-ink:#04201C;
+    --stamp:#9AA6B0; --stamp-wash:#1A2126;
+    --ok:#3FCF8E; --ok-wash:#10241C;
+    --warn:#E8B33A; --warn-wash:#2A2214;
+    --crit:#FF6B5E; --crit-wash:#2C1A18;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E1013; --surface:#16191D; --surface-2:#1E2227; --surface-3:#252A31;
+  --ink:#EDEFF1; --ink-2:#9BA3AB; --ink-3:#6D767E;
+  --rule:#2A2F35; --rule-2:#202429;
+  --signal:#00D7B9; --signal-ink:#04201C;
+  --stamp:#9AA6B0; --stamp-wash:#1A2126;
+  --ok:#3FCF8E; --ok-wash:#10241C;
+  --warn:#E8B33A; --warn-wash:#2A2214;
+  --crit:#FF6B5E; --crit-wash:#2C1A18;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--sans); font-size:14.5px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+@media (prefers-reduced-motion: reduce){ *{animation:none!important; transition:none!important} }
+:focus-visible{outline:2px solid var(--signal); outline-offset:2px}
+button{font:inherit; color:inherit; background:none; border:0; cursor:pointer}
+
+.mono{font-family:var(--mono); font-variant-numeric:tabular-nums}
+.lab{font-family:var(--mono); font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-3)}
+
+/* -- shell ------------------------------------------------------- */
+.shell{display:grid; grid-template-columns:224px 1fr; min-height:100vh; min-height:100dvh}
+
+.side{
+  border-right:1px solid var(--rule); background:var(--surface);
+  display:flex; flex-direction:column; position:sticky; top:0; height:100dvh;
+}
+.brand{padding:20px 20px 16px; border-bottom:1px solid var(--rule)}
+.brand .w{display:flex; align-items:baseline; gap:8px; font-size:19px; font-weight:250; letter-spacing:.02em}
+.brand .w b{font-weight:250; color:var(--signal)}
+.brand .w i{width:7px; height:7px; border:2px solid var(--signal); border-radius:50%; flex:none; transform:translateY(-1px)}
+.brand .co{margin-top:12px; display:flex; align-items:center; gap:8px}
+.brand .co svg{width:24px; height:24px; flex:none; border-radius:2px}
+.brand .co span{font-size:11.5px; font-weight:650; line-height:1.2}
+
+.nav{padding:10px 10px; display:flex; flex-direction:column; gap:1px; flex:1; overflow-y:auto}
+.nav button{
+  display:flex; align-items:center; gap:10px; padding:9px 11px; border-radius:7px;
+  color:var(--ink-2); text-align:left; width:100%;
+}
+.nav button svg{width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.7; flex:none}
+.nav button:hover{background:var(--surface-2); color:var(--ink)}
+.nav button.on{background:var(--surface-2); color:var(--ink); font-weight:600}
+.nav button.on svg{stroke:var(--signal)}
+.nav button .ct{margin-left:auto; font-family:var(--mono); font-size:10.5px; color:var(--ink-3)}
+.nav .sec{padding:14px 11px 6px}
+
+.side .foot{padding:12px 14px; border-top:1px solid var(--rule); display:flex; gap:10px; align-items:center}
+.side .foot button{font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
+.side .foot button:hover{color:var(--ink)}
+
+.main{min-width:0; display:flex; flex-direction:column}
+.top{
+  padding:18px 28px; border-bottom:1px solid var(--rule); background:var(--surface);
+  display:flex; align-items:flex-end; gap:18px; flex-wrap:wrap; position:sticky; top:0; z-index:10;
+}
+.top h1{margin:0; font-size:24px; font-weight:350; letter-spacing:-.01em; line-height:1.15}
+.top .sub{margin:3px 0 0; font-size:13px; color:var(--ink-2)}
+.top .sp{flex:1}
+.top .stamp{
+  font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-3); border:1px solid var(--rule); padding:5px 9px; border-radius:5px;
+}
+.body{padding:24px 28px 60px; flex:1}
+
+/* -- primitives -------------------------------------------------- */
+.kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(178px,1fr)); gap:1px;
+      background:var(--rule); border:1px solid var(--rule); border-radius:10px; overflow:hidden}
+.kpis > div{background:var(--surface); padding:15px 17px}
+.kpis b{display:block; font-family:var(--mono); font-size:25px; font-weight:700;
+        letter-spacing:-.03em; line-height:1.1; margin-top:5px}
+.kpis .d{display:block; font-size:12px; color:var(--ink-2); margin-top:4px}
+.kpis .up b{color:var(--ok)} .kpis .dn b{color:var(--crit)}
+
+.sec{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin:30px 0 10px}
+.card{background:var(--surface); border:1px solid var(--rule); border-radius:10px; box-shadow:var(--shadow); overflow:hidden}
+
+.tw{overflow-x:auto}
+table{border-collapse:collapse; width:100%; font-size:13.5px; min-width:680px}
+th,td{padding:10px 15px; text-align:left; border-bottom:1px solid var(--rule-2); vertical-align:middle}
+th{font-family:var(--mono); font-size:9.5px; letter-spacing:.15em; text-transform:uppercase;
+   color:var(--ink-3); font-weight:600; background:var(--surface-2);
+   border-bottom:1px solid var(--rule); white-space:nowrap; position:sticky; top:0}
+tbody tr:last-child td{border-bottom:0}
+tbody tr.click{cursor:pointer}
+tbody tr.click:hover{background:var(--surface-2)}
+td.n, th.n{font-family:var(--mono); font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+td.name{font-weight:600}
+td .sub{display:block; font-size:11.5px; color:var(--ink-3); font-weight:400; margin-top:1px}
+
+.pill{display:inline-flex; align-items:center; gap:5px; padding:2.5px 8px; border-radius:20px;
+      font-family:var(--mono); font-size:10.5px; font-weight:600; font-variant-numeric:tabular-nums; white-space:nowrap}
+.pill.ok{background:var(--ok-wash); color:var(--ok)}
+.pill.warn{background:var(--warn-wash); color:var(--warn)}
+.pill.crit{background:var(--crit-wash); color:var(--crit)}
+.pill.flat{background:var(--surface-2); color:var(--ink-2)}
+.pill.sig{background:var(--signal); color:var(--signal-ink)}
+.ed{font-family:var(--mono); font-size:9.5px; padding:2px 6px; border-radius:3px;
+    background:var(--surface-2); color:var(--ink-2); border:1px solid var(--rule); white-space:nowrap}
+
+/* programme bar: baseline against forecast */
+.prog{position:relative; height:16px; min-width:130px; background:var(--surface-2); border-radius:3px; overflow:hidden}
+.prog .base{position:absolute; left:0; top:0; bottom:8px; background:var(--ink-3); opacity:.4; border-radius:3px 0 0 0}
+.prog .act{position:absolute; left:0; top:8px; bottom:0; border-radius:0 0 0 3px}
+.prog .act.ok{background:var(--ok)} .prog .act.late{background:var(--crit)}
+.prog .now{position:absolute; top:0; bottom:0; width:1.5px; background:var(--signal)}
+
+/* control point meter */
+.cp{display:flex; align-items:center; gap:9px}
+.cp .track{flex:1; min-width:70px; height:6px; background:var(--surface-2); border-radius:3px; overflow:hidden}
+.cp .fill{height:100%; background:var(--signal)}
+.cp span{font-family:var(--mono); font-size:11px; color:var(--ink-2); white-space:nowrap}
+
+/* site cards */
+.sites{display:grid; grid-template-columns:repeat(auto-fill,minmax(268px,1fr)); gap:14px}
+.site{background:var(--surface); border:1px solid var(--rule); border-radius:10px;
+      box-shadow:var(--shadow); padding:15px 16px; text-align:left; width:100%;
+      transition:transform .14s ease, border-color .14s ease}
+.site:hover{transform:translateY(-2px); border-color:var(--ink-3)}
+.site .r1{display:flex; align-items:flex-start; gap:8px; margin-bottom:3px}
+.site .r1 b{font-size:15px; font-weight:600; flex:1; min-width:0; line-height:1.25}
+.site .town{font-size:11.5px; color:var(--ink-3)}
+.site .rows{margin-top:12px; display:flex; flex-direction:column; gap:7px}
+.site .row{display:flex; justify-content:space-between; gap:10px; font-size:12.5px}
+.site .row span:first-child{color:var(--ink-2)}
+.site .row span:last-child{font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600}
+.site .clk{margin-top:12px; padding-top:11px; border-top:1px solid var(--rule-2);
+           display:flex; align-items:center; gap:8px; font-size:12px}
+.site .clk .what{color:var(--ink-2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+
+/* filters */
+.filters{display:flex; gap:7px; flex-wrap:wrap; margin-bottom:12px}
+.filters button{
+  padding:5px 11px; border:1px solid var(--rule); border-radius:20px; background:var(--surface);
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2);
+}
+.filters button:hover{border-color:var(--ink-3); color:var(--ink)}
+.filters button.on{background:var(--ink); color:var(--ground); border-color:var(--ink)}
+
+/* detail */
+.back{display:inline-flex; align-items:center; gap:7px; font-family:var(--mono); font-size:10.5px;
+      letter-spacing:.14em; text-transform:uppercase; color:var(--ink-2); margin-bottom:4px}
+.back:hover{color:var(--ink)}
+.back svg{width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2.2}
+.two{display:grid; grid-template-columns:repeat(auto-fit,minmax(330px,1fr)); gap:16px}
+.panel{background:var(--surface); border:1px solid var(--rule); border-radius:10px; box-shadow:var(--shadow)}
+.panel h3{margin:0; padding:12px 16px; font-size:12px; font-weight:600; border-bottom:1px solid var(--rule);
+          font-family:var(--mono); letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
+.panel .in{padding:14px 16px}
+.kv{display:flex; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px solid var(--rule-2); font-size:13.5px}
+.kv:last-child{border-bottom:0}
+.kv span:first-child{color:var(--ink-2)}
+.kv span:last-child{font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600}
+.kv .up{color:var(--ok)} .kv .dn{color:var(--crit)}
+
+.empty{padding:40px 20px; text-align:center; color:var(--ink-2)}
+.foot-note{margin-top:18px; font-size:12px; color:var(--ink-3); line-height:1.55; max-width:80ch}
+
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .side{position:static; height:auto; border-right:0; border-bottom:1px solid var(--rule)}
+  .brand{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px}
+  .brand .co{margin-top:0}
+  .nav{flex-direction:row; overflow-x:auto; padding:8px 10px}
+  .nav button{white-space:nowrap}
+  .nav button .ct, .nav .sec{display:none}
+  .side .foot{display:none}
+  .top{padding:14px 16px; position:static}
+  .body{padding:18px 16px 50px}
+}
+</style>
+
+<div class="shell">
+
+  <aside class="side">
+    <div class="brand">
+      <div class="w"><span>Site<b>OS</b></span><i></i></div>
+      <div class="co">
+        <svg viewBox="0 0 100 100" role="img" aria-label="J.C. van der Linde and Venter Projects">
+          <rect width="100" height="100" fill="#0B0B0B"/>
+          <g transform="translate(6,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFC400"/></g>
+          <g transform="translate(52,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFC400"/></g>
+        </svg>
+        <span>J.C. van der Linde<br>&amp; Venter Projects</span>
+      </div>
+    </div>
+
+    <nav class="nav" id="nav">
+      <div class="sec lab">Company</div>
+      <button data-v="portfolio" class="on">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/></svg>
+        Portfolio</button>
+      <button data-v="sites">
+        <svg viewBox="0 0 24 24"><path d="M3 20h18M6 20V9l6-5 6 5v11"/><path d="M10 20v-5h4v5"/></svg>
+        Sites <span class="ct" id="ct-sites"></span></button>
+
+      <div class="sec lab">Value areas</div>
+      <button data-v="tender">
+        <svg viewBox="0 0 24 24"><path d="M4 19V9l5-4 5 4M14 19V5l6 4v10M3 20h18"/></svg>
+        01 Tender</button>
+      <button data-v="procurement">
+        <svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
+        02 Procurement</button>
+      <button data-v="siteprod">
+        <svg viewBox="0 0 24 24"><path d="M4 21V4l12 3v14M4 21h16"/><path d="M8 9h4M8 13h4M8 17h4"/></svg>
+        03 Site productivity</button>
+      <button data-v="commercial">
+        <svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>
+        04 Commercial</button>
+      <button data-v="programme">
+        <svg viewBox="0 0 24 24"><path d="M4 6h9M4 12h14M4 18h6"/><circle cx="19" cy="6" r="2"/></svg>
+        05 Programme</button>
+      <button data-v="knowledge">
+        <svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4H11v16H5.5A1.5 1.5 0 014 18.5z"/><path d="M20 5.5A1.5 1.5 0 0018.5 4H13v16h5.5a1.5 1.5 0 001.5-1.5z"/></svg>
+        06 Knowledge</button>
+
+      <div class="sec lab">Records</div>
+      <button data-v="outputs">
+        <svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v5h5M9 13h6M9 17h6"/></svg>
+        Outputs <span class="ct" id="ct-outputs"></span></button>
+      <button data-v="clocks">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        Clocks <span class="ct" id="ct-clocks"></span></button>
+      <button data-v="team">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0112 0"/><path d="M16 5.5a3.2 3.2 0 010 5M18 20a6 6 0 00-3-5.2"/></svg>
+        Team</button>
+    </nav>
+
+    <div class="foot">
+      <button id="theme">Theme</button>
+      <button id="reset">Reset</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="top">
+      <div id="head"></div>
+      <span class="sp"></span>
+      <span class="stamp" id="asof"></span>
+    </header>
+    <div class="body" id="view"></div>
+  </main>
+</div>
+
+<script>
+"use strict";
+
+/* ================================================================
+   Working days. Head office argues about dates more than site does,
+   so the same calendar has to sit behind both.
+   ================================================================ */
+const TODAY = new Date(2026, 7, 25);
+const HOLIDAYS = new Set([
+  "2026-01-01","2026-03-23","2026-04-03","2026-04-06","2026-04-27","2026-05-01",
+  "2026-06-16","2026-08-10","2026-09-24","2026-12-16","2026-12-25","2026-12-28",
+  "2027-01-01","2027-03-22","2027-03-26","2027-03-29","2027-04-27","2027-05-01",
+  "2027-06-16","2027-08-09","2027-09-24","2027-12-16","2027-12-27","2027-12-28"
+]);
+const iso = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const isWork = d => d.getDay()!==0 && d.getDay()!==6 && !HOLIDAYS.has(iso(d));
+function workdaysBetween(a,b){
+  const d = new Date(a); let n = 0, dir = b >= a ? 1 : -1;
+  while (dir > 0 ? d < b : d > b){ d.setDate(d.getDate()+dir); if (isWork(d)) n += dir; }
+  return n;
+}
+const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const fmt = d => d.getDate()+" "+MON[d.getMonth()]+" "+d.getFullYear();
+const R = n => "R"+Math.round(n).toLocaleString("en-ZA").replace(/,/g," ");
+const Rm = n => "R"+(n/1e6).toFixed(1)+"m";
+const D = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d); };
+
+/* ================================================================
+   The book of work, and the six value areas the transformation
+   programme is organised around. Contract editions differ per
+   project on purpose: it is the thing head office cannot hold in
+   its head, and the reason the clock column exists at all.
+   ================================================================ */
+const SEED = {
+  projects:[
+    { id:"lou", name:"Lourensford Office Park Ph2", town:"Somerset West", client:"Lourensford Estate Holdings",
+      ed:"JBCC PBA 05/2018", stage:"On site", value:48240000, baseValue:48240000,
+      baseMargin:7.4, nowMargin:6.9, start:"2026-02-09", pcBase:"2027-03-19", pcNow:"2027-04-08",
+      cp:{done:31,total:48}, agent:"Ruan Bekker", cm:"Danie Marais",
+      certified:18420000, retention:921000, contra:71500,
+      ctc:27960000, capture:9, labourAllow:100, labourAct:106, rework:4, rfiOpen:3 },
+    { id:"tyg", name:"Tygerberg Retail Centre", town:"Bellville", client:"Cape Retail Partners",
+      ed:"JBCC PBA 03/2014", stage:"Claims", value:71600000, baseValue:70200000,
+      baseMargin:8.1, nowMargin:8.4, start:"2025-09-01", pcBase:"2027-01-15", pcNow:"2027-01-15",
+      cp:{done:39,total:48}, agent:"Pieter Louw", cm:"Danie Marais",
+      certified:44100000, retention:2205000, contra:0,
+      ctc:25100000, capture:2, labourAllow:100, labourAct:97, rework:1, rfiOpen:1 },
+    { id:"str", name:"Strand Beachfront Apartments", town:"Strand", client:"Bayline Developments",
+      ed:"JBCC PBA 05/2018", stage:"Completion", value:39900000, baseValue:39900000,
+      baseMargin:6.6, nowMargin:5.2, start:"2025-05-12", pcBase:"2026-08-14", pcNow:"2026-08-14",
+      cp:{done:44,total:48}, agent:"Nadia Fourie", cm:"Willem Steyn",
+      certified:37800000, retention:1890000, contra:184000,
+      ctc:1740000, capture:14, labourAllow:100, labourAct:112, rework:19, rfiOpen:0 },
+    { id:"wor", name:"Worcester Clinic Upgrade", town:"Worcester", client:"WC Dept of Health",
+      ed:"JBCC Minor Works", stage:"On site", value:12400000, baseValue:12400000,
+      baseMargin:9.2, nowMargin:9.6, start:"2026-05-04", pcBase:"2026-12-11", pcNow:"2026-12-11",
+      cp:{done:22,total:48}, agent:"Sipho Ndlovu", cm:"Willem Steyn",
+      certified:5100000, retention:255000, contra:0,
+      ctc:6900000, capture:21, labourAllow:100, labourAct:94, rework:0, rfiOpen:2 },
+    { id:"ste", name:"Stellenbosch Cellar Extension", town:"Stellenbosch", client:"Rustenberg Wines",
+      ed:"JBCC PBA 07/2007", stage:"Final account", value:26800000, baseValue:26800000,
+      baseMargin:7.8, nowMargin:4.1, start:"2025-02-03", pcBase:"2026-04-30", pcNow:"2026-05-22",
+      cp:{done:46,total:48}, agent:"Pieter Louw", cm:"Danie Marais",
+      certified:26100000, retention:670000, contra:0,
+      ctc:310000, capture:0, labourAllow:100, labourAct:118, rework:11, rfiOpen:0 }
+  ],
+
+  outputs:[
+    { ref:"SI-114 / VO-118", type:"Variation", proj:"lou", date:"2026-08-25", by:"Ruan Bekker", amount:205040, status:"Submitted", due:"2026-09-22" },
+    { ref:"PR-29",           type:"Progress",  proj:"lou", date:"2026-08-25", by:"Ruan Bekker", amount:0,      status:"Issued",    due:"" },
+    { ref:"EOT-07",          type:"Notice",    proj:"lou", date:"2026-08-25", by:"Ruan Bekker", amount:98400,  status:"Submitted", due:"2026-09-22" },
+    { ref:"DN-03 Bekker Plumbing", type:"Default", proj:"lou", date:"2026-08-18", by:"Ruan Bekker", amount:71500, status:"Running", due:"2026-08-26" },
+    { ref:"CL-07",           type:"Claim",     proj:"lou", date:"2026-08-25", by:"Ruan Bekker", amount:4023060, status:"With PQS",  due:"2026-09-01" },
+    { ref:"VO-109",          type:"Variation", proj:"lou", date:"2026-07-28", by:"Ruan Bekker", amount:118600, status:"Overdue",   due:"2026-09-02" },
+    { ref:"CL-14",           type:"Claim",     proj:"tyg", date:"2026-08-20", by:"Pieter Louw", amount:6180000, status:"Certified", due:"" },
+    { ref:"VO-064",          type:"Variation", proj:"tyg", date:"2026-08-11", by:"Pieter Louw", amount:412000,  status:"Certified", due:"" },
+    { ref:"PR-48",           type:"Progress",  proj:"tyg", date:"2026-08-21", by:"Pieter Louw", amount:0,       status:"Issued",    due:"" },
+    { ref:"WCL-01",          type:"Notice",    proj:"str", date:"2026-08-21", by:"Nadia Fourie", amount:0,      status:"Awaiting PA", due:"2026-08-31" },
+    { ref:"VO-091",          type:"Variation", proj:"str", date:"2026-08-06", by:"Nadia Fourie", amount:486000, status:"Overdue",   due:"2026-08-20" },
+    { ref:"PR-67",           type:"Progress",  proj:"str", date:"2026-08-24", by:"Nadia Fourie", amount:0,      status:"Issued",    due:"" },
+    { ref:"CL-04",           type:"Claim",     proj:"wor", date:"2026-08-24", by:"Sipho Ndlovu", amount:1240000, status:"With PQS", due:"2026-08-31" },
+    { ref:"PR-16",           type:"Progress",  proj:"wor", date:"2026-08-24", by:"Sipho Ndlovu", amount:0,      status:"Issued",    due:"" },
+    { ref:"FA-01",           type:"Final account", proj:"ste", date:"2026-07-30", by:"Pieter Louw", amount:1240000, status:"Objection due", due:"2026-08-27" },
+    { ref:"VO-052",          type:"Variation", proj:"ste", date:"2026-06-18", by:"Pieter Louw", amount:96200,  status:"Deemed refused", due:"" }
+  ],
+
+  clocks:[
+    { proj:"ste", what:"Object to final account",      due:"2026-08-27", basis:"JBCC 07/2007 cl. 34.4, 45 wd", at:1240000 },
+    { proj:"str", what:"Works completion list from PA", due:"2026-08-31", basis:"7 days after PC",             at:486000 },
+    { proj:"lou", what:"Sub-contractor remedy expires", due:"2026-08-26", basis:"5 wd default notice",         at:71500 },
+    { proj:"lou", what:"PA response on VO-109",         due:"2026-09-02", basis:"20 wd or deemed refused",     at:118600 },
+    { proj:"lou", what:"Priced claim on SI-114",        due:"2026-10-15", basis:"40 wd from instruction",      at:205040 },
+    { proj:"wor", what:"Sub retention release",         due:"2026-09-24", basis:"Contract data",               at:0 },
+    { proj:"tyg", what:"Claim 15 cut-off",              due:"2026-09-25", basis:"Monthly cycle",               at:0 }
+  ],
+
+  team:[
+    { name:"Danie Marais",  role:"Contracts director", projects:["lou","tyg","ste"], onTime:0.94, late:2 },
+    { name:"Willem Steyn",  role:"Contracts manager",  projects:["str","wor"],       onTime:0.88, late:4 },
+    { name:"Ruan Bekker",   role:"Site agent",         projects:["lou"],             onTime:0.97, late:1 },
+    { name:"Pieter Louw",   role:"Site agent",         projects:["tyg","ste"],       onTime:0.71, late:9 },
+    { name:"Nadia Fourie",  role:"Site agent",         projects:["str"],             onTime:0.91, late:3 },
+    { name:"Sipho Ndlovu",  role:"Site agent",         projects:["wor"],             onTime:1.00, late:0 }
+  ],
+
+  /* 01 TENDER: bid speed, scope risk, estimating consistency, benchmark reuse */
+  pipeline:[
+    { name:"Paarl Medical Centre",    value:31480000, closes:"2026-08-27", state:"Adjudicating", days:11, quals:6, unpriced:1 },
+    { name:"Durbanville School Hall", value:18900000, closes:"2026-09-03", state:"Pricing",      days:4,  quals:2, unpriced:3 },
+    { name:"Brackenfell Warehouse",   value:44200000, closes:"2026-09-11", state:"Pricing",      days:2,  quals:0, unpriced:5 }
+  ],
+  estimating:[
+    { trade:"Earthworks",   tendered:2140000, actual:2486000 },
+    { trade:"Concrete",     tendered:8920000, actual:8710000 },
+    { trade:"Brickwork",    tendered:4310000, actual:4402000 },
+    { trade:"Roofing",      tendered:3180000, actual:3104000 },
+    { trade:"Plumbing",     tendered:2760000, actual:3018000 },
+    { trade:"Electrical",   tendered:3940000, actual:3902000 }
+  ],
+  benchmarks:[
+    { type:"Commercial office", rate:14200, source:3, spread:"11%" },
+    { type:"Retail centre",     rate:11800, source:2, spread:"7%"  },
+    { type:"Residential walk-up", rate:10400, source:4, spread:"14%" },
+    { type:"Clinic / healthcare", rate:17600, source:1, spread:"n/a" }
+  ],
+
+  /* 02 PROCUREMENT: quote comparison, supplier performance, lead time, expediting */
+  adjudications:[
+    { item:"Aluminium windows", proj:"lou", low:1840000, chosen:1912000, high:2240000, why:"Lead time 6 wks shorter" },
+    { item:"Structural steel",  proj:"wor", low:2410000, chosen:2410000, high:2880000, why:"Lowest compliant" },
+    { item:"Lifts",             proj:"lou", low:3120000, chosen:3120000, high:3640000, why:"Lowest compliant" }
+  ],
+  suppliers:[
+    { name:"Cape Steel Supplies",  cat:"Steel",     onTime:0.96, defects:1, discount:0.025, lead:5 },
+    { name:"Bekker Plumbing",      cat:"Plumbing",  onTime:0.62, defects:7, discount:0.000, lead:2 },
+    { name:"Boland Aluminium",     cat:"Windows",   onTime:0.88, defects:2, discount:0.020, lead:9 },
+    { name:"Winelands Concrete",   cat:"Concrete",  onTime:0.99, defects:0, discount:0.015, lead:1 },
+    { name:"Helderberg Electrical",cat:"Electrical",onTime:0.81, defects:3, discount:0.010, lead:4 }
+  ],
+  expedite:[
+    { item:"Lift car and rails", proj:"lou", need:"2026-10-06", lead:14, ordered:true },
+    { item:"Facade glazing",     proj:"lou", need:"2026-11-17", lead:9,  ordered:false },
+    { item:"Theatre doors",      proj:"wor", need:"2026-09-28", lead:8,  ordered:false }
+  ],
+
+  /* 05 PROGRAMME: early warning, critical path, recovery */
+  warnings:[
+    { proj:"lou", signal:"Block C slab pour moved twice",         days:4, cost:98400,  owner:"Ruan Bekker" },
+    { proj:"lou", signal:"RFI-042 open 9 wd against 5 wd turnaround", days:4, cost:98400, owner:"Danie Marais" },
+    { proj:"str", signal:"Snag list growing after PC inspection",  days:0, cost:184000, owner:"Nadia Fourie" },
+    { proj:"ste", signal:"Final account objection window closing", days:0, cost:1240000, owner:"Pieter Louw" }
+  ],
+  critical:[
+    { proj:"lou", act:"Block C first floor slab", float:0,  exposure:98400 },
+    { proj:"lou", act:"Facade glazing delivery",  float:6,  exposure:0 },
+    { proj:"wor", act:"Theatre door frames",      float:3,  exposure:0 },
+    { proj:"str", act:"Defects rectification",    float:-2, exposure:184000 }
+  ],
+  recovery:[
+    { proj:"lou", option:"Second concrete crew, 3 weeks", days:4, cost:142000, net:-43600 },
+    { proj:"lou", option:"Claim the 4 days as EOT",       days:4, cost:0,      net:98400 },
+    { proj:"str", option:"Two extra finishing teams",     days:6, cost:96000,  net:88000 }
+  ],
+
+  /* 06 KNOWLEDGE: close-out, lessons, standards */
+  closed:[
+    { name:"Kuils River Depot",   year:2025, value:19400000, tender:7.2, final:8.1, lesson:"P&G measured off drawings, not the bill" },
+    { name:"Malmesbury Silo",     year:2025, value:33800000, tender:6.9, final:3.4, lesson:"Ground conditions not qualified at tender" },
+    { name:"Table View Offices",  year:2024, value:41200000, tender:7.6, final:7.9, lesson:"Weekly progress report caught the slip early" },
+    { name:"Paarl Cold Store",    year:2024, value:15600000, tender:8.4, final:5.1, lesson:"Sub default handled two months too late" }
+  ],
+  standards:[
+    { name:"Tender qualification checklist", used:12, gap:"Ground conditions clause added after Malmesbury" },
+    { name:"Sub-contractor default process", used:5,  gap:"Notice template now pre-filled from the programme" },
+    { name:"Monthly claim reconciliation",   used:63, gap:"Contra charge check made a hard gate" },
+    { name:"Concrete cast register",         used:41, gap:"Cube results still arriving by email" }
+  ]
+};
+
+let S = JSON.parse(JSON.stringify(SEED));
+try { const raw = localStorage.getItem("siteos.office"); if (raw) S = JSON.parse(raw); } catch(e){}
+const save = () => { try { localStorage.setItem("siteos.office", JSON.stringify(S)); } catch(e){} };
+
+/* ================================================================
+   Derived
+   ================================================================ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const proj = id => S.projects.find(p => p.id === id) || {name:"?", ed:"?", town:"?"};
+const wdTo = d => workdaysBetween(TODAY, D(d));
+const sevOf = wd => wd <= 3 ? "crit" : wd <= 15 ? "warn" : "ok";
+const pct = n => Math.round(n*100) + "%";
+
+const totals = () => {
+  const v = S.projects.reduce((a,p)=>a+p.value,0);
+  const wBase = S.projects.reduce((a,p)=>a+p.baseMargin*p.value,0)/v;
+  const wNow  = S.projects.reduce((a,p)=>a+p.nowMargin*p.value,0)/v;
+  const risk  = S.clocks.filter(c => wdTo(c.due) <= 20).reduce((a,c)=>a+c.at,0);
+  const certified = S.projects.reduce((a,p)=>a+p.certified,0);
+  const retention = S.projects.reduce((a,p)=>a+p.retention,0);
+  const overdue = S.outputs.filter(o => o.status === "Overdue").reduce((a,o)=>a+o.amount,0);
+  return { v, wBase, wNow, drift:wNow-wBase, risk, certified, retention, overdue };
+};
+
+/* ================================================================
+   Views
+   ================================================================ */
+let VIEW = "portfolio", SEL = null, FILTER = "All";
+const ARROW = '<svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>';
+
+function progBar(p){
+  const s = D(p.start), b = D(p.pcBase), n = D(p.pcNow);
+  const span = Math.max(n - s, b - s);
+  const w = x => Math.max(2, Math.min(100, ((x - s) / span) * 100));
+  const late = n > b;
+  return `<div class="prog" title="${esc(fmt(b))} baseline, ${esc(fmt(n))} forecast">
+    <div class="base" style="width:${w(b)}%"></div>
+    <div class="act ${late?"late":"ok"}" style="width:${w(n)}%"></div>
+    <div class="now" style="left:${w(TODAY)}%"></div>
+  </div>`;
+}
+function cpMeter(p){
+  const v = Math.round(p.cp.done / p.cp.total * 100);
+  return `<div class="cp"><div class="track"><div class="fill" style="width:${v}%"></div></div>
+    <span>${p.cp.done}/${p.cp.total}</span></div>`;
+}
+function meter(v, sev){
+  return `<div class="cp"><div class="track"><div class="fill" style="width:${Math.min(100,v)}%;background:var(--${sev})"></div></div></div>`;
+}
+function head(title, sub, eyebrow){
+  $("#head").innerHTML =
+    (eyebrow?`<div class="lab" style="margin-bottom:6px">${esc(eyebrow)}</div>`:"") +
+    `<h1>${esc(title)}</h1>${sub?`<p class="sub">${sub}</p>`:""}`;
+}
+function tbl(headers, rows, min){
+  return `<div class="card"><div class="tw"><table${min?` style="min-width:${min}px"`:""}>
+    <thead><tr>${headers.map(h=>`<th${h[1]?' class="'+h[1]+'"':""}>${h[0]}</th>`).join("")}</tr></thead>
+    <tbody>${rows}</tbody></table></div></div>`;
+}
+
+/* ---------------- Company: portfolio ---------------- */
+function vPortfolio(){
+  const t = totals();
+  const soon = S.clocks.slice().sort((a,b)=>wdTo(a.due)-wdTo(b.due)).slice(0,5);
+  head("Portfolio", `${S.projects.length} live projects, ${Rm(t.v)} under contract`, "Company");
+  return `
+    <div class="kpis">
+      <div><span class="lab">Under contract</span><b>${Rm(t.v)}</b><span class="d">${S.projects.length} projects</span></div>
+      <div class="${t.drift<0?"dn":"up"}"><span class="lab">Margin now</span><b>${t.wNow.toFixed(1)}%</b>
+        <span class="d">${t.drift>=0?"+":""}${t.drift.toFixed(1)} pts against ${t.wBase.toFixed(1)}% at tender</span></div>
+      <div class="dn"><span class="lab">At risk in 20 wd</span><b>${R(t.risk)}</b><span class="d">${S.clocks.filter(c=>wdTo(c.due)<=20).length} open clocks</span></div>
+      <div class="dn"><span class="lab">Past its window</span><b>${R(t.overdue)}</b><span class="d">${S.outputs.filter(o=>o.status==="Overdue").length} items overdue</span></div>
+      <div><span class="lab">Certified to date</span><b>${Rm(t.certified)}</b><span class="d">${Rm(t.retention)} retention held</span></div>
+    </div>
+
+    <div class="sec"><span class="lab">Projects</span><span class="lab">Baseline against forecast</span></div>
+    ${tbl([["Project"],["Edition"],["Stage"],["Value","n"],["Margin","n"],["Programme"],["Control points"],["Next clock","n"]],
+      S.projects.map(p=>{
+        const c = S.clocks.filter(c=>c.proj===p.id).sort((a,b)=>wdTo(a.due)-wdTo(b.due))[0];
+        const wd = c ? wdTo(c.due) : null, dm = p.nowMargin - p.baseMargin;
+        return `<tr class="click" data-p="${p.id}">
+          <td class="name">${esc(p.name)}<span class="sub">${esc(p.town)}</span></td>
+          <td><span class="ed">${esc(p.ed)}</span></td>
+          <td><span class="pill flat">${esc(p.stage)}</span></td>
+          <td class="n">${Rm(p.value)}</td>
+          <td class="n"><span style="color:var(--${dm>=0?"ok":"crit"})">${p.nowMargin.toFixed(1)}%</span><span class="sub">${dm>=0?"+":""}${dm.toFixed(1)}</span></td>
+          <td>${progBar(p)}</td><td>${cpMeter(p)}</td>
+          <td class="n">${wd!==null?`<span class="pill ${sevOf(wd)}">${wd} wd</span>`:"&ndash;"}</td>
+        </tr>`;}).join(""))}
+
+    <div class="two" style="margin-top:22px">
+      <div class="panel"><h3>Soonest clocks</h3><div class="tw"><table style="min-width:0"><tbody>
+        ${soon.map(c=>{const wd=wdTo(c.due);return `<tr class="click" data-p="${c.proj}">
+          <td><span class="pill ${sevOf(wd)}">${wd} wd</span></td>
+          <td>${esc(c.what)}<span class="sub">${esc(proj(c.proj).name)} &middot; ${esc(c.basis)}</span></td>
+          <td class="n">${c.at?R(c.at):"&ndash;"}</td></tr>`;}).join("")}
+      </tbody></table></div></div>
+      <div class="panel"><h3>Value areas</h3><div class="in">
+        ${AREAS.map(a=>`<div class="kv"><span><b style="font-weight:600">${a[0]} ${esc(a[1])}</b><br><span class="lab">${esc(a[3])}</span></span>
+          <span><button class="pill sig" data-v="${a[2]}" style="border:0">Open</button></span></div>`).join("")}
+      </div></div>
+    </div>
+
+    <p class="foot-note">Every project runs on the contract edition it was signed under, so the same milestone produces a different deadline on each one. The clock column is computed per project from that edition and the South African working-day calendar, which is the only reason it can be compared down the column.</p>`;
+}
+
+/* ---------------- Company: sites ---------------- */
+function vSites(){
+  head("Sites", "Where the work is, and what each one is waiting on", "Company");
+  return `<div class="sites">${S.projects.map(p=>{
+    const c = S.clocks.filter(c=>c.proj===p.id).sort((a,b)=>wdTo(a.due)-wdTo(b.due))[0];
+    const wd = c ? wdTo(c.due) : null, dm = p.nowMargin - p.baseMargin;
+    return `<button class="site" data-p="${p.id}">
+      <div class="r1"><b>${esc(p.name)}</b><span class="ed">${esc(p.ed.replace("JBCC PBA ","").replace("JBCC ",""))}</span></div>
+      <div class="town">${esc(p.town)} &middot; ${esc(p.client)}</div>
+      <div class="rows">
+        <div class="row"><span>Contract</span><span>${Rm(p.value)}</span></div>
+        <div class="row"><span>Margin</span><span style="color:var(--${dm>=0?"ok":"crit"})">${p.nowMargin.toFixed(1)}% (${dm>=0?"+":""}${dm.toFixed(1)})</span></div>
+        <div class="row"><span>Site agent</span><span style="font-family:var(--sans);font-weight:600">${esc(p.agent)}</span></div>
+      </div>
+      <div style="margin-top:12px">${cpMeter(p)}</div>
+      <div class="clk">${wd!==null?`<span class="pill ${sevOf(wd)}">${wd} wd</span>`:""}
+        <span class="what">${c?esc(c.what):"Nothing running out"}</span></div>
+    </button>`;}).join("")}</div>
+  <p class="foot-note">Click a site to open it. The bar under each is control points closed, out of the forty-eight a project carries from tender to final account.</p>`;
+}
+
+/* ---------------- Project detail ---------------- */
+function vProject(){
+  const p = proj(SEL);
+  const outs = S.outputs.filter(o=>o.proj===p.id);
+  const clocks = S.clocks.filter(c=>c.proj===p.id).sort((a,b)=>wdTo(a.due)-wdTo(b.due));
+  const dm = p.nowMargin - p.baseMargin, slip = workdaysBetween(D(p.pcBase), D(p.pcNow));
+  head(p.name, `${esc(p.town)} &middot; ${esc(p.client)} &middot; ${esc(p.ed)}`, "Project");
+  return `
+    <button class="back" id="back">${ARROW} Back to portfolio</button>
+    <div class="kpis" style="margin-top:10px">
+      <div><span class="lab">Contract value</span><b>${Rm(p.value)}</b><span class="d">Baseline ${Rm(p.baseValue)}</span></div>
+      <div class="${dm>=0?"up":"dn"}"><span class="lab">Margin</span><b>${p.nowMargin.toFixed(1)}%</b><span class="d">${dm>=0?"+":""}${dm.toFixed(1)} pts against tender</span></div>
+      <div class="${slip>0?"dn":"up"}"><span class="lab">Programme</span><b>${slip>0?"+"+slip:slip} wd</b><span class="d">PC ${esc(fmt(D(p.pcNow)))}</span></div>
+      <div><span class="lab">Cost to complete</span><b>${Rm(p.ctc)}</b><span class="d">${p.cp.total-p.cp.done} control points open</span></div>
+      <div><span class="lab">Certified</span><b>${Rm(p.certified)}</b><span class="d">${R(p.retention)} retention held</span></div>
+    </div>
+    <div class="two" style="margin-top:22px">
+      <div class="panel"><h3>Open clocks</h3><div class="in">
+        ${clocks.length ? clocks.map(c=>{const wd=wdTo(c.due);
+          return `<div class="kv"><span>${esc(c.what)}<br><span class="lab">${esc(c.basis)}</span></span>
+            <span><span class="pill ${sevOf(wd)}">${wd} wd</span></span></div>`;}).join("")
+          : `<p style="margin:0;color:var(--ink-2)">Nothing is running out on this project.</p>`}
+      </div></div>
+      <div class="panel"><h3>Against the locked baseline</h3><div class="in">
+        <div class="kv"><span>Contract value</span><span>${R(p.value)} <span class="${p.value>=p.baseValue?"up":"dn"}">${p.value>=p.baseValue?"+":""}${R(p.value-p.baseValue)}</span></span></div>
+        <div class="kv"><span>Margin</span><span>${p.nowMargin.toFixed(1)}% <span class="${dm>=0?"up":"dn"}">${dm>=0?"+":""}${dm.toFixed(1)}</span></span></div>
+        <div class="kv"><span>Practical completion</span><span>${esc(fmt(D(p.pcNow)))} <span class="${slip>0?"dn":"up"}">${slip>0?"+"+slip+" wd":"on time"}</span></span></div>
+        <div class="kv"><span>Labour against allowable</span><span class="${p.labourAct>100?"dn":"up"}">${p.labourAct}%</span></div>
+        <div class="kv"><span>Rework items open</span><span class="${p.rework>5?"dn":""}">${p.rework}</span></div>
+        <div class="kv"><span>Site agent</span><span style="font-family:var(--sans)">${esc(p.agent)}</span></div>
+        <div class="kv"><span>Contracts manager</span><span style="font-family:var(--sans)">${esc(p.cm)}</span></div>
+      </div></div>
+    </div>
+    <div class="sec"><span class="lab">Outputs from this site</span><span class="lab">${outs.length} records</span></div>
+    ${outsTable(outs, false)}`;
+}
+
+/* ---------------- 01 Tender ---------------- */
+function vTender(){
+  const pipe = S.pipeline.reduce((a,t)=>a+t.value,0);
+  const avgDays = Math.round(S.pipeline.reduce((a,t)=>a+t.days,0)/S.pipeline.length);
+  const worst = S.estimating.slice().sort((a,b)=>(b.actual/b.tendered)-(a.actual/a.tendered))[0];
+  head("Tender", "Bid speed, scope risk, estimating consistency, benchmark reuse", "01 Value area");
+  return `
+    <div class="kpis">
+      <div><span class="lab">Out to tender</span><b>${Rm(pipe)}</b><span class="d">${S.pipeline.length} live bids</span></div>
+      <div><span class="lab">Bid speed</span><b>${avgDays} d</b><span class="d">Average days spent per bid</span></div>
+      <div class="dn"><span class="lab">Unpriced items</span><b>${S.pipeline.reduce((a,t)=>a+t.unpriced,0)}</b><span class="d">Provisional or missing across live bids</span></div>
+      <div class="dn"><span class="lab">Worst drift</span><b>${worst.trade}</b><span class="d">${(((worst.actual/worst.tendered)-1)*100).toFixed(1)}% over tendered</span></div>
+    </div>
+
+    <div class="sec"><span class="lab">Live bids</span><span class="lab">Scope risk</span></div>
+    ${tbl([["Tender"],["Value","n"],["Closes","n"],["Days on it","n"],["Qualifications","n"],["Unpriced","n"],["State"]],
+      S.pipeline.map(t=>{const wd=wdTo(t.closes);
+        return `<tr>
+          <td class="name">${esc(t.name)}</td>
+          <td class="n">${Rm(t.value)}</td>
+          <td class="n"><span class="pill ${sevOf(wd)}">${wd} wd</span></td>
+          <td class="n">${t.days}</td>
+          <td class="n">${t.quals?t.quals:`<span style="color:var(--crit)">0</span>`}</td>
+          <td class="n"><span style="color:var(--${t.unpriced>2?"crit":t.unpriced?"warn":"ok"})">${t.unpriced}</span></td>
+          <td><span class="pill flat">${esc(t.state)}</span></td></tr>`;}).join(""), 620)}
+    <p class="foot-note">A bid with zero qualifications is not a clean bid, it is unqualified risk carried for the length of the contract. Brackenfell has been priced for two days and has five provisional items still open.</p>
+
+    <div class="sec"><span class="lab">Estimating consistency</span><span class="lab">Tendered against actual, closed work</span></div>
+    ${tbl([["Trade"],["Tendered","n"],["Actual","n"],["Variance","n"],[""]],
+      S.estimating.map(e=>{const d=(e.actual/e.tendered-1)*100;
+        return `<tr><td class="name">${esc(e.trade)}</td>
+          <td class="n">${R(e.tendered)}</td><td class="n">${R(e.actual)}</td>
+          <td class="n" style="color:var(--${d>2?"crit":d<-2?"ok":"ink-2"})">${d>0?"+":""}${d.toFixed(1)}%</td>
+          <td style="width:150px">${meter(Math.abs(d)*8, d>2?"crit":d<-2?"ok":"ink-3")}</td></tr>`;}).join(""), 560)}
+
+    <div class="sec"><span class="lab">Benchmarks available to reuse</span></div>
+    ${tbl([["Building type"],["Rate","n"],["From","n"],["Spread","n"]],
+      S.benchmarks.map(b=>`<tr><td class="name">${esc(b.type)}</td>
+        <td class="n">${R(b.rate)} / m2</td><td class="n">${b.source} project${b.source>1?"s":""}</td>
+        <td class="n">${esc(b.spread)}</td></tr>`).join(""), 460)}
+    <p class="foot-note">Benchmarks only exist because closed projects were signed off with their outcome recorded. A single-source rate with no spread is a guess wearing a number.</p>`;
+}
+
+/* ---------------- 02 Procurement ---------------- */
+function vProcurement(){
+  const saved = S.adjudications.reduce((a,x)=>a+(x.high-x.chosen),0);
+  const worst = S.suppliers.slice().sort((a,b)=>a.onTime-b.onTime)[0];
+  const late = S.expedite.filter(e=>!e.ordered);
+  head("Procurement", "Quote comparison, supplier performance, lead-time risk, expediting", "02 Value area");
+  return `
+    <div class="kpis">
+      <div class="up"><span class="lab">Against highest quote</span><b>${R(saved)}</b><span class="d">On ${S.adjudications.length} open adjudications</span></div>
+      <div class="dn"><span class="lab">Weakest supplier</span><b>${pct(worst.onTime)}</b><span class="d">${esc(worst.name)} on time</span></div>
+      <div class="dn"><span class="lab">Not yet ordered</span><b>${late.length}</b><span class="d">Long-lead items still open</span></div>
+      <div class="up"><span class="lab">Settlement discount</span><b>${pct(S.suppliers.reduce((a,s)=>a+s.discount,0)/S.suppliers.length)}</b><span class="d">Average available on terms</span></div>
+    </div>
+
+    <div class="sec"><span class="lab">Open adjudications</span><span class="lab">Three quotes, and why</span></div>
+    ${tbl([["Item"],["Project"],["Lowest","n"],["Chosen","n"],["Highest","n"],["Reason"]],
+      S.adjudications.map(a=>`<tr class="click" data-p="${a.proj}">
+        <td class="name">${esc(a.item)}</td><td>${esc(proj(a.proj).town)}</td>
+        <td class="n">${R(a.low)}</td>
+        <td class="n" style="font-weight:700">${R(a.chosen)}${a.chosen>a.low?`<span class="sub" style="color:var(--warn)">+${R(a.chosen-a.low)}</span>`:""}</td>
+        <td class="n" style="color:var(--ink-3)">${R(a.high)}</td>
+        <td style="color:var(--ink-2)">${esc(a.why)}</td></tr>`).join(""), 680)}
+
+    <div class="sec"><span class="lab">Supplier performance</span></div>
+    ${tbl([["Supplier"],["Category"],["On time","n"],["Defects","n"],["Discount","n"],["Lead wks","n"],["Record"]],
+      S.suppliers.slice().sort((a,b)=>b.onTime-a.onTime).map(s=>{
+        const sev = s.onTime>=0.9?"ok":s.onTime>=0.8?"warn":"crit";
+        return `<tr><td class="name">${esc(s.name)}</td><td style="color:var(--ink-2)">${esc(s.cat)}</td>
+          <td class="n"><span class="pill ${sev}">${pct(s.onTime)}</span></td>
+          <td class="n" style="color:var(--${s.defects>4?"crit":s.defects?"warn":"ok"})">${s.defects}</td>
+          <td class="n">${s.discount?pct(s.discount):"&ndash;"}</td><td class="n">${s.lead}</td>
+          <td style="width:140px">${meter(s.onTime*100, sev)}</td></tr>`;}).join(""), 680)}
+    <p class="foot-note">Bekker Plumbing sits at 62% on time with seven defects, and is the sub-contractor currently on a default notice at Lourensford. That is the same fact reaching head office and the site from opposite directions.</p>
+
+    <div class="sec"><span class="lab">Expediting</span><span class="lab">Order-by date derived from lead time</span></div>
+    ${tbl([["Item"],["Project"],["Needed on","n"],["Lead wks","n"],["Order by","n"],["Status"]],
+      S.expedite.map(e=>{
+        const by = new Date(D(e.need)); by.setDate(by.getDate() - e.lead*7);
+        const wd = workdaysBetween(TODAY, by);
+        return `<tr class="click" data-p="${e.proj}">
+          <td class="name">${esc(e.item)}</td><td>${esc(proj(e.proj).town)}</td>
+          <td class="n">${esc(fmt(D(e.need)))}</td><td class="n">${e.lead}</td>
+          <td class="n">${esc(fmt(by))} <span class="sub">${wd<0?Math.abs(wd)+" wd late":wd+" wd"}</span></td>
+          <td>${e.ordered?`<span class="pill ok">Ordered</span>`:`<span class="pill ${wd<0?"crit":"warn"}">${wd<0?"Overdue":"Open"}</span>`}</td>
+        </tr>`;}).join(""), 700)}`;
+}
+
+/* ---------------- 03 Site productivity ---------------- */
+function vSite(){
+  const avgCap = S.projects.reduce((a,p)=>a+(p.capture===0?1:0),0);
+  const totRework = S.projects.reduce((a,p)=>a+p.rework,0);
+  const rfi = S.projects.reduce((a,p)=>a+p.rfiOpen,0);
+  head("Site productivity", "Daily capture, labour and plant signals, progress and rework, access to information", "03 Value area");
+  return `
+    <div class="kpis">
+      <div class="${avgCap===S.projects.length?"up":"dn"}"><span class="lab">Captured today</span><b>${avgCap}/${S.projects.length}</b><span class="d">Sites that logged today</span></div>
+      <div class="dn"><span class="lab">Rework open</span><b>${totRework}</b><span class="d">Items across all sites</span></div>
+      <div class="dn"><span class="lab">RFIs open</span><b>${rfi}</b><span class="d">Waiting on information</span></div>
+      <div class="dn"><span class="lab">Labour over allowable</span><b>${S.projects.filter(p=>p.labourAct>100).length}</b><span class="d">Of ${S.projects.length} sites</span></div>
+    </div>
+
+    <div class="sec"><span class="lab">By site</span><span class="lab">Signals captured on the phone, not chased by the office</span></div>
+    ${tbl([["Project"],["Last capture","n"],["Labour vs allowable","n"],[""],["Rework","n"],["RFIs open","n"],["Control points"]],
+      S.projects.map(p=>{
+        const capSev = p.capture===0?"ok":p.capture<=3?"warn":"crit";
+        const labSev = p.labourAct>105?"crit":p.labourAct>100?"warn":"ok";
+        return `<tr class="click" data-p="${p.id}">
+          <td class="name">${esc(p.name)}<span class="sub">${esc(p.agent)}</span></td>
+          <td class="n"><span class="pill ${capSev}">${p.capture===0?"today":p.capture+" d ago"}</span></td>
+          <td class="n" style="color:var(--${labSev})">${p.labourAct}%</td>
+          <td style="width:130px">${meter(p.labourAct*0.8, labSev)}</td>
+          <td class="n" style="color:var(--${p.rework>5?"crit":p.rework?"warn":"ok"})">${p.rework}</td>
+          <td class="n">${p.rfiOpen}</td>
+          <td>${cpMeter(p)}</td></tr>`;}).join(""), 760)}
+    <p class="foot-note">Stellenbosch has not been captured in twenty-one days and is running 18% over allowable labour. Those two numbers are the same problem: the site that stops reporting is the site that has stopped being managed, and the cost only shows up at final account.</p>`;
+}
+
+/* ---------------- 04 Commercial ---------------- */
+function vCommercial(){
+  const t = totals();
+  const ctc = S.projects.reduce((a,p)=>a+p.ctc,0);
+  const atRisk = S.projects.filter(p=>p.nowMargin<p.baseMargin).reduce((a,p)=>a+(p.baseMargin-p.nowMargin)/100*p.value,0);
+  head("Commercial", "Cost-to-complete, variations, claims, cash and margin at risk", "04 Value area");
+  return `
+    <div class="kpis">
+      <div><span class="lab">Cost to complete</span><b>${Rm(ctc)}</b><span class="d">Across ${S.projects.length} projects</span></div>
+      <div class="dn"><span class="lab">Margin at risk</span><b>${R(atRisk)}</b><span class="d">Value of the drift against tender</span></div>
+      <div><span class="lab">Certified</span><b>${Rm(t.certified)}</b><span class="d">${Rm(t.v-t.certified)} still to certify</span></div>
+      <div class="dn"><span class="lab">Overdue value</span><b>${R(t.overdue)}</b><span class="d">Past a contractual window</span></div>
+      <div class="dn"><span class="lab">Contra open</span><b>${R(S.projects.reduce((a,p)=>a+p.contra,0))}</b><span class="d">Deduct before the next certificate</span></div>
+    </div>
+
+    <div class="sec"><span class="lab">Cash and margin by project</span></div>
+    ${tbl([["Project"],["Contract","n"],["Certified","n"],["Outstanding","n"],["Cost to complete","n"],["Retention","n"],["Contra","n"],["Margin","n"]],
+      S.projects.map(p=>{const dm=p.nowMargin-p.baseMargin;
+        return `<tr class="click" data-p="${p.id}">
+          <td class="name">${esc(p.name)}</td>
+          <td class="n">${R(p.value)}</td><td class="n">${R(p.certified)}</td>
+          <td class="n">${R(p.value-p.certified)}</td><td class="n">${R(p.ctc)}</td>
+          <td class="n">${R(p.retention)}</td>
+          <td class="n" style="color:var(--${p.contra?"crit":"ink-3"})">${p.contra?R(p.contra):"&ndash;"}</td>
+          <td class="n" style="color:var(--${dm>=0?"ok":"crit"})">${p.nowMargin.toFixed(1)}%<span class="sub">${dm>=0?"+":""}${dm.toFixed(1)}</span></td>
+        </tr>`;}).join(""), 860)}
+
+    <div class="sec"><span class="lab">Variations and claims</span></div>
+    ${outsTable(S.outputs.filter(o=>["Variation","Claim","Final account"].includes(o.type)), true)}
+    <p class="foot-note">Margin is measured against the price each job was won at, never against a revised internal budget. A budget that moves with the job cannot tell you the job is losing money.</p>`;
+}
+
+/* ---------------- 05 Programme ---------------- */
+function vProgramme(){
+  const slipped = S.projects.filter(p=>D(p.pcNow)>D(p.pcBase));
+  const exposure = S.critical.reduce((a,c)=>a+c.exposure,0);
+  head("Programme", "Early warning, critical-path exposure, recovery scenarios", "05 Value area");
+  return `
+    <div class="kpis">
+      <div class="${slipped.length?"dn":"up"}"><span class="lab">Projects slipped</span><b>${slipped.length}/${S.projects.length}</b><span class="d">Forecast past the baseline date</span></div>
+      <div class="dn"><span class="lab">Critical path exposure</span><b>${R(exposure)}</b><span class="d">${S.critical.filter(c=>c.float<=0).length} activities at or past zero float</span></div>
+      <div class="dn"><span class="lab">Early warnings</span><b>${S.warnings.length}</b><span class="d">Open across the portfolio</span></div>
+      <div class="up"><span class="lab">Recovery options</span><b>${S.recovery.length}</b><span class="d">Priced and ready to choose</span></div>
+    </div>
+
+    <div class="sec"><span class="lab">Early warning</span><span class="lab">Raised from site, not found in a month-end review</span></div>
+    ${tbl([["Signal"],["Project"],["Days","n"],["Cost","n"],["Owner"]],
+      S.warnings.map(w=>`<tr class="click" data-p="${w.proj}">
+        <td class="name">${esc(w.signal)}</td><td>${esc(proj(w.proj).town)}</td>
+        <td class="n">${w.days?`<span class="pill warn">${w.days} wd</span>`:"&ndash;"}</td>
+        <td class="n" style="color:var(--crit)">${R(w.cost)}</td>
+        <td>${esc(w.owner)}</td></tr>`).join(""), 620)}
+
+    <div class="sec"><span class="lab">Critical path</span></div>
+    ${tbl([["Activity"],["Project"],["Float","n"],["Exposure","n"],["Programme"]],
+      S.critical.map(c=>{const p=proj(c.proj);
+        return `<tr class="click" data-p="${c.proj}">
+          <td class="name">${esc(c.act)}</td><td>${esc(p.town)}</td>
+          <td class="n"><span class="pill ${c.float<0?"crit":c.float===0?"warn":"ok"}">${c.float>0?"+":""}${c.float} d</span></td>
+          <td class="n">${c.exposure?R(c.exposure):"&ndash;"}</td>
+          <td style="width:170px">${p.start?progBar(p):""}</td></tr>`;}).join(""), 660)}
+
+    <div class="sec"><span class="lab">Recovery scenarios</span><span class="lab">What each option is actually worth</span></div>
+    ${tbl([["Option"],["Project"],["Days recovered","n"],["Cost","n"],["Net","n"]],
+      S.recovery.map(r=>`<tr class="click" data-p="${r.proj}">
+        <td class="name">${esc(r.option)}</td><td>${esc(proj(r.proj).town)}</td>
+        <td class="n">${r.days}</td><td class="n">${r.cost?R(r.cost):"&ndash;"}</td>
+        <td class="n" style="color:var(--${r.net>=0?"ok":"crit"});font-weight:700">${r.net>=0?"+":""}${R(r.net)}</td>
+      </tr>`).join(""), 620)}
+    <p class="foot-note">The second option at Lourensford recovers nothing on site and is worth more than the first, because four days claimed as an extension carries the time-related preliminaries with it. Recovery is a commercial decision before it is a programme one.</p>`;
+}
+
+/* ---------------- 06 Knowledge ---------------- */
+function vKnowledge(){
+  const avgDrift = S.closed.reduce((a,c)=>a+(c.final-c.tender),0)/S.closed.length;
+  head("Knowledge", "Project close-out, lessons learned, benchmarks and standards", "06 Value area");
+  return `
+    <div class="kpis">
+      <div><span class="lab">Projects closed out</span><b>${S.closed.length}</b><span class="d">With outcome recorded against tender</span></div>
+      <div class="${avgDrift>=0?"up":"dn"}"><span class="lab">Average outcome</span><b>${avgDrift>=0?"+":""}${avgDrift.toFixed(1)} pts</b><span class="d">Final margin against tendered</span></div>
+      <div><span class="lab">Benchmarks held</span><b>${S.benchmarks.length}</b><span class="d">Building types with a rate</span></div>
+      <div><span class="lab">Standards in use</span><b>${S.standards.length}</b><span class="d">Checklists the process enforces</span></div>
+    </div>
+
+    <div class="sec"><span class="lab">Closed projects</span><span class="lab">What the job actually did against what it was sold at</span></div>
+    ${tbl([["Project"],["Year","n"],["Value","n"],["Tendered","n"],["Final","n"],["Swing","n"],["What it taught"]],
+      S.closed.map(c=>{const d=c.final-c.tender;
+        return `<tr><td class="name">${esc(c.name)}</td><td class="n">${c.year}</td>
+          <td class="n">${Rm(c.value)}</td><td class="n">${c.tender.toFixed(1)}%</td>
+          <td class="n" style="color:var(--${d>=0?"ok":"crit"})">${c.final.toFixed(1)}%</td>
+          <td class="n"><span class="pill ${d>=0?"ok":"crit"}">${d>=0?"+":""}${d.toFixed(1)}</span></td>
+          <td style="color:var(--ink-2)">${esc(c.lesson)}</td></tr>`;}).join(""), 800)}
+    <p class="foot-note">Malmesbury lost 3.5 points because ground conditions were never qualified at tender. That lesson is now a line on the tender qualification checklist, which is the only form a lesson can take that survives the person who learned it.</p>
+
+    <div class="sec"><span class="lab">Standards, and what changed them</span></div>
+    ${tbl([["Standard"],["Times used","n"],["Last change"]],
+      S.standards.map(s=>`<tr><td class="name">${esc(s.name)}</td>
+        <td class="n">${s.used}</td><td style="color:var(--ink-2)">${esc(s.gap)}</td></tr>`).join(""), 520)}`;
+}
+
+/* ---------------- Outputs and clocks ---------------- */
+const STATUS_SEV = { "Overdue":"crit", "Deemed refused":"crit", "Objection due":"crit",
+  "Running":"warn", "Awaiting PA":"warn", "Submitted":"warn", "With PQS":"warn",
+  "Certified":"ok", "Issued":"ok", "Paid":"ok" };
+
+function outsTable(list, showProj){
+  if (!list.length) return `<div class="card"><div class="empty">Nothing here yet.</div></div>`;
+  return `<div class="card"><div class="tw"><table>
+    <thead><tr><th>Reference</th><th>Type</th>${showProj?"<th>Project</th>":""}
+      <th>Raised</th><th>By</th><th class="n">Value</th><th>Status</th><th class="n">Acts by</th></tr></thead>
+    <tbody>${list.map(o=>{const wd = o.due ? wdTo(o.due) : null;
+      return `<tr${showProj?' class="click" data-p="'+o.proj+'"':""}>
+        <td class="name">${esc(o.ref)}</td><td><span class="ed">${esc(o.type)}</span></td>
+        ${showProj?`<td>${esc(proj(o.proj).name)}<span class="sub">${esc(proj(o.proj).ed)}</span></td>`:""}
+        <td class="mono">${esc(o.date)}</td><td>${esc(o.by)}</td>
+        <td class="n">${o.amount?R(o.amount):"&ndash;"}</td>
+        <td><span class="pill ${STATUS_SEV[o.status]||"flat"}">${esc(o.status)}</span></td>
+        <td class="n">${wd!==null?`<span class="pill ${sevOf(wd)}">${wd} wd</span>`:"&ndash;"}</td>
+      </tr>`;}).join("")}</tbody></table></div></div>`;
+}
+
+function vOutputs(){
+  const types = ["All","Variation","Claim","Notice","Progress","Default","Final account"];
+  const list = FILTER === "All" ? S.outputs : S.outputs.filter(o=>o.type===FILTER);
+  head("Outputs", "Every document the sites produced, and who has to act on it next", "Records");
+  return `<div class="filters">${types.map(t=>
+      `<button data-f="${esc(t)}" class="${t===FILTER?"on":""}">${esc(t)}</button>`).join("")}</div>
+    ${outsTable(list, true)}
+    <p class="foot-note">Head office does not chase these. Each was produced on a phone on site, by the person doing the work, at the moment the clock started. This register is the by-product, not the effort.</p>`;
+}
+
+function vClocks(){
+  const list = S.clocks.slice().sort((a,b)=>wdTo(a.due)-wdTo(b.due));
+  head("Clocks", "Every contractual deadline running across the company", "Records");
+  return tbl([["Working days","n"],["What"],["Project"],["Basis"],["Due","n"],["At stake","n"]],
+    list.map(c=>{const wd=wdTo(c.due), p=proj(c.proj);
+      return `<tr class="click" data-p="${c.proj}">
+        <td class="n"><span class="pill ${sevOf(wd)}">${wd} wd</span></td>
+        <td class="name">${esc(c.what)}</td>
+        <td>${esc(p.name)}<span class="sub">${esc(p.ed)}</span></td>
+        <td style="color:var(--ink-2)">${esc(c.basis)}</td>
+        <td class="n">${esc(fmt(D(c.due)))}</td>
+        <td class="n">${c.at?R(c.at):"&ndash;"}</td></tr>`;}).join(""))
+    + `<p class="foot-note">Three editions of the same contract are live here at once. The final account window is 90 working days under the 2007 and 2014 editions and 60 under 2018; a works completion list is 7 days on one and 5 working days plus 5 on another. Nobody is expected to remember which, and nobody should have to.</p>`;
+}
+
+function vTeam(){
+  head("Team", "Who owns what, and whose notices go out inside the window", "Records");
+  return tbl([["Name"],["Role"],["Projects"],["On time","n"],["Late this year","n"],["Record"]],
+    S.team.slice().sort((a,b)=>b.onTime-a.onTime).map(m=>{
+      const v = Math.round(m.onTime*100), sev = v>=90?"ok":v>=80?"warn":"crit";
+      return `<tr><td class="name">${esc(m.name)}</td><td style="color:var(--ink-2)">${esc(m.role)}</td>
+        <td>${m.projects.map(id=>`<span class="ed" style="margin-right:4px">${esc(proj(id).town)}</span>`).join("")}</td>
+        <td class="n"><span class="pill ${sev}">${v}%</span></td><td class="n">${m.late}</td>
+        <td style="width:150px">${meter(v, sev)}</td></tr>`;}).join(""))
+    + `<p class="foot-note">On time means the notice reached the principal agent inside the contractual window. It is the one measure that cannot be gamed in a way that hurts the business: a site agent who games it is a site agent who never misses a claim. Pieter Louw carries two projects and the worst record on this table, which is a workload question before it is a performance one.</p>`;
+}
+
+/* ================================================================
+   Router
+   ================================================================ */
+const AREAS = [
+  ["01","Tender","tender","Bid speed, scope risk, estimating"],
+  ["02","Procurement","procurement","Quotes, suppliers, lead time"],
+  ["03","Site productivity","siteprod","Capture, labour, rework, RFIs"],
+  ["04","Commercial","commercial","Cost to complete, variations, cash"],
+  ["05","Programme","programme","Early warning, critical path"],
+  ["06","Knowledge","knowledge","Close-out, lessons, benchmarks"]
+];
+
+const VIEWS = { portfolio:vPortfolio, sites:vSites, project:vProject,
+                tender:vTender, procurement:vProcurement, siteprod:vSite,
+                commercial:vCommercial, programme:vProgramme, knowledge:vKnowledge,
+                outputs:vOutputs, clocks:vClocks, team:vTeam };
+
+function render(){
+  $("#view").innerHTML = VIEWS[VIEW]();
+  $("#asof").textContent = "As at " + fmt(TODAY);
+  document.querySelectorAll("#nav button").forEach(b =>
+    b.classList.toggle("on", b.dataset.v === VIEW || (VIEW === "project" && b.dataset.v === "sites")));
+  $("#ct-sites").textContent = S.projects.length;
+  $("#ct-outputs").textContent = S.outputs.length;
+  $("#ct-clocks").textContent = S.clocks.filter(c => wdTo(c.due) <= 20).length;
+  window.scrollTo(0, 0);
+}
+
+document.addEventListener("click", e => {
+  const nav = e.target.closest("[data-v]");
+  if (nav){ VIEW = nav.dataset.v; SEL = null; FILTER = "All"; render(); return; }
+  const f = e.target.closest("[data-f]");
+  if (f){ FILTER = f.dataset.f; render(); return; }
+  if (e.target.closest("#back")){ VIEW = "portfolio"; SEL = null; render(); return; }
+  const row = e.target.closest("[data-p]");
+  if (row){ SEL = row.dataset.p; VIEW = "project"; render(); return; }
+});
+
+$("#theme").onclick = () => {
+  const cur = document.documentElement.getAttribute("data-theme");
+  const dark = cur ? cur === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.setAttribute("data-theme", dark ? "light" : "dark");
+};
+$("#reset").onclick = () => {
+  S = JSON.parse(JSON.stringify(SEED)); save(); VIEW = "portfolio"; SEL = null; FILTER = "All"; render();
+};
+
+render();
+
+</script>
