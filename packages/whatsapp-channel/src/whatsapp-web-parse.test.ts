@@ -1,4 +1,4 @@
-import { parseWebMessage } from "./whatsapp-web-parse.js";
+import { parseWebMessage, shouldProcessWebMessage } from "./whatsapp-web-parse.js";
 
 describe("parseWebMessage", () => {
   const config = {
@@ -56,5 +56,30 @@ describe("parseWebMessage", () => {
         config,
       ),
     ).toBeUndefined();
+  });
+
+  it("skips bridge-originated fromMe messages without a participant", () => {
+    expect(
+      shouldProcessWebMessage({
+        id: "bot",
+        remoteJid: "120363@g.us",
+        fromMe: true,
+        timestamp: 0,
+        text: "Note stored. Cursor can see it in the inbox.",
+      }),
+    ).toBe(false);
+  });
+
+  it("still processes fromMe group messages with a participant", () => {
+    expect(
+      shouldProcessWebMessage({
+        id: "user",
+        remoteJid: "120363@g.us",
+        participant: "27820000000@s.whatsapp.net",
+        fromMe: true,
+        timestamp: 0,
+        text: "Hello",
+      }),
+    ).toBe(true);
   });
 });

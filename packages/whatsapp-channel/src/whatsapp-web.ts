@@ -10,6 +10,7 @@ import QRCode from "qrcode";
 import { defaultMediaFilename } from "./whatsapp-parse.js";
 import {
   parseWebMessage,
+  shouldProcessWebMessage,
   toWhatsappJid,
   type WebMessage,
 } from "./whatsapp-web-parse.js";
@@ -34,6 +35,9 @@ export class WhatsappWebClient implements WhatsappClient {
   private groupSubjects = new Map<string, string>();
   private onInbound: ((msg: ParsedInbound) => Promise<void>) | undefined;
   private closed = false;
+  /** Outbound message ids — never treat our own sends as inbound notes. */
+  private readonly outboundIds = new Set<string>();
+  private readonly handling = new Set<string>();
 
   constructor(private readonly config: ChannelConfig) {}
 
@@ -69,7 +73,20 @@ export class WhatsappWebClient implements WhatsappClient {
     }
     const sent = await sock.sendMessage(toWhatsappJid(to), { text });
     const id = sent?.key.id ?? "sent";
+    if (typeof id === "string" && id.length > 0) {
+      this.outboundIds.add(id);
+      this.trimOutboundIds();
+    }
     return { id };
+  }
+
+  private trimOutboundIds(): void {
+    if (this.outboundIds.size <= 500) return;
+    const drop = this.outboundIds.size - 500;
+    for (const id of this.outboundIds) {
+      this.outboundIds.delete(id);
+      if (--drop <= 0) break;
+    }
   }
 
   async downloadMedia(media: ParsedMedia): Promise<DownloadedMedia> {
@@ -91,6 +108,8 @@ export class WhatsappWebClient implements WhatsappClient {
 
   private async connect(): Promise<void> {
     if (this.closed) return;
+    this.sock?.end(undefined);
+    this.sock = undefined;
     const { state, saveCreds } = await useMultiFileAuthState(this.config.whatsappAuthDir);
     const sock = makeWASocket({
       auth: state,
@@ -165,6 +184,9 @@ export class WhatsappWebClient implements WhatsappClient {
     for (const raw of upsert.messages) {
       const web = toWebMessage(raw);
       if (web === undefined) continue;
+      if (this.outboundIds.has(web.id) || !shouldProcessWebMessage(web)) continue;
+      if (this.handling.has(web.id)) continue;
+      this.handling.add(web.id);
       if (web.media !== undefined) this.mediaMessages.set(web.id, raw);
       let subject = this.groupSubjects.get(web.remoteJid);
       if (subject === undefined && web.remoteJid.endsWith("@g.us") && this.sock !== undefined) {
@@ -178,13 +200,20 @@ export class WhatsappWebClient implements WhatsappClient {
         }
       }
       const parsed = parseWebMessage(web, subject, this.config);
-      if (parsed === undefined) continue;
+      if (parsed === undefined) {
+        this.handling.delete(web.id);
+        continue;
+      }
       if (this.onInbound !== undefined) {
         try {
           await this.onInbound(parsed);
         } catch (error) {
           console.error("inbound failed", error instanceof Error ? error.message : "unknown");
+        } finally {
+          this.handling.delete(web.id);
         }
+      } else {
+        this.handling.delete(web.id);
       }
     }
   }
