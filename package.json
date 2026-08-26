@@ -13,7 +13,9 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "check": "pnpm verify && pnpm typecheck && pnpm coverage",
     "whatsapp:mcp": "pnpm --filter @siteos/whatsapp-channel mcp",
-    "whatsapp:serve": "pnpm --filter @siteos/whatsapp-channel serve"
+    "whatsapp:serve": "pnpm --filter @siteos/whatsapp-channel serve",
+    "site:dev": "pnpm --filter @siteos/site dev",
+    "site:build": "pnpm --filter @siteos/site build"
   },
   "devDependencies": {
     "@types/node": "^26.3.0",

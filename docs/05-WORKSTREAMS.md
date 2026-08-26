@@ -91,6 +91,7 @@ treat any of it as configurable.*
 ### Site app
 
 **SITE-01 — Shell.** Tabs, offline indicator, language toggle, theme.
+*In progress on `apps/site` (Next.js).*
 **SITE-02 — Flow engine.** Step kinds: say, choice, number, text, checks (gating),
 photo, compute, doc, finish. Persisted per step, resumable.
 **SITE-03 — Today.** Lifecycle spine, baseline variance, the action list.

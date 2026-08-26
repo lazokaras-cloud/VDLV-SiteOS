@@ -1,0 +1,22 @@
+{
+  "app.project": "Menlyn Office Park Ph2",
+  "app.contract": "JBCC PBA May 2018",
+  "tab.today": "Today",
+  "tab.guides": "Guides",
+  "tab.money": "Money",
+  "tab.board": "Board",
+  "offline.offline": "Offline — writes queue locally",
+  "offline.online": "Online",
+  "theme.flip": "Flip theme",
+  "lang.toggle": "Language",
+  "today.heading": "Needs you now",
+  "today.clear": "Nothing is running out today.",
+  "today.sub": "Every open contractual clock on this project is inside its window.",
+  "today.shellNote": "Site app shell (SITE-01). Flows and rules engine land in SITE-02 onward.",
+  "guides.heading": "Guides",
+  "guides.body": "Guided flows will live here — variation, claim, progress report.",
+  "money.heading": "Money",
+  "money.body": "Certificates and contra charges — computed by packages/rules, never by a model.",
+  "board.heading": "Board",
+  "board.body": "Lifecycle spine and baseline variance for the contracts director."
+}

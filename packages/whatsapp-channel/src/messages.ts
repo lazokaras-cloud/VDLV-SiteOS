@@ -12,6 +12,8 @@ export function helpText(locale: ChannelLocale, vars: HelpVars): string {
     return (
       "SiteOS WhatsApp channel.\n" +
       "/note … — stoor 'n note vir Cursor\n" +
+      "/updateDemo … — verander die demo in src/ (commit na main, Vercel deploy)\n" +
+      "/updateApp … — vra Cursor om die regte app te verander (maak 'n PR)\n" +
       "/update … — vra Cursor om die app te verander (maak 'n PR)\n" +
       "Stuur 'n document of foto — dit word in die inbox gestoor\n" +
       "/status — laaste Cursor run\n" +
@@ -23,6 +25,8 @@ export function helpText(locale: ChannelLocale, vars: HelpVars): string {
   return (
     "SiteOS WhatsApp channel.\n" +
     "/note … — store a note for Cursor\n" +
+    "/updateDemo … — change the demo in src/ (commit to main, Vercel deploys)\n" +
+    "/updateApp … — ask Cursor to change the real app (opens a PR)\n" +
     "/update … — ask Cursor to change the app (opens a PR)\n" +
     "Send a document or photo — stored in the inbox\n" +
     "/status — last Cursor run\n" +

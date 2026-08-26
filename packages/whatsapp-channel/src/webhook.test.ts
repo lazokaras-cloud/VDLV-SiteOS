@@ -159,6 +159,65 @@ describe("handleInbound", () => {
     expect(result.reply).toContain("https://wa.me/27820000001");
   });
 
+  it("skips duplicate message ids without replying", async () => {
+    const inbox = join(dir, "dup");
+    const config = configFor(inbox);
+    const { whatsapp, cursor } = clients(config);
+    await handleInbound(inbound({ wamid: "wamid.dup", text: "first" }), {
+      config,
+      whatsapp,
+      cursor,
+    });
+    const again = await handleInbound(inbound({ wamid: "wamid.dup", text: "first" }), {
+      config,
+      whatsapp,
+      cursor,
+    });
+    expect(again.handled).toBe(true);
+    expect(again.reason).toBe("duplicate");
+    expect(again.reply).toBeUndefined();
+    expect(listItems(inbox).length).toBe(1);
+  });
+
+  it("launches demo updates on main without a PR", async () => {
+    const inbox = join(dir, "demo");
+    const config = configFor(inbox, { CURSOR_API_KEY: "cur_test" });
+    const { whatsapp, cursor, calls } = clients(config);
+    const result = await handleInbound(
+      inbound({ wamid: "wamid.demo", text: "/updateDemo show inbox on plumbline" }),
+      { config, whatsapp, cursor },
+    );
+    expect(result.reply).toContain("https://cursor.com/agents/bc-test");
+    const launch = calls.find(
+      (call) => call.method === "POST" && call.url === "https://api.cursor.test/v1/agents",
+    );
+    expect(launch?.body).toMatchObject({
+      autoCreatePR: false,
+      repos: [{ url: "https://github.com/tobievii/constrAI", startingRef: "main" }],
+    });
+    const body = launch?.body as { prompt: { text: string } };
+    expect(body.prompt.text).toContain("src/");
+    expect(body.prompt.text).toContain("main");
+    expect(listItems(inbox)[0]?.kind).toBe("updateDemo");
+  });
+
+  it("launches app updates with a PR", async () => {
+    const inbox = join(dir, "app");
+    const config = configFor(inbox, { CURSOR_API_KEY: "cur_test" });
+    const { whatsapp, cursor, calls } = clients(config);
+    await handleInbound(
+      inbound({ wamid: "wamid.app", text: "/updateApp build site shell" }),
+      { config, whatsapp, cursor },
+    );
+    const launch = calls.find(
+      (call) => call.method === "POST" && call.url === "https://api.cursor.test/v1/agents",
+    );
+    expect(launch?.body).toMatchObject({ autoCreatePR: true });
+    const body = launch?.body as { prompt: { text: string } };
+    expect(body.prompt.text).toContain("apps/site");
+    expect(listItems(inbox)[0]?.kind).toBe("updateApp");
+  });
+
   it("stores a plain note without launching Cursor", async () => {
     const inbox = join(dir, "note");
     const config = configFor(inbox);

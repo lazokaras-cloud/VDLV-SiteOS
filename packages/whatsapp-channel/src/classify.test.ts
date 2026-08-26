@@ -24,6 +24,22 @@ describe("parseCommand", () => {
     });
     expect(parseCommand("/agent do it")).toEqual({ command: "update", rest: "do it" });
     expect(parseCommand("/fix the tab")).toEqual({ command: "update", rest: "the tab" });
+    expect(parseCommand("/updateDemo add inbox notes panel")).toEqual({
+      command: "updateDemo",
+      rest: "add inbox notes panel",
+    });
+    expect(parseCommand("/demo show notes")).toEqual({
+      command: "updateDemo",
+      rest: "show notes",
+    });
+    expect(parseCommand("/updateApp build today screen")).toEqual({
+      command: "updateApp",
+      rest: "build today screen",
+    });
+    expect(parseCommand("/app offline indicator")).toEqual({
+      command: "updateApp",
+      rest: "offline indicator",
+    });
   });
 
   it("keeps unmatched text as a plain note body", () => {
@@ -47,6 +63,8 @@ describe("isUpdateCaption", () => {
     expect(isUpdateCaption(undefined)).toBe(false);
     expect(isUpdateCaption("")).toBe(false);
     expect(isUpdateCaption("/update from this photo")).toBe(true);
+    expect(isUpdateCaption("/updateDemo from this photo")).toBe(true);
+    expect(isUpdateCaption("/updateApp from this photo")).toBe(true);
     expect(isUpdateCaption("just a caption")).toBe(false);
   });
 });

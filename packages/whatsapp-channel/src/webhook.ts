@@ -14,12 +14,18 @@ import {
   updateQueued,
 } from "./messages.js";
 import { isAllowedSender, waMeLink } from "./phone.js";
-import { agentDisplayName, buildLaunchPrompt } from "./prompt.js";
-import { getItem, latestUpdate, saveItem, writeMedia } from "./store.js";
+import {
+  agentDisplayName,
+  buildAppLaunchPrompt,
+  buildDemoLaunchPrompt,
+  buildLaunchPrompt,
+} from "./prompt.js";
+import { getItem, hasItem, latestUpdate, saveItem, writeMedia } from "./store.js";
 import type {
   ChannelConfig,
   CursorImage,
   InboxItem,
+  InboxKind,
   ParsedInbound,
   WhatsappClient,
 } from "./types.js";
@@ -50,8 +56,16 @@ export async function handleInbound(
     return { handled: false, reason: "sender-not-allowed" };
   }
 
+  if (hasItem(config.inboxDir, inbound.wamid)) {
+    return { handled: true, reason: "duplicate" };
+  }
+
   const command = parseCommand(inbound.text ?? "");
   const hasMedia = inbound.media !== undefined;
+  const isLaunch =
+    command.command === "update" ||
+    command.command === "updateDemo" ||
+    command.command === "updateApp";
 
   if (command.command === "help") {
     const joinLink = waMeLink(config.whatsappDisplayNumber);
@@ -72,21 +86,17 @@ export async function handleInbound(
     return { handled: true, reply: emptyMessage(config.locale) };
   }
 
-  if (command.command === "update" && command.rest.length === 0 && !hasMedia) {
+  if (isLaunch && command.rest.length === 0 && !hasMedia) {
     return { handled: true, reply: updateNeedBody(config.locale) };
   }
 
-  const kind =
-    command.command === "update"
-      ? "update"
-      : hasMedia
-        ? "document"
-        : "note";
+  const kind: InboxKind = isLaunch
+    ? launchKind(command.command)
+    : hasMedia
+      ? "document"
+      : "note";
 
-  const body =
-    command.command === "plain" || command.command === "note" || command.command === "update"
-      ? command.rest
-      : (inbound.text ?? "");
+  const body = isBodyCommand(command.command) ? command.rest : (inbound.text ?? "");
 
   const item: InboxItem = {
     id: inbound.wamid,
@@ -118,7 +128,7 @@ export async function handleInbound(
 
   saveItem(config.inboxDir, item);
 
-  if (kind !== "update") {
+  if (!isLaunchKind(kind)) {
     return {
       handled: true,
       item,
@@ -132,9 +142,11 @@ export async function handleInbound(
 
   try {
     const launched = await deps.cursor.launch({
-      promptText: buildLaunchPrompt(item, config.cursorRepoUrl),
+      promptText: launchPrompt(kind, item, config.cursorRepoUrl),
       images,
       name: agentDisplayName(item.body),
+      startingRef: kind === "updateDemo" ? "main" : config.cursorStartingRef,
+      autoCreatePr: kind !== "updateDemo",
       ...(config.publicBaseUrl.length > 0 && config.mcpAuthToken.length > 0
         ? {
             mcpUrl: `${config.publicBaseUrl}/mcp`,
@@ -156,6 +168,32 @@ export async function handleInbound(
   } catch {
     return { handled: true, item, reply: updateFailed(config.locale) };
   }
+}
+
+function isBodyCommand(command: string): boolean {
+  return (
+    command === "plain" ||
+    command === "note" ||
+    command === "update" ||
+    command === "updateDemo" ||
+    command === "updateApp"
+  );
+}
+
+function launchKind(command: string): InboxKind {
+  if (command === "updateDemo") return "updateDemo";
+  if (command === "updateApp") return "updateApp";
+  return "update";
+}
+
+function isLaunchKind(kind: InboxKind): boolean {
+  return kind === "update" || kind === "updateDemo" || kind === "updateApp";
+}
+
+function launchPrompt(kind: InboxKind, item: InboxItem, repoUrl: string): string {
+  if (kind === "updateDemo") return buildDemoLaunchPrompt(item, repoUrl);
+  if (kind === "updateApp") return buildAppLaunchPrompt(item, repoUrl);
+  return buildLaunchPrompt(item, repoUrl);
 }
 
 async function statusReply(deps: WebhookDeps): Promise<string> {

@@ -160,7 +160,8 @@ export class WhatsappWebClient implements WhatsappClient {
   }
 
   private async onMessages(upsert: { type: string; messages: unknown[] }): Promise<void> {
-    if (upsert.type !== "notify" && upsert.type !== "append") return;
+    // "append" replays history on reconnect; handling it re-stores notes and spams replies.
+    if (upsert.type !== "notify") return;
     for (const raw of upsert.messages) {
       const web = toWebMessage(raw);
       if (web === undefined) continue;
