@@ -28,6 +28,11 @@ const note = (msg) => notes.push(msg);
 const read = (p) => readFileSync(join(ROOT, p), "utf8");
 const exists = (p) => existsSync(join(ROOT, p));
 
+const NL = String.fromCharCode(10);
+const CR = String.fromCharCode(13);
+/** Split text into lines without a regex literal, which patches keep mangling. */
+const lines = (text) => text.split(NL).map((l) => (l.endsWith(CR) ? l.slice(0, -1) : l));
+
 function walk(dir, out = []) {
   if (!existsSync(join(ROOT, dir))) return out;
   for (const entry of readdirSync(join(ROOT, dir))) {
@@ -182,7 +187,61 @@ for (const f of domainFiles) {
 }
 
 /* ------------------------------------------------------------------ *
- * 5. Coverage gate is not quietly lowered
+ * 5. Authority is configured, and configured safely
+ * ------------------------------------------------------------------ */
+if (exists("authority.json")) {
+  const auth = JSON.parse(read("authority.json"));
+  const people = auth.people ?? [];
+
+  const placeholders = people.filter((p) => /^\+27000000000$/.test(p.whatsapp ?? ""));
+  if (placeholders.length) {
+    note(
+      `authority.json still has ${placeholders.length} placeholder number(s). ` +
+        `Until they are real, every requester is \`unknown\` and agents build nothing ` +
+        `from WhatsApp. Fill them in and commit.`,
+    );
+  }
+
+  // A display name is not an identity. Everyone needs a number.
+  for (const p of people) {
+    if (!p.whatsapp) fail("authority-no-identifier", `authority.json: "${p.name}" has no whatsapp number. A name alone is spoofable and cannot grant authority.`);
+    if (!auth.roles?.[p.role]) fail("authority-unknown-role", `authority.json: "${p.name}" has role "${p.role}", which is not defined under roles.`);
+  }
+
+  // Exactly one admin, and the admin must be reachable on GitHub, because red
+  // authority is exercised by approving a pull request rather than by message.
+  const admins = people.filter((p) => p.role === "admin");
+  if (admins.length !== 1) {
+    fail("authority-admin-count", `authority.json defines ${admins.length} admins. There must be exactly one, so it is never ambiguous who a red request goes to.`);
+  } else if (!admins[0].github) {
+    fail("authority-admin-github", `authority.json: the admin has no github handle. Red requests are authorised by approving a pull request, so the admin must exist on GitHub.`);
+  }
+
+  // No role except admin may bless fixtures or merge.
+  for (const [role, caps] of Object.entries(auth.roles ?? {})) {
+    if (role !== "admin" && (caps.may_bless_fixtures || caps.may_merge)) {
+      fail("authority-privilege-escalation", `authority.json: role "${role}" may bless fixtures or merge. Only admin may, and only through GitHub.`);
+    }
+  }
+
+  // The admin's github handle should own the protected paths.
+  if (exists(".github/CODEOWNERS") && admins[0]?.github) {
+    const owners = read(".github/CODEOWNERS");
+    for (const path of ["/packages/rules/", "/fixtures/", "/docs/03-RULES.md", "/authority.json"]) {
+      const line = lines(owners).find((l) => l.trim().startsWith(path));
+      if (!line) {
+        fail("codeowners-missing-path", `.github/CODEOWNERS does not protect ${path}. Anything that can change the product's meaning needs a human review.`);
+      } else if (!line.includes("@" + admins[0].github)) {
+        fail("codeowners-not-admin", `.github/CODEOWNERS: ${path} is not owned by the admin (@${admins[0].github}).`);
+      }
+    }
+  }
+} else {
+  fail("authority-missing", "authority.json is missing. Agents cannot tell who may ask for what, so nothing from WhatsApp is actionable.");
+}
+
+/* ------------------------------------------------------------------ *
+ * 6. Coverage gate is not quietly lowered
  * ------------------------------------------------------------------ */
 if (exists("vitest.config.ts")) {
   const cfg = read("vitest.config.ts");
@@ -196,7 +255,7 @@ if (exists("vitest.config.ts")) {
 }
 
 /* ------------------------------------------------------------------ *
- * 6. The repository must stay private while knowledge is in it
+ * 7. The repository must stay private while knowledge is in it
  * ------------------------------------------------------------------ */
 if (exists("docs/knowledge") && exists(".github/workflows")) {
   const wf = walk(".github/workflows").map(read).join("\n");

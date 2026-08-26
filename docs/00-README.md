@@ -21,6 +21,7 @@ production code. Read it, run it, then build the real thing properly.
 | 07 | `07-GLOSSARY.md` | Domain vocabulary and the Afrikaans register |
 | 08 | `08-DECISIONS.md` | What is already settled, and why. Argue with the reason, not the choice. |
 | 09 | **`09-GUARDRAILS.md`** | **Read this if a request came from the client rather than a ticket.** What you may build, what needs a yes, what needs a person. |
+| 10 | `10-AUTHORITY.md` | Who may ask for what. Identity is a phone number, never a display name. |
 | — | `OPEN-QUESTIONS.md` | Where to put things you needed and could not find |
 | — | [`knowledge/`](knowledge/README.md) | **The source documents this was specified from.** Check a fact against the original rather than guessing. Private repo only — read its handling rules first. |
 | — | [`knowledge/CLIENT-NARRATIVE.md`](knowledge/CLIENT-NARRATIVE.md) | The contractor describing their own process. Primary source; where it disagrees with a doc, it wins. |

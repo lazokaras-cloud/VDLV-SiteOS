@@ -28,3 +28,7 @@
 /package.json               @tobievii
 /vitest.config.ts           @tobievii
 /tsconfig.json              @tobievii
+
+# Who may authorise what. Changing this on the strength of a message
+# defeats the point of it existing.
+/authority.json             @tobievii
