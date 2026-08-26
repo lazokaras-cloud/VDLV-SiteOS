@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "whatsapp-channel": {
+      "command": "pnpm",
+      "args": ["--filter", "@siteos/whatsapp-channel", "mcp"]
+    }
+  }
+}
