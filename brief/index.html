@@ -6,8 +6,11 @@
 <title>The Process Ontology</title>
 <meta name="description" content="A template for capturing how a construction business actually runs, in the one shape a system can be built from.">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#E6E7E3" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#15181C" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&display=swap">
+<meta name="theme-color" content="#F1F1F1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0C0C0C" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%23101317%22%2F%3E%3Cpath%20d%3D%22M16%205v13%22%20stroke%3D%22%23E5AE0B%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M11%2018h10l-5%208z%22%20fill%3D%22%23E5AE0B%22%2F%3E%3C%2Fsvg%3E">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%23101317%22%2F%3E%3Cpath%20d%3D%22M16%205v13%22%20stroke%3D%22%23E5AE0B%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M11%2018h10l-5%208z%22%20fill%3D%22%23E5AE0B%22%2F%3E%3C%2Fsvg%3E">
 <link rel="canonical" href="/brief">
@@ -22,24 +25,28 @@
 <meta name="robots" content="noindex">
 </head>
 <body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&display=swap">
+
 <style>
 :root{
-  --ground:#F2F2F0; --surface:#FFFFFF; --surface-2:#F7F7F4;
+  --ground:#F1F1F1; --surface:#FFFFFF; --surface-2:#F7F7F4;
   --ink:#111111; --ink-2:#5A5A56; --ink-3:#8C8C87;
   --rule:#DCDCD6; --rule-2:#EAEAE4;
-  --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E; --signal-txt:#8A6200;
+  --signal:#FFCB05; --signal-ink:#0C0C0C; --signal-txt:#7A5E00;
   --stamp:#5A5A56; --stamp-wash:#F0EDE3;
   --ok:#2E7D4F; --warn:#B2740B; --crit:#C0392B;
   --shadow:0 1px 2px rgba(16,19,23,.05), 0 10px 30px rgba(16,19,23,.08);
   --mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,"Roboto Mono",Menlo,monospace;
-  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --sans:"Source Sans 3","Source Sans Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --ground:#0C0C0C; --surface:#151515; --surface-2:#1D1D1C;
     --ink:#F2F2EF; --ink-2:#A0A09B; --ink-3:#74746F;
     --rule:#2C2C2A; --rule-2:#212120;
-    --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E;
+    --signal:#FFCB05; --signal-ink:#0C0C0C; --signal-txt:#FFCB05;
     --stamp:#A0A09B; --stamp-wash:#241E08;
     --ok:#46B87A; --warn:#E0A93C; --crit:#E4695C;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.45);
@@ -49,7 +56,7 @@
   --ground:#0C0C0C; --surface:#151515; --surface-2:#1D1D1C;
   --ink:#F2F2EF; --ink-2:#A0A09B; --ink-3:#74746F;
   --rule:#2C2C2A; --rule-2:#212120;
-  --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E;
+  --signal:#FFCB05; --signal-ink:#0C0C0C; --signal-txt:#FFCB05;
   --stamp:#A0A09B; --stamp-wash:#241E08;
   --ok:#46B87A; --warn:#E0A93C; --crit:#E4695C;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.45);
@@ -69,8 +76,8 @@ body{
 .rail{flex:none; display:flex; align-items:center; gap:14px; padding:12px 22px;
       border-bottom:1px solid var(--rule); background:var(--surface);
       position:sticky; top:0; z-index:20}
-.rail .mark{display:flex; align-items:baseline; gap:8px; font-size:15px; font-weight:250; letter-spacing:.02em}
-.rail .mark b{font-weight:250; color:var(--signal-txt)}
+.rail .mark{display:flex; align-items:baseline; gap:8px; font-size:15px; font-weight:700; letter-spacing:.02em}
+.rail .mark b{font-weight:700; color:var(--signal-txt)}
 .rail .mark i{width:7px; height:7px; border:2px solid var(--signal); border-radius:50%; flex:none; transform:translateY(-1px)}
 .rail .sp{flex:1}
 .lab{font-family:var(--mono); font-size:9.5px; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-3)}
@@ -94,17 +101,17 @@ body{
   font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-3)}
 .eyebrow::before{content:""; width:22px; height:2px; background:var(--signal)}
 
-h1{margin:0 0 15px; font-size:clamp(29px,5.2vw,48px); font-weight:250; letter-spacing:.03em;
+h1{margin:0 0 15px; font-size:clamp(29px,5.2vw,48px); font-weight:700; letter-spacing:.03em;
    line-height:1.07; text-transform:uppercase; text-wrap:balance}
-h2{margin:0 0 8px; font-size:clamp(22px,3.3vw,31px); font-weight:350; letter-spacing:-.005em;
+h2{margin:0 0 8px; font-size:clamp(22px,3.3vw,31px); font-weight:700; letter-spacing:-.005em;
    line-height:1.18; text-wrap:balance}
 .dek{margin:0 0 24px; font-size:18px; color:var(--ink-2); max-width:62ch; text-wrap:balance}
 p{margin:0 0 15px; max-width:68ch}
-strong{font-weight:620}
+strong{font-weight:700}
 
 /* facilitation blocks, matching the workshop deck's conventions */
 .ask{counter-reset:q; display:grid; gap:1px; background:var(--rule);
-     border:1px solid var(--rule); border-radius:11px; overflow:hidden; margin:20px 0}
+     border:1px solid var(--rule); border-radius:4px; overflow:hidden; margin:20px 0}
 .ask > div{background:var(--surface); padding:14px 17px; display:flex; gap:14px; align-items:flex-start}
 .ask .n{flex:none; width:25px; height:25px; border-radius:6px; display:grid; place-items:center;
         background:var(--signal); color:var(--signal-ink); font-family:var(--mono); font-size:11px; font-weight:700}
@@ -113,7 +120,7 @@ strong{font-weight:620}
            color:var(--ink-3); margin-top:6px}
 
 .two{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:14px; margin:20px 0}
-.box{background:var(--surface); border:1px solid var(--rule); border-radius:11px;
+.box{background:var(--surface); border:1px solid var(--rule); border-radius:4px;
      padding:15px 17px; box-shadow:var(--shadow)}
 .box .lab{display:block; margin-bottom:9px}
 .box ul{margin:0; padding-left:19px}
@@ -125,9 +132,9 @@ strong{font-weight:620}
 .grid{display:grid; gap:14px; margin:20px 0}
 .g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 .g3{grid-template-columns:repeat(auto-fit,minmax(212px,1fr))}
-.card{background:var(--surface); border:1px solid var(--rule); border-radius:11px;
+.card{background:var(--surface); border:1px solid var(--rule); border-radius:4px;
       padding:16px 17px; box-shadow:var(--shadow)}
-.card h3{margin:0 0 7px; font-size:16px; font-weight:550}
+.card h3{margin:0 0 7px; font-size:16px; font-weight:600}
 .card p{margin:0; font-size:14.5px; color:var(--ink-2)}
 .card .n{display:inline-grid; place-items:center; width:24px; height:24px; border-radius:5px;
          background:var(--ink); color:var(--ground); font-family:var(--mono); font-size:10.5px;
@@ -139,7 +146,7 @@ ul,ol{margin:0 0 16px; padding-left:22px; max-width:68ch}
 li{margin:0 0 8px}
 li::marker{color:var(--ink-3)}
 
-.tw{overflow-x:auto; margin:20px 0; border:1px solid var(--rule); border-radius:11px;
+.tw{overflow-x:auto; margin:20px 0; border:1px solid var(--rule); border-radius:4px;
     background:var(--surface); box-shadow:var(--shadow)}
 table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:620px}
 th,td{padding:11px 15px; text-align:left; border-bottom:1px solid var(--rule-2); vertical-align:top}
@@ -157,7 +164,7 @@ td.k{font-family:var(--mono); font-size:12.5px; white-space:nowrap; color:var(--
 .note .lab{display:block; margin-bottom:6px}
 
 .split{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:15px; margin:20px 0}
-.good,.bad{border-radius:11px; padding:15px 17px; border:1px solid var(--rule);
+.good,.bad{border-radius:4px; padding:15px 17px; border:1px solid var(--rule);
            background:var(--surface); box-shadow:var(--shadow)}
 .good{border-left:3px solid var(--ok)} .bad{border-left:3px solid var(--crit)}
 .good .lab,.bad .lab{display:block; margin-bottom:8px}
@@ -166,14 +173,14 @@ td.k{font-family:var(--mono); font-size:12.5px; white-space:nowrap; color:var(--
 .quote{font-family:var(--mono); font-size:13px; line-height:1.55; color:var(--ink)}
 
 .kpi{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px;
-     background:var(--rule); border:1px solid var(--rule); border-radius:11px; overflow:hidden; margin:20px 0}
+     background:var(--rule); border:1px solid var(--rule); border-radius:4px; overflow:hidden; margin:20px 0}
 .kpi div{background:var(--surface); padding:15px 16px}
 .kpi b{display:block; font-family:var(--mono); font-size:26px; font-weight:700; letter-spacing:-.03em; margin-top:4px}
 .kpi span.d{display:block; font-size:12.5px; color:var(--ink-2); margin-top:3px}
 
 figure{margin:22px 0}
 figure svg{display:block; width:100%; height:auto; background:var(--surface);
-           border:1px solid var(--rule); border-radius:11px; box-shadow:var(--shadow); padding:6px 0}
+           border:1px solid var(--rule); border-radius:4px; box-shadow:var(--shadow); padding:6px 0}
 figcaption{margin-top:10px; font-size:13.5px; color:var(--ink-2); max-width:68ch}
 
 .nav{flex:none; display:flex; align-items:center; gap:12px; padding:11px 22px;
@@ -189,6 +196,15 @@ figcaption{margin-top:10px; font-size:13.5px; color:var(--ink-2); max-width:68ch
 .nav button.go{background:var(--signal); color:var(--signal-ink); border-color:var(--signal)}
 .nav svg{width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2.4}
 .count{font-family:var(--mono); font-size:12px; color:var(--ink-2); font-variant-numeric:tabular-nums}
+
+
+/* Their own device: a flat yellow panel with a hard black rule around it.
+   Used wherever the accent has to carry weight rather than whisper. */
+.chip.sig, .pill.sig, .opt.sig, .mini.go, .nav button.on,
+.card.accent .n, .fields .num, .ask .n, .cin button, .filters button.on{
+  border:1px solid #0C0C0C;
+}
+.eyebrow::before{height:4px; width:26px}
 
 @media (max-width:640px){
   .slide{padding:24px 18px 56px}
@@ -234,7 +250,7 @@ figcaption{margin-top:10px; font-size:13.5px; color:var(--ink-2); max-width:68ch
       <figure>
         <svg viewBox="0 0 900 220" role="img" aria-label="Parts one to three of the workshop cover business context, current state and constraints. Part four, the process ontology, expands the workflow slide into six fields per process area, and feeds the synthesis alongside the other parts.">
           <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker>
-          <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#FFC20E"/></marker></defs>
+          <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#FFCB05"/></marker></defs>
           <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="11" fill="currentColor">
             <text x="20" y="28" font-size="9.5" opacity=".6">THE WORKSHOP</text>
             <rect x="20" y="38" width="118" height="40" rx="6" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".8"/>
@@ -245,15 +261,15 @@ figcaption{margin-top:10px; font-size:13.5px; color:var(--ink-2); max-width:68ch
             <rect x="280" y="38" width="118" height="40" rx="6" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".8"/>
             <text x="339" y="63" text-anchor="middle" opacity=".85">3. Constraints</text>
 
-            <path d="M209 78 L 209 116" fill="none" stroke="#FFC20E" stroke-width="1.8" marker-end="url(#ag)"/>
-            <text x="222" y="102" font-size="10" fill="#FFC20E">expands into</text>
+            <path d="M209 78 L 209 116" fill="none" stroke="#FFCB05" stroke-width="1.8" marker-end="url(#ag)"/>
+            <text x="222" y="102" font-size="10" fill="#FFCB05">expands into</text>
 
-            <rect x="20" y="120" width="378" height="62" rx="8" fill="none" stroke="#FFC20E" stroke-width="2"/>
-            <text x="36" y="142" fill="#FFC20E" font-weight="700">4. Process ontology</text>
-            <text x="36" y="160" fill="#FFC20E" opacity=".85" font-size="10.5">steps / decisions / rules /</text>
-            <text x="36" y="174" fill="#FFC20E" opacity=".85" font-size="10.5">inputs / outputs / dependencies</text>
+            <rect x="20" y="120" width="378" height="62" rx="8" fill="none" stroke="#FFCB05" stroke-width="2"/>
+            <text x="36" y="142" fill="#FFCB05" font-weight="700">4. Process ontology</text>
+            <text x="36" y="160" fill="#FFCB05" opacity=".85" font-size="10.5">steps / decisions / rules /</text>
+            <text x="36" y="174" fill="#FFCB05" opacity=".85" font-size="10.5">inputs / outputs / dependencies</text>
 
-            <path d="M398 151 L 470 151" fill="none" stroke="#FFC20E" stroke-width="1.6" marker-end="url(#ag)"/>
+            <path d="M398 151 L 470 151" fill="none" stroke="#FFCB05" stroke-width="1.6" marker-end="url(#ag)"/>
             <path d="M398 58 C 440 58, 440 130, 470 130" fill="none" stroke="currentColor" stroke-width="1.2" marker-end="url(#a)" opacity=".55"/>
 
             <rect x="474" y="112" width="140" height="58" rx="8" fill="none" stroke="currentColor" stroke-width="1.5"/>

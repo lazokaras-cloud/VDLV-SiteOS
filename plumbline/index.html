@@ -6,8 +6,11 @@
 <title>Plumbline</title>
 <meta name="description" content="The site app. A guided chat forces the process one question at a time while the JBCC clock runs in the background.">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#E6E7E3" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#15181C" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&display=swap">
+<meta name="theme-color" content="#F1F1F1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0C0C0C" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%23101317%22%2F%3E%3Cpath%20d%3D%22M16%205v13%22%20stroke%3D%22%23E5AE0B%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M11%2018h10l-5%208z%22%20fill%3D%22%23E5AE0B%22%2F%3E%3C%2Fsvg%3E">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%23101317%22%2F%3E%3Cpath%20d%3D%22M16%205v13%22%20stroke%3D%22%23E5AE0B%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M11%2018h10l-5%208z%22%20fill%3D%22%23E5AE0B%22%2F%3E%3C%2Fsvg%3E">
 <link rel="canonical" href="/plumbline">
@@ -22,13 +25,17 @@
 <meta name="robots" content="noindex">
 </head>
 <body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&display=swap">
+
 <style>
 /* -------------------------------------------------------------
    PLUMBLINE - design tokens
    Light is the default (site = daylight). Dark redefines tokens only.
    ------------------------------------------------------------- */
 :root{
-  --ground:#F2F2F0;      /* light: brushed silver */
+  --ground:#F1F1F1;      /* light: brushed silver */
   --field:#E4E4E0;       /* bench behind the device */
   --surface:#FFFFFF;     /* panel */
   --surface-2:#F7F7F4;
@@ -37,8 +44,8 @@
   --ink-3:#8C8C87;
   --rule:#DCDCD6;
   --rule-2:#EAEAE4;
-  --signal:#FFC20E;      /* the customer's gold, used as a fill */
-  --signal-txt:#8A6200;  /* the same accent where it has to be legible as text */
+  --signal:#FFCB05;      /* the customer's gold, used as a fill */
+  --signal-txt:#7A5E00;  /* the same accent where it has to be legible as text */
   --signal-ink:#FFFFFF;
   --stamp:#5A5A56;       /* slate, structural secondary */
   --stamp-wash:#F0EDE3;
@@ -52,9 +59,9 @@
   --shadow-lift:0 2px 4px rgba(16,19,23,.08), 0 18px 48px rgba(16,19,23,.16);
 
   --mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,"Roboto Mono",Menlo,monospace;
-  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --sans:"Source Sans 3","Source Sans Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
 
-  --r:10px;
+  --r:4px;
   --gut:16px;
 }
 @media (prefers-color-scheme: dark){
@@ -62,7 +69,7 @@
     --ground:#0C0C0C; --field:#050505; --surface:#111111; --surface-2:#1D1D1C;
     --ink:#F2F2EF; --ink-2:#A0A09B; --ink-3:#74746F;
     --rule:#2C2C2A; --rule-2:#212120;
-    --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E;
+    --signal:#FFCB05; --signal-ink:#0C0C0C; --signal-txt:#FFCB05;
     --stamp:#A0A09B; --stamp-wash:#241E08;
     --ok:#46B87A; --ok-wash:#14261B;
     --warn:#E0A93C; --warn-wash:#2A2214;
@@ -75,7 +82,7 @@
   --ground:#0C0C0C; --field:#050505; --surface:#111111; --surface-2:#1D1D1C;
   --ink:#F2F2EF; --ink-2:#A0A09B; --ink-3:#74746F;
   --rule:#2C2C2A; --rule-2:#212120;
-  --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E;
+  --signal:#FFCB05; --signal-ink:#0C0C0C; --signal-txt:#FFCB05;
   --stamp:#A0A09B; --stamp-wash:#241E08;
   --ok:#46B87A; --ok-wash:#14261B;
   --warn:#E0A93C; --warn-wash:#2A2214;
@@ -115,7 +122,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .tb-head{padding:18px 20px 14px; border-bottom:2px solid var(--ink)}
 .tb-mark{display:flex; align-items:baseline; gap:10px}
 .tb-mark h1{
-  margin:0; font-size:25px; font-weight:250; letter-spacing:.07em; line-height:1;
+  margin:0; font-size:25px; font-weight:700; letter-spacing:.07em; line-height:1;
   text-transform:uppercase;
 }
 .tb-mark .tick{
@@ -161,7 +168,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* -- The device -------------------------------------------------- */
 .device{
   width:390px; height:800px; flex:none; position:relative;
-  background:var(--ground); border-radius:38px; box-shadow:var(--shadow-lift);
+  background:var(--ground); border-radius:34px; box-shadow:var(--shadow-lift);
   border:10px solid #0A0C0E; overflow:hidden;
 }
 :root[data-theme="dark"] .device, :root:not([data-theme="light"]) .device{border-color:#000}
@@ -202,7 +209,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 @media (max-width:1000px){ .bar{padding:12px 16px 10px} }
 .bar-id{min-width:0; flex:1}
 .bar-id .proj{
-  font-weight:520; font-size:14.5px; letter-spacing:0; white-space:nowrap;
+  font-weight:600; font-size:14.5px; letter-spacing:0; white-space:nowrap;
   overflow:hidden; text-overflow:ellipsis;
 }
 .chip{
@@ -276,7 +283,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .proj{display:flex; flex-direction:column; gap:0; width:100%; text-align:left; padding:11px 13px; border-bottom:1px solid var(--rule-2)}
 .proj:last-child{border-bottom:0}
 .proj .l1{display:flex; align-items:baseline; gap:8px}
-.proj .l1 b{font-size:14px; font-weight:520; letter-spacing:0; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.proj .l1 b{font-size:14px; font-weight:600; letter-spacing:0; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .proj .l2{display:flex; align-items:center; gap:7px; margin-top:6px; flex-wrap:wrap}
 .proj .l2 .m{font-family:var(--mono); font-size:11px; color:var(--ink-2); font-variant-numeric:tabular-nums}
 .edch{
@@ -325,7 +332,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .task.info .sev{background:var(--stamp)} .task.ok .sev{background:var(--ok)}
 .task .body{flex:1; min-width:0; padding:12px 13px}
 .task .top{display:flex; align-items:center; gap:7px; margin-bottom:5px; flex-wrap:wrap}
-.task h3{margin:0; font-size:14.5px; font-weight:520; letter-spacing:0; line-height:1.32}
+.task h3{margin:0; font-size:14.5px; font-weight:600; letter-spacing:0; line-height:1.32}
 .task p{margin:5px 0 0; font-size:13px; color:var(--ink-2); line-height:1.4}
 .task .foot{display:flex; align-items:center; gap:9px; margin-top:10px; flex-wrap:wrap}
 .pill{
@@ -378,7 +385,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .guide.locked:hover{background:none}
 .guide.locked .num{background:var(--surface-2); color:var(--ink-3); border:1px dashed var(--rule)}
 .guide .t{flex:1; min-width:0}
-.guide .t b{display:block; font-size:14px; font-weight:520; letter-spacing:0}
+.guide .t b{display:block; font-size:14px; font-weight:600; letter-spacing:0}
 .guide .t span{font-size:12px; color:var(--ink-2)}
 
 /* -- Chat -------------------------------------------------------- */
@@ -389,7 +396,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 @media (max-width:1000px){ .chat-bar{padding-top:12px} }
 .chat-bar .r1{display:flex; align-items:center; gap:10px; padding-bottom:9px}
-.chat-bar h2{margin:0; font-size:14.5px; font-weight:520; letter-spacing:0; flex:1; min-width:0}
+.chat-bar h2{margin:0; font-size:14.5px; font-weight:600; letter-spacing:0; flex:1; min-width:0}
 .iconbtn{width:30px; height:30px; flex:none; display:grid; place-items:center; border-radius:5px; color:var(--ink-2)}
 .iconbtn:hover{background:var(--surface-2); color:var(--ink)}
 .iconbtn svg{width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2}
@@ -424,7 +431,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   padding:10px 12px; font-size:14px; line-height:1.45; box-shadow:var(--shadow); max-width:84%;
 }
 .bub p{margin:0 0 8px} .bub p:last-child{margin:0}
-.bub b{font-weight:560}
+.bub b{font-weight:600}
 .bub code{
   font-family:var(--mono); font-size:12.5px; background:var(--surface-2);
   padding:1px 5px; border-radius:3px; font-variant-numeric:tabular-nums;
@@ -432,7 +439,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .msg.me{flex-direction:row-reverse}
 .msg.me .bub{
   background:var(--ink); color:var(--ground); border-color:var(--ink);
-  border-radius:11px 3px 11px 11px;
+  border-radius:4px 3px 11px 11px;
 }
 .msg.me .who{background:var(--signal); color:var(--signal-ink)}
 
@@ -492,19 +499,19 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .opts{display:flex; flex-wrap:wrap; gap:7px}
 .opt{
   padding:9px 13px; border:1px solid var(--rule); border-radius:20px; background:var(--surface);
-  font-size:13.5px; font-weight:550; box-shadow:var(--shadow);
+  font-size:13.5px; font-weight:600; box-shadow:var(--shadow);
 }
 .opt:hover{border-color:var(--ink); background:var(--surface-2)}
 .opt.primary{background:var(--ink); color:var(--ground); border-color:var(--ink)}
 .opt.primary:hover{background:var(--ink); opacity:.88}
 .opt.sig{background:var(--signal); color:var(--signal-ink); border-color:var(--signal); font-weight:700}
-.opt.full{flex:1 0 100%; text-align:center; border-radius:8px}
+.opt.full{flex:1 0 100%; text-align:center; border-radius:4px}
 .opt svg{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; vertical-align:-3px; margin-right:6px}
 
 .num-in{display:flex; gap:8px; align-items:stretch}
 .num-in .pre{
   display:grid; place-items:center; padding:0 12px; background:var(--surface-2);
-  border:1px solid var(--rule); border-right:0; border-radius:8px 0 0 8px;
+  border:1px solid var(--rule); border-right:0; border-radius:4px 0 0 8px;
   font-family:var(--mono); font-weight:700; color:var(--ink-2);
 }
 .num-in input{
@@ -512,10 +519,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   font-family:var(--mono); font-size:17px; font-weight:600; background:var(--surface); color:var(--ink);
   font-variant-numeric:tabular-nums;
 }
-.num-in.plain input{border-radius:8px; font-family:var(--sans); font-size:15px; font-weight:400}
+.num-in.plain input{border-radius:4px; font-family:var(--sans); font-size:15px; font-weight:400}
 .num-in input:focus{outline:none; border-color:var(--stamp); box-shadow:0 0 0 3px var(--stamp-wash)}
 
-.checks{display:flex; flex-direction:column; gap:1px; background:var(--rule-2); border:1px solid var(--rule); border-radius:8px; overflow:hidden}
+.checks{display:flex; flex-direction:column; gap:1px; background:var(--rule-2); border:1px solid var(--rule); border-radius:4px; overflow:hidden}
 .chk{display:flex; gap:10px; align-items:flex-start; padding:10px 12px; background:var(--surface); text-align:left; width:100%}
 .chk:hover{background:var(--surface-2)}
 .chk .box{
@@ -538,7 +545,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* -- Voice capture ----------------------------------------------- */
 .mic{
   width:100%; display:flex; align-items:center; gap:12px; padding:12px 14px;
-  border:1px solid var(--rule); border-radius:10px; background:var(--surface);
+  border:1px solid var(--rule); border-radius:4px; background:var(--surface);
   box-shadow:var(--shadow); text-align:left;
 }
 .mic:hover{border-color:var(--ink)}
@@ -548,7 +555,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 .mic .dot svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:2}
 .mic .t{flex:1; min-width:0}
-.mic .t b{display:block; font-size:14px; font-weight:560}
+.mic .t b{display:block; font-size:14px; font-weight:600}
 .mic .t span{font-size:11.5px; color:var(--ink-2)}
 .mic.rec{border-color:var(--signal)}
 .mic.rec .dot{animation:pulse 1.5s ease-in-out infinite}
@@ -577,12 +584,21 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 .toast{
   position:absolute; left:14px; right:14px; bottom:14px; z-index:80;
-  background:var(--ink); color:var(--ground); border-radius:8px; padding:11px 13px;
+  background:var(--ink); color:var(--ground); border-radius:4px; padding:11px 13px;
   font-size:13px; box-shadow:var(--shadow-lift); display:flex; gap:9px; align-items:center;
   animation:rise .2s ease-out;
 }
 .toast[hidden]{display:none}
 .toast svg{width:17px; height:17px; stroke:var(--signal-txt); fill:none; stroke-width:2.2; flex:none}
+
+
+/* Their own device: a flat yellow panel with a hard black rule around it.
+   Used wherever the accent has to carry weight rather than whisper. */
+.chip.sig, .pill.sig, .opt.sig, .mini.go, .nav button.on,
+.card.accent .n, .fields .num, .ask .n, .cin button, .filters button.on{
+  border:1px solid #0C0C0C;
+}
+.eyebrow::before{height:4px; width:26px}
 
 .foot-note{
   margin-top:22px; padding-top:12px; border-top:1px solid var(--rule);
@@ -604,8 +620,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <span class="lockup">
           <svg class="vv" viewBox="0 0 100 100" role="img" aria-label="J.C. van der Linde and Venter Projects">
             <rect width="100" height="100" fill="#0B0B0B"/>
-            <g transform="translate(6,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFC400"/></g>
-            <g transform="translate(52,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFC400"/></g>
+            <g transform="translate(6,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFCB05"/></g>
+            <g transform="translate(52,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFCB05"/></g>
           </svg>
           <b>J.C. van der Linde<br>&amp; Venter Projects</b>
         </span>
@@ -1737,7 +1753,7 @@ function renderToday(){
 
   if (!tk.length){
     h += `<div class="card" style="padding:26px 16px;text-align:center">
-      <div style="font-size:15px;font-weight:520">${t("Nothing is running out today.")}</div>
+      <div style="font-size:15px;font-weight:600">${t("Nothing is running out today.")}</div>
       <p style="margin:7px 0 0;font-size:13px;color:var(--ink-2)">${t("Every open contractual clock on this project is inside its window.")}</p>
     </div>`;
   } else {
@@ -1955,8 +1971,8 @@ function setBar(board){
 
 const VV_MARK =
   '<svg viewBox="0 0 100 100" role="img" aria-label="J.C. van der Linde and Venter Projects">' +
-    '<g transform="translate(6,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFC400"/></g>' +
-    '<g transform="translate(52,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFC400"/></g>' +
+    '<g transform="translate(6,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFCB05"/></g>' +
+    '<g transform="translate(52,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFCB05"/></g>' +
   '</svg>';
 
 function renderAll(){

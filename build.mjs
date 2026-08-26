@@ -80,8 +80,11 @@ function build({ src, out, desc }) {
 <title>${title}</title>
 <meta name="description" content="${esc(desc)}">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#E6E7E3" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#15181C" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&display=swap">
+<meta name="theme-color" content="#F1F1F1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0C0C0C" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="${FAVICON}">
 <link rel="apple-touch-icon" href="${FAVICON}">
 <link rel="canonical" href="${canonical}">

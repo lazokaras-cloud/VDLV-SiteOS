@@ -1,25 +1,29 @@
 <title>The Smart Way</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&display=swap">
+
 <style>
 :root{
-  --ground:#F2F2F0; --surface:#FFFFFF; --surface-2:#F7F7F4;
+  --ground:#F1F1F1; --surface:#FFFFFF; --surface-2:#F7F7F4;
   --ink:#111111; --ink-2:#5A5A56; --ink-3:#8C8C87;
   --rule:#DCDCD6; --rule-2:#EAEAE4;
-  --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E; --signal-txt:#8A6200;
+  --signal:#FFCB05; --signal-ink:#0C0C0C; --signal-txt:#7A5E00;
   --stamp:#5A5A56; --stamp-wash:#F0EDE3;
   --ok:#2E7D4F; --ok-wash:#E6F2EA;
   --warn:#B2740B; --warn-wash:#FAF0DA;
   --crit:#C0392B; --crit-wash:#FBE7E4;
   --shadow:0 1px 2px rgba(16,19,23,.05), 0 8px 24px rgba(16,19,23,.07);
   --mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,"Roboto Mono",Menlo,monospace;
-  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --sans:"Source Sans 3","Source Sans Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --ground:#0C0C0C; --surface:#151515; --surface-2:#1D1D1C;
     --ink:#F2F2EF; --ink-2:#A0A09B; --ink-3:#74746F;
     --rule:#2C2C2A; --rule-2:#212120;
-    --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E;
+    --signal:#FFCB05; --signal-ink:#0C0C0C; --signal-txt:#FFCB05;
     --stamp:#A0A09B; --stamp-wash:#241E08;
     --ok:#46B87A; --ok-wash:#14261B;
     --warn:#E0A93C; --warn-wash:#2A2214;
@@ -31,7 +35,7 @@
   --ground:#0C0C0C; --surface:#151515; --surface-2:#1D1D1C;
   --ink:#F2F2EF; --ink-2:#A0A09B; --ink-3:#74746F;
   --rule:#2C2C2A; --rule-2:#212120;
-  --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E;
+  --signal:#FFCB05; --signal-ink:#0C0C0C; --signal-txt:#FFCB05;
   --stamp:#A0A09B; --stamp-wash:#241E08;
   --ok:#46B87A; --ok-wash:#14261B;
   --warn:#E0A93C; --warn-wash:#2A2214;
@@ -62,7 +66,7 @@ header.top{
   padding:56px 0 20px;
 }
 header.top h1{
-  margin:0; font-size:clamp(32px,6vw,54px); font-weight:250;
+  margin:0; font-size:clamp(32px,6vw,54px); font-weight:700;
   letter-spacing:.05em; line-height:1.02; text-wrap:balance; text-transform:uppercase;
 }
 header.top .dek{
@@ -78,12 +82,12 @@ header.top .dek{
 /* sections */
 section{margin:56px 0 0}
 h2{
-  margin:0 0 4px; font-size:clamp(23px,3.2vw,30px); font-weight:350;
+  margin:0 0 4px; font-size:clamp(23px,3.2vw,30px); font-weight:700;
   letter-spacing:-.005em; line-height:1.2; text-wrap:balance;
 }
 h2 + .kick{margin:0 0 20px; color:var(--ink-2); font-size:16px; max-width:60ch}
 h3{
-  margin:34px 0 8px; font-size:17px; font-weight:550; letter-spacing:.005em;
+  margin:34px 0 8px; font-size:17px; font-weight:600; letter-spacing:.005em;
 }
 p{margin:0 0 16px}
 .col p, .col ul, .col ol{max-width:68ch}
@@ -99,7 +103,7 @@ a{color:var(--stamp); text-underline-offset:3px}
 ul,ol{margin:0 0 16px; padding-left:22px}
 li{margin:0 0 8px}
 li::marker{color:var(--ink-3)}
-strong{font-weight:670}
+strong{font-weight:700}
 code{
   font-family:var(--mono); font-size:.87em; background:var(--surface-2);
   padding:1.5px 5px; border-radius:3px;
@@ -118,7 +122,7 @@ code{
 .stats{
   display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
   gap:1px; background:var(--rule); border:1px solid var(--rule);
-  border-radius:10px; overflow:hidden; margin:28px 0;
+  border-radius:4px; overflow:hidden; margin:28px 0;
 }
 .stats div{background:var(--surface); padding:15px 16px}
 .stats b{
@@ -128,7 +132,7 @@ code{
 .stats span.d{display:block; font-size:12.5px; color:var(--ink-2); margin-top:3px; line-height:1.35}
 
 /* tables */
-.tw{overflow-x:auto; margin:24px 0; border:1px solid var(--rule); border-radius:10px; background:var(--surface); box-shadow:var(--shadow)}
+.tw{overflow-x:auto; margin:24px 0; border:1px solid var(--rule); border-radius:4px; background:var(--surface); box-shadow:var(--shadow)}
 table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:600px}
 th,td{padding:11px 15px; text-align:left; border-bottom:1px solid var(--rule-2); vertical-align:top}
 th{
@@ -153,13 +157,13 @@ tr.hi td.num{font-weight:700}
 figure{margin:32px 0; }
 figure svg{
   display:block; width:100%; max-width:100%; height:auto;
-  background:var(--surface); border:1px solid var(--rule); border-radius:10px;
+  background:var(--surface); border:1px solid var(--rule); border-radius:4px;
   box-shadow:var(--shadow); padding:6px 0;
 }
 figcaption{
   margin-top:11px; font-size:13.5px; color:var(--ink-2); max-width:68ch; line-height:1.5;
 }
-figcaption b{color:var(--ink); font-weight:640}
+figcaption b{color:var(--ink); font-weight:700}
 
 /* two column list */
 .split{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:0 34px}
@@ -179,6 +183,15 @@ figcaption b{color:var(--ink); font-weight:640}
   position:absolute; left:0; top:0; color:var(--ink-3); font-weight:600; font-size:11.5px;
 }
 .rail li em{font-style:normal; color:var(--ink)}
+
+
+/* Their own device: a flat yellow panel with a hard black rule around it.
+   Used wherever the accent has to carry weight rather than whisper. */
+.chip.sig, .pill.sig, .opt.sig, .mini.go, .nav button.on,
+.card.accent .n, .fields .num, .ask .n, .cin button, .filters button.on{
+  border:1px solid #0C0C0C;
+}
+.eyebrow::before{height:4px; width:26px}
 
 hr.sep{border:0; border-top:1px solid var(--rule); margin:52px 0 0}
 

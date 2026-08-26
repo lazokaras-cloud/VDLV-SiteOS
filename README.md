@@ -42,6 +42,16 @@ contractual date and rand amount is calculated rather than generated. Project da
 illustrative, shaped to be plausible for a job of this size, and is not taken from a real
 contract.
 
+## Theme
+
+Taken from the customer's own child stylesheet rather than guessed from the logo:
+`#ffcb05` yellow, `#0c0c0c` and `#050505` blacks, `#f1f1f1` grey, and Source Sans Pro.
+Their signature device is a flat yellow panel with a hard black rule, which the accent
+elements reuse.
+
+Yellow fills well and is unreadable as text on white, so `--signal` carries fills and
+`--signal-txt` carries text, darkening to `#7a5e00` in light mode.
+
 ## Layout
 
 ```
