@@ -227,7 +227,7 @@ describe("handleInbound", () => {
       whatsapp,
       cursor,
     });
-    expect(result.reply).toMatch(/stored/i);
+    expect(result.reply).toMatch(/Noted.*SiteOS-Agent/);
     expect(listItems(inbox)[0]?.kind).toBe("note");
     expect(calls.some((call) => call.url.includes("/v1/agents"))).toBe(false);
   });
@@ -240,7 +240,7 @@ describe("handleInbound", () => {
       inbound({ text: "/update add an offline indicator" }),
       { config, whatsapp, cursor },
     );
-    expect(result.reply).toMatch(/CURSOR_API_KEY/);
+    expect(result.reply).toMatch(/No agent key yet.*SiteOS-Agent/);
     expect(listItems(inbox)[0]?.kind).toBe("update");
     expect(listItems(inbox)[0]?.cursor).toBeUndefined();
   });
@@ -291,7 +291,7 @@ describe("handleInbound", () => {
       }),
       { config, whatsapp, cursor },
     );
-    expect(result.reply).toMatch(/Document received/);
+    expect(result.reply).toMatch(/Doc's in the inbox.*SiteOS-Agent/);
     expect(listItems(inbox)[0]?.media?.filename).toBe("daywork.pdf");
     expect(listItems(inbox)[0]?.kind).toBe("document");
   });
@@ -322,7 +322,7 @@ describe("handleInbound", () => {
       whatsapp,
       cursor,
     });
-    expect(result.reply).toMatch(/Say what Cursor should do/);
+    expect(result.reply).toMatch(/Say what should ship/);
   });
 });
 
