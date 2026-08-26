@@ -9,7 +9,7 @@ const MAX_BODY = 8000;
 export function sanitizeInbound(text: string): string {
   const cleaned = text.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "");
   if (cleaned.length <= MAX_BODY) return cleaned;
-  return `${cleaned.slice(0, MAX_BODY)}\n…[truncated]`;
+  return `${cleaned.slice(0, MAX_BODY)}\n...[truncated]`;
 }
 
 export function agentDisplayName(body: string): string {
@@ -44,7 +44,7 @@ export function buildLaunchPrompt(item: InboxItem, repoUrl: string): string {
   ].join("\n");
 }
 
-/** Demo prototype under src/ — commit to main, Vercel deploys from main. No PR. */
+/** Demo prototype under src/: commit to main, Vercel deploys from main. No PR. */
 export function buildDemoLaunchPrompt(item: InboxItem, repoUrl: string): string {
   const body = sanitizeInbound(item.body).trim();
   const mediaLine =
@@ -82,7 +82,7 @@ export function buildDemoLaunchPrompt(item: InboxItem, repoUrl: string): string 
   ].join("\n");
 }
 
-/** Production SiteOS application under apps/ and packages/ — PR required. */
+/** Production SiteOS application under apps/ and packages/: PR required. */
 export function buildAppLaunchPrompt(item: InboxItem, repoUrl: string): string {
   const body = sanitizeInbound(item.body).trim();
   const mediaLine =

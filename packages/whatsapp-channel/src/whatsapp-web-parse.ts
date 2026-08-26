@@ -43,6 +43,18 @@ export function toWhatsappJid(to: string): string {
   return `${normalizePhone(to)}@s.whatsapp.net`;
 }
 
+/**
+ * Whether an inbound WhatsApp Web message should be handled.
+ *
+ * Messages sent by this linked device (`fromMe` with no `participant`) are our
+ * own replies. Processing them stores a note and sends another reply: a loop
+ * that spams the group. The user's phone in the same group sets `participant`.
+ */
+export function shouldProcessWebMessage(message: WebMessage): boolean {
+  if (message.fromMe && message.participant === undefined) return false;
+  return true;
+}
+
 export function parseWebMessage(
   message: WebMessage,
   groupSubject: string | undefined,

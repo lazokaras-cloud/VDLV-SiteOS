@@ -11,26 +11,26 @@ export function helpText(locale: ChannelLocale, vars: HelpVars): string {
       link === undefined ? "" : ` Deel hierdie link met die channel: ${link}`;
     return (
       "SiteOS WhatsApp channel.\n" +
-      "/note … — stoor 'n note vir Cursor\n" +
-      "/updateDemo … — verander die demo in src/ (commit na main, Vercel deploy)\n" +
-      "/updateApp … — vra Cursor om die regte app te verander (maak 'n PR)\n" +
-      "/update … — vra Cursor om die app te verander (maak 'n PR)\n" +
-      "Stuur 'n document of foto — dit word in die inbox gestoor\n" +
-      "/status — laaste Cursor run\n" +
-      "/help — hierdie lys." +
+      "/note ...: stoor 'n note vir Cursor\n" +
+      "/updateDemo ...: verander die demo in src/ (commit na main, Vercel deploy)\n" +
+      "/updateApp ...: vra Cursor om die regte app te verander (maak 'n PR)\n" +
+      "/update ...: vra Cursor om die app te verander (maak 'n PR)\n" +
+      "Stuur 'n document of foto: dit word in die inbox gestoor\n" +
+      "/status: laaste Cursor run\n" +
+      "/help: hierdie lys." +
       join
     );
   }
   const join = link === undefined ? "" : ` Share this link to join the channel: ${link}`;
   return (
     "SiteOS WhatsApp channel.\n" +
-    "/note … — store a note for Cursor\n" +
-    "/updateDemo … — change the demo in src/ (commit to main, Vercel deploys)\n" +
-    "/updateApp … — ask Cursor to change the real app (opens a PR)\n" +
-    "/update … — ask Cursor to change the app (opens a PR)\n" +
-    "Send a document or photo — stored in the inbox\n" +
-    "/status — last Cursor run\n" +
-    "/help — this list." +
+    "/note ...: store a note for Cursor\n" +
+    "/updateDemo ...: change the demo in src/ (commit to main, Vercel deploys)\n" +
+    "/updateApp ...: ask Cursor to change the real app (opens a PR)\n" +
+    "/update ...: ask Cursor to change the app (opens a PR)\n" +
+    "Send a document or photo: stored in the inbox\n" +
+    "/status: last Cursor run\n" +
+    "/help: this list." +
     join
   );
 }
