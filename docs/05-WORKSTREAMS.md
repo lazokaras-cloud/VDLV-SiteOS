@@ -140,6 +140,10 @@ into `Bill` and `BillItem`.
 **IMPORT-02 — Cost report parser.**
 **EXPORT-01 — Contract request form** for the accounting package.
 **AI-01 — Speech and extraction behind the `packages/ai` interface.**
+**INT-WHATSAPP — WhatsApp channel MCP.** Cloud API webhook plus stdio/HTTP MCP
+so an allowlisted WhatsApp inbox can store notes and documents, or launch a
+Cursor cloud agent against this repository. Setup in
+`packages/whatsapp-channel/README.md`. Captured files stay gitignored.
 
 ---
 
