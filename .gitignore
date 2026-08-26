@@ -3,8 +3,10 @@
 node_modules
 Thumbs.db
 
-# Client tender packs and priced bills stay out of a public repo
+# Client documents are not committed anywhere except the knowledge folder,
+# which exists only because this repository is private. See
+# docs/knowledge/README.md before adding anything here.
 *.pdf
 *.xlsx
 *.xls
-tender-source/
+!docs/knowledge/source/**

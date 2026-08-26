@@ -60,3 +60,15 @@ average, but the contract may define it. Ask before shipping a claim figure.
 control point to role fixed, or set per project at handover?
 **Answer:** Unknown. Assume per project with a role-based default until told
 otherwise.
+
+### Q-06 — Why is the estimating package round trip broken?
+**Asked by:** hand-off
+**Blocking:** IMPORT-01, TENDER-03
+**Question:** The per-trade packages in `docs/knowledge/source/boq/` are
+`CANDYXLS` exports carrying an `INTERNAL LINK` key per row, which means rates can
+be read straight back in. Yet rates are described as being typed in by hand. Which
+is actually happening: sub-contractors return a PDF or printout, they return a
+restructured spreadsheet with rows added or removed, or they quote on their own
+letterhead against nothing?
+**Answer:** Unknown. Ask before building the importer, because the answer decides
+whether the work is a file parser, a reconciler, or an extraction problem.

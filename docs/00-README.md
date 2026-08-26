@@ -20,6 +20,7 @@ production code. Read it, run it, then build the real thing properly.
 | 06 | `06-ACCEPTANCE.md` | Golden fixtures. Every number verified. |
 | 07 | `07-GLOSSARY.md` | Domain vocabulary and the Afrikaans register |
 | — | `OPEN-QUESTIONS.md` | Where to put things you needed and could not find |
+| — | [`knowledge/`](knowledge/README.md) | **The source documents this was specified from.** Check a fact against the original rather than guessing. Private repo only — read its handling rules first. |
 
 If you read only one thing beyond `AGENTS.md`, read `03-RULES.md`.
 
