@@ -1,6 +1,12 @@
 import { defaultMediaFilename } from "./whatsapp-parse.js";
 import { normalizePhone } from "./phone.js";
-import type { ChannelConfig, ParsedMedia } from "./types.js";
+import type {
+  ChannelConfig,
+  ChannelStatus,
+  DownloadedMedia,
+  ParsedMedia,
+  WhatsappClient,
+} from "./types.js";
 
 export interface GraphMediaMeta {
   url: string;
@@ -8,11 +14,23 @@ export interface GraphMediaMeta {
   fileSize?: number;
 }
 
-export class WhatsappCloudClient {
+export class WhatsappCloudClient implements WhatsappClient {
   constructor(
     private readonly config: ChannelConfig,
     private readonly fetchImpl: typeof fetch = fetch,
   ) {}
+
+  status(): ChannelStatus {
+    return {
+      mode: "cloud",
+      connected: this.config.whatsappToken.length > 0,
+      qrAvailable: false,
+    };
+  }
+
+  pairingQrPng(): Buffer | undefined {
+    return undefined;
+  }
 
   async sendText(to: string, text: string): Promise<{ id: string }> {
     if (this.config.whatsappToken.length === 0) {
@@ -44,9 +62,7 @@ export class WhatsappCloudClient {
     return { id };
   }
 
-  async downloadMedia(
-    media: ParsedMedia,
-  ): Promise<{ bytes: Uint8Array; filename: string; mimeType: string }> {
+  async downloadMedia(media: ParsedMedia): Promise<DownloadedMedia> {
     const meta = await this.mediaMeta(media.id);
     const response = await this.fetchImpl(meta.url, {
       headers: { Authorization: `Bearer ${this.config.whatsappToken}` },

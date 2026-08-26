@@ -4,6 +4,8 @@ describe("loadConfig", () => {
   it("applies defaults without inventing WhatsApp credentials", () => {
     const config = loadConfig({});
     expect(config.whatsappToken).toBe("");
+    expect(config.whatsappMode).toBe("web");
+    expect(config.whatsappGroupSubject).toBe("SiteOS Cursor");
     expect(config.cursorRepoUrl).toBe("https://github.com/tobievii/constrAI");
     expect(config.listenPort).toBe(8787);
     expect(config.locale).toBe("en");
@@ -32,10 +34,15 @@ describe("loadConfig", () => {
 });
 
 describe("configIssues", () => {
-  it("lists missing secrets without printing them", () => {
+  it("does not demand Cloud API tokens in web mode", () => {
     const issues = configIssues(loadConfig({}));
-    expect(issues.some((issue) => issue.includes("WHATSAPP_TOKEN"))).toBe(true);
+    expect(issues.some((issue) => issue.includes("WHATSAPP_TOKEN"))).toBe(false);
     expect(issues.some((issue) => issue.includes("CURSOR_API_KEY"))).toBe(true);
     expect(issues.join(" ")).not.toMatch(/EAA/);
+  });
+
+  it("demands Cloud API tokens in cloud mode", () => {
+    const issues = configIssues(loadConfig({ WHATSAPP_MODE: "cloud" }));
+    expect(issues.some((issue) => issue.includes("WHATSAPP_TOKEN"))).toBe(true);
   });
 });

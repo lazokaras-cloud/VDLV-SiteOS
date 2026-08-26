@@ -48,6 +48,33 @@ export interface ParsedInbound {
   profileName?: string;
   text?: string;
   media?: ParsedMedia;
+  /** JID or phone to reply to. Group messages reply in the group. */
+  replyTo?: string;
+  /** True when the message came from the named SiteOS Cursor group. */
+  fromChannel?: boolean;
+}
+
+export type WhatsappMode = "web" | "cloud";
+
+export interface ChannelStatus {
+  mode: WhatsappMode;
+  connected: boolean;
+  qrAvailable: boolean;
+  self?: string;
+  groupJid?: string;
+}
+
+export interface DownloadedMedia {
+  bytes: Uint8Array;
+  filename: string;
+  mimeType: string;
+}
+
+export interface WhatsappClient {
+  sendText(to: string, text: string): Promise<{ id: string }>;
+  downloadMedia(media: ParsedMedia): Promise<DownloadedMedia>;
+  status(): ChannelStatus;
+  pairingQrPng(): Buffer | undefined;
 }
 
 export type ChannelCommand =
@@ -58,11 +85,15 @@ export type ChannelCommand =
   | { command: "plain"; rest: string };
 
 export interface ChannelConfig {
+  whatsappMode: WhatsappMode;
   whatsappToken: string;
   whatsappPhoneNumberId: string;
   whatsappAppSecret: string;
   whatsappVerifyToken: string;
   whatsappDisplayNumber: string;
+  whatsappAuthDir: string;
+  whatsappGroupSubject: string;
+  whatsappGroupJid: string;
   allowedSenders: readonly string[];
   allowAllSenders: boolean;
   skipSignature: boolean;

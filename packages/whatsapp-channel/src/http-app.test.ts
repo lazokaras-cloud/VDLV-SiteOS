@@ -60,9 +60,12 @@ describe("channel HTTP server", () => {
 
   it("serves health and the join link", async () => {
     const health = await fetch(`${base}/health`);
-    expect(await health.json()).toEqual({ ok: true });
+    expect(await health.json()).toMatchObject({ ok: true, pair: "/pair" });
     const join = await fetch(`${base}/join`);
     expect(await join.text()).toBe("https://wa.me/27820000001");
+    const pair = await fetch(`${base}/pair`);
+    expect(pair.headers.get("content-type")).toMatch(/html/);
+    expect(await pair.text()).toContain("Link your WhatsApp");
   });
 
   it("answers Meta's webhook verification challenge", async () => {

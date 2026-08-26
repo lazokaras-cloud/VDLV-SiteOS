@@ -130,6 +130,23 @@ describe("handleInbound", () => {
     expect(result.reason).toBe("sender-not-allowed");
   });
 
+  it("accepts the named channel group even when the allowlist is empty", async () => {
+    const inbox = join(dir, "channel");
+    const config = configFor(inbox, { WHATSAPP_ALLOWED_SENDERS: "" });
+    const { whatsapp, cursor } = clients(config);
+    const result = await handleInbound(
+      inbound({
+        from: "27821111111",
+        text: "/help",
+        fromChannel: true,
+        replyTo: "120363@g.us",
+      }),
+      { config, whatsapp, cursor },
+    );
+    expect(result.handled).toBe(true);
+    expect(result.reply).toContain("/update");
+  });
+
   it("answers /help with the join link", async () => {
     const config = configFor(join(dir, "help"));
     const { whatsapp, cursor } = clients(config);

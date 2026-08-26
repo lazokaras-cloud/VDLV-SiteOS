@@ -11,12 +11,11 @@ import {
   buildLaunchPrompt,
 } from "./prompt.js";
 import { getItem, listItems, readMediaBytes, saveItem } from "./store.js";
-import type { ChannelConfig, InboxItem } from "./types.js";
-import type { WhatsappCloudClient } from "./whatsapp-api.js";
+import type { ChannelConfig, InboxItem, WhatsappClient } from "./types.js";
 
 export interface McpDeps {
   config: ChannelConfig;
-  whatsapp: WhatsappCloudClient;
+  whatsapp: WhatsappClient;
   cursor: CursorCloudClient;
 }
 
@@ -67,6 +66,7 @@ export function createWhatsappMcpServer(deps: McpDeps): McpServer {
         allowAllSenders: deps.config.allowAllSenders,
         allowedSenderCount: deps.config.allowedSenders.length,
         inboxCount: listItems(deps.config.inboxDir, 1000).length,
+        whatsapp: deps.whatsapp.status(),
       });
     },
   );

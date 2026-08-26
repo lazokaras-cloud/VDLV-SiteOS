@@ -21,13 +21,13 @@ import type {
   CursorImage,
   InboxItem,
   ParsedInbound,
+  WhatsappClient,
 } from "./types.js";
-import type { WhatsappCloudClient } from "./whatsapp-api.js";
 import { unixToIso } from "./whatsapp-parse.js";
 
 export interface WebhookDeps {
   config: ChannelConfig;
-  whatsapp: WhatsappCloudClient;
+  whatsapp: WhatsappClient;
   cursor: CursorCloudClient;
 }
 
@@ -43,7 +43,10 @@ export async function handleInbound(
   deps: WebhookDeps,
 ): Promise<WebhookResult> {
   const { config } = deps;
-  if (!isAllowedSender(inbound.from, config.allowedSenders, config.allowAllSenders)) {
+  const allowed =
+    inbound.fromChannel === true ||
+    isAllowedSender(inbound.from, config.allowedSenders, config.allowAllSenders);
+  if (!allowed) {
     return { handled: false, reason: "sender-not-allowed" };
   }
 

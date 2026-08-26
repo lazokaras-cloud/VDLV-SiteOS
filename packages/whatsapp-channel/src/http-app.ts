@@ -74,7 +74,7 @@ export function createChannelHttpServer(runtime: Runtime): Server {
       try {
         const result = await handleInbound(message, runtime);
         if (result.handled && result.reply !== undefined) {
-          await runtime.whatsapp.sendText(message.from, result.reply);
+          await runtime.whatsapp.sendText(message.replyTo ?? message.from, result.reply);
         }
       } catch (error) {
         console.error("inbound failed", error instanceof Error ? error.message : "unknown");
@@ -115,7 +115,27 @@ export function createChannelHttpServer(runtime: Runtime): Server {
     void (async () => {
       const url = pathOf(req);
       if (req.method === "GET" && url.pathname === "/health") {
-        send(res, 200, JSON.stringify({ ok: true }), "application/json");
+        const status = runtime.whatsapp.status();
+        send(
+          res,
+          200,
+          JSON.stringify({ ok: true, pair: "/pair", ...status }),
+          "application/json",
+        );
+        return;
+      }
+      if (req.method === "GET" && url.pathname === "/pair") {
+        send(res, 200, pairPage(runtime), "text/html; charset=utf-8");
+        return;
+      }
+      if (req.method === "GET" && url.pathname === "/pair/qr.png") {
+        const png = runtime.whatsapp.pairingQrPng();
+        if (png === undefined) {
+          send(res, 404, "no qr");
+          return;
+        }
+        res.writeHead(200, { "Content-Type": "image/png", "Cache-Control": "no-store" });
+        res.end(png);
         return;
       }
       if (req.method === "GET" && url.pathname === "/join") {
@@ -143,4 +163,46 @@ export function createChannelHttpServer(runtime: Runtime): Server {
       if (!res.headersSent) send(res, 500, "error");
     });
   });
+}
+
+function pairPage(runtime: Runtime): string {
+  const status = runtime.whatsapp.status();
+  const subject = runtime.config.whatsappGroupSubject;
+  const qr = status.qrAvailable
+    ? `<img alt="WhatsApp QR" src="/pair/qr.png" width="320" height="320" />`
+    : status.connected
+      ? `<p>Connected${status.self === undefined ? "" : ` as ${escapeHtml(status.self)}`}.</p>`
+      : `<p>Waiting for WhatsApp… refresh this page.</p>`;
+  const group =
+    status.groupJid === undefined
+      ? `<p>On your phone, create a group named <strong>${escapeHtml(subject)}</strong>, then send <code>/help</code> in it. That group is the channel.</p>`
+      : `<p>Channel group is linked (<code>${escapeHtml(status.groupJid)}</code>). Send <code>/update …</code> there to start a Cursor agent.</p>`;
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="refresh" content="3" />
+  <title>SiteOS WhatsApp pair</title>
+  <style>
+    body { font: 18px/1.4 system-ui, sans-serif; max-width: 40rem; margin: 2rem auto; padding: 0 1rem; }
+    code { background: #f1f1f1; padding: 0.1em 0.3em; }
+  </style>
+</head>
+<body>
+  <h1>Link your WhatsApp</h1>
+  <p>WhatsApp → Linked devices → Link a device. Scan this QR. Same flow as WhatsApp Web.</p>
+  ${qr}
+  ${group}
+  <p>Then: <code>/help</code>, <code>/note …</code>, documents, or <code>/update …</code> to ask Cursor to change the app.</p>
+</body>
+</html>
+`;
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
 }
