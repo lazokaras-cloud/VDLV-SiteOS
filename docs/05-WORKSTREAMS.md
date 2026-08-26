@@ -29,6 +29,9 @@ types plus zod schemas. Branded `Cents`, `WorkingDays`, `CalendarDays`.
 *Blocks:* everything.
 
 **RULES-01 — Calendar**
+*Scaffolded already:* `packages/rules/src/calendar.ts` has the signatures, the
+sources and the counting convention; `calendar.test.ts` has the cases as `todo`.
+Implement, turn the todos into tests, delete the `NOT_IMPLEMENTED` helper.
 Working days, SA public holidays computed from rules including Easter and the
 observed-Monday rule, contractual shutdowns. `workingDaysBetween`,
 `addWorkingDays`, `isWorkingDay`.

@@ -1,0 +1,9 @@
+{
+  "name": "@siteos/rules",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "dependencies": {},
+  "_comment": "Dependencies stay empty. See AGENTS.md section 2. This package must run in Node, in a browser, in a worker and eventually on a handset with no signal."
+}

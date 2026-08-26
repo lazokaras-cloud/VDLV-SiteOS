@@ -19,8 +19,10 @@ production code. Read it, run it, then build the real thing properly.
 | 05 | `05-WORKSTREAMS.md` | Tickets, waves, interface contracts |
 | 06 | `06-ACCEPTANCE.md` | Golden fixtures. Every number verified. |
 | 07 | `07-GLOSSARY.md` | Domain vocabulary and the Afrikaans register |
+| 08 | `08-DECISIONS.md` | What is already settled, and why. Argue with the reason, not the choice. |
 | — | `OPEN-QUESTIONS.md` | Where to put things you needed and could not find |
 | — | [`knowledge/`](knowledge/README.md) | **The source documents this was specified from.** Check a fact against the original rather than guessing. Private repo only — read its handling rules first. |
+| — | [`knowledge/CLIENT-NARRATIVE.md`](knowledge/CLIENT-NARRATIVE.md) | The contractor describing their own process. Primary source; where it disagrees with a doc, it wins. |
 
 If you read only one thing beyond `AGENTS.md`, read `03-RULES.md`.
 
@@ -56,6 +58,34 @@ flowchart: drawing control, delivery authorisation, three quotations, the labour
 clock, the sub-contractor onboarding gate, the nine-point close-out. It was
 arrived at over decades, usually after losing money the other way. Do not treat
 it as configurable.
+
+## Getting started
+
+```bash
+pnpm install
+pnpm verify      # 36 checks over the golden fixtures, must be green
+pnpm test        # prints the work list: every todo is a ticket
+pnpm typecheck
+```
+
+`pnpm verify` is the fastest way to know your environment is sane. It runs a
+reference implementation of just enough arithmetic to prove the fixtures are
+self-consistent, so if it fails, something is wrong with the repository rather
+than with you.
+
+`pnpm test` is green on a fresh clone and prints a list of `todo` cases. That
+list is the work. When you implement a function, turn its `todo` into a real
+test.
+
+The scaffold is deliberately thin: a workspace, TypeScript, Vitest with a 100%
+branch-coverage gate on `packages/rules`, and the core branded types in
+`packages/domain`. Everything else is a ticket.
+
+```
+packages/domain/src/index.ts    core types. Extend here for DOM-01.
+packages/rules/src/calendar.ts  signatures and sources. This is RULES-01.
+fixtures/                       golden data and the verifier
+```
 
 ## Working as a swarm
 
