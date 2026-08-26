@@ -1,0 +1,28 @@
+{
+  "_source": "docs/03-RULES.md §1. Public holidays include the observed-Monday rule. The shutdown is a contractual builders' break, not a public holiday.",
+  "publicHolidays": [
+    "2025-12-16", "2025-12-25", "2025-12-26",
+    "2026-01-01", "2026-03-23", "2026-04-03", "2026-04-06", "2026-04-27",
+    "2026-05-01", "2026-06-16", "2026-08-10", "2026-09-24",
+    "2026-12-16", "2026-12-25", "2026-12-28"
+  ],
+  "_holidayNotes": {
+    "2026-03-23": "21 March fell on a Saturday in 2026; observed Monday applies only to Sunday. VERIFY before relying on this entry.",
+    "2026-08-10": "9 August 2026 fell on a Sunday, so the Monday is observed.",
+    "2026-12-28": "26 December 2026 fell on a Saturday. VERIFY."
+  },
+  "shutdowns": [
+    { "from": "2025-12-12", "to": "2026-01-12", "reason": "Builders break, per tender qualification" }
+  ],
+  "goldenCases": [
+    { "fn": "workingDaysBetween", "args": ["2025-12-10", "2026-01-20"], "expect": 7,
+      "note": "The headline case. 25 without the shutdown." },
+    { "fn": "workingDaysBetweenIgnoringShutdown", "args": ["2025-12-10", "2026-01-20"], "expect": 25 },
+    { "fn": "isWorkingDay", "args": ["2025-12-20"], "expect": false, "note": "inside shutdown" },
+    { "fn": "isWorkingDay", "args": ["2026-01-06"], "expect": false, "note": "inside shutdown" },
+    { "fn": "isWorkingDay", "args": ["2026-01-13"], "expect": true,  "note": "day after shutdown ends" },
+    { "fn": "isWorkingDay", "args": ["2026-08-10"], "expect": false, "note": "observed Monday" },
+    { "fn": "addWorkingDays", "args": ["2026-08-19", 20], "expect": "2026-09-16" },
+    { "fn": "addWorkingDays", "args": ["2026-08-19", 40], "expect": "2026-10-15" }
+  ]
+}

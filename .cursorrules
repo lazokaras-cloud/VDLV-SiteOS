@@ -1,0 +1,35 @@
+Read AGENTS.md before writing any code. It is short and every line is a hard rule.
+Then read docs/00-README.md and docs/03-RULES.md.
+
+The rules that break the build if ignored:
+
+1. No language model output may become a date, deadline, quantity, rate,
+   percentage or rand amount shown to a user. All of those come from
+   packages/rules, which is pure, deterministic and dependency-free. Models turn
+   speech into fields and phrase answers; they never compute.
+
+2. Never invent a domain fact. No clause numbers, notice periods, markup
+   percentages, payment terms or guarantee percentages that are not in
+   docs/03-RULES.md. If it is not written down, add it to docs/OPEN-QUESTIONS.md
+   and stop.
+
+3. Money is integer cents. Dates are ISO YYYY-MM-DD strings. WorkingDays and
+   CalendarDays are distinct branded types and must not be unwrapped to number.
+
+4. packages/rules takes no dependencies, does no I/O, never reads the clock
+   (asAt is always a parameter), and holds 100% branch coverage as a merge gate.
+   Every constant cites its contractual or documentary source in a comment.
+
+5. All user-facing strings go through i18n. English and Afrikaans. Afrikaans is
+   site register, not textbook: technical nouns stay English, everyday words are
+   Afrikaans. See docs/07-GLOSSARY.md.
+
+6. Offline first. Writes queue locally and sync later; the UI never blocks on the
+   network. Flows are resumable state, not forms. Captured evidence is immutable.
+
+7. Take a ticket from docs/05-WORKSTREAMS.md, respect the waves, claim it with a
+   draft PR before starting, and stay inside its blast radius. No drive-by
+   refactors.
+
+8. Never commit client names, real priced rates, contact details or source tender
+   documents. Fixtures are generic by construction.

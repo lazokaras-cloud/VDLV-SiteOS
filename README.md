@@ -42,6 +42,26 @@ contractual date and rand amount is calculated rather than generated. Project da
 illustrative, shaped to be plausible for a job of this size, and is not taken from a real
 contract.
 
+## Building the real thing
+
+This repository holds a **clickable specification**, not production code. The
+hand-off pack for building it properly is in [`docs/`](docs/00-README.md):
+
+| | |
+| --- | --- |
+| [`AGENTS.md`](AGENTS.md) | Operating rules for coding agents. Read first. |
+| [`docs/01-PRD.md`](docs/01-PRD.md) | Product requirements |
+| [`docs/02-DOMAIN.md`](docs/02-DOMAIN.md) | Entities and field names |
+| [`docs/03-RULES.md`](docs/03-RULES.md) | **The rules engine spec.** Contract deadlines and the company's own operating rules |
+| [`docs/04-ARCHITECTURE.md`](docs/04-ARCHITECTURE.md) | Stack and layout |
+| [`docs/05-WORKSTREAMS.md`](docs/05-WORKSTREAMS.md) | Tickets and waves for parallel agents |
+| [`docs/06-ACCEPTANCE.md`](docs/06-ACCEPTANCE.md) | Golden fixtures, every number verified |
+| [`docs/07-GLOSSARY.md`](docs/07-GLOSSARY.md) | Domain vocabulary and the Afrikaans register |
+
+```bash
+node fixtures/verify.mjs   # 36 checks, all green
+```
+
 ## Theme
 
 Taken from the customer's own child stylesheet rather than guessed from the logo:

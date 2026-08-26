@@ -1,0 +1,36 @@
+{
+  "_source": "Generic by construction. Used for clock derivation cases in docs/06-ACCEPTANCE.md §3.",
+  "id": "menlyn",
+  "name": "Menlyn Office Park Phase 2",
+  "town": "Pretoria East",
+  "projectType": "offices",
+  "edition": "JBCC_2018_05",
+  "calendarRef": "calendar-2025-2026.json",
+  "contractValueCents": 4824000000,
+  "events": [
+    { "kind": "instruction", "ref": "SI-114", "occurredAt": "2026-08-19",
+      "note": "Rock excavation to lift pit, grids C4 to D5" },
+    { "kind": "default_notice", "ref": "DN-03", "occurredAt": "2026-08-18",
+      "note": "Sub-contractor, first fix drainage" }
+  ],
+  "asAt": "2026-08-24",
+  "expectClocks": [
+    { "obligation": "Notice to principal agent", "fromEvent": "SI-114",
+      "dueAt": "2026-09-16", "workingDaysRemaining": 17,
+      "basis": "20 wd, JBCC 2018, recovery of expense" },
+    { "obligation": "Priced claim", "fromEvent": "SI-114",
+      "dueAt": "2026-10-15", "workingDaysRemaining": 37,
+      "basis": "40 wd following the notice" },
+    { "obligation": "Sub-contractor remedy expires", "fromEvent": "DN-03",
+      "dueAt": "2026-08-25", "workingDaysRemaining": 1,
+      "basis": "5 wd default notice" }
+  ],
+  "variationCase": {
+    "labourCents": 6420000, "plantCents": 8840000, "materialCents": 3380000,
+    "expect": { "netCents": 18640000, "grossCents": 20504000 },
+    "_note": "In floating point 186400 * 1.1 = 205040.00000000003. In cents 18640000 * 11 / 10 = 20504000 exactly. There must be a test for this.",
+    "timeLostDays": 4, "timeRelatedPerDayCents": 2460000,
+    "expectEotCents": 9840000,
+    "_eotNote": "A separate claim from the money. Most contractors claim the money and forget the days."
+  }
+}

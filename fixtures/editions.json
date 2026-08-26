@@ -1,0 +1,52 @@
+{
+  "_source": "docs/03-RULES.md §2 and §3. Transcribed from a contractor tender workbook and process flowchart; NOT yet verified against published JBCC agreements.",
+  "projectTypeLookup": [
+    { "projectType": "alterations", "edition": "JBCC_2005_03", "paymentDays": 7,  "guaranteePct": 12.5 },
+    { "projectType": "offices",     "edition": "JBCC_2007_07", "paymentDays": 7,  "guaranteePct": 10.0 },
+    { "projectType": "warehouses",  "edition": "JBCC_2014_03", "paymentDays": 14, "guaranteePct": 10.0 },
+    { "projectType": "schools",     "edition": "JBCC_2018_05", "paymentDays": 14, "guaranteePct": 10.0 },
+    { "projectType": "hospitals",   "edition": "JBCC_MINOR_WORKS", "paymentDays": 7, "guaranteePct": 10.0 },
+    { "projectType": "retail",      "edition": "NEGOTIATED",   "paymentDays": 0,  "guaranteePct": 0.0 }
+  ],
+  "deadlines": {
+    "JBCC_2007_07": {
+      "finalAccountWd": 90, "objectionWd": 45,
+      "practicalCompletionClause": "24", "paListAfterInspectionCd": 7,
+      "clauseRefs": { "finalAccount": "34.1", "objection": "34.4", "finalPayment": "34.5" }
+    },
+    "JBCC_2014_03": {
+      "finalAccountWd": 90, "objectionWd": 45,
+      "practicalCompletionClause": "19", "paListAfterInspectionWd": 5,
+      "clauseRefs": { "finalAccount": "26.10", "objection": "26.11", "finalPayment": "25.13" }
+    },
+    "JBCC_2018_05": {
+      "finalAccountWd": 60, "objectionWd": 30,
+      "practicalCompletionClause": "19", "paListAfterInspectionWd": 5,
+      "clauseRefs": { "finalAccount": "26.10", "objection": "26.11", "finalPayment": "25.15" }
+    }
+  },
+  "common": {
+    "expenseNoticeWd": 20,
+    "expenseClaimWd": 40,
+    "paMustActWd": 20,
+    "paMustActOnMiss": "deemed_refused",
+    "eotNoticeWd": 20,
+    "eotClaimWd": 40,
+    "defectsLiabilityCd": 90,
+    "defectsListAfterPeriodCd": 7,
+    "latentDefectsYears": 5,
+    "worksCompletionListAfterPcDays": 7,
+    "worksCompletionNoInterestWd": 20,
+    "subRemedyWd": 5,
+    "subPaymentAfterCertificateCd": 7,
+    "subPaymentAlsoRequiresEmployerPaid": true,
+    "variationMarkup": 0.10,
+    "bulkOrderPriceFixedDays": 60,
+    "quotationsRequiredOffBulkOrder": 3,
+    "bankingConfirmationMaxAgeMonths": 3,
+    "normalHoursPerFortnight": 83,
+    "controlPointsTotal": 48,
+    "controlPointsBeforeSite": 21,
+    "controlPointsOnSite": 27
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "_source": "Shape and proportion follow a real submitted tender. Names invented. Never add a real client, consultant, person or traceable rate to this file.",
+  "ref": "M2002",
+  "name": "Lanseria Heliport Phase 2",
+  "scope": "Main building contract",
+  "projectType": "offices",
+  "edition": "JBCC_2018_05",
+  "closesAt": "2025-06-25",
+  "closesTime": "10h00",
+  "contractPeriodMonths": 12.5,
+  "addenda": [
+    { "no": 1, "issuedAt": "2025-06-13", "effect": "Closing date brought forward",
+      "acknowledgeWithinHours": 72, "mustBeIncludedInTender": true }
+  ],
+  "billsCents": [
+    { "no": "1", "name": "Preliminaries and General",            "amount": 506463240,  "source": "calculated" },
+    { "no": "2", "name": "Earthworks",                            "amount": 32642800,   "source": "sub_rates" },
+    { "no": "3", "name": "Concrete, formwork and reinforcing",    "amount": 1117906934, "source": "sub_rates" },
+    { "no": "4", "name": "Masonry",                               "amount": 107928676,  "source": "sub_rates" },
+    { "no": "5", "name": "Waterproofing",                         "amount": 52147205,   "source": "sub_rates" },
+    { "no": "6", "name": "Plaster",                               "amount": 80783390,   "source": "build_up" },
+    { "no": "7", "name": "Tiling",                                "amount": 53430675,   "source": "sub_rates" },
+    { "no": "8", "name": "Paint",                                 "amount": 23365600,   "source": "build_up" },
+    { "no": "9", "name": "Provisional amounts",                   "amount": 3923000000, "source": "pqs_allowance" }
+  ],
+  "expect": {
+    "tenderSumCents": 5897668520,
+    "provisionalSharePct": 66.5
+  },
+  "provisional": {
+    "amountCents": 3923000000,
+    "profitLines": 26,
+    "attendanceLines": 26,
+    "allUndecided": true,
+    "expectConsequenceAt5And2Point5Cents": 294225000,
+    "_gate": "lockTender() must fail while any profit or attendance line has decidedBy === null. A rate of zero with a named decider is valid."
+  },
+  "preliminaries": {
+    "lines": [
+      { "label": "Guarantee",                 "allocation": "time",  "amount": 4625063 },
+      { "label": "Insurance",                 "allocation": "time",  "amount": 5543590 },
+      { "label": "Management and site staff", "allocation": "time",  "amount": 249990741 },
+      { "label": "Temporary works",           "allocation": "time",  "amount": 1909212 },
+      { "label": "Plant and equipment",       "allocation": "time",  "amount": 35176862 },
+      { "label": "Site establishment",        "allocation": "fixed", "amount": 48600000 },
+      { "label": "Site cleaning and handover","allocation": "fixed", "amount": 17863240 },
+      { "label": "Health and safety",         "allocation": "time",  "amount": 16800000 },
+      { "label": "Temporary services",        "allocation": "value", "amount": 29600000 },
+      { "label": "Contract-wide sundries",    "allocation": "value", "amount": 96354532 }
+    ],
+    "expect": {
+      "timeCents":  314045468,
+      "valueCents": 125954532,
+      "fixedCents":  66463240,
+      "totalCents": 506463240,
+      "timePerMonthCents": 25123637,
+      "_note": "Total must reconcile exactly to bill 1. No tolerance."
+    }
+  },
+  "rateBuildUp": {
+    "trade": "Plaster", "unit": "m2", "quantity": 4310, "markup": 0.10,
+    "components": [
+      { "label": "Cement and sand",                        "kind": "material", "rate": 4120 },
+      { "label": "Plasterer, 14 m2 per day at R780",       "kind": "labour",   "rate": 5570 },
+      { "label": "Labourer shared across two plasterers",  "kind": "labour",   "rate": 1540 },
+      { "label": "Scaffold and small plant",               "kind": "plant",    "rate": 890 },
+      { "label": "Waste at 6%",                            "kind": "material", "rate": 580 }
+    ],
+    "expect": { "netRateCents": 12700, "rateUsedCents": 13970, "amountCents": 60210700 }
+  },
+  "pack": [
+    { "number": "AR-T-01", "title": "Master site plan",            "discipline": "architectural", "issuedRevision": "C", "pricedAgainstRevision": "C" },
+    { "number": "AR-T-03", "title": "Ground floor, office and hangar", "discipline": "architectural", "issuedRevision": "B", "pricedAgainstRevision": "B" },
+    { "number": "SC-FD-01","title": "Foundations",                 "discipline": "structural",    "issuedRevision": "E", "pricedAgainstRevision": "D" },
+    { "number": "SC-LVL3-01","title": "Level 3",                   "discipline": "structural",    "issuedRevision": "E", "pricedAgainstRevision": "D" },
+    { "number": "SS-BFS-01","title": "Structural steel, hangar",   "discipline": "structural",    "issuedRevision": "A", "pricedAgainstRevision": "A" }
+  ],
+  "expectSupersededCount": 2
+}
