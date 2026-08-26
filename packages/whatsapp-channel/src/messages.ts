@@ -13,18 +13,18 @@ function helpLines(locale: ChannelLocale): readonly string[] {
       "/updateDemo … — demo in src/ (commit main, Vercel deploy)",
       "/updateApp … — regte app (PR)",
       "/update … — dieselfde as /updateApp",
-      "Doc of foto — inbox",
+      "Doc of foto — knowledge base vir SiteOS-Agent",
       "/status — laaste agent run",
       "/help — hierdie lys",
     ];
   }
   return [
     "SiteOS channel — commands that actually ship:",
-    "/note … — stash for SiteOS-Agent",
-    "/updateDemo … — demo in src/ (commit to main, Vercel picks it up)",
-    "/updateApp … — real app change (opens a PR)",
-    "/update … — same as /updateApp",
-    "Doc or photo — inbox",
+      "/note … — stash for SiteOS-Agent",
+      "/updateDemo … — demo in src/ (commit to main, Vercel picks it up)",
+      "/updateApp … — real app change (opens a PR)",
+      "/update … — same as /updateApp",
+      "Doc or photo — knowledge base for SiteOS-Agent",
     "/status — last SiteOS-Agent run",
     "/help — this list",
   ];
@@ -49,10 +49,15 @@ export function noteStored(locale: ChannelLocale): string {
     : "Noted. In the inbox — SiteOS-Agent can read it from there.";
 }
 
-export function documentStored(locale: ChannelLocale): string {
+export function knowledgeStored(locale: ChannelLocale): string {
   return locale === "af"
-    ? "Doc is in die inbox. SiteOS-Agent kan dit daar oopmaak."
-    : "Doc's in the inbox. SiteOS-Agent can pull it from there.";
+    ? "In die knowledge base. SiteOS-Agent kan dit lees en vir die stelsel interpreteer."
+    : "In the knowledge base. SiteOS-Agent will read and interpret this for the system.";
+}
+
+/** @deprecated Legacy reply — use knowledgeStored */
+export function documentStored(locale: ChannelLocale): string {
+  return knowledgeStored(locale);
 }
 
 export function updateQueued(locale: ChannelLocale): string {

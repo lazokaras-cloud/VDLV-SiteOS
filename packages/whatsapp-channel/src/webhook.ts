@@ -1,10 +1,11 @@
+import { resolveInboxKind } from "./inbox-kind.js";
 import { parseCommand } from "./classify.js";
 import { imageForCursorPrompt } from "./cursor-api.js";
 import type { CursorCloudClient } from "./cursor-api.js";
 import {
-  documentStored,
   emptyMessage,
   helpText,
+  knowledgeStored,
   noStatus,
   noteStored,
   statusLine,
@@ -16,9 +17,7 @@ import {
 import { isAllowedSender, waMeLink } from "./phone.js";
 import {
   agentDisplayName,
-  buildAppLaunchPrompt,
-  buildDemoLaunchPrompt,
-  buildLaunchPrompt,
+  launchPromptForItem,
 } from "./prompt.js";
 import { getItem, hasItem, latestUpdate, saveItem, writeMedia } from "./store.js";
 import type {
@@ -90,11 +89,7 @@ export async function handleInbound(
     return { handled: true, reply: updateNeedBody(config.locale) };
   }
 
-  const kind: InboxKind = isLaunch
-    ? launchKind(command.command)
-    : hasMedia
-      ? "document"
-      : "note";
+  const kind = resolveInboxKind(command, hasMedia);
 
   const body = isBodyCommand(command.command) ? command.rest : (inbound.text ?? "");
 
@@ -129,11 +124,11 @@ export async function handleInbound(
   saveItem(config.inboxDir, item);
 
   if (!isLaunchKind(kind)) {
-    return {
-      handled: true,
-      item,
-      reply: hasMedia ? documentStored(config.locale) : noteStored(config.locale),
-    };
+    const reply =
+      kind === "knowledge"
+        ? knowledgeStored(config.locale)
+        : noteStored(config.locale);
+    return { handled: true, item, reply };
   }
 
   if (config.cursorApiKey.length === 0) {
@@ -180,20 +175,16 @@ function isBodyCommand(command: string): boolean {
   );
 }
 
-function launchKind(command: string): InboxKind {
-  if (command === "updateDemo") return "updateDemo";
-  if (command === "updateApp") return "updateApp";
-  return "update";
-}
-
 function isLaunchKind(kind: InboxKind): boolean {
-  return kind === "update" || kind === "updateDemo" || kind === "updateApp";
+  return (
+    kind === "update" ||
+    kind === "updateDemo" ||
+    kind === "updateApp"
+  );
 }
 
 function launchPrompt(kind: InboxKind, item: InboxItem, repoUrl: string): string {
-  if (kind === "updateDemo") return buildDemoLaunchPrompt(item, repoUrl);
-  if (kind === "updateApp") return buildAppLaunchPrompt(item, repoUrl);
-  return buildLaunchPrompt(item, repoUrl);
+  return launchPromptForItem({ ...item, kind }, repoUrl);
 }
 
 async function statusReply(deps: WebhookDeps): Promise<string> {

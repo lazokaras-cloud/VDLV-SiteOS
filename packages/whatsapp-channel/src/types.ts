@@ -7,7 +7,13 @@
 
 export type ChannelLocale = "en" | "af";
 
-export type InboxKind = "note" | "document" | "update" | "updateDemo" | "updateApp";
+export type InboxKind =
+  | "note"
+  | "knowledge"
+  | "document"
+  | "update"
+  | "updateDemo"
+  | "updateApp";
 
 export interface InboxMedia {
   filename: string;

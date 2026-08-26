@@ -193,7 +193,7 @@ function pairPage(runtime: Runtime): string {
   <p>WhatsApp → Linked devices → Link a device. Scan this QR. Same flow as WhatsApp Web.</p>
   ${qr}
   ${group}
-  <p>Then: <code>/help</code>, <code>/note …</code>, documents, or <code>/update …</code> to ship something via SiteOS-Agent.</p>
+  <p>Then: <code>/help</code>, <code>/note …</code>, a doc or photo for the knowledge base, or <code>/update …</code> to ship via SiteOS-Agent.</p>
 </body>
 </html>
 `;
