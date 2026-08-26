@@ -11,22 +11,24 @@ export function helpText(locale: ChannelLocale, vars: HelpVars): string {
       link === undefined ? "" : ` Deel hierdie link met die channel: ${link}`;
     return (
       "SiteOS WhatsApp channel.\n" +
-      "/note … — stoor 'n note vir Cursor\n" +
-      "/update … — vra Cursor om die app te verander (maak 'n PR)\n" +
-      "Stuur 'n document of foto — dit word in die inbox gestoor\n" +
-      "/status — laaste Cursor run\n" +
-      "/help — hierdie lys." +
+      "/note ...: stoor 'n note vir Cursor\n" +
+      "/updateApp ... : vra Cursor om die regte app te verander (maak 'n PR)\n" +
+      "/updateDemo ... : verander die demo, reguit main toe, Vercel deploy\n" +
+      "Stuur 'n document of foto: dit word in die inbox gestoor\n" +
+      "/status: laaste Cursor run\n" +
+      "/help: hierdie lys." +
       join
     );
   }
   const join = link === undefined ? "" : ` Share this link to join the channel: ${link}`;
   return (
     "SiteOS WhatsApp channel.\n" +
-    "/note … — store a note for Cursor\n" +
-    "/update … — ask Cursor to change the app (opens a PR)\n" +
-    "Send a document or photo — stored in the inbox\n" +
-    "/status — last Cursor run\n" +
-    "/help — this list." +
+    "/note ...: store a note for Cursor\n" +
+    "/updateApp ... : ask Cursor to change the real app (opens a PR)\n" +
+    "/updateDemo ... : change the demo, straight to main, Vercel deploys\n" +
+    "Send a document or photo: stored in the inbox\n" +
+    "/status: last Cursor run\n" +
+    "/help: this list." +
     join
   );
 }
@@ -51,8 +53,20 @@ export function updateQueued(locale: ChannelLocale): string {
 
 export function updateNeedBody(locale: ChannelLocale): string {
   return locale === "af"
-    ? "Sê wat Cursor moet doen. Voorbeeld: /update sit 'n language toggle op die Today screen."
-    : "Say what Cursor should do. Example: /update add a language toggle on the Today screen.";
+    ? "Sê wat Cursor moet doen. Voorbeeld: /updateDemo sit 'n language toggle op die Today screen."
+    : "Say what Cursor should do. Example: /updateDemo add a language toggle on the Today screen.";
+}
+
+export function demoLaunched(locale: ChannelLocale, url: string): string {
+  return locale === "af"
+    ? `Cursor werk aan die demo. Dit gaan reguit main toe en Vercel deploy dit. Run: ${url}`
+    : `Cursor is on the demo. It goes straight to main and Vercel deploys it. Run: ${url}`;
+}
+
+export function demoQueued(locale: ChannelLocale): string {
+  return locale === "af"
+    ? "Demo update is in die inbox. CURSOR_API_KEY is nog nie geset nie, so niks is nog begin nie."
+    : "Demo update queued in the inbox. CURSOR_API_KEY is not set, so nothing has started yet.";
 }
 
 export function updateLaunched(locale: ChannelLocale, url: string): string {

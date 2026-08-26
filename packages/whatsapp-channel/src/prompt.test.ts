@@ -7,7 +7,7 @@ describe("sanitizeInbound", () => {
     const long = "x".repeat(9000);
     const out = sanitizeInbound(long);
     expect(out.startsWith("x".repeat(8000))).toBe(true);
-    expect(out.endsWith("…[truncated]")).toBe(true);
+    expect(out.endsWith("...[truncated]")).toBe(true);
   });
 });
 

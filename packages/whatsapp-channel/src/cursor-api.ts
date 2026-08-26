@@ -36,7 +36,7 @@ export class CursorCloudClient {
           startingRef: this.config.cursorStartingRef,
         },
       ],
-      autoCreatePR: this.config.cursorAutoCreatePr,
+      autoCreatePR: request.autoCreatePr ?? this.config.cursorAutoCreatePr,
     };
     const mcp = mcpServers(request);
     if (mcp !== undefined) body.mcpServers = mcp;

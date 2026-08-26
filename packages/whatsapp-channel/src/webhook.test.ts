@@ -265,6 +265,45 @@ describe("handleInbound", () => {
     });
     expect(result.reply).toMatch(/Say what Cursor should do/);
   });
+
+  it("sends /updateDemo straight to main, with no pull request", async () => {
+    const inbox = join(dir, "demo");
+    const config = configFor(inbox, { CURSOR_API_KEY: "cur_test" });
+    const { whatsapp, cursor, calls } = clients(config);
+    const result = await handleInbound(
+      inbound({ wamid: "wamid.demo", text: "/updateDemo brighten the Today tab" }),
+      { config, whatsapp, cursor },
+    );
+
+    const launch = calls.find(
+      (call) => call.method === "POST" && call.url === "https://api.cursor.test/v1/agents",
+    );
+    const body = launch?.body as { autoCreatePR?: boolean; prompt?: { text?: string } };
+    expect(body?.autoCreatePR).toBe(false);
+
+    const prompt = body?.prompt?.text ?? "";
+    expect(prompt).toContain("Commit it straight to `main`");
+    expect(prompt).toContain("Do not open a pull");
+    // The no-PR path must not be able to reach the things a PR would protect.
+    expect(prompt).toContain("docs/03-RULES.md");
+    expect(prompt).toContain("authority.json");
+
+    expect(listItems(inbox).find((i) => i.id === "wamid.demo")?.kind).toBe("updateDemo");
+    expect(result.reply).toContain("straight to main");
+  });
+
+  it("keeps /updateApp on the pull request path", async () => {
+    const config = configFor(join(dir, "app"), { CURSOR_API_KEY: "cur_test" });
+    const { whatsapp, cursor, calls } = clients(config);
+    await handleInbound(
+      inbound({ wamid: "wamid.app", text: "/updateApp add a claim gate" }),
+      { config, whatsapp, cursor },
+    );
+    const launch = calls.find(
+      (call) => call.method === "POST" && call.url === "https://api.cursor.test/v1/agents",
+    );
+    expect((launch?.body as { autoCreatePR?: boolean }).autoCreatePR).toBe(true);
+  });
 });
 
 describe("imageForCursorPrompt", () => {

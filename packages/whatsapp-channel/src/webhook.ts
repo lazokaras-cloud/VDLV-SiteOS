@@ -2,6 +2,8 @@ import { parseCommand } from "./classify.js";
 import { imageForCursorPrompt } from "./cursor-api.js";
 import type { CursorCloudClient } from "./cursor-api.js";
 import {
+  demoLaunched,
+  demoQueued,
   documentStored,
   emptyMessage,
   helpText,
@@ -14,12 +16,17 @@ import {
   updateQueued,
 } from "./messages.js";
 import { isAllowedSender, waMeLink } from "./phone.js";
-import { agentDisplayName, buildLaunchPrompt } from "./prompt.js";
+import {
+  agentDisplayName,
+  buildDemoLaunchPrompt,
+  buildLaunchPrompt,
+} from "./prompt.js";
 import { getItem, latestUpdate, saveItem, writeMedia } from "./store.js";
 import type {
   ChannelConfig,
   CursorImage,
   InboxItem,
+  InboxKind,
   ParsedInbound,
   WhatsappClient,
 } from "./types.js";
@@ -72,19 +79,25 @@ export async function handleInbound(
     return { handled: true, reply: emptyMessage(config.locale) };
   }
 
-  if (command.command === "update" && command.rest.length === 0 && !hasMedia) {
+  const isDemo = command.command === "updateDemo";
+  const isUpdate = command.command === "update" || isDemo;
+
+  if (isUpdate && command.rest.length === 0 && !hasMedia) {
     return { handled: true, reply: updateNeedBody(config.locale) };
   }
 
-  const kind =
-    command.command === "update"
+  const kind: InboxKind = isDemo
+    ? "updateDemo"
+    : command.command === "update"
       ? "update"
       : hasMedia
         ? "document"
         : "note";
 
   const body =
-    command.command === "plain" || command.command === "note" || command.command === "update"
+    command.command === "plain" ||
+    command.command === "note" ||
+    isUpdate
       ? command.rest
       : (inbound.text ?? "");
 
@@ -118,7 +131,7 @@ export async function handleInbound(
 
   saveItem(config.inboxDir, item);
 
-  if (kind !== "update") {
+  if (!isUpdate) {
     return {
       handled: true,
       item,
@@ -127,14 +140,22 @@ export async function handleInbound(
   }
 
   if (config.cursorApiKey.length === 0) {
-    return { handled: true, item, reply: updateQueued(config.locale) };
+    return {
+      handled: true,
+      item,
+      reply: isDemo ? demoQueued(config.locale) : updateQueued(config.locale),
+    };
   }
 
   try {
     const launched = await deps.cursor.launch({
-      promptText: buildLaunchPrompt(item, config.cursorRepoUrl),
+      promptText: isDemo
+        ? buildDemoLaunchPrompt(item, config.cursorRepoUrl)
+        : buildLaunchPrompt(item, config.cursorRepoUrl),
       images,
       name: agentDisplayName(item.body),
+      // A demo change lands on main. The real app always goes via a pull request.
+      ...(isDemo ? { autoCreatePr: false } : {}),
       ...(config.publicBaseUrl.length > 0 && config.mcpAuthToken.length > 0
         ? {
             mcpUrl: `${config.publicBaseUrl}/mcp`,
@@ -151,7 +172,9 @@ export async function handleInbound(
     return {
       handled: true,
       item,
-      reply: updateLaunched(config.locale, launched.url),
+      reply: isDemo
+        ? demoLaunched(config.locale, launched.url)
+        : updateLaunched(config.locale, launched.url),
     };
   } catch {
     return { handled: true, item, reply: updateFailed(config.locale) };

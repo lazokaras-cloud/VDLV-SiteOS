@@ -169,7 +169,7 @@ export function createWhatsappMcpServer(deps: McpDeps): McpServer {
       title: "Cursor agent status",
       description: "Get status, PR URL and latest result for a Cursor cloud agent.",
       inputSchema: {
-        agentId: z.string().describe("Cursor agent id, bc-…"),
+        agentId: z.string().describe("Cursor agent id, bc-..."),
       },
     },
     async ({ agentId }) => jsonResult(await deps.cursor.getAgent(agentId)),

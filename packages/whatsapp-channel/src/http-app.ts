@@ -172,11 +172,11 @@ function pairPage(runtime: Runtime): string {
     ? `<img alt="WhatsApp QR" src="/pair/qr.png" width="320" height="320" />`
     : status.connected
       ? `<p>Connected${status.self === undefined ? "" : ` as ${escapeHtml(status.self)}`}.</p>`
-      : `<p>Waiting for WhatsApp… refresh this page.</p>`;
+      : `<p>Waiting for WhatsApp... refresh this page.</p>`;
   const group =
     status.groupJid === undefined
       ? `<p>On your phone, create a group named <strong>${escapeHtml(subject)}</strong>, then send <code>/help</code> in it. That group is the channel.</p>`
-      : `<p>Channel group is linked (<code>${escapeHtml(status.groupJid)}</code>). Send <code>/update …</code> there to start a Cursor agent.</p>`;
+      : `<p>Channel group is linked (<code>${escapeHtml(status.groupJid)}</code>). Send <code>/update ...</code> there to start a Cursor agent.</p>`;
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -193,7 +193,8 @@ function pairPage(runtime: Runtime): string {
   <p>WhatsApp → Linked devices → Link a device. Scan this QR. Same flow as WhatsApp Web.</p>
   ${qr}
   ${group}
-  <p>Then: <code>/help</code>, <code>/note …</code>, documents, or <code>/update …</code> to ask Cursor to change the app.</p>
+  <p>Then: <code>/help</code>, <code>/note ...</code>, or send documents.</p>
+  <p><code>/updateDemo ...</code> changes the demo and goes straight to main, so Vercel deploys it. <code>/updateApp ...</code> is a request against the real application and always opens a pull request.</p>
 </body>
 </html>
 `;

@@ -2,7 +2,10 @@ import type { ChannelCommand } from "./types.js";
 
 const COMMANDS = new Set(["help", "status", "note", "update"]);
 
-const UPDATE_ALIASES = new Set(["update", "cursor", "agent", "fix"]);
+/** `/updateDemo` ships the prototype straight to main. `/updateApp` opens a PR. */
+const DEMO_ALIASES = new Set(["updatedemo", "demo"]);
+
+const UPDATE_ALIASES = new Set(["update", "updateapp", "app", "cursor", "agent", "fix"]);
 
 /**
  * Parse a WhatsApp body into an explicit channel command.
@@ -32,6 +35,9 @@ export function parseCommand(text: string): ChannelCommand {
   if (word === "h") {
     return { command: "help", rest };
   }
+  if (DEMO_ALIASES.has(word)) {
+    return { command: "updateDemo", rest };
+  }
   if (UPDATE_ALIASES.has(word) && word !== "update") {
     return { command: "update", rest };
   }
@@ -48,5 +54,5 @@ export function parseCommand(text: string): ChannelCommand {
 export function isUpdateCaption(caption: string | undefined): boolean {
   if (caption === undefined || caption.trim().length === 0) return false;
   const parsed = parseCommand(caption);
-  return parsed.command === "update";
+  return parsed.command === "update" || parsed.command === "updateDemo";
 }
