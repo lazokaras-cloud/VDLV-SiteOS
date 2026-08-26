@@ -36,6 +36,10 @@ export function saveItem(inboxDir: string, item: InboxItem): InboxItem {
   return item;
 }
 
+export function hasItem(inboxDir: string, id: string): boolean {
+  return existsSync(itemPath(inboxDir, id));
+}
+
 export function getItem(inboxDir: string, id: string): InboxItem | undefined {
   const file = itemPath(inboxDir, id);
   if (!existsSync(file)) return undefined;
@@ -54,7 +58,13 @@ export function listItems(inboxDir: string, limit = 50): InboxItem[] {
 
 export function latestUpdate(inboxDir: string): InboxItem | undefined {
   for (const item of listItems(inboxDir, 200)) {
-    if (item.kind === "update") return item;
+    if (
+      item.kind === "update" ||
+      item.kind === "updateDemo" ||
+      item.kind === "updateApp"
+    ) {
+      return item;
+    }
   }
   return undefined;
 }

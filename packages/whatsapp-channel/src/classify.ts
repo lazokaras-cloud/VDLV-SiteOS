@@ -1,11 +1,10 @@
 import type { ChannelCommand } from "./types.js";
 
-const COMMANDS = new Set(["help", "status", "note", "update"]);
+const COMMANDS = new Set(["help", "status", "note", "update", "updatedemo", "updateapp"]);
 
-/** `/updateDemo` ships the prototype straight to main. `/updateApp` opens a PR. */
-const DEMO_ALIASES = new Set(["updatedemo", "demo"]);
-
-const UPDATE_ALIASES = new Set(["update", "updateapp", "app", "cursor", "agent", "fix"]);
+const UPDATE_ALIASES = new Set(["update", "cursor", "agent", "fix"]);
+const UPDATE_DEMO_ALIASES = new Set(["updatedemo", "demo"]);
+const UPDATE_APP_ALIASES = new Set(["updateapp", "app"]);
 
 /**
  * Parse a WhatsApp body into an explicit channel command.
@@ -35,16 +34,21 @@ export function parseCommand(text: string): ChannelCommand {
   if (word === "h") {
     return { command: "help", rest };
   }
-  if (DEMO_ALIASES.has(word)) {
-    return { command: "updateDemo", rest };
-  }
   if (UPDATE_ALIASES.has(word) && word !== "update") {
     return { command: "update", rest };
+  }
+  if (UPDATE_DEMO_ALIASES.has(word)) {
+    return { command: "updateDemo", rest };
+  }
+  if (UPDATE_APP_ALIASES.has(word)) {
+    return { command: "updateApp", rest };
   }
   if (COMMANDS.has(word)) {
     if (word === "help") return { command: "help", rest };
     if (word === "status") return { command: "status", rest };
     if (word === "note") return { command: "note", rest };
+    if (word === "updatedemo") return { command: "updateDemo", rest };
+    if (word === "updateapp") return { command: "updateApp", rest };
     return { command: "update", rest };
   }
 
@@ -54,5 +58,9 @@ export function parseCommand(text: string): ChannelCommand {
 export function isUpdateCaption(caption: string | undefined): boolean {
   if (caption === undefined || caption.trim().length === 0) return false;
   const parsed = parseCommand(caption);
-  return parsed.command === "update" || parsed.command === "updateDemo";
+  return (
+    parsed.command === "update" ||
+    parsed.command === "updateDemo" ||
+    parsed.command === "updateApp"
+  );
 }

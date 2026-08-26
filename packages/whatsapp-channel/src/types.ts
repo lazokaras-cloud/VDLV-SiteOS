@@ -7,7 +7,7 @@
 
 export type ChannelLocale = "en" | "af";
 
-export type InboxKind = "note" | "document" | "update" | "updateDemo";
+export type InboxKind = "note" | "document" | "update" | "updateDemo" | "updateApp";
 
 export interface InboxMedia {
   filename: string;
@@ -83,6 +83,7 @@ export type ChannelCommand =
   | { command: "note"; rest: string }
   | { command: "update"; rest: string }
   | { command: "updateDemo"; rest: string }
+  | { command: "updateApp"; rest: string }
   | { command: "plain"; rest: string };
 
 export interface ChannelConfig {
@@ -120,10 +121,10 @@ export interface CursorLaunchRequest {
   promptText: string;
   images: readonly CursorImage[];
   name: string;
+  startingRef?: string;
+  autoCreatePr?: boolean;
   mcpUrl?: string;
   mcpAuthToken?: string;
-  /** Overrides CURSOR_AUTO_CREATE_PR. False lets a demo change land on main. */
-  autoCreatePr?: boolean;
 }
 
 export interface CursorLaunchResult {

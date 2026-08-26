@@ -1,0 +1,173 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: var(--field);
+}
+
+.device {
+  width: min(100%, 390px);
+  min-height: 640px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--surface);
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--stamp-wash);
+  color: var(--stamp);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bar-id {
+  flex: 1;
+  min-width: 0;
+}
+
+.proj {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chip {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.langbtn,
+.iconbtn {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 8px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--surface-2);
+}
+
+.offline {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 6px 12px;
+  background: var(--ok-wash);
+  color: var(--ok);
+}
+
+.offline.off {
+  background: var(--stamp-wash);
+  color: var(--stamp);
+}
+
+.scroll {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+  background: var(--ground);
+}
+
+.pane {
+  display: none;
+}
+
+.pane.on {
+  display: block;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.card h2 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.card p {
+  margin: 0 0 8px;
+  color: var(--ink-2);
+}
+
+.card .lead {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.card .sub {
+  font-size: 14px;
+}
+
+.card .note {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: 12px;
+}
+
+.card.clear {
+  border-color: var(--ok);
+  background: var(--ok-wash);
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--rule);
+  background: var(--surface);
+}
+
+.tabs button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 10px 4px;
+  font-size: 11px;
+  color: var(--ink-3);
+  border-top: 2px solid transparent;
+}
+
+.tabs button.on {
+  color: var(--ink);
+  border-top-color: var(--signal);
+  font-weight: 600;
+}

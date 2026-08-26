@@ -1,0 +1,22 @@
+{
+  "app.project": "Menlyn Office Park Ph2",
+  "app.contract": "JBCC PBA May 2018",
+  "tab.today": "Vandag",
+  "tab.guides": "Gidse",
+  "tab.money": "Geld",
+  "tab.board": "Direksie",
+  "offline.offline": "Offline — writes wag plaaslik",
+  "offline.online": "Online",
+  "theme.flip": "Wissel tema",
+  "lang.toggle": "Taal",
+  "today.heading": "Vat nou aandag",
+  "today.clear": "Niks loop vandag uit nie.",
+  "today.sub": "Elke klok op hierdie job is nog binne sy tyd.",
+  "today.shellNote": "Site app shell (SITE-01). Flows en die rules engine kom in SITE-02.",
+  "guides.heading": "Gidse",
+  "guides.body": "Guided flows kom hier — variation, claim, progress report.",
+  "money.heading": "Geld",
+  "money.body": "Certificates en contras — packages/rules bereken dit, nie 'n model nie.",
+  "board.heading": "Direksie",
+  "board.body": "Lifecycle spine en baseline variance vir die contracts director."
+}
