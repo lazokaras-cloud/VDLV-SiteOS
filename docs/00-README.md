@@ -74,13 +74,17 @@ it as configurable.
 - `packages/rules` is at 100% branch coverage.
 - Every new user-facing string exists in both language catalogues, or is marked
   `// TODO af`.
-- No client names, real rates, or source tender documents anywhere in the repo.
+- No client names, real rates or source documents in anything that ships:
+  `src/`, `packages/`, `fixtures/`, seed data, commit messages, or deployed
+  output. `docs/knowledge/` is the single deliberate exception and exists only
+  because this repository is private.
 
 ## A note on the numbers
 
 The fixtures follow a real submitted tender in shape and proportion: the bills
 sum to R58 976 685.20 and the preliminaries reconcile to the rand. The names are
-invented and the source documents are deliberately absent.
+invented. The source documents themselves are in `docs/knowledge/`, kept apart
+from anything that ships.
 
 The clause references were transcribed from a tender pack and a process
 flowchart, **not** from the published JBCC agreements. They are correct enough to
