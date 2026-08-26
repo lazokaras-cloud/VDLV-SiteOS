@@ -11,10 +11,19 @@
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit -p tsconfig.json",
+<<<<<<< HEAD
     "check": "pnpm guard && pnpm verify && pnpm typecheck && pnpm coverage",
     "guard": "node scripts/guard.mjs"
+=======
+    "check": "pnpm verify && pnpm typecheck && pnpm coverage",
+    "whatsapp:mcp": "pnpm --filter @siteos/whatsapp-channel mcp",
+    "whatsapp:serve": "pnpm --filter @siteos/whatsapp-channel serve",
+    "site:dev": "pnpm --filter @siteos/site dev",
+    "site:build": "pnpm --filter @siteos/site build"
+>>>>>>> origin/cursor/whatsapp-channel-mcp-2c92
   },
   "devDependencies": {
+    "@types/node": "^26.3.0",
     "@vitest/coverage-v8": "^2.1.0",
     "typescript": "^5.6.0",
     "vitest": "^2.1.0"

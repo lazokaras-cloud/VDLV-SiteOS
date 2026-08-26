@@ -1,0 +1,96 @@
+:root {
+  --ground: #f1f1f1;
+  --field: #e4e4e0;
+  --surface: #ffffff;
+  --surface-2: #f7f7f4;
+  --ink: #111111;
+  --ink-2: #5a5a56;
+  --ink-3: #8c8c87;
+  --rule: #dcdcd6;
+  --signal: #ffcb05;
+  --signal-txt: #7a5e00;
+  --signal-ink: #0c0c0c;
+  --stamp: #5a5a56;
+  --stamp-wash: #f0ede3;
+  --ok: #2e7d4f;
+  --ok-wash: #e6f2ea;
+  --shadow: 0 1px 2px rgba(16, 19, 23, 0.06), 0 8px 24px rgba(16, 19, 23, 0.08);
+  --mono: ui-monospace, "Cascadia Mono", "SF Mono", Consolas, monospace;
+  --sans: "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0c0c0c;
+    --field: #050505;
+    --surface: #111111;
+    --surface-2: #1d1d1c;
+    --ink: #f2f2ef;
+    --ink-2: #a0a09b;
+    --ink-3: #74746f;
+    --rule: #2c2c2a;
+    --signal: #ffcb05;
+    --signal-txt: #ffcb05;
+    --signal-ink: #0c0c0c;
+    --stamp: #a0a09b;
+    --stamp-wash: #241e08;
+    --ok: #46b87a;
+    --ok-wash: #14261b;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground: #0c0c0c;
+  --field: #050505;
+  --surface: #111111;
+  --surface-2: #1d1d1c;
+  --ink: #f2f2ef;
+  --ink-2: #a0a09b;
+  --ink-3: #74746f;
+  --rule: #2c2c2a;
+  --signal: #ffcb05;
+  --signal-txt: #ffcb05;
+  --signal-ink: #0c0c0c;
+  --stamp: #a0a09b;
+  --stamp-wash: #241e08;
+  --ok: #46b87a;
+  --ok-wash: #14261b;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--field);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--stamp);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

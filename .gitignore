@@ -1,7 +1,12 @@
 .vercel
 .DS_Store
 node_modules
+.next
+*.tsbuildinfo
 Thumbs.db
+.env
+.env.local
+inbox/
 
 # Client documents are not committed anywhere except the knowledge folder,
 # which exists only because this repository is private. See

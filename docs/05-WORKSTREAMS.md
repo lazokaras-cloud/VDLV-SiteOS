@@ -91,6 +91,7 @@ treat any of it as configurable.*
 ### Site app
 
 **SITE-01 — Shell.** Tabs, offline indicator, language toggle, theme.
+*In progress on `apps/site` (Next.js).*
 **SITE-02 — Flow engine.** Step kinds: say, choice, number, text, checks (gating),
 photo, compute, doc, finish. Persisted per step, resumable.
 **SITE-03 — Today.** Lifecycle spine, baseline variance, the action list.
@@ -140,6 +141,10 @@ into `Bill` and `BillItem`.
 **IMPORT-02 — Cost report parser.**
 **EXPORT-01 — Contract request form** for the accounting package.
 **AI-01 — Speech and extraction behind the `packages/ai` interface.**
+**INT-WHATSAPP — WhatsApp channel MCP.** Cloud API webhook plus stdio/HTTP MCP
+so an allowlisted WhatsApp inbox can store notes and documents, or launch a
+Cursor cloud agent against this repository. Setup in
+`packages/whatsapp-channel/README.md`. Captured files stay gitignored.
 
 ---
 

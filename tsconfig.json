@@ -11,7 +11,7 @@
     "verbatimModuleSyntax": true,
     "noEmit": true,
     "skipLibCheck": true,
-    "types": ["vitest/globals"],
+    "types": ["node", "vitest/globals"],
     "paths": {
       "@siteos/rules": ["./packages/rules/src/index.ts"],
       "@siteos/domain": ["./packages/domain/src/index.ts"]
