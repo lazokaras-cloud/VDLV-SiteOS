@@ -237,9 +237,9 @@ misunderstood.
 - Prime cost amounts and provisional sums are **net**. Prime cost amounts include
   delivery to site.
 - Against each provisional sum the bill carries **two separate priced lines**:
-  - *Profit on the specialist executing the work* — the contractor may allow
+  - *Profit on the specialist executing the work*: the contractor may allow
     profit if required.
-  - *Attendance on the specialist* — covers the contractor's duties provided free
+  - *Attendance on the specialist*: covers the contractor's duties provided free
     of charge to the sub-contractor, per the nominated/selected sub-contract.
 - **Special attendance** is distinct from general attendance and is usually
   excluded by qualification.
@@ -303,9 +303,32 @@ Time-related preliminaries keep running whether or not anyone is building, so a
 month of excusable delay costs the contractor a month of them and a granted
 extension recovers exactly that.
 
-Held as a single lump sum — which is how most contractors hold it — the claim
+Held as a single lump sum, which is how most contractors hold it, the claim
 cannot be built at all. This classification is not accounting neatness. It is the
 mechanism.
+
+### 5.3b What they actually submit, which is not the same thing
+
+Their standard breakdown to the PQS **declares every line as time related**.
+
+That is a commercial position, not an accounting one, and it is deliberate:
+time-related preliminaries are what an extension of time recovers, so a
+breakdown that classifies everything as time maximises what a granted extension
+is worth.
+
+The system must therefore hold **two** classifications and never conflate them:
+
+| | Purpose |
+| --- | --- |
+| **True allocation** | What the money actually behaves like. Used for internal forecasting, cost-to-complete, and knowing whether the job is winning. |
+| **Submitted allocation** | What went to the principal agent in the P&G breakdown. Used for valuing a delay claim. |
+
+Show both, label which is which, and never let one silently overwrite the other.
+An agent that "corrects" the submitted breakdown to match the true one has
+destroyed the basis of every extension claim on that project.
+
+**Submission deadline: 15 working days.** The breakdown goes to the PQS within
+15 working days of appointment.
 
 ### 5.4 Order of calculation
 
@@ -368,9 +391,9 @@ cannot tell you the job is losing money.
 A project carries **48 control points** from tender to final account. Each has
 exactly three fields:
 
-- **Owner** — a named person
-- **Target date** — recurring or once-off
-- **Status** — binary, complete or incomplete
+- **Owner**: a named person
+- **Target date**: recurring or once-off
+- **Status**: binary, complete or incomplete
 
 There is deliberately no "in progress" and no percentage. A step is done or it is
 not. This is what makes a completion figure trustworthy and it is what makes the
@@ -478,8 +501,8 @@ must reconcile per project, and the difference is money.
 | 06h50 – 07h00 | Foreman allocates tasks |
 | 07h00 | Start work |
 | 12h00 – 12h30 | Lunch |
-| 16h00 | Clock out — **8.5 hours** |
-| Fridays 15h00 | Clock out — **7.5 hours** |
+| 16h00 | Clock out, **8.5 hours** |
+| Fridays 15h00 | Clock out, **7.5 hours** |
 
 - **Normal hours: 83 per fortnight.**
 - Labour-only sub-contractors are paid **fortnightly**, on a **separate time
@@ -575,7 +598,7 @@ practical completion.
 - **RFIs updated daily.** An RFI open past its turnaround is a delay event in
   waiting (§3.2).
 - Progress photographs.
-- **Weather records from a rain meter** — the evidence base for weather delay.
+- **Weather records from a rain meter**: the evidence base for weather delay.
 - Site instruction book for urgent information.
 - The progress report is written **against the previous report**, never from
   scratch.
@@ -606,19 +629,93 @@ results to the principal agent.
 Nine points, all required:
 
 1. Final completion certificate and final account
-2. **Project feedback recorded** — this is what feeds §7 benchmarks and lessons
+2. **Project feedback recorded**: this is what feeds §7 benchmarks and lessons
 3. Sub-contractor retention report signed off
 4. All suppliers paid, no accruals
 5. All outstanding invoices, including pro-forma, cleared
 6. Sell-by-loss journal on the cost centre
 7. **Cost centre signed off by the contracts manager and a director**
-8. **Guarantee cancelled** — an uncancelled guarantee is a live liability
+8. **Guarantee cancelled**: an uncancelled guarantee is a live liability
 9. Contract closure meeting
 
 **Rule:** a project is not closed until all nine are true. Item 2 is the one
 always skipped, and it is the one that makes the next tender better.
 
-### 9.17 People
+### 9.17 Creditors and the cost ledger
+
+Cost moves through three states, and the responsibility changes at each.
+
+| State | Owner | Trigger |
+| --- | --- | --- |
+| **Committed** | Contracts manager | Purchase order raised against a quote |
+| **Accrual** | Creditors clerk | Delivery taken against the order |
+| **Cost** | Finance | Invoice processed against order and delivery |
+
+- The order is raised **as per the quote**, with three quotations where the
+  material is not on a bulk order.
+- Delivery notes are submitted **every Friday**.
+- Any discrepancy between order, delivery note and invoice is written on the
+  invoice at the time.
+- Rate and quantity differences are resolved by **requesting a credit note**, not
+  by absorbing them.
+
+An order with no delivery is a committed cost that never becomes an accrual, and
+it is invisible in a cost report that only shows invoices. That gap is where a
+job quietly loses money between claims.
+
+### 9.18 Concrete
+
+- The cast register is updated **with every pour**, and again with the test cube
+  result when it arrives.
+- Cube sampling follows the standard sampling procedure.
+- Concrete is measured accurately by the responsible person for the pour.
+- Mix designs are approved by the engineer before use.
+
+### 9.19 Advance payments to sub-contractors
+
+Not a favour and not a cash-flow accident. It is a deliberate trade: pay the
+sub-contractor early, and take the settlement discount they give for it as a
+contra charge. It is one of the few places in the business where money is made
+by moving a date.
+
+**The limits are hard numbers.**
+
+| Limit | Amount |
+| --- | --- |
+| Per division | R3 750 000 |
+| Per client | R3 750 000 |
+| Extended ceiling, either limit | R7 500 000 |
+| Global limit across the group | R30 000 000 |
+
+Going past R3.75m requires the division director to motivate **by email to the
+profit share partners**, stating that the risk was assessed and found low, and
+citing the client's payment record and the contract or agreed payment terms. If
+that client then pays late, the extended limit may be withdrawn permanently.
+
+**The procedure, and every step of it is a control.**
+
+1. Issue the sub-contractor payment advice **against the certificate number on
+   which the work will be claimed from the client**, not the last one paid. If
+   certificate 2 was the last paid and the advance covers work going onto
+   certificate 3, the advice and the remittance are both certificate 3.
+2. The settlement discount received is **deducted from the payment as a contra
+   charge**, always to the dedicated settlement-discount ledger code. Only
+   settlement discount goes to that code. Other contra charges on the same
+   document are split to their own codes.
+3. Print the contra charge invoice and attach it to the payment advice.
+4. Obtain the sub-contractor's invoice before paying, and attach it.
+5. Sign next to the certificate number and write **ADVANCE PAYMENT** beside the
+   signature.
+6. **Only a director may sign an advance payment.**
+7. Update the advance payment register and forward it so the master is updated.
+8. The advance must be in the budget **on the Thursday before payment**.
+
+The discount is tracked per director and reconciled to the ledger. A discount
+banked but never certified by the client is an open exposure, which is why the
+register carries the client payment date, whether the client was invoiced, and
+whether the contra charge was raised.
+
+### 9.20 People
 
 Performance of the project team is rated **yearly**, and the rating drives
 increases and bonuses. The measure that matters and cannot be usefully gamed is
@@ -627,7 +724,151 @@ a site agent who never misses a claim.
 
 ---
 
-## 10. Rules that must never be relaxed
+## 10. The recipe
+
+The contractor calls this "our recipe": the sequence by which a job makes money.
+It is not advice. It is the commercial model the product exists to enforce, and
+almost every feature is a step in it.
+
+### 10.1 The tender is priced to win, not to profit
+
+```
+nett price + P&G + risk = tender price
+```
+
+- Price the bill **nett**: no profit in the rates, cheapest rates throughout.
+- Allow for everything in the P&G calculation, because that is where the money
+  is carried.
+- Add risk explicitly, for example the gap between the lowest sub-contractor
+  price and the second lowest, since taking the lowest is taking that risk.
+
+**The consequence, and it is the whole thesis:** the tender frequently contains
+little or no profit. The job is therefore not made profitable by winning it. It
+is made profitable by everything that happens next.
+
+### 10.2 Re-engineering: money is made before work starts
+
+The single highest-leverage window in the whole process, and it is measured in
+days.
+
+- Beat **every** resource price used in the tender: material, plant, labour.
+- Better sub-contractor prices than the tender allowable.
+- Settlement discounts from all domestic sub-contractors.
+- **All domestic appointments within the first week after appointment.**
+- **All material bulk orders within the first week after appointment.**
+- Communicate the total saving on appointments and bulk orders to every contracts
+  manager, so the benchmark moves for the next job.
+
+A week is the whole opportunity. A system that surfaces "you are on day 4 of 7
+and 6 of 14 packages are unappointed" is worth more than most of the reporting in
+this product.
+
+### 10.3 Bulk orders
+
+- Built from the estimating resource list.
+- **Prices are fixed for the project.** The order states that quantities may
+  change, and that the contractor may cancel at any time with no obligation to
+  complete.
+- **Any order not on a bulk order is one of three things: a variation, a contra
+  charge, or a P&G item.** Nothing else. That is a classification rule, and an
+  order that cannot be placed in one of those three boxes is an error to raise
+  rather than a cost to absorb.
+- Material not on a bulk order requires a requisition and three quotations.
+
+### 10.4 Provisional sums, priced domestically
+
+- Draft the nominated and selected appointment dates onto the RFI list from the
+  provisional sums in the bill.
+- Price the provisional work with a **domestic** sub-contractor, then submit the
+  cheap price plus the mark-up as the contractor's own.
+- Agree with the PQS **at the outset and in writing** that a 10% allowance
+  applies to additional or new trades under provisional sums.
+
+This answers the puzzle in §4.4. The profit and attendance lines in the bill sit
+at zero not because the margin was given away, but because it is taken through
+the domestic price and the separately agreed allowance. The system should show
+both, so the decision is visible rather than inferred.
+
+### 10.5 The claim cycle
+
+Monthly, and described by the contractor as the most important part of the job.
+
+- Use the cost report **including accruals**: every cost incurred must be covered
+  by the claim, whether or not the invoice has arrived.
+- Every extra and variation is cost of material, plant, labour and waste, **plus
+  10%**.
+- Sub-contractor claims go on the claim sheet **plus 10%** on all new items.
+- Own work is claimed from the cost report's actual quantities, **plus 10%** on
+  all new items.
+- Adjust the monthly claim to the PQS valuation once certified.
+
+### 10.6 Paying sub-contractors
+
+Four rules, all of them money:
+
+1. Pay **the lesser of** the PQS certified quantity and the sub-contractor's
+   claimed quantity. Never the greater, and never simply what was claimed.
+2. **Always deduct the 10% mark-up from the certified rate.** The certified rate
+   includes the contractor's mark-up; the sub-contractor is not entitled to it.
+3. Pay only once the client has paid.
+4. **A director approves payments.**
+
+Contra charges are invoiced separately with the claim sheet as backing.
+
+### 10.7 Retention and guarantees
+
+- Where the contract allows the choice, **avoid a performance guarantee so that
+  the 10% retention is retained instead.** Retention held is leverage; a
+  guarantee is a cost.
+- Do not overpay sub-contractors or release retention early. Keep enough
+  financial leverage to have the work finished and closed out properly.
+- Track every guarantee from issue to expiry or release, and **actively pursue
+  the release** rather than letting it stand.
+- At practical completion, send the certificate onward so the variable guarantee
+  can be reduced and the insurance adjusted.
+- Never sign a waiver of lien without a valid payment guarantee or a direct
+  payment arrangement from the bank.
+
+### 10.8 Cash flow
+
+- Client terms are typically 7 to 14 days from certificate date; watch for
+  contracts that differ.
+- Suppliers are typically on 30-day terms.
+- Sub-contractors are paid after the client has paid.
+
+The gap between those three is working capital, and it is deliberate. Claim
+quickly, bank quickly, and use the supplier terms to earn settlement discount.
+
+### 10.9 The admin rhythm
+
+Fixed cadence. These are the recurring control points from §7.3.
+
+| Cadence | What |
+| --- | --- |
+| **Daily** | RFI update |
+| **Weekly, Friday before end of day** | Programme update |
+| **Weekly** | Contra charge register updated, report printed for the monthly deduction |
+| **Weekly** | Progress photographs with the meeting pack: programme, RFI, concrete cast register, photographs |
+| **Every pour** | Concrete cast register, updated with the pour and its test cube result |
+| **Monthly** | Claim cycle, cost report review |
+
+The cost report review is called out by the contractor as one of the most
+important controls on the project. It is monthly and it is not optional.
+
+### 10.10 Site standards
+
+Held as non-negotiable, and they are about trust rather than tidiness.
+
+- Safety induction, with induction stickers and vests. Non-negotiable.
+- Housekeeping. Non-negotiable, because quality and a satisfied client depend on
+  a clean site.
+- Company signage on the site corners in both directions; clean vehicles;
+  company clothing and PPE.
+- Website and social media updated at least every 30 days.
+
+---
+
+## 11. Rules that must never be relaxed
 
 - No language model output reaches any of the above.
 - Every deadline is computed from the project's own contract edition.
