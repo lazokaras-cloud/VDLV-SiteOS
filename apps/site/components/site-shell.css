@@ -171,3 +171,420 @@
   border-top-color: var(--signal);
   font-weight: 600;
 }
+
+.tabs .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--stamp);
+  margin-top: 2px;
+}
+
+.spine {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.spine div {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 6px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  color: var(--ink-3);
+}
+
+.spine div.past {
+  color: var(--ink-2);
+  background: var(--surface-2);
+}
+
+.spine div.now {
+  color: var(--ink);
+  border-color: var(--signal);
+  font-weight: 600;
+}
+
+.sec {
+  display: flex;
+  justify-content: space-between;
+  margin: 14px 0 8px;
+}
+
+.lab {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.clock {
+  margin-top: 10px;
+}
+
+.clock-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.big-risk {
+  font-size: 22px;
+  font-weight: 700;
+  font-family: var(--mono);
+}
+
+.clock-meta {
+  text-align: right;
+}
+
+.clock-meta b {
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.sub-meta {
+  display: block;
+  margin-top: 4px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card.task {
+  display: flex;
+  gap: 10px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  padding: 14px;
+}
+
+.card.task:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+
+.card.task .sev {
+  width: 4px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  background: var(--ink-3);
+}
+
+.card.task.crit .sev {
+  background: var(--stamp);
+}
+
+.card.task.warn .sev {
+  background: var(--warn);
+}
+
+.card.task.info .sev {
+  background: var(--signal);
+}
+
+.card.task h3 {
+  margin: 6px 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.card.task p {
+  font-size: 13px;
+  margin: 0;
+}
+
+.card.task .foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--rule);
+}
+
+.pill.crit {
+  border-color: var(--stamp);
+  color: var(--stamp);
+}
+
+.pill.warn {
+  border-color: var(--warn);
+  color: var(--warn);
+}
+
+.pill.info {
+  border-color: var(--signal);
+  color: var(--signal);
+}
+
+.pill.flat {
+  color: var(--ink-2);
+}
+
+.go {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--signal);
+}
+
+.card.center {
+  text-align: center;
+  padding: 26px 16px;
+}
+
+.ledger {
+  width: 100%;
+  font-size: 13px;
+}
+
+.ledger td {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ledger td.mono {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-align: right;
+}
+
+.foot-note {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  margin: 10px 0 0;
+}
+
+.guides-lead {
+  font-size: 14px;
+  color: var(--ink-2);
+  margin: 0 0 12px;
+}
+
+.guide-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card.guide {
+  display: flex;
+  gap: 12px;
+  text-align: left;
+  width: 100%;
+  padding: 14px;
+  cursor: pointer;
+}
+
+.card.guide:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.guide-no {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-3);
+}
+
+.card.guide h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+}
+
+.card.guide p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.flow-overlay {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.flow-head {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.flow-back {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 6px 8px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--surface-2);
+}
+
+.flow-stage {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.flow-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.flow-body {
+  flex: 1;
+}
+
+.flow-msg,
+.flow-note {
+  font-size: 14px;
+  color: var(--ink-2);
+  margin: 0 0 12px;
+  line-height: 1.45;
+}
+
+.flow-q {
+  font-size: 17px;
+  margin: 0 0 12px;
+}
+
+.opts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.opt {
+  padding: 14px 16px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--surface);
+  font-size: 15px;
+  text-align: left;
+}
+
+.opt.full {
+  width: 100%;
+}
+
+.opt.primary {
+  background: var(--signal-wash);
+  border-color: var(--signal);
+  font-weight: 600;
+}
+
+.opt.sig {
+  background: var(--stamp-wash);
+  border-color: var(--stamp);
+  font-weight: 600;
+  color: var(--stamp);
+}
+
+.num-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 10px 12px;
+  background: var(--surface);
+}
+
+.num-pre {
+  font-family: var(--mono);
+  font-weight: 600;
+}
+
+.num-field input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  font-family: var(--mono);
+  min-width: 0;
+}
+
+.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+}
+
+.checklist li {
+  margin-bottom: 10px;
+}
+
+.checklist label {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.checklist strong {
+  display: block;
+  font-size: 14px;
+}
+
+.checklist small {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-top: 2px;
+}
+
+.doc-preview h3 {
+  margin: 0 0 4px;
+}
+
+.doc-sub {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin: 0 0 12px;
+}
+
+.doc-table {
+  width: 100%;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.doc-table td {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+.doc-table td:first-child {
+  color: var(--ink-2);
+  width: 42%;
+}
+
+.doc-table td:last-child {
+  font-family: var(--mono);
+  font-size: 12px;
+}
