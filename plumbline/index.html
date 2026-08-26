@@ -28,25 +28,26 @@
    Light is the default (site = daylight). Dark redefines tokens only.
    ------------------------------------------------------------- */
 :root{
-  --ground:#EDEFF1;      /* light: brushed silver */
-  --field:#DFE3E6;       /* bench behind the device */
+  --ground:#F2F2F0;      /* light: brushed silver */
+  --field:#E4E4E0;       /* bench behind the device */
   --surface:#FFFFFF;     /* panel */
-  --surface-2:#F3F5F7;
-  --ink:#16191D;
-  --ink-2:#59626A;       /* silver grey */
-  --ink-3:#8B949C;
-  --rule:#D4D9DD;
-  --rule-2:#E8ECEF;
-  --signal:#00A28C;      /* the one accent, used sparingly */
+  --surface-2:#F7F7F4;
+  --ink:#111111;
+  --ink-2:#5A5A56;       /* silver grey */
+  --ink-3:#8C8C87;
+  --rule:#DCDCD6;
+  --rule-2:#EAEAE4;
+  --signal:#FFC20E;      /* the customer's gold, used as a fill */
+  --signal-txt:#8A6200;  /* the same accent where it has to be legible as text */
   --signal-ink:#FFFFFF;
-  --stamp:#4E5A64;       /* slate, structural secondary */
-  --stamp-wash:#EAEEF1;
-  --ok:#12855C;
-  --ok-wash:#E4F3EC;
-  --warn:#A5760E;
-  --warn-wash:#F8F0DE;
-  --crit:#C03A2D;
-  --crit-wash:#FBE8E5;
+  --stamp:#5A5A56;       /* slate, structural secondary */
+  --stamp-wash:#F0EDE3;
+  --ok:#2E7D4F;
+  --ok-wash:#E6F2EA;
+  --warn:#B2740B;
+  --warn-wash:#FAF0DA;
+  --crit:#C0392B;
+  --crit-wash:#FBE7E4;
   --shadow:0 1px 2px rgba(16,19,23,.06), 0 8px 24px rgba(16,19,23,.08);
   --shadow-lift:0 2px 4px rgba(16,19,23,.08), 0 18px 48px rgba(16,19,23,.16);
 
@@ -58,27 +59,27 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ground:#0E1013; --field:#08090B; --surface:#16191D; --surface-2:#1E2227;
-    --ink:#EDEFF1; --ink-2:#9BA3AB; --ink-3:#6D767E;
-    --rule:#2A2F35; --rule-2:#202429;
-    --signal:#00D7B9; --signal-ink:#04201C;
-    --stamp:#9AA6B0; --stamp-wash:#1A2126;
-    --ok:#3FCF8E; --ok-wash:#10241C;
-    --warn:#E8B33A; --warn-wash:#2A2214;
-    --crit:#FF6B5E; --crit-wash:#2C1A18;
+    --ground:#0C0C0C; --field:#050505; --surface:#111111; --surface-2:#1D1D1C;
+    --ink:#F2F2EF; --ink-2:#A0A09B; --ink-3:#74746F;
+    --rule:#2C2C2A; --rule-2:#212120;
+    --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E;
+    --stamp:#A0A09B; --stamp-wash:#241E08;
+    --ok:#46B87A; --ok-wash:#14261B;
+    --warn:#E0A93C; --warn-wash:#2A2214;
+    --crit:#E4695C; --crit-wash:#2C1A18;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
     --shadow-lift:0 2px 4px rgba(0,0,0,.5), 0 18px 48px rgba(0,0,0,.6);
   }
 }
 :root[data-theme="dark"]{
-  --ground:#0E1013; --field:#08090B; --surface:#16191D; --surface-2:#1E2227;
-  --ink:#EDEFF1; --ink-2:#9BA3AB; --ink-3:#6D767E;
-  --rule:#2A2F35; --rule-2:#202429;
-  --signal:#00D7B9; --signal-ink:#04201C;
-  --stamp:#9AA6B0; --stamp-wash:#1A2126;
-  --ok:#3FCF8E; --ok-wash:#10241C;
-  --warn:#E8B33A; --warn-wash:#2A2214;
-  --crit:#FF6B5E; --crit-wash:#2C1A18;
+  --ground:#0C0C0C; --field:#050505; --surface:#111111; --surface-2:#1D1D1C;
+  --ink:#F2F2EF; --ink-2:#A0A09B; --ink-3:#74746F;
+  --rule:#2C2C2A; --rule-2:#212120;
+  --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E;
+  --stamp:#A0A09B; --stamp-wash:#241E08;
+  --ok:#46B87A; --ok-wash:#14261B;
+  --warn:#E0A93C; --warn-wash:#2A2214;
+  --crit:#E4695C; --crit-wash:#2C1A18;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
   --shadow-lift:0 2px 4px rgba(0,0,0,.5), 0 18px 48px rgba(0,0,0,.6);
 }
@@ -141,7 +142,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .tb-note strong{color:var(--ink)}
 .stamp{
   display:inline-block; margin:2px 0 12px; padding:5px 11px;
-  border:1px solid var(--signal); color:var(--signal); border-radius:2px;
+  border:1px solid var(--signal); color:var(--signal-txt); border-radius:2px;
   font-family:var(--mono); font-size:9.5px; letter-spacing:.24em; font-weight:500;
   text-transform:uppercase;
 }
@@ -398,7 +399,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   color:var(--ink-2); background:var(--surface);
 }
 .langbtn:hover{border-color:var(--ink); color:var(--ink)}
-.langbtn.af{border-color:var(--signal); color:var(--signal)}
+.langbtn.af{border-color:var(--signal); color:var(--signal-txt)}
 
 /* forced-sequence stepper */
 .steps{display:flex; gap:3px; padding:0 0 9px}
@@ -456,7 +457,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .calc div:last-child{border-bottom:0}
 .calc span:last-child{font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600}
 .calc .tot{background:var(--ink); color:var(--ground)}
-.calc .tot span:last-child{color:var(--signal)}
+.calc .tot span:last-child{color:var(--signal-txt)}
 
 /* generated document */
 .doc{
@@ -581,7 +582,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   animation:rise .2s ease-out;
 }
 .toast[hidden]{display:none}
-.toast svg{width:17px; height:17px; stroke:var(--signal); fill:none; stroke-width:2.2; flex:none}
+.toast svg{width:17px; height:17px; stroke:var(--signal-txt); fill:none; stroke-width:2.2; flex:none}
 
 .foot-note{
   margin-top:22px; padding-top:12px; border-top:1px solid var(--rule);
@@ -637,7 +638,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       <header class="bar">
         <div class="avatar">RB</div>
         <div class="bar-id">
-          <div class="proj">Lourensford Office Park Ph2</div>
+          <div class="proj">Menlyn Office Park Ph2</div>
           <span class="chip">JBCC PBA May 2018</span>
         </div>
         <button class="langbtn" id="lang" aria-label="Taal / Language">EN</button>
@@ -1032,21 +1033,21 @@ const SEED = {
 
   // Other live projects, for the board view
   fleet:[
-    { id:"lou", name:"Lourensford Office Park Ph2", town:"Somerset West", ed:"05/2018",
+    { id:"lou", name:"Menlyn Office Park Ph2", town:"Pretoria East", ed:"05/2018",
       stage:"site", value:48240000, base:7.4, now:6.9, risk:205040, clock:17, clockOf:"Notice on SI-114" },
-    { id:"tyg", name:"Tygerberg Retail Centre", town:"Bellville", ed:"03/2014",
+    { id:"tyg", name:"Centurion Retail Centre", town:"Centurion", ed:"03/2014",
       stage:"claims", value:71600000, base:8.1, now:8.4, risk:0, clock:31, clockOf:"Claim 14 cut-off" },
-    { id:"str", name:"Strand Beachfront Apartments", town:"Strand", ed:"05/2018",
+    { id:"str", name:"Waterkloof Ridge Apartments", town:"Waterkloof", ed:"05/2018",
       stage:"completion", value:39900000, base:6.6, now:5.2, risk:486000, clock:4, clockOf:"Works completion list" },
-    { id:"wor", name:"Worcester Clinic Upgrade", town:"Worcester", ed:"Minor Works",
+    { id:"wor", name:"Mamelodi Clinic Upgrade", town:"Mamelodi", ed:"Minor Works",
       stage:"site", value:12400000, base:9.2, now:9.6, risk:0, clock:22, clockOf:"Sub retention release" },
-    { id:"ste", name:"Stellenbosch Cellar Extension", town:"Stellenbosch", ed:"07/2007",
+    { id:"ste", name:"Rosslyn Plant Extension", town:"Rosslyn", ed:"07/2007",
       stage:"final", value:26800000, base:7.8, now:4.1, risk:1240000, clock:2, clockOf:"Object to final account" }
   ],
   pipeline:[
-    { name:"Paarl Medical Centre", value:31480000, closes:"2026-08-27", state:"adjudicating" },
-    { name:"Durbanville School Hall", value:18900000, closes:"2026-09-03", state:"pricing" },
-    { name:"Brackenfell Warehouse", value:44200000, closes:"2026-09-11", state:"pricing" }
+    { name:"Midstream Medical Centre", value:31480000, closes:"2026-08-27", state:"adjudicating" },
+    { name:"Garsfontein School Hall", value:18900000, closes:"2026-09-03", state:"pricing" },
+    { name:"Samrand Warehouse", value:44200000, closes:"2026-09-11", state:"pricing" }
   ]
 };
 
@@ -1356,7 +1357,7 @@ const FLOWS = {
           return {
             msg:"Claim 07, ready for the PQS.",
             title:"Payment claim 07",
-            sub:"Lourensford Office Park Ph2 / "+fmt(CLAIM_CUTOFF),
+            sub:"Menlyn Office Park Ph2 / "+fmt(CLAIM_CUTOFF),
             rows:[
               ["Own work", R(st.own)],
               ["Variations", R(st.voMode==="all"?604800:486300)],
@@ -1567,7 +1568,7 @@ const FLOWS = {
     clause:"Pre-project",
     steps:[
       { kind:"say", stage:"Load",
-        msg:["<b>Paarl Medical Centre</b>. Tender closes Thursday.",
+        msg:["<b>Midstream Medical Centre</b>. Tender closes Thursday.",
              "Everything a project ever gets measured against is decided in the next four minutes, so let's load it properly and then lock it."],
         opts:[{label:"Load the tender", cls:"primary full"}] },
 
@@ -1624,7 +1625,7 @@ const FLOWS = {
         ],
         key:"geo",
         after(v){
-          if (v==="ok") return "Good. That is the risk that turned into SI-114 on Lourensford.";
+          if (v==="ok") return "Good. That is the risk that turned into SI-114 on Menlyn.";
           return "Then it goes into the tender qualifications as an express exclusion, worded so that rock becomes a variation and not your problem. I have drafted it.";
         } },
 
@@ -1634,7 +1635,7 @@ const FLOWS = {
           return {
             msg:"This is the baseline you are about to lock.",
             title:"Baseline T-119",
-            sub:"Paarl Medical Centre / "+fmt(TODAY),
+            sub:"Midstream Medical Centre / "+fmt(TODAY),
             rows:[
               ["Adjudicated", R(st.adj)],
               ["P&G correction", (st.pgGap>0?"+ ":"")+R(st.pgGap)],
@@ -1657,15 +1658,15 @@ const FLOWS = {
           // Locking a tender creates the project. This is the join between the
           // two halves of the business, and the reason the tender is not a
           // document you file.
-          S.pipeline = S.pipeline.filter(p => p.name !== "Paarl Medical Centre");
+          S.pipeline = S.pipeline.filter(p => p.name !== "Midstream Medical Centre");
           if (!S.fleet.some(p => p.id === "prl")){
-            S.fleet.push({ id:"prl", name:"Paarl Medical Centre", town:"Paarl", ed:"05/2018",
+            S.fleet.push({ id:"prl", name:"Midstream Medical Centre", town:"Midstream", ed:"05/2018",
               stage:"baseline", value:st.net, base:6.8, now:6.8, risk:0,
               clock:46, clockOf:"Site handover" });
           }
         },
         msg(st){ return ["<b>Locked.</b> Baseline T-119 is now the opening balance for this project: contract value, P&amp;G breakdown, contingency, programme and the qualifications, all frozen.",
-                         "Paarl Medical Centre is on the board at the baseline stage. Every variation, claim and progress report from here reads against these numbers, and none of them can quietly edit them.",
+                         "Midstream Medical Centre is on the board at the baseline stage. Every variation, claim and progress report from here reads against these numbers, and none of them can quietly edit them.",
                          "That is the whole end to end shape of it: tender, baseline, site, claims, completion, final account."]; },
         toast:"Baseline locked, project created" }
     ]
@@ -1941,7 +1942,7 @@ function setBar(board){
   const F = S.fleet, value = F.reduce((a,p)=>a+p.value,0);
   $(".bar-id .proj").textContent = board
     ? "JC v/d Linde & Venter Projects"
-    : "Lourensford Office Park Ph2";
+    : "Menlyn Office Park Ph2";
   $(".bar-id .chip").textContent = board
     ? F.length + " projects / " + R(value)
     : "JBCC PBA May 2018";
@@ -2099,7 +2100,7 @@ async function step(){
       const b = bubble(`<p>${esc(t("Photo attached"))}</p>`, "me");
       b.insertAdjacentHTML("beforeend",
         `<div class="shot"><div class="img"></div>
-         <div class="cap"><span>SI-114 / GRID C4</span><span>${iso(TODAY)} 07:41</span><span>-34.0791, 18.8442</span></div></div>`);
+         <div class="cap"><span>SI-114 / GRID C4</span><span>${iso(TODAY)} 07:41</span><span>-25.7854, 28.2760</span></div></div>`);
       $("#log").scrollTop = $("#log").scrollHeight;
       busy = true; await botSay("Geotagged and timestamped against SI-114. It cannot be edited after this point, which is what makes it worth something in a dispute."); busy = false;
       next();
@@ -2128,7 +2129,7 @@ async function step(){
       const b = bubble(`<p>${esc(t(s.label || "Photograph the work"))}</p>`, "me");
       b.insertAdjacentHTML("beforeend",
         `<div class="shot"><div class="img"></div>
-         <div class="cap"><span>${esc(s.ref)}</span><span>${iso(TODAY)} 07:41</span><span>-34.0791, 18.8442</span></div></div>`);
+         <div class="cap"><span>${esc(s.ref)}</span><span>${iso(TODAY)} 07:41</span><span>-25.7854, 28.2760</span></div></div>`);
       $("#log").scrollTop = $("#log").scrollHeight;
       busy = true;
       await typing(900);

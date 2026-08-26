@@ -11,7 +11,8 @@ Two pages, both static, both mobile first:
 | Page | What it is |
 | --- | --- |
 | `/plumbline` | The site app. A guided chat forces the employee through the process one question at a time while the JBCC contractual clock runs in the background. |
-| `/office` | The head office console. Every live project against the price it was won at, organised around the six value areas: tender, procurement, site productivity, commercial, programme, knowledge. |
+| `/office` | The head office console. Every live project against the price it was won at, organised around the six value areas: tender, procurement, site productivity, commercial, programme, knowledge. Adds an Insights board with a derived action queue, an assistant that answers from the data and pins its answers as widgets, and a knowledge graph of 108 nodes. |
+| `/brief` | The process ontology deck: what to ask a business so a system can be built from the answers. |
 | `/workflow` | The method. Control points, contract deadlines, where an on-device model fits, and how the training turns into a game. |
 
 ## The idea in one paragraph
@@ -26,8 +27,9 @@ on the phone of the person who can still do something about it.
 
 ## Status
 
-Bilingual. A language button switches the whole app between English and Afrikaans,
-which on a Western Cape site is not a nicety: a system that forces a foreman to work
+Bilingual. A language button switches both the site app and the head office console
+between English and Afrikaans,
+which on a Gauteng site is not a nicety: a system that forces a foreman to work
 in his second language is a system he works around. The chrome, all four panes and
 the site-instruction-to-variation flow are fully translated, including the spoken
 number parser, so "vier en sestig duisend twee honderd" resolves to R64 200. The

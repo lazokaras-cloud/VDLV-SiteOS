@@ -24,34 +24,34 @@
 <body>
 <style>
 :root{
-  --ground:#EDEFF1; --surface:#FFFFFF; --surface-2:#F3F5F7;
-  --ink:#16191D; --ink-2:#59626A; --ink-3:#8B949C;
-  --rule:#D4D9DD; --rule-2:#E8ECEF;
-  --signal:#00A28C; --signal-ink:#FFFFFF;
-  --stamp:#4E5A64; --stamp-wash:#EAEEF1;
-  --ok:#12855C; --warn:#A5760E; --crit:#C03A2D;
+  --ground:#F2F2F0; --surface:#FFFFFF; --surface-2:#F7F7F4;
+  --ink:#111111; --ink-2:#5A5A56; --ink-3:#8C8C87;
+  --rule:#DCDCD6; --rule-2:#EAEAE4;
+  --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E; --signal-txt:#8A6200;
+  --stamp:#5A5A56; --stamp-wash:#F0EDE3;
+  --ok:#2E7D4F; --warn:#B2740B; --crit:#C0392B;
   --shadow:0 1px 2px rgba(16,19,23,.05), 0 10px 30px rgba(16,19,23,.08);
   --mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,"Roboto Mono",Menlo,monospace;
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ground:#0E1013; --surface:#16191D; --surface-2:#1E2227;
-    --ink:#EDEFF1; --ink-2:#9BA3AB; --ink-3:#6D767E;
-    --rule:#2A2F35; --rule-2:#202429;
-    --signal:#00D7B9; --signal-ink:#04201C;
-    --stamp:#9AA6B0; --stamp-wash:#1A2126;
-    --ok:#3FCF8E; --warn:#E8B33A; --crit:#FF6B5E;
+    --ground:#0C0C0C; --surface:#151515; --surface-2:#1D1D1C;
+    --ink:#F2F2EF; --ink-2:#A0A09B; --ink-3:#74746F;
+    --rule:#2C2C2A; --rule-2:#212120;
+    --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E;
+    --stamp:#A0A09B; --stamp-wash:#241E08;
+    --ok:#46B87A; --warn:#E0A93C; --crit:#E4695C;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.45);
   }
 }
 :root[data-theme="dark"]{
-  --ground:#0E1013; --surface:#16191D; --surface-2:#1E2227;
-  --ink:#EDEFF1; --ink-2:#9BA3AB; --ink-3:#6D767E;
-  --rule:#2A2F35; --rule-2:#202429;
-  --signal:#00D7B9; --signal-ink:#04201C;
-  --stamp:#9AA6B0; --stamp-wash:#1A2126;
-  --ok:#3FCF8E; --warn:#E8B33A; --crit:#FF6B5E;
+  --ground:#0C0C0C; --surface:#151515; --surface-2:#1D1D1C;
+  --ink:#F2F2EF; --ink-2:#A0A09B; --ink-3:#74746F;
+  --rule:#2C2C2A; --rule-2:#212120;
+  --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E;
+  --stamp:#A0A09B; --stamp-wash:#241E08;
+  --ok:#46B87A; --warn:#E0A93C; --crit:#E4695C;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.45);
 }
 
@@ -62,7 +62,7 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 @media (prefers-reduced-motion: reduce){ *{animation:none!important; transition:none!important} }
-:focus-visible{outline:2px solid var(--signal); outline-offset:3px}
+:focus-visible{outline:2px solid var(--signal-txt); outline-offset:3px}
 
 .deck{min-height:100vh; min-height:100dvh; display:flex; flex-direction:column}
 
@@ -70,7 +70,7 @@ body{
       border-bottom:1px solid var(--rule); background:var(--surface);
       position:sticky; top:0; z-index:20}
 .rail .mark{display:flex; align-items:baseline; gap:8px; font-size:15px; font-weight:250; letter-spacing:.02em}
-.rail .mark b{font-weight:250; color:var(--signal)}
+.rail .mark b{font-weight:250; color:var(--signal-txt)}
 .rail .mark i{width:7px; height:7px; border:2px solid var(--signal); border-radius:50%; flex:none; transform:translateY(-1px)}
 .rail .sp{flex:1}
 .lab{font-family:var(--mono); font-size:9.5px; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-3)}
@@ -120,7 +120,7 @@ strong{font-weight:620}
 .box li{margin:0 0 6px; font-size:14.5px; color:var(--ink-2)}
 .box p{margin:0; font-size:14.5px; color:var(--ink-2)}
 .box.claude{border-left:3px solid var(--signal)}
-.box.claude .lab{color:var(--signal)}
+.box.claude .lab{color:var(--signal-txt)}
 
 .grid{display:grid; gap:14px; margin:20px 0}
 .g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
@@ -234,7 +234,7 @@ figcaption{margin-top:10px; font-size:13.5px; color:var(--ink-2); max-width:68ch
       <figure>
         <svg viewBox="0 0 900 220" role="img" aria-label="Parts one to three of the workshop cover business context, current state and constraints. Part four, the process ontology, expands the workflow slide into six fields per process area, and feeds the synthesis alongside the other parts.">
           <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker>
-          <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#00A28C"/></marker></defs>
+          <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#FFC20E"/></marker></defs>
           <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="11" fill="currentColor">
             <text x="20" y="28" font-size="9.5" opacity=".6">THE WORKSHOP</text>
             <rect x="20" y="38" width="118" height="40" rx="6" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".8"/>
@@ -245,15 +245,15 @@ figcaption{margin-top:10px; font-size:13.5px; color:var(--ink-2); max-width:68ch
             <rect x="280" y="38" width="118" height="40" rx="6" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".8"/>
             <text x="339" y="63" text-anchor="middle" opacity=".85">3. Constraints</text>
 
-            <path d="M209 78 L 209 116" fill="none" stroke="#00A28C" stroke-width="1.8" marker-end="url(#ag)"/>
-            <text x="222" y="102" font-size="10" fill="#00A28C">expands into</text>
+            <path d="M209 78 L 209 116" fill="none" stroke="#FFC20E" stroke-width="1.8" marker-end="url(#ag)"/>
+            <text x="222" y="102" font-size="10" fill="#FFC20E">expands into</text>
 
-            <rect x="20" y="120" width="378" height="62" rx="8" fill="none" stroke="#00A28C" stroke-width="2"/>
-            <text x="36" y="142" fill="#00A28C" font-weight="700">4. Process ontology</text>
-            <text x="36" y="160" fill="#00A28C" opacity=".85" font-size="10.5">steps / decisions / rules /</text>
-            <text x="36" y="174" fill="#00A28C" opacity=".85" font-size="10.5">inputs / outputs / dependencies</text>
+            <rect x="20" y="120" width="378" height="62" rx="8" fill="none" stroke="#FFC20E" stroke-width="2"/>
+            <text x="36" y="142" fill="#FFC20E" font-weight="700">4. Process ontology</text>
+            <text x="36" y="160" fill="#FFC20E" opacity=".85" font-size="10.5">steps / decisions / rules /</text>
+            <text x="36" y="174" fill="#FFC20E" opacity=".85" font-size="10.5">inputs / outputs / dependencies</text>
 
-            <path d="M398 151 L 470 151" fill="none" stroke="#00A28C" stroke-width="1.6" marker-end="url(#ag)"/>
+            <path d="M398 151 L 470 151" fill="none" stroke="#FFC20E" stroke-width="1.6" marker-end="url(#ag)"/>
             <path d="M398 58 C 440 58, 440 130, 470 130" fill="none" stroke="currentColor" stroke-width="1.2" marker-end="url(#a)" opacity=".55"/>
 
             <rect x="474" y="112" width="140" height="58" rx="8" fill="none" stroke="currentColor" stroke-width="1.5"/>

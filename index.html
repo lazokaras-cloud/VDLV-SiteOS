@@ -24,11 +24,11 @@
 <body>
 <style>
 :root{
-  --ground:#EDEFF1; --surface:#FFFFFF; --surface-2:#F3F5F7;
-  --ink:#16191D; --ink-2:#59626A; --ink-3:#8B949C;
-  --rule:#D4D9DD; --rule-2:#E8ECEF;
-  --signal:#00A28C; --signal-ink:#FFFFFF;
-  --stamp:#4E5A64; --stamp-wash:#EAEEF1;
+  --ground:#F2F2F0; --surface:#FFFFFF; --surface-2:#F7F7F4;
+  --ink:#111111; --ink-2:#5A5A56; --ink-3:#8C8C87;
+  --rule:#DCDCD6; --rule-2:#EAEAE4;
+  --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E; --signal-txt:#8A6200;
+  --stamp:#5A5A56; --stamp-wash:#F0EDE3;
   --shadow:0 1px 2px rgba(16,19,23,.05), 0 10px 30px rgba(16,19,23,.09);
   --shadow-lift:0 2px 4px rgba(16,19,23,.08), 0 20px 50px rgba(16,19,23,.14);
   --mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,"Roboto Mono",Menlo,monospace;
@@ -36,21 +36,21 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ground:#0E1013; --surface:#16191D; --surface-2:#1E2227;
-    --ink:#EDEFF1; --ink-2:#9BA3AB; --ink-3:#6D767E;
-    --rule:#2A2F35; --rule-2:#202429;
-    --signal:#00D7B9; --signal-ink:#04201C;
-    --stamp:#9AA6B0; --stamp-wash:#1A2126;
+    --ground:#0C0C0C; --surface:#151515; --surface-2:#1D1D1C;
+    --ink:#F2F2EF; --ink-2:#A0A09B; --ink-3:#74746F;
+    --rule:#2C2C2A; --rule-2:#212120;
+    --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E;
+    --stamp:#A0A09B; --stamp-wash:#241E08;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.45);
     --shadow-lift:0 2px 4px rgba(0,0,0,.5), 0 20px 50px rgba(0,0,0,.6);
   }
 }
 :root[data-theme="dark"]{
-  --ground:#0E1013; --surface:#16191D; --surface-2:#1E2227;
-  --ink:#EDEFF1; --ink-2:#9BA3AB; --ink-3:#6D767E;
-  --rule:#2A2F35; --rule-2:#202429;
-  --signal:#00D7B9; --signal-ink:#04201C;
-  --stamp:#9AA6B0; --stamp-wash:#1A2126;
+  --ground:#0C0C0C; --surface:#151515; --surface-2:#1D1D1C;
+  --ink:#F2F2EF; --ink-2:#A0A09B; --ink-3:#74746F;
+  --rule:#2C2C2A; --rule-2:#212120;
+  --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E;
+  --stamp:#A0A09B; --stamp-wash:#241E08;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.45);
   --shadow-lift:0 2px 4px rgba(0,0,0,.5), 0 20px 50px rgba(0,0,0,.6);
 }
@@ -71,7 +71,7 @@ a{color:inherit; text-decoration:none}
 header{padding:64px 0 24px; border-bottom:2px solid var(--ink)}
 .mark{display:flex; align-items:baseline; gap:11px}
 .mark h1{margin:0; font-size:clamp(32px,6.4vw,48px); font-weight:250; letter-spacing:.02em; line-height:1}
-.mark h1 b{font-weight:250; color:var(--signal)}
+.mark h1 b{font-weight:250; color:var(--signal-txt)}
 .mark i{
   width:11px; height:11px; background:transparent; border:2px solid var(--signal);
   border-radius:50%; flex:none; transform:translateY(-3px);

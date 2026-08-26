@@ -24,40 +24,40 @@
 <body>
 <style>
 :root{
-  --ground:#EDEFF1; --surface:#FFFFFF; --surface-2:#F3F5F7; --surface-3:#E9EDF0;
-  --ink:#16191D; --ink-2:#59626A; --ink-3:#8B949C;
-  --rule:#D4D9DD; --rule-2:#E8ECEF;
-  --signal:#00A28C; --signal-ink:#FFFFFF;
-  --stamp:#4E5A64; --stamp-wash:#EAEEF1;
-  --ok:#12855C; --ok-wash:#E4F3EC;
-  --warn:#A5760E; --warn-wash:#F8F0DE;
-  --crit:#C03A2D; --crit-wash:#FBE8E5;
+  --ground:#F2F2F0; --surface:#FFFFFF; --surface-2:#F7F7F4; --surface-3:#EDEDE8;
+  --ink:#111111; --ink-2:#5A5A56; --ink-3:#8C8C87;
+  --rule:#DCDCD6; --rule-2:#EAEAE4;
+  --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E; --signal-txt:#8A6200;
+  --stamp:#5A5A56; --stamp-wash:#F0EDE3;
+  --ok:#2E7D4F; --ok-wash:#E6F2EA;
+  --warn:#B2740B; --warn-wash:#FAF0DA;
+  --crit:#C0392B; --crit-wash:#FBE7E4;
   --shadow:0 1px 2px rgba(16,19,23,.05), 0 8px 24px rgba(16,19,23,.07);
   --mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,"Roboto Mono",Menlo,monospace;
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ground:#0E1013; --surface:#16191D; --surface-2:#1E2227; --surface-3:#252A31;
-    --ink:#EDEFF1; --ink-2:#9BA3AB; --ink-3:#6D767E;
-    --rule:#2A2F35; --rule-2:#202429;
-    --signal:#00D7B9; --signal-ink:#04201C;
-    --stamp:#9AA6B0; --stamp-wash:#1A2126;
-    --ok:#3FCF8E; --ok-wash:#10241C;
-    --warn:#E8B33A; --warn-wash:#2A2214;
-    --crit:#FF6B5E; --crit-wash:#2C1A18;
+    --ground:#0C0C0C; --surface:#151515; --surface-2:#1D1D1C; --surface-3:#262624;
+    --ink:#F2F2EF; --ink-2:#A0A09B; --ink-3:#74746F;
+    --rule:#2C2C2A; --rule-2:#212120;
+    --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E;
+    --stamp:#A0A09B; --stamp-wash:#241E08;
+    --ok:#46B87A; --ok-wash:#14261B;
+    --warn:#E0A93C; --warn-wash:#2A2214;
+    --crit:#E4695C; --crit-wash:#2C1A18;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
   }
 }
 :root[data-theme="dark"]{
-  --ground:#0E1013; --surface:#16191D; --surface-2:#1E2227; --surface-3:#252A31;
-  --ink:#EDEFF1; --ink-2:#9BA3AB; --ink-3:#6D767E;
-  --rule:#2A2F35; --rule-2:#202429;
-  --signal:#00D7B9; --signal-ink:#04201C;
-  --stamp:#9AA6B0; --stamp-wash:#1A2126;
-  --ok:#3FCF8E; --ok-wash:#10241C;
-  --warn:#E8B33A; --warn-wash:#2A2214;
-  --crit:#FF6B5E; --crit-wash:#2C1A18;
+  --ground:#0C0C0C; --surface:#151515; --surface-2:#1D1D1C; --surface-3:#262624;
+  --ink:#F2F2EF; --ink-2:#A0A09B; --ink-3:#74746F;
+  --rule:#2C2C2A; --rule-2:#212120;
+  --signal:#FFC20E; --signal-ink:#1A1400; --signal-txt:#FFC20E;
+  --stamp:#A0A09B; --stamp-wash:#241E08;
+  --ok:#46B87A; --ok-wash:#14261B;
+  --warn:#E0A93C; --warn-wash:#2A2214;
+  --crit:#E4695C; --crit-wash:#2C1A18;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
 }
 
@@ -68,7 +68,7 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 @media (prefers-reduced-motion: reduce){ *{animation:none!important; transition:none!important} }
-:focus-visible{outline:2px solid var(--signal); outline-offset:2px}
+:focus-visible{outline:2px solid var(--signal-txt); outline-offset:2px}
 button{font:inherit; color:inherit; background:none; border:0; cursor:pointer}
 
 .mono{font-family:var(--mono); font-variant-numeric:tabular-nums}
@@ -83,7 +83,7 @@ button{font:inherit; color:inherit; background:none; border:0; cursor:pointer}
 }
 .brand{padding:20px 20px 16px; border-bottom:1px solid var(--rule)}
 .brand .w{display:flex; align-items:baseline; gap:8px; font-size:19px; font-weight:250; letter-spacing:.02em}
-.brand .w b{font-weight:250; color:var(--signal)}
+.brand .w b{font-weight:250; color:var(--signal-txt)}
 .brand .w i{width:7px; height:7px; border:2px solid var(--signal); border-radius:50%; flex:none; transform:translateY(-1px)}
 .brand .co{margin-top:12px; display:flex; align-items:center; gap:8px}
 .brand .co svg{width:24px; height:24px; flex:none; border-radius:2px}
@@ -97,7 +97,7 @@ button{font:inherit; color:inherit; background:none; border:0; cursor:pointer}
 .nav button svg{width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.7; flex:none}
 .nav button:hover{background:var(--surface-2); color:var(--ink)}
 .nav button.on{background:var(--surface-2); color:var(--ink); font-weight:600}
-.nav button.on svg{stroke:var(--signal)}
+.nav button.on svg{stroke:var(--signal-txt)}
 .nav button .ct{margin-left:auto; font-family:var(--mono); font-size:10.5px; color:var(--ink-3)}
 .nav .sec{padding:14px 11px 6px}
 
@@ -210,6 +210,125 @@ td .sub{display:block; font-size:11.5px; color:var(--ink-3); font-weight:400; ma
 .kv .up{color:var(--ok)} .kv .dn{color:var(--crit)}
 
 .empty{padding:40px 20px; text-align:center; color:var(--ink-2)}
+
+/* toolbar: search, language, copy */
+.tools{display:flex; align-items:center; gap:8px}
+.tools input{
+  width:190px; padding:6px 11px; border:1px solid var(--rule); border-radius:7px;
+  background:var(--surface-2); color:var(--ink); font:inherit; font-size:13px;
+}
+.tools input:focus{outline:none; border-color:var(--signal); background:var(--surface)}
+.tools button{
+  font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-2); border:1px solid var(--rule); border-radius:6px; padding:6px 10px;
+}
+.tools button:hover{border-color:var(--ink); color:var(--ink)}
+.tools .langbtn{min-width:42px; text-align:center}
+.tools .langbtn.af{border-color:var(--signal); color:var(--signal-txt)}
+
+th.sortable{cursor:pointer; user-select:none}
+th.sortable:hover{color:var(--ink)}
+th.sorted{color:var(--signal-txt)}
+th.sorted::after{content:" 91"; font-size:11px}
+th.sorted[data-dir="desc"]::after{content:" 93"}
+
+#toast{
+  position:fixed; left:50%; bottom:26px; transform:translateX(-50%); z-index:200;
+  background:var(--ink); color:var(--ground); padding:10px 16px; border-radius:8px;
+  font-size:13.5px; box-shadow:0 8px 30px rgba(0,0,0,.35);
+}
+#toast[hidden]{display:none}
+.kbd{font-family:var(--mono); font-size:10px; color:var(--ink-3); padding:0 4px;
+     border:1px solid var(--rule); border-radius:3px}
+
+/* action queue */
+.job{display:flex; gap:14px; align-items:flex-start; padding:13px 16px;
+     border-bottom:1px solid var(--rule-2); border-left:3px solid transparent}
+.job:last-child{border-bottom:0}
+.job.crit{border-left-color:var(--crit)} .job.warn{border-left-color:var(--warn)} .job.ok{border-left-color:var(--ok)}
+.job .jb{flex:1; min-width:0}
+.job .jt{font-size:14.5px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.job .jw{font-size:12.5px; color:var(--ink-2); margin-top:4px}
+.job .ja{font-size:12.5px; color:var(--signal-txt); margin-top:5px; font-weight:600}
+.job .jx{display:flex; gap:7px; flex:none}
+.mini{font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase;
+      border:1px solid var(--rule); border-radius:5px; padding:5px 9px; color:var(--ink-2)}
+.mini:hover{border-color:var(--ink); color:var(--ink)}
+.mini.go{background:var(--signal); color:var(--signal-ink); border-color:var(--signal)}
+.mini.pin{margin-top:7px}
+
+/* assistant */
+.chat .log{max-height:290px; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:11px}
+.cm{display:flex; flex-direction:column; align-items:flex-start}
+.cm.me{align-items:flex-end}
+.cm .bub{max-width:76%; padding:9px 13px; border-radius:3px 12px 12px 12px; font-size:14px;
+         background:var(--surface-2); border:1px solid var(--rule); line-height:1.5}
+.cm.me .bub{background:var(--ink); color:var(--ground); border-color:var(--ink); border-radius:12px 3px 12px 12px}
+.sugg{display:flex; gap:7px; flex-wrap:wrap; padding:0 16px 12px}
+.chip{padding:5px 11px; border:1px solid var(--rule); border-radius:20px; font-size:12px; color:var(--ink-2)}
+.chip:hover{border-color:var(--signal); color:var(--signal-txt)}
+.cin{display:flex; gap:8px; padding:12px 16px; border-top:1px solid var(--rule)}
+.cin input{flex:1; padding:9px 12px; border:1px solid var(--rule); border-radius:8px;
+           background:var(--surface-2); color:var(--ink); font:inherit; font-size:14px}
+.cin input:focus{outline:none; border-color:var(--signal); background:var(--surface)}
+
+/* widgets */
+.wgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:14px}
+.widget .wh{display:flex; align-items:center; justify-content:space-between; gap:10px;
+            padding:11px 15px; border-bottom:1px solid var(--rule); font-size:12px; font-weight:600;
+            font-family:var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
+.widget .wb{padding:13px 15px; display:flex; flex-direction:column; gap:9px}
+.brow{display:flex; align-items:center; gap:10px; font-size:12.5px}
+.brow .bl{width:80px; flex:none; color:var(--ink-2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.brow .bt{flex:1; height:9px; background:var(--surface-2); border-radius:5px; overflow:hidden; display:flex}
+.brow .bt i{height:100%; border-radius:5px}
+.brow .bt i.pos{background:var(--signal)} .brow .bt i.neg{background:var(--crit)}
+.brow .bv{width:58px; text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600}
+.lrow{display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:13px}
+.lrow .ll{min-width:0; overflow:hidden}
+.lrow .ll em{display:block; font-style:normal; font-size:11px; color:var(--ink-3)}
+
+/* knowledge graph */
+.brainwrap{position:relative; display:grid; grid-template-columns:1fr 288px;
+           border:1px solid var(--rule); border-radius:11px; overflow:hidden;
+           background:var(--surface); box-shadow:var(--shadow)}
+#brain{width:100%; height:600px; display:block; cursor:grab;
+  background:radial-gradient(circle at 50% 45%, rgba(255,194,14,.09), transparent 62%)}
+#gtip{position:absolute; z-index:5; pointer-events:none; background:var(--ink); color:var(--ground);
+      padding:7px 10px; border-radius:7px; font-size:12px; max-width:230px; box-shadow:0 6px 22px rgba(0,0,0,.3)}
+#gtip b{display:block; font-weight:600}
+#gtip span{font-family:var(--mono); font-size:10px; opacity:.7}
+#gtip[hidden]{display:none}
+#gpanel{border-left:1px solid var(--rule); padding:16px; overflow-y:auto; max-height:600px; background:var(--surface-2)}
+.gcounts{display:flex; flex-wrap:wrap; gap:5px 10px; margin-top:14px}
+.gcounts span{display:inline-flex; align-items:center; gap:5px; font-family:var(--mono); font-size:10.5px; color:var(--ink-2)}
+.gcounts i{width:7px; height:7px; border-radius:50%; flex:none}
+.gl .gr.risk{color:var(--crit)}
+#gstat{font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3)}
+#gpanel h4{margin:6px 0 12px; font-size:15px; font-weight:600; line-height:1.3}
+#gpanel p{font-size:13px; color:var(--ink-2); margin:8px 0 0}
+.glinks{display:flex; flex-direction:column; gap:8px}
+.gl{display:flex; flex-direction:column; gap:3px}
+.gl .gr{font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
+.gl .gn{font-size:12.5px; border-left:2px solid var(--rule); padding-left:8px}
+.glegend{display:flex; gap:7px; flex-wrap:wrap; margin:12px 0 0}
+.glegend button{display:inline-flex; align-items:center; gap:6px; padding:4px 10px;
+                border:1px solid var(--rule); border-radius:20px; font-size:11.5px; color:var(--ink-2)}
+.glegend button i{width:9px; height:9px; border-radius:50%; flex:none}
+.glegend button.off{opacity:.38}
+.glegend button:hover{border-color:var(--ink)}
+.bq{display:flex; gap:8px; margin:14px 0 0}
+.bq input{flex:1; padding:9px 12px; border:1px solid var(--rule); border-radius:8px;
+          background:var(--surface); color:var(--ink); font:inherit; font-size:14px}
+.bq input:focus{outline:none; border-color:var(--signal)}
+.bans{margin-top:11px; font-size:13.5px; color:var(--ink-2); border-left:3px solid var(--signal);
+      padding:9px 13px; background:var(--surface); border-radius:0 8px 8px 0}
+.bans[hidden]{display:none}
+@media (max-width:900px){
+  .brainwrap{grid-template-columns:1fr}
+  #gpanel{border-left:0; border-top:1px solid var(--rule); max-height:none}
+  #brain{height:460px}
+}
 .foot-note{margin-top:18px; font-size:12px; color:var(--ink-3); line-height:1.55; max-width:80ch}
 
 @media (max-width:900px){
@@ -249,6 +368,10 @@ td .sub{display:block; font-size:11.5px; color:var(--ink-3); font-weight:400; ma
       <button data-v="sites">
         <svg viewBox="0 0 24 24"><path d="M3 20h18M6 20V9l6-5 6 5v11"/><path d="M10 20v-5h4v5"/></svg>
         Sites <span class="ct" id="ct-sites"></span></button>
+
+      <button data-v="insights">
+        <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 00-3.5 10.9V17h7v-3.1A6 6 0 0012 3z"/><path d="M9.5 20h5"/></svg>
+        Insights <span class="ct" id="ct-jobs"></span></button>
 
       <div class="sec lab">Value areas</div>
       <button data-v="tender">
@@ -292,10 +415,16 @@ td .sub{display:block; font-size:11.5px; color:var(--ink-3); font-weight:400; ma
     <header class="top">
       <div id="head"></div>
       <span class="sp"></span>
+      <div class="tools">
+        <input id="q" type="search" autocomplete="off" placeholder="Search  /">
+        <button id="copy">Copy table</button>
+        <button class="langbtn" id="lang" aria-label="Taal / Language">EN</button>
+      </div>
       <span class="stamp" id="asof"></span>
     </header>
     <div class="body" id="view"></div>
   </main>
+  <div id="toast" hidden></div>
 </div>
 
 <script>
@@ -305,7 +434,7 @@ td .sub{display:block; font-size:11.5px; color:var(--ink-3); font-weight:400; ma
    Working days. Head office argues about dates more than site does,
    so the same calendar has to sit behind both.
    ================================================================ */
-const TODAY = new Date(2026, 7, 25);
+const TODAY = new Date(2026, 7, 24);   // pinned to match the site app
 const HOLIDAYS = new Set([
   "2026-01-01","2026-03-23","2026-04-03","2026-04-06","2026-04-27","2026-05-01",
   "2026-06-16","2026-08-10","2026-09-24","2026-12-16","2026-12-25","2026-12-28",
@@ -333,31 +462,31 @@ const D = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-
    ================================================================ */
 const SEED = {
   projects:[
-    { id:"lou", name:"Lourensford Office Park Ph2", town:"Somerset West", client:"Lourensford Estate Holdings",
+    { id:"lou", name:"Menlyn Office Park Ph2", town:"Pretoria East", client:"Menlyn Property Holdings",
       ed:"JBCC PBA 05/2018", stage:"On site", value:48240000, baseValue:48240000,
       baseMargin:7.4, nowMargin:6.9, start:"2026-02-09", pcBase:"2027-03-19", pcNow:"2027-04-08",
       cp:{done:31,total:48}, agent:"Ruan Bekker", cm:"Danie Marais",
       certified:18420000, retention:921000, contra:71500,
       ctc:27960000, capture:9, labourAllow:100, labourAct:106, rework:4, rfiOpen:3 },
-    { id:"tyg", name:"Tygerberg Retail Centre", town:"Bellville", client:"Cape Retail Partners",
+    { id:"tyg", name:"Centurion Retail Centre", town:"Centurion", client:"Highveld Retail Partners",
       ed:"JBCC PBA 03/2014", stage:"Claims", value:71600000, baseValue:70200000,
       baseMargin:8.1, nowMargin:8.4, start:"2025-09-01", pcBase:"2027-01-15", pcNow:"2027-01-15",
       cp:{done:39,total:48}, agent:"Pieter Louw", cm:"Danie Marais",
       certified:44100000, retention:2205000, contra:0,
       ctc:25100000, capture:2, labourAllow:100, labourAct:97, rework:1, rfiOpen:1 },
-    { id:"str", name:"Strand Beachfront Apartments", town:"Strand", client:"Bayline Developments",
+    { id:"str", name:"Waterkloof Ridge Apartments", town:"Waterkloof", client:"Waterkloof Developments",
       ed:"JBCC PBA 05/2018", stage:"Completion", value:39900000, baseValue:39900000,
       baseMargin:6.6, nowMargin:5.2, start:"2025-05-12", pcBase:"2026-08-14", pcNow:"2026-08-14",
       cp:{done:44,total:48}, agent:"Nadia Fourie", cm:"Willem Steyn",
       certified:37800000, retention:1890000, contra:184000,
       ctc:1740000, capture:14, labourAllow:100, labourAct:112, rework:19, rfiOpen:0 },
-    { id:"wor", name:"Worcester Clinic Upgrade", town:"Worcester", client:"WC Dept of Health",
+    { id:"wor", name:"Mamelodi Clinic Upgrade", town:"Mamelodi", client:"Gauteng Dept of Health",
       ed:"JBCC Minor Works", stage:"On site", value:12400000, baseValue:12400000,
       baseMargin:9.2, nowMargin:9.6, start:"2026-05-04", pcBase:"2026-12-11", pcNow:"2026-12-11",
       cp:{done:22,total:48}, agent:"Sipho Ndlovu", cm:"Willem Steyn",
       certified:5100000, retention:255000, contra:0,
       ctc:6900000, capture:21, labourAllow:100, labourAct:94, rework:0, rfiOpen:2 },
-    { id:"ste", name:"Stellenbosch Cellar Extension", town:"Stellenbosch", client:"Rustenberg Wines",
+    { id:"ste", name:"Rosslyn Plant Extension", town:"Rosslyn", client:"Rosslyn Industrial",
       ed:"JBCC PBA 07/2007", stage:"Final account", value:26800000, baseValue:26800000,
       baseMargin:7.8, nowMargin:4.1, start:"2025-02-03", pcBase:"2026-04-30", pcNow:"2026-05-22",
       cp:{done:46,total:48}, agent:"Pieter Louw", cm:"Danie Marais",
@@ -405,9 +534,9 @@ const SEED = {
 
   /* 01 TENDER: bid speed, scope risk, estimating consistency, benchmark reuse */
   pipeline:[
-    { name:"Paarl Medical Centre",    value:31480000, closes:"2026-08-27", state:"Adjudicating", days:11, quals:6, unpriced:1 },
-    { name:"Durbanville School Hall", value:18900000, closes:"2026-09-03", state:"Pricing",      days:4,  quals:2, unpriced:3 },
-    { name:"Brackenfell Warehouse",   value:44200000, closes:"2026-09-11", state:"Pricing",      days:2,  quals:0, unpriced:5 }
+    { name:"Midstream Medical Centre",    value:31480000, closes:"2026-08-27", state:"Adjudicating", days:11, quals:6, unpriced:1 },
+    { name:"Garsfontein School Hall", value:18900000, closes:"2026-09-03", state:"Pricing",      days:4,  quals:2, unpriced:3 },
+    { name:"Samrand Warehouse",   value:44200000, closes:"2026-09-11", state:"Pricing",      days:2,  quals:0, unpriced:5 }
   ],
   estimating:[
     { trade:"Earthworks",   tendered:2140000, actual:2486000 },
@@ -431,11 +560,11 @@ const SEED = {
     { item:"Lifts",             proj:"lou", low:3120000, chosen:3120000, high:3640000, why:"Lowest compliant" }
   ],
   suppliers:[
-    { name:"Cape Steel Supplies",  cat:"Steel",     onTime:0.96, defects:1, discount:0.025, lead:5 },
+    { name:"Pretoria Steel Supplies",  cat:"Steel",     onTime:0.96, defects:1, discount:0.025, lead:5 },
     { name:"Bekker Plumbing",      cat:"Plumbing",  onTime:0.62, defects:7, discount:0.000, lead:2 },
-    { name:"Boland Aluminium",     cat:"Windows",   onTime:0.88, defects:2, discount:0.020, lead:9 },
-    { name:"Winelands Concrete",   cat:"Concrete",  onTime:0.99, defects:0, discount:0.015, lead:1 },
-    { name:"Helderberg Electrical",cat:"Electrical",onTime:0.81, defects:3, discount:0.010, lead:4 }
+    { name:"Highveld Aluminium",     cat:"Windows",   onTime:0.88, defects:2, discount:0.020, lead:9 },
+    { name:"Gauteng Readymix",   cat:"Concrete",  onTime:0.99, defects:0, discount:0.015, lead:1 },
+    { name:"Centurion Electrical",cat:"Electrical",onTime:0.81, defects:3, discount:0.010, lead:4 }
   ],
   expedite:[
     { item:"Lift car and rails", proj:"lou", need:"2026-10-06", lead:14, ordered:true },
@@ -464,13 +593,13 @@ const SEED = {
 
   /* 06 KNOWLEDGE: close-out, lessons, standards */
   closed:[
-    { name:"Kuils River Depot",   year:2025, value:19400000, tender:7.2, final:8.1, lesson:"P&G measured off drawings, not the bill" },
-    { name:"Malmesbury Silo",     year:2025, value:33800000, tender:6.9, final:3.4, lesson:"Ground conditions not qualified at tender" },
-    { name:"Table View Offices",  year:2024, value:41200000, tender:7.6, final:7.9, lesson:"Weekly progress report caught the slip early" },
-    { name:"Paarl Cold Store",    year:2024, value:15600000, tender:8.4, final:5.1, lesson:"Sub default handled two months too late" }
+    { name:"Silverton Depot",   year:2025, value:19400000, tender:7.2, final:8.1, lesson:"P&G measured off drawings, not the bill" },
+    { name:"Bronkhorstspruit Silo",     year:2025, value:33800000, tender:6.9, final:3.4, lesson:"Ground conditions not qualified at tender" },
+    { name:"Hatfield Offices",  year:2024, value:41200000, tender:7.6, final:7.9, lesson:"Weekly progress report caught the slip early" },
+    { name:"Rosslyn Cold Store",    year:2024, value:15600000, tender:8.4, final:5.1, lesson:"Sub default handled two months too late" }
   ],
   standards:[
-    { name:"Tender qualification checklist", used:12, gap:"Ground conditions clause added after Malmesbury" },
+    { name:"Tender qualification checklist", used:12, gap:"Ground conditions clause added after Bronkhorstspruit" },
     { name:"Sub-contractor default process", used:5,  gap:"Notice template now pre-filled from the programme" },
     { name:"Monthly claim reconciliation",   used:63, gap:"Contra charge check made a hard gate" },
     { name:"Concrete cast register",         used:41, gap:"Cube results still arriving by email" }
@@ -577,7 +706,7 @@ function vPortfolio(){
       </tbody></table></div></div>
       <div class="panel"><h3>Value areas</h3><div class="in">
         ${AREAS.map(a=>`<div class="kv"><span><b style="font-weight:600">${a[0]} ${esc(a[1])}</b><br><span class="lab">${esc(a[3])}</span></span>
-          <span><button class="pill sig" data-v="${a[2]}" style="border:0">Open</button></span></div>`).join("")}
+          <span><button class="pill sig" data-v="${a[2]}" style="border:0">View</button></span></div>`).join("")}
       </div></div>
     </div>
 
@@ -667,7 +796,7 @@ function vTender(){
           <td class="n">${t.quals?t.quals:`<span style="color:var(--crit)">0</span>`}</td>
           <td class="n"><span style="color:var(--${t.unpriced>2?"crit":t.unpriced?"warn":"ok"})">${t.unpriced}</span></td>
           <td><span class="pill flat">${esc(t.state)}</span></td></tr>`;}).join(""), 620)}
-    <p class="foot-note">A bid with zero qualifications is not a clean bid, it is unqualified risk carried for the length of the contract. Brackenfell has been priced for two days and has five provisional items still open.</p>
+    <p class="foot-note">A bid with zero qualifications is not a clean bid, it is unqualified risk carried for the length of the contract. Samrand has been priced for two days and has five provisional items still open.</p>
 
     <div class="sec"><span class="lab">Estimating consistency</span><span class="lab">Tendered against actual, closed work</span></div>
     ${tbl([["Trade"],["Tendered","n"],["Actual","n"],["Variance","n"],[""]],
@@ -717,7 +846,7 @@ function vProcurement(){
           <td class="n" style="color:var(--${s.defects>4?"crit":s.defects?"warn":"ok"})">${s.defects}</td>
           <td class="n">${s.discount?pct(s.discount):"&ndash;"}</td><td class="n">${s.lead}</td>
           <td style="width:140px">${meter(s.onTime*100, sev)}</td></tr>`;}).join(""), 680)}
-    <p class="foot-note">Bekker Plumbing sits at 62% on time with seven defects, and is the sub-contractor currently on a default notice at Lourensford. That is the same fact reaching head office and the site from opposite directions.</p>
+    <p class="foot-note">Bekker Plumbing sits at 62% on time with seven defects, and is the sub-contractor currently on a default notice at Menlyn. That is the same fact reaching head office and the site from opposite directions.</p>
 
     <div class="sec"><span class="lab">Expediting</span><span class="lab">Order-by date derived from lead time</span></div>
     ${tbl([["Item"],["Project"],["Needed on","n"],["Lead wks","n"],["Order by","n"],["Status"]],
@@ -759,7 +888,7 @@ function vSite(){
           <td class="n" style="color:var(--${p.rework>5?"crit":p.rework?"warn":"ok"})">${p.rework}</td>
           <td class="n">${p.rfiOpen}</td>
           <td>${cpMeter(p)}</td></tr>`;}).join(""), 760)}
-    <p class="foot-note">Stellenbosch has not been captured in twenty-one days and is running 18% over allowable labour. Those two numbers are the same problem: the site that stops reporting is the site that has stopped being managed, and the cost only shows up at final account.</p>`;
+    <p class="foot-note">Rosslyn has not been captured in twenty-one days and is running 18% over allowable labour. Those two numbers are the same problem: the site that stops reporting is the site that has stopped being managed, and the cost only shows up at final account.</p>`;
 }
 
 /* ---------------- 04 Commercial ---------------- */
@@ -831,7 +960,7 @@ function vProgramme(){
         <td class="n">${r.days}</td><td class="n">${r.cost?R(r.cost):"&ndash;"}</td>
         <td class="n" style="color:var(--${r.net>=0?"ok":"crit"});font-weight:700">${r.net>=0?"+":""}${R(r.net)}</td>
       </tr>`).join(""), 620)}
-    <p class="foot-note">The second option at Lourensford recovers nothing on site and is worth more than the first, because four days claimed as an extension carries the time-related preliminaries with it. Recovery is a commercial decision before it is a programme one.</p>`;
+    <p class="foot-note">The second option at Menlyn recovers nothing on site and is worth more than the first, because four days claimed as an extension carries the time-related preliminaries with it. Recovery is a commercial decision before it is a programme one.</p>`;
 }
 
 /* ---------------- 06 Knowledge ---------------- */
@@ -854,12 +983,26 @@ function vKnowledge(){
           <td class="n" style="color:var(--${d>=0?"ok":"crit"})">${c.final.toFixed(1)}%</td>
           <td class="n"><span class="pill ${d>=0?"ok":"crit"}">${d>=0?"+":""}${d.toFixed(1)}</span></td>
           <td style="color:var(--ink-2)">${esc(c.lesson)}</td></tr>`;}).join(""), 800)}
-    <p class="foot-note">Malmesbury lost 3.5 points because ground conditions were never qualified at tender. That lesson is now a line on the tender qualification checklist, which is the only form a lesson can take that survives the person who learned it.</p>
+    <p class="foot-note">Bronkhorstspruit lost 3.5 points because ground conditions were never qualified at tender. That lesson is now a line on the tender qualification checklist, which is the only form a lesson can take that survives the person who learned it.</p>
 
     <div class="sec"><span class="lab">Standards, and what changed them</span></div>
     ${tbl([["Standard"],["Times used","n"],["Last change"]],
       S.standards.map(s=>`<tr><td class="name">${esc(s.name)}</td>
-        <td class="n">${s.used}</td><td style="color:var(--ink-2)">${esc(s.gap)}</td></tr>`).join(""), 520)}`;
+        <td class="n">${s.used}</td><td style="color:var(--ink-2)">${esc(s.gap)}</td></tr>`).join(""), 520)}
+
+    <div class="sec"><span class="lab">The company brain</span><span class="lab" id="gstat"></span></div>
+    <div class="bq">
+      <input id="bqi" type="text" placeholder="${LANG==='af'?'Vra die grafiek: \'n projek, \'n persoon, \'n verskaffer, \'n trade...':'Ask the graph: a project, a person, a supplier, a trade...'}" autocomplete="off">
+      <button class="mini go" id="bqs">Trace it</button>
+    </div>
+    <div class="bans" id="bqa" ${BRAIN_ANS?"":"hidden"}>${BRAIN_ANS||""}</div>
+    <div class="glegend">${Object.entries(GTYPES).map(([k,v])=>
+      `<button data-gt="${k}" class="${GOFF.has(k)?"off":""}"><i style="background:${v.colour}"></i>${esc(v.label)}</button>`).join("")}</div>
+    <div class="brainwrap" style="margin-top:12px">
+      <div style="position:relative"><canvas id="brain"></canvas><div id="gtip" hidden></div></div>
+      <div id="gpanel"></div>
+    </div>
+    <p class="foot-note">Nothing in this graph was drawn by hand. Projects connect to the contract edition they were signed under, people to the jobs they run, suppliers to the trades they serve and the sites they are on, and every lesson to the standard it changed. The Bronkhorstspruit lesson and the tender qualification checklist sit one hop apart, which is what it looks like when a company actually learns something.</p>`;
 }
 
 /* ---------------- Outputs and clocks ---------------- */
@@ -920,6 +1063,696 @@ function vTeam(){
     + `<p class="foot-note">On time means the notice reached the principal agent inside the contractual window. It is the one measure that cannot be gamed in a way that hurts the business: a site agent who games it is a site agent who never misses a claim. Pieter Louw carries two projects and the worst record on this table, which is a workload question before it is a performance one.</p>`;
 }
 
+
+/* ================================================================
+   INSIGHTS: the queue, the assistant, and saved widgets.
+
+   The assistant is a deterministic query engine over the same data
+   the rest of the console reads. It resolves an intent, computes the
+   answer, and can pin it to the board as a widget. Nothing here
+   generates a number: a language model would sit on top of this to
+   phrase the question and read the answer back, never to work it out.
+   ================================================================ */
+S.widgets = S.widgets || [];
+S.doneJobs = S.doneJobs || {};
+
+/* ---- the agentic queue, derived rather than authored ---- */
+function jobs(){
+  const out = [];
+  S.clocks.forEach(c => {
+    const wd = wdTo(c.due);
+    if (wd > 20) return;
+    out.push({ id:"clk:"+c.what+c.proj, sev: wd<=3?"crit":wd<=10?"warn":"ok",
+      title:c.what, proj:c.proj, wd, value:c.at,
+      why:c.basis, act: wd<=3 ? tr("Serve it today") : tr("Diarise and draft") });
+  });
+  S.outputs.filter(o => o.status === "Overdue").forEach(o => {
+    out.push({ id:"out:"+o.ref, sev:"crit", title:o.ref+" is past its window", proj:o.proj,
+      wd:o.due?wdTo(o.due):0, value:o.amount,
+      why:"Submitted "+o.date+", no response inside the contractual window",
+      act:tr("Record a deemed refusal and open the dispute file") });
+  });
+  S.projects.filter(p => p.capture >= 7).forEach(p => {
+    out.push({ id:"cap:"+p.id, sev:"warn", title:"No capture from "+p.name+" in "+p.capture+" days",
+      proj:p.id, wd:null, value:0,
+      why:"Labour is running at "+p.labourAct+"% of allowable with nothing logged",
+      act:tr("Call the site agent before the next claim") });
+  });
+  S.projects.filter(p => p.nowMargin < p.baseMargin - 1).forEach(p => {
+    out.push({ id:"mar:"+p.id, sev:"warn", title:p.name+" is "+(p.baseMargin-p.nowMargin).toFixed(1)+" points under tender",
+      proj:p.id, wd:null, value:Math.round((p.baseMargin-p.nowMargin)/100*p.value),
+      why:"Won at "+p.baseMargin.toFixed(1)+"%, forecasting "+p.nowMargin.toFixed(1)+"%",
+      act:tr("Review cost to complete with the contracts manager") });
+  });
+  S.expedite.filter(e => !e.ordered).forEach(e => {
+    const by = new Date(D(e.need)); by.setDate(by.getDate() - e.lead*7);
+    const wd = workdaysBetween(TODAY, by);
+    out.push({ id:"exp:"+e.item, sev: wd<0?"crit":"warn", title:"Order "+e.item, proj:e.proj, wd,
+      value:0, why:e.lead+" week lead time against a "+fmt(D(e.need))+" need date",
+      act: wd<0 ? tr("Already late, order and re-plan") : tr("Place the order") });
+  });
+  S.suppliers.filter(s => s.onTime < 0.75).forEach(s => {
+    out.push({ id:"sup:"+s.name, sev:"warn", title:s.name+" is at "+pct(s.onTime)+" on time",
+      proj:null, wd:null, value:0, why:s.defects+" defects logged this year",
+      act:tr("Take off the approved list at the next adjudication") });
+  });
+  return out.filter(j => !S.doneJobs[j.id])
+    .sort((a,b) => (a.sev==="crit"?0:a.sev==="warn"?1:2) - (b.sev==="crit"?0:b.sev==="warn"?1:2)
+      || (b.value - a.value));
+}
+
+/* ---- the assistant ---- */
+// Answers are written in both languages rather than machine-swapped, because a
+// half-translated assistant reads as broken rather than bilingual.
+const L = (en, af) => LANG === "af" ? af : en;
+const SUGGEST_EN = [
+  "Which projects are losing money?",
+  "What is due in the next 10 working days?",
+  "Who is late with notices?",
+  "Show variations over R100 000",
+  "Which suppliers are letting us down?",
+  "How much cash is outstanding?",
+  "What did we learn from closed projects?"
+];
+const SUGGEST_AF = [
+  "Watter projekte verloor geld?",
+  "Wat is oor die volgende 10 werksdae due?",
+  "Wie is laat met notices?",
+  "Wys VOs oor R100 000",
+  "Watter verskaffers laat ons in die steek?",
+  "Hoeveel kontant is uitstaande?",
+  "Wat het ons by klaar projekte geleer?"
+];
+const suggest = () => LANG === "af" ? SUGGEST_AF : SUGGEST_EN;
+
+function ask(q){
+  const s = q.toLowerCase();
+  const has = (...w) => w.some(x => s.includes(x));
+
+  if (has("lose","losing","under tender","margin","drift","verloor","wegloop","onder tender")){
+    const bad = S.projects.filter(p => p.nowMargin < p.baseMargin)
+      .sort((a,b)=>(a.nowMargin-a.baseMargin)-(b.nowMargin-b.baseMargin));
+    const lost = bad.reduce((a,p)=>a+(p.baseMargin-p.nowMargin)/100*p.value,0);
+    return { text:L(`${bad.length} of ${S.projects.length} projects are running under the margin they were won at, worth ${R(lost)} between them. ${bad[0].name} is the worst at ${(bad[0].baseMargin-bad[0].nowMargin).toFixed(1)} points down.`,
+      `${bad.length} van ${S.projects.length} projekte loop onder die margin waarteen hulle gewen is, ${R(lost)} tussen hulle. ${bad[0].name} is die ergste, ${(bad[0].baseMargin-bad[0].nowMargin).toFixed(1)} punte af.`),
+      widget:{ kind:"bar", title:"Margin against tender",
+        rows: S.projects.map(p=>({label:p.town, value:+(p.nowMargin-p.baseMargin).toFixed(1), suffix:" pts"})) } };
+  }
+  if (has("due","deadline","clock","next","week","expire","klok","sperdatum","werksdae","volgende")){
+    const m = s.match(/(\d+)/); const win = m ? +m[1] : 10;
+    const list = S.clocks.filter(c=>wdTo(c.due)<=win).sort((a,b)=>wdTo(a.due)-wdTo(b.due));
+    const val = list.reduce((a,c)=>a+c.at,0);
+    return { text:L(`${list.length} contractual clocks run out inside ${win} working days, with ${R(val)} attached. The first is "${list[0].what}" on ${proj(list[0].proj).name} in ${wdTo(list[0].due)} working days.`,
+      `${list.length} kontrak klokke loop binne ${win} werksdae uit, met ${R(val)} daaraan. Die eerste is "${list[0].what}" op ${proj(list[0].proj).name} oor ${wdTo(list[0].due)} werksdae.`),
+      widget:{ kind:"list", title:`Clocks inside ${win} working days`,
+        rows:list.map(c=>({label:c.what, meta:proj(c.proj).town, value:wdTo(c.due)+" wd",
+          sev:sevOf(wdTo(c.due))})) } };
+  }
+  if (has("who","late","on time","team","performance","agent","wie","laat","betyds","span","notices")){
+    const t = S.team.slice().sort((a,b)=>a.onTime-b.onTime);
+    return { text:L(`${t[0].name} is at ${pct(t[0].onTime)} on time with ${t[0].late} late notices this year, the weakest record on the team. ${t[0].projects.length > 1 ? "He carries " + t[0].projects.length + " projects, so it is worth asking whether that is a workload problem before it is a performance one." : ""}`,
+      `${t[0].name} is op ${pct(t[0].onTime)} betyds met ${t[0].late} laat notices vanjaar, die swakste rekord in die span. ${t[0].projects.length > 1 ? "Hy dra " + t[0].projects.length + " projekte, so vra eers of dit 'n werklas probleem is voor dit 'n prestasie probleem is." : ""}`),
+      widget:{ kind:"bar", title:"Notices served on time",
+        rows:S.team.map(m=>({label:m.name.split(" ")[0], value:Math.round(m.onTime*100), suffix:"%"})) } };
+  }
+  if (has("variation","vo ","vos","claims","claim","wys vo")){
+    const m = s.match(/([\d\s]{4,})/); const min = m ? +m[1].replace(/\s/g,"") : 0;
+    const list = S.outputs.filter(o=>["Variation","Claim"].includes(o.type) && o.amount >= min)
+      .sort((a,b)=>b.amount-a.amount);
+    return { text:L(`${list.length} variations and claims${min?" over "+R(min):""}, worth ${R(list.reduce((a,o)=>a+o.amount,0))} in total. ${list.filter(o=>o.status==="Overdue").length} are past the window they had to be answered in.`,
+      `${list.length} VOs en claims${min?" oor "+R(min):""}, ${R(list.reduce((a,o)=>a+o.amount,0))} in totaal. ${list.filter(o=>o.status==="Overdue").length} is verby die venster waarin hulle beantwoord moes word.`),
+      widget:{ kind:"list", title:min?`Variations over ${R(min)}`:"Variations and claims",
+        rows:list.slice(0,8).map(o=>({label:o.ref, meta:proj(o.proj).town, value:R(o.amount),
+          sev:STATUS_SEV[o.status]||"flat"})) } };
+  }
+  if (has("supplier","sub-contractor","subbie","subs","letting","verskaffer","steek")){
+    const bad = S.suppliers.slice().sort((a,b)=>a.onTime-b.onTime);
+    return { text:L(`${bad[0].name} is the weakest at ${pct(bad[0].onTime)} on time with ${bad[0].defects} defects. They are also the sub-contractor currently running a default notice at Menlyn, so the office record and the site position agree for once.`,
+      `${bad[0].name} is die swakste op ${pct(bad[0].onTime)} betyds met ${bad[0].defects} foute. Hulle is ook die sub wat nou op 'n default notice by Menlyn is, so die kantoor se rekord en die erf se posisie stem vir een keer saam.`),
+      widget:{ kind:"bar", title:"Supplier on-time record",
+        rows:S.suppliers.map(x=>({label:x.name.split(" ")[0], value:Math.round(x.onTime*100), suffix:"%"})) } };
+  }
+  if (has("cash","outstanding","certified","money","retention","paid","kontant","uitstaande","gesertifiseer")){
+    const t = totals();
+    return { text:L(`${Rm(t.certified)} has been certified of ${Rm(t.v)} under contract, leaving ${Rm(t.v-t.certified)} still to certify. ${R(t.retention)} is held as retention and ${R(t.overdue)} sits past a contractual window.`,
+      `${Rm(t.certified)} is gesertifiseer van ${Rm(t.v)} onder kontrak, wat ${Rm(t.v-t.certified)} laat om nog te sertifiseer. ${R(t.retention)} word as retention gehou en ${R(t.overdue)} sit verby 'n kontrak venster.`),
+      widget:{ kind:"bar", title:"Outstanding by project",
+        rows:S.projects.map(p=>({label:p.town, value:Math.round((p.value-p.certified)/1e6*10)/10, suffix:"m"})) } };
+  }
+  if (has("learn","lesson","closed","history","benchmark","past","geleer","les","klaar projekte")){
+    const worst = S.closed.slice().sort((a,b)=>(a.final-a.tender)-(b.final-b.tender))[0];
+    return { text:L(`Four projects are closed out with their outcome recorded. ${worst.name} is the cautionary one: tendered at ${worst.tender.toFixed(1)}% and finished at ${worst.final.toFixed(1)}%, because ${worst.lesson.toLowerCase()}.`,
+      `Vier projekte is afgesluit met hulle uitkoms aangeteken. ${worst.name} is die waarskuwing: getender op ${worst.tender.toFixed(1)}% en klaar op ${worst.final.toFixed(1)}%, want ${worst.lesson.toLowerCase()}.`),
+      widget:{ kind:"bar", title:"Closed projects, final against tender",
+        rows:S.closed.map(c=>({label:c.name.split(" ")[0], value:+(c.final-c.tender).toFixed(1), suffix:" pts"})) } };
+  }
+  if (has("tender","pipeline","bid","winning","tenders")){
+    const v = S.pipeline.reduce((a,t)=>a+t.value,0);
+    return { text:L(`${Rm(v)} is out to tender across ${S.pipeline.length} bids. ${S.pipeline[0].name} closes in ${wdTo(S.pipeline[0].closes)} working days and still carries ${S.pipeline[0].unpriced} provisional item${S.pipeline[0].unpriced===1?"":"s"}.`,
+      `${Rm(v)} is uit op tender oor ${S.pipeline.length} bids. ${S.pipeline[0].name} sluit oor ${wdTo(S.pipeline[0].closes)} werksdae en dra nog ${S.pipeline[0].unpriced} provisional item${S.pipeline[0].unpriced===1?"":"s"}.`),
+      widget:{ kind:"list", title:"Tender pipeline",
+        rows:S.pipeline.map(t=>({label:t.name, meta:t.state, value:Rm(t.value), sev:sevOf(wdTo(t.closes))})) } };
+  }
+  if (has("rework","capture","productivity","labour","site","oordoen","invoer","arbeid","erf")){
+    const worst = S.projects.slice().sort((a,b)=>b.capture-a.capture)[0];
+    return { text:L(`${worst.name} has not been captured in ${worst.capture} days and is running at ${worst.labourAct}% of allowable labour. A site that stops reporting is a site that has stopped being managed, and the cost only surfaces at final account.`,
+      `${worst.name} is ${worst.capture} dae laas ingevoer en loop op ${worst.labourAct}% van allowable arbeid. 'n Erf wat ophou rapporteer is 'n erf wat ophou bestuur word, en die koste wys eers by final account.`),
+      widget:{ kind:"bar", title:"Labour against allowable",
+        rows:S.projects.map(p=>({label:p.town, value:p.labourAct, suffix:"%"})) } };
+  }
+  return { text:L(`I answer from the project data rather than guessing, so I need something I can compute. Try one of the questions below, or ask about margin, clocks, notices, variations, suppliers, cash, tenders or closed projects.`,
+    `Ek antwoord uit die projek data, nie uit 'n raaiskoot nie, so ek het iets nodig wat ek kan uitwerk. Probeer een van die vrae hieronder, of vra oor margin, klokke, notices, VOs, verskaffers, kontant, tenders of klaar projekte.`) };
+}
+
+let CHAT = [];
+
+function vInsights(){
+  const q = jobs();
+  const crit = q.filter(j=>j.sev==="crit").length;
+  const val = q.reduce((a,j)=>a+j.value,0);
+  head("Insights", "What the data is asking you to do, and anything you want to ask it", "Agentic");
+  return `
+    <div class="kpis">
+      <div class="dn"><span class="lab">Needs action</span><b>${q.length}</b><span class="d">${crit} cannot wait</span></div>
+      <div class="dn"><span class="lab">Value in the queue</span><b>${R(val)}</b><span class="d">Attached to open items</span></div>
+      <div><span class="lab">Saved widgets</span><b>${S.widgets.length}</b><span class="d">Pinned to this board</span></div>
+      <div><span class="lab">Cleared</span><b>${Object.keys(S.doneJobs).length}</b><span class="d">This session</span></div>
+    </div>
+
+    <div class="sec"><span class="lab">Action queue</span><span class="lab">Ranked by what it costs to ignore</span></div>
+    <div class="card">${q.length ? q.map(j=>`
+      <div class="job ${j.sev}">
+        <div class="jb">
+          <div class="jt">${esc(j.title)}
+            ${j.wd!==null?`<span class="pill ${sevOf(j.wd)}">${j.wd<0?Math.abs(j.wd)+" wd late":j.wd+" wd"}</span>`:""}
+            ${j.value?`<span class="pill flat">${R(j.value)}</span>`:""}</div>
+          <div class="jw">${esc(j.why)}</div>
+          <div class="ja">${esc(j.act)}</div>
+        </div>
+        <div class="jx">
+          ${j.proj?`<button class="mini" data-p="${j.proj}">View</button>`:""}
+          <button class="mini go" data-job="${esc(j.id)}">Done</button>
+        </div>
+      </div>`).join("") : `<div class="empty">Nothing in the queue. Everything with a clock on it is inside its window.</div>`}</div>
+
+    <div class="sec"><span class="lab">Ask the data</span><span class="lab">Deterministic, computed live</span></div>
+    <div class="card chat">
+      <div class="log" id="chatlog">${CHAT.length ? CHAT.map(m=>`
+        <div class="cm ${m.who}"><div class="bub">${m.html}</div>
+        ${m.widget?`<button class="mini pin" data-pin="${esc(JSON.stringify(m.widget))}">Pin as widget</button>`:""}</div>`).join("")
+        : `<div class="cm bot"><div class="bub">Ask me about the book of work. I compute the answer from the same data these screens read, so I can show my working.</div></div>`}</div>
+      <div class="sugg">${suggest().map(x=>`<button class="chip" data-say="${esc(x)}">${esc(x)}</button>`).join("")}</div>
+      <div class="cin">
+        <input id="cq" type="text" placeholder="Ask about margin, clocks, notices, suppliers, cash..." autocomplete="off">
+        <button class="mini go" id="csend">Ask</button>
+      </div>
+    </div>
+
+    <div class="sec"><span class="lab">Saved widgets</span><span class="lab">${S.widgets.length} pinned</span></div>
+    <div class="wgrid">${S.widgets.length ? S.widgets.map((w,i)=>widgetHTML(w,i)).join("")
+      : `<div class="card"><div class="empty">Nothing pinned yet. Ask a question, then pin the answer.</div></div>`}</div>
+
+    <p class="foot-note">The queue is derived, not written: every item comes from a rule reading the contract dates, the cost report and the supplier record. The assistant works the same way. A language model belongs on top of this, to understand a question phrased loosely and read the answer back out loud, never to work the number out.</p>`;
+}
+
+function widgetHTML(w, i){
+  const max = w.kind === "bar" ? Math.max(...w.rows.map(r=>Math.abs(r.value)), 1) : 1;
+  return `<div class="card widget">
+    <div class="wh"><span>${esc(w.title)}</span><button class="mini" data-del="${i}">Remove</button></div>
+    <div class="wb">${
+      w.kind === "bar" ? w.rows.map(r=>`
+        <div class="brow"><span class="bl">${esc(r.label)}</span>
+          <span class="bt"><i class="${r.value<0?"neg":"pos"}" style="width:${Math.abs(r.value)/max*100}%"></i></span>
+          <span class="bv">${r.value}${esc(r.suffix||"")}</span></div>`).join("")
+      : w.rows.map(r=>`
+        <div class="lrow"><span class="ll">${esc(r.label)}<em>${esc(r.meta||"")}</em></span>
+          <span class="pill ${r.sev||"flat"}">${esc(r.value)}</span></div>`).join("")
+    }</div></div>`;
+}
+
+function pushChat(who, html, widget){
+  CHAT.push({ who, html, widget });
+  if (CHAT.length > 12) CHAT = CHAT.slice(-12);
+}
+function sendChat(text){
+  if (!text.trim()) return;
+  pushChat("me", esc(text));
+  const a = ask(text);
+  pushChat("bot", esc(a.text), a.widget);
+  render();
+  const log = $("#chatlog"); if (log) log.scrollTop = log.scrollHeight;
+}
+
+/* ================================================================
+   KNOWLEDGE GRAPH
+   The company brain, drawn. Nodes are the things the business talks
+   about; edges are how they actually relate. It is built from the
+   same records as everything else, which is the point: the graph is
+   not a diagram somebody drew, it is the data seen sideways.
+   ================================================================ */
+const GTYPES = {
+  project:  { label:"Projects",   colour:"#FFC20E" },
+  output:   { label:"Documents",  colour:"#E8A33D" },
+  clock:    { label:"Clocks",     colour:"#E4695C" },
+  clause:   { label:"Clauses",    colour:"#C0564F" },
+  edition:  { label:"Editions",   colour:"#9A4A46" },
+  person:   { label:"People",     colour:"#7FA8D8" },
+  supplier: { label:"Suppliers",  colour:"#D2691E" },
+  trade:    { label:"Trades",     colour:"#9C8AC7" },
+  variance: { label:"Variance",   colour:"#B98AC7" },
+  material: { label:"Materials",  colour:"#C79A5B" },
+  activity: { label:"Activities", colour:"#6FA3B8" },
+  warning:  { label:"Warnings",   colour:"#E07B39" },
+  recovery: { label:"Recovery",   colour:"#5AA46C" },
+  tender:   { label:"Tenders",    colour:"#D4B44A" },
+  closed:   { label:"Closed",     colour:"#8FA07C" },
+  lesson:   { label:"Lessons",    colour:"#5AA46C" },
+  benchmark:{ label:"Benchmarks", colour:"#7EA88F" },
+  standard: { label:"Standards",  colour:"#8C8C87" },
+  client:   { label:"Clients",    colour:"#A0A09B" },
+  place:    { label:"Places",     colour:"#74746F" }
+};
+
+function buildGraph(){
+  const N = [], E = [];
+  const seen = new Set();
+  const add = (id, type, label, meta, w) => {
+    if (seen.has(id)) return id;
+    seen.add(id); N.push({ id, type, label, meta, w:w||1 }); return id;
+  };
+  const link = (a, b, rel, kind) => E.push({ a, b, rel:tr(rel), kind:kind||"" });
+
+  /* contract editions and the clauses that hang off them */
+  const EDS = ["05/2018","03/2014","07/2007","Minor Works"];
+  EDS.forEach(e => add("ed:"+e, "edition", e, "JBCC " + e, 2.4));
+  [["cl:26.10","Final account","Principal agent issues the final account"],
+   ["cl:26.11","Objection window","Contractor accepts or objects"],
+   ["cl:19","Practical completion","Inspection and the list"],
+   ["cl:21","Defects liability","Defects during the liability period"],
+   ["cl:expense","Recovery of expense","Notice within 20 working days"],
+   ["cl:revision","Revision of PC date","Extension of time"]
+  ].forEach(([id,l,m]) => add(id, "clause", tr(l), tr(m), 1.8));
+  link("cl:26.10","ed:05/2018","60 wd under"); link("cl:26.10","ed:03/2014","90 wd under");
+  link("cl:26.10","ed:07/2007","90 wd under");
+  link("cl:26.11","ed:05/2018","30 wd under"); link("cl:26.11","ed:03/2014","45 wd under");
+  link("cl:19","ed:05/2018","cl. 19"); link("cl:19","ed:03/2014","cl. 19"); link("cl:19","ed:07/2007","cl. 24");
+  link("cl:21","ed:05/2018","cl. 21"); link("cl:21","ed:07/2007","cl. 26");
+  link("cl:expense","cl:revision","runs with");
+
+  /* people */
+  S.team.forEach(m => add("pe:"+m.name, "person", m.name.split(" ")[0],
+    m.name + " / " + tr(m.role) + " / " + pct(m.onTime) + " " + tr("on time"), 1.6 + m.onTime));
+
+  /* live projects, their towns, and everything attached */
+  S.projects.forEach(p => {
+    add("pr:"+p.id, "project", p.town, p.name + " / " + Rm(p.value) + " / " + tr(p.stage), 3.2);
+    add("tw:"+p.town, "place", p.town, p.town + ", Gauteng", 1.3);
+    add("cli:"+p.client, "client", p.client.split(" ")[0], p.client, 1.5);
+    link("pr:"+p.id, "tw:"+p.town, "built at");
+    link("pr:"+p.id, "cli:"+p.client, "for");
+    link("pr:"+p.id, "ed:"+p.ed.replace("JBCC PBA ","").replace("JBCC ",""), "signed under", "contract");
+    link("pe:"+p.agent, "pr:"+p.id, "runs", "people");
+    link("pe:"+p.cm, "pr:"+p.id, "manages", "people");
+  });
+
+  /* trades */
+  ["Earthworks","Concrete","Brickwork","Roofing","Plumbing","Electrical","Steel","Windows","Glazing","Finishes"]
+    .forEach(c => add("tr:"+c, "trade", c, c + " / " + tr("trade"), 1.4));
+  S.estimating.forEach(e => {
+    add("tr:"+e.trade, "trade", e.trade, e.trade + " / " + tr("trade"), 1.4);
+    const d = (e.actual/e.tendered - 1) * 100;
+    add("va:"+e.trade, "variance", (d>0?"+":"") + d.toFixed(1) + "%",
+      e.trade + " / tendered " + R(e.tendered) + ", actual " + R(e.actual), 1.2);
+    link("va:"+e.trade, "tr:"+e.trade, d > 2 ? "over tendered" : "on tender", d > 2 ? "risk" : "");
+  });
+
+  /* suppliers */
+  S.suppliers.forEach(x => {
+    add("su:"+x.name, "supplier", x.name.split(" ")[0],
+      x.name + " / " + pct(x.onTime) + " " + tr("on time") + ", " + x.defects + " " + tr("defects"), 1.9);
+    link("su:"+x.name, "tr:"+x.cat, "supplies");
+  });
+  [["su:Bekker Plumbing","pr:lou","in default on","risk"],
+   ["su:Highveld Aluminium","pr:lou","supplying"],
+   ["su:Pretoria Steel Supplies","pr:wor","supplying"],
+   ["su:Gauteng Readymix","pr:lou","supplying"],
+   ["su:Gauteng Readymix","pr:tyg","supplying"],
+   ["su:Centurion Electrical","pr:str","supplying"],
+   ["su:Centurion Electrical","pr:tyg","supplying"]].forEach(a => link(a[0],a[1],a[2],a[3]));
+
+  /* every document the sites produced */
+  S.outputs.forEach(o => {
+    add("op:"+o.ref, "output", o.ref.split(" ")[0], o.ref + " / " + tr(o.type) + " / " + tr(o.status) +
+      (o.amount ? " / " + R(o.amount) : ""), o.amount > 200000 ? 2.1 : 1.4);
+    link("op:"+o.ref, "pr:"+o.proj, "raised on", o.status === "Overdue" ? "risk" : "");
+    link("pe:"+o.by, "op:"+o.ref, "wrote", "people");
+    if (o.type === "Variation" || o.type === "Notice") link("op:"+o.ref, "cl:expense", "under");
+    if (o.type === "Final account") link("op:"+o.ref, "cl:26.10", "under");
+  });
+
+  /* the clocks themselves */
+  S.clocks.forEach((c,i) => {
+    const wd = wdTo(c.due);
+    add("ck:"+i, "clock", wd + " wd", c.what + " / " + fmt(D(c.due)) + (c.at ? " / " + R(c.at) : ""),
+      wd <= 5 ? 2.2 : 1.5);
+    link("ck:"+i, "pr:"+c.proj, "runs on", wd <= 5 ? "risk" : "");
+    if (/final account/i.test(c.what)) link("ck:"+i, "cl:26.11", "counted under", "contract");
+    if (/completion/i.test(c.what)) link("ck:"+i, "cl:19", "counted under", "contract");
+    if (/remedy|default/i.test(c.what)) link("ck:"+i, "su:Bekker Plumbing", "against", "risk");
+  });
+
+  /* long lead items */
+  S.expedite.forEach(e => {
+    add("ex:"+e.item, "material", e.item.split(" ").slice(0,2).join(" "),
+      e.item + " / " + e.lead + " " + tr("week lead"), 1.5);
+    link("ex:"+e.item, "pr:"+e.proj, e.ordered ? "ordered for" : "still open for", e.ordered ? "" : "risk");
+  });
+
+  /* programme */
+  S.critical.forEach((c,i) => {
+    add("ca:"+i, "activity", c.act.split(" ").slice(0,2).join(" "),
+      c.act + " / " + tr("float") + " " + c.float + " d", c.float <= 0 ? 1.9 : 1.4);
+    link("ca:"+i, "pr:"+c.proj, "on the critical path of", c.float <= 0 ? "risk" : "");
+  });
+  S.warnings.forEach((w,i) => {
+    add("wa:"+i, "warning", "EW-" + (i+1), w.signal + (w.cost ? " / " + R(w.cost) : ""), 1.6);
+    link("wa:"+i, "pr:"+w.proj, "warned on", "risk");
+    link("pe:"+w.owner, "wa:"+i, "owns", "people");
+  });
+  S.recovery.forEach((r,i) => {
+    add("rc:"+i, "recovery", r.days + " d back", r.option + " / " + tr("net") + " " + R(r.net), 1.5);
+    link("rc:"+i, "pr:"+r.proj, "recovers");
+  });
+
+  /* tenders in the pipeline */
+  S.pipeline.forEach(t => {
+    add("td:"+t.name, "tender", t.name.split(" ")[0], t.name + " / " + Rm(t.value) + " / " + tr(t.state), 2);
+    link("td:"+t.name, "cl:expense", "will inherit");
+  });
+
+  /* closed projects, what they taught, and the standards that changed */
+  S.closed.forEach(c => {
+    add("cp:"+c.name, "closed", c.name.split(" ")[0],
+      c.name + " / " + tr("closed") + " " + c.year + " / " + c.tender.toFixed(1) + "% - " + c.final.toFixed(1) + "%", 2);
+    add("le:"+c.name, "lesson", c.lesson.split(",")[0].slice(0,24), c.lesson, 1.7);
+    link("le:"+c.name, "cp:"+c.name, "learned on", "lesson");
+  });
+  S.benchmarks.forEach(b => {
+    add("bm:"+b.type, "benchmark", R(b.rate) + "/m2", b.type + " / " + tr("from") + " " + b.source + " " + tr("project(s)"), 1.5);
+    link("bm:"+b.type, "td:"+S.pipeline[0].name, "priced into");
+  });
+  S.standards.forEach(st => {
+    add("st:"+st.name, "standard", st.name.split(" ").slice(0,2).join(" "),
+      st.name + " / " + tr("used") + " " + st.used + " " + tr("times"), 1.8);
+    S.projects.forEach((p,i) => { if ((st.used + i) % 3 === 0) link("st:"+st.name, "pr:"+p.id, "enforced on"); });
+  });
+  link("le:Bronkhorstspruit Silo","st:Tender qualification checklist","changed","lesson");
+  link("le:Rosslyn Cold Store","st:Sub-contractor default process","changed","lesson");
+  link("le:Silverton Depot","st:Tender qualification checklist","changed","lesson");
+  link("le:Hatfield Offices","st:Monthly claim reconciliation","changed","lesson");
+  link("st:Sub-contractor default process","su:Bekker Plumbing","triggered by","risk");
+  link("st:Tender qualification checklist","td:Midstream Medical Centre","applied to");
+  link("cp:Bronkhorstspruit Silo","tr:Earthworks","lost money on","risk");
+
+  const ids = new Set(N.map(n => n.id));
+  return { nodes:N, edges:E.filter(e => ids.has(e.a) && ids.has(e.b)) };
+}
+
+let G = null, GSEL = null, GHOVER = null, GOFF = new Set(), GRAF = 0;
+let GVIEW = { k:1, x:0, y:0 }, GALPHA = 1, GT = 0;
+
+function initGraph(){
+  const cv = document.getElementById("brain");
+  if (!cv) return;
+  cancelAnimationFrame(GRAF);
+  const g = buildGraph();
+  const w = cv.clientWidth || 800, h = cv.clientHeight || 520;
+  const types = Object.keys(GTYPES);
+  g.nodes.forEach((n,i) => {
+    // seed each type in its own arc so neighbourhoods form quickly
+    const ti = Math.max(0, types.indexOf(n.type));
+    const a = (ti / types.length) * Math.PI*2 + (i % 9) * 0.11;
+    const rad = Math.min(w,h) * (0.16 + (i % 5) * 0.045);
+    n.x = w/2 + Math.cos(a)*rad; n.y = h/2 + Math.sin(a)*rad*0.86;
+    n.vx = 0; n.vy = 0; n.seed = Math.random()*6.28;
+  });
+  const byId = {}; g.nodes.forEach(n => byId[n.id] = n);
+  g.byId = byId;
+  g.adj = {};
+  g.edges.forEach(e => {
+    (g.adj[e.a] = g.adj[e.a] || new Set()).add(e.b);
+    (g.adj[e.b] = g.adj[e.b] || new Set()).add(e.a);
+  });
+  g.nodes.forEach(n => n.deg = (g.adj[n.id] || new Set()).size);
+  G = g; GALPHA = 1; GVIEW = { k:1, x:0, y:0 };
+  const st = document.getElementById("gstat");
+  if (st) st.textContent = g.nodes.length + " " + tr("nodes") + ", " + g.edges.length + " " + tr("links");
+  for (let i = 0; i < 320; i++) stepForces(cv);   // settle before the first paint
+  bindGraph(cv);
+  drawGraph(cv);
+  cancelAnimationFrame(GRAF);
+  tickGraph(cv);
+}
+
+function stepForces(cv){
+  const w = cv.clientWidth, h = cv.clientHeight, N = G.nodes, E = G.edges;
+  const a = GALPHA;
+  for (let i = 0; i < N.length; i++){
+    const p = N[i];
+    for (let j = i+1; j < N.length; j++){
+      const q = N[j];
+      let dx = q.x-p.x, dy = q.y-p.y, d2 = dx*dx+dy*dy || 1;
+      if (d2 > 62500) continue;
+      const f = 1850 / d2, d = Math.sqrt(d2), ux = dx/d, uy = dy/d;
+      p.vx -= ux*f*a; p.vy -= uy*f*a; q.vx += ux*f*a; q.vy += uy*f*a;
+    }
+  }
+  E.forEach(e => {
+    const p = G.byId[e.a], q = G.byId[e.b];
+    const dx = q.x-p.x, dy = q.y-p.y, d = Math.sqrt(dx*dx+dy*dy) || 1;
+    const f = (d - 74) * 0.016 * a, ux = dx/d, uy = dy/d;
+    p.vx += ux*f; p.vy += uy*f; q.vx -= ux*f; q.vy -= uy*f;
+  });
+  N.forEach(n => {
+    n.vx += (w/2 - n.x) * 0.0022 * a;
+    n.vy += (h/2 - n.y) * 0.0030 * a;
+    n.x += n.vx; n.y += n.vy;
+    n.vx *= 0.80; n.vy *= 0.80;
+    const r = 9 + n.w*3;
+    n.x = Math.max(r+8, Math.min(w-r-8, n.x));
+    n.y = Math.max(r+8, Math.min(h-r-8, n.y));
+  });
+  if (GALPHA > 0.03) GALPHA *= 0.976;
+}
+
+function tickGraph(cv){
+  GT += 0.016;
+  stepForces(cv);
+  drawGraph(cv);
+  GRAF = requestAnimationFrame(() => tickGraph(cv));
+}
+
+function nodeR(n){ return 4.5 + n.w*2.3 + Math.min(n.deg,10)*0.62; }
+
+function drawGraph(cv){
+  if (!G) return;
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  const w = cv.clientWidth, h = cv.clientHeight;
+  if (cv.width !== w*dpr || cv.height !== h*dpr){ cv.width = w*dpr; cv.height = h*dpr; }
+  const c = cv.getContext("2d");
+  c.setTransform(dpr,0,0,dpr,0,0);
+  c.clearRect(0,0,w,h);
+  c.save();
+  c.translate(GVIEW.x, GVIEW.y); c.scale(GVIEW.k, GVIEW.k);
+
+  const css = getComputedStyle(document.documentElement);
+  const ink = css.getPropertyValue("--ink").trim() || "#111";
+  const dim = css.getPropertyValue("--ink-3").trim() || "#888";
+  const surf = css.getPropertyValue("--surface").trim() || "#fff";
+  const focus = GSEL || GHOVER;
+  const near = focus ? (G.adj[focus] || new Set()) : null;
+  const vis = n => !GOFF.has(n.type);
+  const lit = id => !focus || id === focus || (near && near.has(id));
+
+  /* edges */
+  G.edges.forEach(e => {
+    const p = G.byId[e.a], q = G.byId[e.b];
+    if (!vis(p) || !vis(q)) return;
+    const on = lit(p.id) && lit(q.id);
+    const risk = e.kind === "risk";
+    const mx = (p.x+q.x)/2, my = (p.y+q.y)/2 - Math.abs(q.x-p.x)*0.10;
+    if (on && focus){
+      const grad = c.createLinearGradient(p.x,p.y,q.x,q.y);
+      grad.addColorStop(0, GTYPES[p.type].colour);
+      grad.addColorStop(1, GTYPES[q.type].colour);
+      c.strokeStyle = grad; c.globalAlpha = 0.9; c.lineWidth = 2;
+    } else {
+      c.strokeStyle = risk ? "#C0392B" : dim;
+      c.globalAlpha = on ? (risk ? 0.42 : 0.22) : 0.05;
+      c.lineWidth = risk ? 1.3 : 0.9;
+    }
+    c.beginPath(); c.moveTo(p.x,p.y); c.quadraticCurveTo(mx,my,q.x,q.y); c.stroke();
+
+    /* a spark travelling the lit edges, so the graph reads as live */
+    if (on && focus){
+      const t = (GT*0.42 + (p.x+q.y)*0.004) % 1;
+      const it = 1-t;
+      const sx = it*it*p.x + 2*it*t*mx + t*t*q.x;
+      const sy = it*it*p.y + 2*it*t*my + t*t*q.y;
+      c.globalAlpha = 0.95; c.fillStyle = GTYPES[q.type].colour;
+      c.beginPath(); c.arc(sx, sy, 2.3, 0, 7); c.fill();
+    }
+  });
+
+  /* nodes */
+  G.nodes.forEach(n => {
+    if (!vis(n)) return;
+    const on = lit(n.id), r = nodeR(n), col = GTYPES[n.type].colour;
+    const pulse = (n.type === "clock" || n.type === "warning") && n.w >= 1.9
+      ? 1 + Math.sin(GT*2.6 + n.seed)*0.14 : 1;
+
+    c.globalAlpha = on ? 0.30 : 0.05;
+    const g = c.createRadialGradient(n.x, n.y, 0, n.x, n.y, r*3.1*pulse);
+    g.addColorStop(0, col); g.addColorStop(1, "rgba(0,0,0,0)");
+    c.fillStyle = g;
+    c.beginPath(); c.arc(n.x, n.y, r*3.1*pulse, 0, 7); c.fill();
+
+    c.globalAlpha = on ? 1 : 0.14;
+    c.fillStyle = col;
+    c.beginPath(); c.arc(n.x, n.y, r*pulse, 0, 7); c.fill();
+    c.strokeStyle = surf; c.lineWidth = 1.4; c.stroke();
+
+    if (n.id === focus){
+      c.globalAlpha = 0.85; c.strokeStyle = col; c.lineWidth = 2;
+      c.beginPath(); c.arc(n.x, n.y, r + 7 + Math.sin(GT*3)*1.6, 0, 7); c.stroke();
+    }
+    n.r = r;
+  });
+
+  /* labels last, with a halo so they stay readable over edges */
+  c.font = "600 10px ui-monospace, SFMono-Regular, Consolas, monospace";
+  c.textAlign = "center";
+  G.nodes.forEach(n => {
+    if (!vis(n)) return;
+    const on = lit(n.id);
+    const show = focus ? on : (n.deg >= 4 || n.w >= 2.4);
+    if (!show) return;
+    const y = n.y + n.r + 11;
+    c.globalAlpha = on ? 0.9 : 0.2;
+    c.lineWidth = 3; c.strokeStyle = surf;
+    c.strokeText(n.label, n.x, y);
+    c.fillStyle = ink;
+    c.fillText(n.label, n.x, y);
+  });
+
+  c.restore();
+  c.globalAlpha = 1;
+}
+
+function graphHit(cv, ev){
+  const b = cv.getBoundingClientRect();
+  const x = (ev.clientX - b.left - GVIEW.x) / GVIEW.k;
+  const y = (ev.clientY - b.top  - GVIEW.y) / GVIEW.k;
+  let best = null, bd = 1e9;
+  G.nodes.forEach(n => {
+    if (GOFF.has(n.type)) return;
+    const d = (n.x-x)**2 + (n.y-y)**2;
+    if (d < (n.r+9)**2 && d < bd){ bd = d; best = n; }
+  });
+  return { node:best, x:ev.clientX - b.left, y:ev.clientY - b.top, gx:x, gy:y };
+}
+
+function bindGraph(cv){
+  let drag = null, pan = null;
+  cv.onmousemove = ev => {
+    if (drag){ const p = graphHit(cv, ev); drag.x = p.gx; drag.y = p.gy; GALPHA = Math.max(GALPHA, 0.18); drawGraph(cv); return; }
+    if (pan){ GVIEW.x = pan.ox + (ev.clientX - pan.sx); GVIEW.y = pan.oy + (ev.clientY - pan.sy); drawGraph(cv); return; }
+    const { node, x, y } = graphHit(cv, ev);
+    cv.style.cursor = node ? "pointer" : "grab";
+    const tip = document.getElementById("gtip");
+    if (node && tip){
+      tip.hidden = false;
+      tip.style.left = Math.min(x+14, cv.clientWidth-240) + "px";
+      tip.style.top = (y+14) + "px";
+      tip.innerHTML = "<b>" + esc(node.meta) + "</b><span>" + esc(tr(GTYPES[node.type].label)) +
+        " &middot; " + node.deg + " link" + (node.deg===1?"":"s") + "</span>";
+    } else if (tip) tip.hidden = true;
+    if (GHOVER !== (node ? node.id : null)){ GHOVER = node ? node.id : null; drawGraph(cv); }
+  };
+  cv.onmouseleave = () => { GHOVER = null; const t = document.getElementById("gtip"); if (t) t.hidden = true; drawGraph(cv); };
+  cv.onmousedown = ev => {
+    const { node } = graphHit(cv, ev);
+    if (node) drag = node;
+    else pan = { sx:ev.clientX, sy:ev.clientY, ox:GVIEW.x, oy:GVIEW.y };
+  };
+  window.addEventListener("mouseup", () => { drag = null; pan = null; });
+  cv.onwheel = ev => {
+    ev.preventDefault();
+    const b = cv.getBoundingClientRect();
+    const mx = ev.clientX - b.left, my = ev.clientY - b.top;
+    const k = Math.max(0.45, Math.min(2.6, GVIEW.k * (ev.deltaY < 0 ? 1.12 : 0.89)));
+    GVIEW.x = mx - (mx - GVIEW.x) * (k / GVIEW.k);
+    GVIEW.y = my - (my - GVIEW.y) * (k / GVIEW.k);
+    GVIEW.k = k;
+    drawGraph(cv);
+  };
+  cv.onclick = ev => {
+    const { node } = graphHit(cv, ev);
+    GSEL = node && node.id !== GSEL ? node.id : null;
+    drawGraph(cv);
+    paintBrainPanel();
+  };
+  cv.ondblclick = () => { GVIEW = { k:1, x:0, y:0 }; GALPHA = 0.6; drawGraph(cv); };
+}
+
+function paintBrainPanel(){
+  const el = document.getElementById("gpanel");
+  if (!el || !G) return;
+  if (!GSEL){
+    const counts = {};
+    G.nodes.forEach(n => counts[n.type] = (counts[n.type]||0)+1);
+    el.innerHTML = '<div class="lab">' + tr("The company brain") + '</div>' +
+      "<p>" + L(G.nodes.length + " things the business talks about and " + G.edges.length +
+        " relationships between them, built from the same records as every other screen. " +
+        "Drag a node, scroll to zoom, double click to reset. Click anything to trace what it touches.",
+        G.nodes.length + " goed waaroor die besigheid praat en " + G.edges.length +
+        " verbande tussen hulle, gebou uit dieselfde rekords as elke ander skerm. " +
+        "Sleep 'n node, rol om te zoom, dubbelklik om terug te stel. Klik enigiets om te sien wat dit raak.") + "</p>" +
+      '<div class="gcounts">' + Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([k,v]) =>
+        '<span><i style="background:' + GTYPES[k].colour + '"></i>' + v + " " + esc(tr(GTYPES[k].label)) + "</span>").join("") +
+      "</div>";
+    return;
+  }
+  const n = G.byId[GSEL];
+  const links = G.edges.filter(e => e.a===GSEL || e.b===GSEL)
+    .map(e => ({ other:G.byId[e.a===GSEL ? e.b : e.a], rel:e.rel, risk:e.kind==="risk" }));
+  el.innerHTML = '<div class="lab">' + esc(tr(GTYPES[n.type].label)) + '</div>' +
+    "<h4>" + esc(n.meta) + "</h4>" +
+    '<div class="glinks">' + links.map(l =>
+      '<div class="gl"><span class="gr' + (l.risk?" risk":"") + '">' + esc(l.rel) + "</span>" +
+      '<span class="gn" style="border-color:' + GTYPES[l.other.type].colour + '">' + esc(l.other.meta) + "</span></div>").join("") +
+    "</div>";
+}
+
+/* Natural-language query straight onto the graph. */
+function brainQuery(q){
+  if (!G) return null;
+  const s = q.trim().toLowerCase();
+  if (!s) return null;
+  const hit = G.nodes.find(n => (n.meta+" "+n.label).toLowerCase().includes(s));
+  if (!hit) return { text:L(`Nothing in the graph matches "${esc(q)}". Try a project, a person, a supplier or a trade.`,
+      `Niks in die grafiek pas by "${esc(q)}" nie. Probeer 'n projek, 'n persoon, 'n verskaffer of 'n trade.`) };
+  GSEL = hit.id;
+  const links = G.edges.filter(e => e.a===hit.id || e.b===hit.id)
+    .map(e => { const o = G.byId[e.a===hit.id ? e.b : e.a]; return e.rel + " " + o.meta; });
+  const cv = document.getElementById("brain");
+  if (cv){ drawGraph(cv); paintBrainPanel(); }
+  return { text:L(`<b>${esc(hit.meta)}</b> is connected to ${links.length} thing${links.length===1?"":"s"}: ${esc(links.slice(0,6).join("; "))}${links.length>6?" and more":""}.`,
+    `<b>${esc(hit.meta)}</b> is aan ${links.length} ding${links.length===1?"":"e"} gekoppel: ${esc(links.slice(0,6).join("; "))}${links.length>6?" en meer":""}.`) };
+}
+
+let BRAIN_ANS = "";
+
 /* ================================================================
    Router
    ================================================================ */
@@ -932,12 +1765,12 @@ const AREAS = [
   ["06","Knowledge","knowledge","Close-out, lessons, benchmarks"]
 ];
 
-const VIEWS = { portfolio:vPortfolio, sites:vSites, project:vProject,
+const VIEWS = { portfolio:vPortfolio, sites:vSites, project:vProject, insights:vInsights,
                 tender:vTender, procurement:vProcurement, siteprod:vSite,
                 commercial:vCommercial, programme:vProgramme, knowledge:vKnowledge,
                 outputs:vOutputs, clocks:vClocks, team:vTeam };
 
-function render(){
+let render = function(){
   $("#view").innerHTML = VIEWS[VIEW]();
   $("#asof").textContent = "As at " + fmt(TODAY);
   document.querySelectorAll("#nav button").forEach(b =>
@@ -967,6 +1800,485 @@ $("#reset").onclick = () => {
   S = JSON.parse(JSON.stringify(SEED)); save(); VIEW = "portfolio"; SEL = null; FILTER = "All"; render();
 };
 
+
+/* ================================================================
+   Afrikaans, and the working tools a console needs.
+
+   The console is generated as HTML strings, so rather than wrapping
+   several hundred literals the translation runs over the rendered
+   text nodes. Exact matches come from the table; anything carrying a
+   number goes through the patterns. A string with no entry falls
+   through to English rather than breaking, which is the right failure.
+   ================================================================ */
+let LANG = "en";
+try { LANG = localStorage.getItem("siteos.lang") || "en"; } catch(e){}
+
+const AF = {
+  /* nav and chrome */
+  "Company":"Maatskappy", "Portfolio":"Portefeulje", "Sites":"Erwe",
+  "Value areas":"Waarde areas", "Records":"Rekords",
+  "01 Tender":"01 Tender", "02 Procurement":"02 Aankope",
+  "03 Site productivity":"03 Erf produktiwiteit", "04 Commercial":"04 Kommersieel",
+  "05 Programme":"05 Program", "06 Knowledge":"06 Kennis",
+  "Outputs":"Uitsette", "Clocks":"Klokke", "Team":"Span",
+  "Theme":"Tema", "Reset":"Herstel", "Search":"Soek", "Copy table":"Kopieer tabel",
+
+  /* view titles */
+  "Tender":"Tender", "Procurement":"Aankope", "Site productivity":"Erf produktiwiteit",
+  "Commercial":"Kommersieel", "Programme":"Program", "Knowledge":"Kennis", "Project":"Projek",
+
+  /* subheads */
+  "Where the work is, and what each one is waiting on":"Waar die werk is, en waarvoor elkeen wag",
+  "Bid speed, scope risk, estimating consistency, benchmark reuse":"Bid spoed, scope risiko, konsekwente beraming, benchmarks hergebruik",
+  "Quote comparison, supplier performance, lead-time risk, expediting":"Kwotes vergelyk, verskaffers se rekord, lead time risiko, expediting",
+  "Daily capture, labour and plant signals, progress and rework, access to information":"Daaglikse invoer, arbeid en plant, vordering en oordoen, toegang tot inligting",
+  "Cost-to-complete, variations, claims, cash and margin at risk":"Koste om klaar te maak, VOs, claims, kontant en margin op die spel",
+  "Early warning, critical-path exposure, recovery scenarios":"Vroeë waarskuwing, critical path blootstelling, inhaal opsies",
+  "Project close-out, lessons learned, benchmarks and standards":"Projek afsluiting, wat ons geleer het, benchmarks en standaarde",
+  "Every document the sites produced, and who has to act on it next":"Elke dokument wat die erwe gemaak het, en wie volgende moet optree",
+  "Every contractual deadline running across the company":"Elke kontrak sperdatum wat oor die maatskappy loop",
+  "Who owns what, and whose notices go out inside the window":"Wie besit wat, en wie se notices betyds uitgaan",
+
+  /* kpi labels */
+  "Under contract":"Onder kontrak", "Margin now":"Margin nou", "At risk in 20 wd":"Risiko binne 20 wd",
+  "Past its window":"Verby sy tyd", "Certified to date":"Gesertifiseer tot datum",
+  "Contract value":"Kontrakwaarde", "Margin":"Margin", "Cost to complete":"Koste om klaar te maak",
+  "Certified":"Gesertifiseer", "Out to tender":"Uit op tender", "Bid speed":"Bid spoed",
+  "Unpriced items":"Ongeprysde items", "Worst drift":"Ergste wegloop",
+  "Against highest quote":"Teen die hoogste kwote", "Weakest supplier":"Swakste verskaffer",
+  "Not yet ordered":"Nog nie bestel nie", "Settlement discount":"Settlement discount",
+  "Captured today":"Vandag ingevoer", "Rework open":"Oordoen oop", "RFIs open":"RFIs oop",
+  "Labour over allowable":"Arbeid oor allowable", "Margin at risk":"Margin op die spel",
+  "Overdue value":"Agterstallige waarde", "Contra open":"Contra oop",
+  "Still to certify":"Nog te sertifiseer", "Retention held":"Retention gehou",
+  "Projects slipped":"Projekte agter", "Critical path exposure":"Critical path blootstelling",
+  "Early warnings":"Vroeë waarskuwings", "Recovery options":"Inhaal opsies",
+  "Projects closed out":"Projekte afgesluit", "Average outcome":"Gemiddelde uitkoms",
+  "Benchmarks held":"Benchmarks gehou", "Standards in use":"Standaarde in gebruik",
+  "Control points":"Kontrolepunte", "Programme":"Program",
+
+  /* section labels */
+  "Projects":"Projekte", "Baseline against forecast":"Baseline teen forecast",
+  "Soonest clocks":"Kortste klokke", "Live bids":"Lopende bids", "Scope risk":"Scope risiko",
+  "Estimating consistency":"Konsekwente beraming",
+  "Tendered against actual, closed work":"Getender teen werklik, klaar werk",
+  "Benchmarks available to reuse":"Benchmarks om te hergebruik",
+  "Open adjudications":"Oop adjudications", "Three quotes, and why":"Drie kwotes, en hoekom",
+  "Supplier performance":"Verskaffers se rekord", "Expediting":"Expediting",
+  "Order-by date derived from lead time":"Bestel-teen datum uit die lead time",
+  "By site":"Per erf",
+  "Signals captured on the phone, not chased by the office":"Op die foon ingevoer, nie deur die kantoor gejaag nie",
+  "Cash and margin by project":"Kontant en margin per projek",
+  "Variations and claims":"VOs en claims", "Early warning":"Vroeë waarskuwing",
+  "Raised from site, not found in a month-end review":"Van die erf af, nie by maandeinde ontdek nie",
+  "Critical path":"Critical path", "Recovery scenarios":"Inhaal opsies",
+  "What each option is actually worth":"Wat elke opsie regtig werd is",
+  "Closed projects":"Klaar projekte",
+  "What the job actually did against what it was sold at":"Wat die job gedoen het teen waarvoor dit verkoop is",
+  "Standards, and what changed them":"Standaarde, en wat hulle verander het",
+  "Outputs from this site":"Uitsette van hierdie erf", "Open clocks":"Oop klokke",
+  "Against the locked baseline":"Teen die vaste baseline",
+
+  /* table headers */
+  "Project":"Projek", "Edition":"Edition", "Stage":"Stadium", "Value":"Waarde",
+  "Next clock":"Volgende klok", "Reference":"Verwysing", "Type":"Tipe", "Raised":"Opgestel",
+  "By":"Deur", "Status":"Status", "Acts by":"Optree teen", "Working days":"Werksdae",
+  "What":"Wat", "Basis":"Basis", "Due":"Teen", "At stake":"Op die spel",
+  "Name":"Naam", "Role":"Rol", "On time":"Betyds", "Late this year":"Laat vanjaar",
+  "Record":"Rekord", "Contract":"Kontrak", "Outstanding":"Uitstaande", "Retention":"Retention",
+  "Contra":"Contra", "Trade":"Trade", "Tendered":"Getender", "Actual":"Werklik",
+  "Variance":"Verskil", "Building type":"Tipe gebou", "Rate":"Rate", "From":"Uit",
+  "Spread":"Spreiding", "Item":"Item", "Lowest":"Laagste", "Chosen":"Gekies",
+  "Highest":"Hoogste", "Reason":"Rede", "Supplier":"Verskaffer", "Category":"Kategorie",
+  "Defects":"Foute", "Discount":"Afslag", "Lead wks":"Lead wke", "Needed on":"Nodig op",
+  "Order by":"Bestel teen", "Last capture":"Laas ingevoer",
+  "Labour vs allowable":"Arbeid teen allowable", "Rework":"Oordoen",
+  "Signal":"Sein", "Days":"Dae", "Cost":"Koste", "Owner":"Eienaar",
+  "Activity":"Aktiwiteit", "Float":"Float", "Exposure":"Blootstelling",
+  "Option":"Opsie", "Days recovered":"Dae ingehaal", "Net":"Netto",
+  "Year":"Jaar", "Final":"Finaal", "Swing":"Swaai", "What it taught":"Wat dit geleer het",
+  "Standard":"Standaard", "Times used":"Kere gebruik", "Last change":"Laaste verandering",
+  "Closes":"Sluit", "Days on it":"Dae daaraan", "Qualifications":"Qualifications",
+  "Unpriced":"Ongeprys", "State":"Stand", "Tender":"Tender",
+
+  /* stages and statuses */
+  "On site":"Op erf", "Claims":"Claims", "Completion":"Voltooiing", "Final account":"Final account",
+  "Submitted":"Ingestuur", "Issued":"Uitgereik", "Running":"Loop", "With PQS":"By die PQS",
+  "Overdue":"Agterstallig", "Awaiting PA":"Wag vir PA", "Objection due":"Beswaar teen",
+  "Deemed refused":"Geag geweier", "Adjudicating":"Adjudicating", "Pricing":"Prys dit",
+  "Ordered":"Bestel", "Open":"Oop", "Variation":"VO", "Claim":"Claim", "Notice":"Notice",
+  "Progress":"Vordering", "Default":"Default", "All":"Alles",
+
+  /* graph relations */
+  "signed under":"geteken onder", "built at":"gebou by", "for":"vir",
+  "runs":"bestuur", "manages":"hou dop", "supplies":"verskaf",
+  "in default on":"in default op", "supplying":"verskaf aan",
+  "raised on":"opgestel op", "wrote":"het geskryf", "under":"onder",
+  "runs on":"loop op", "counted under":"getel onder", "against":"teen",
+  "ordered for":"bestel vir", "still open for":"nog oop vir",
+  "on the critical path of":"op die critical path van", "warned on":"gewaarsku op",
+  "owns":"besit", "recovers":"haal in", "will inherit":"gaan erf",
+  "learned on":"geleer op", "priced into":"ingeprys in", "enforced on":"afgedwing op",
+  "changed":"het verander", "triggered by":"veroorsaak deur", "applied to":"toegepas op",
+  "over tendered":"oor getender", "on tender":"op tender", "lost money on":"geld verloor op",
+  "60 wd under":"60 wd onder", "90 wd under":"90 wd onder",
+  "30 wd under":"30 wd onder", "45 wd under":"45 wd onder", "runs with":"loop saam met",
+
+  /* graph node types */
+  "Documents":"Dokumente", "Clocks":"Klokke", "Clauses":"Klousules", "Editions":"Editions",
+  "Variance":"Verskil", "Materials":"Materiaal", "Activities":"Aktiwiteite",
+  "Warnings":"Waarskuwings", "Recovery":"Inhaal", "Tenders":"Tenders", "Closed":"Klaar",
+  "Benchmarks":"Benchmarks", "Clients":"Kliënte", "Places":"Plekke",
+
+  /* fragments the node detail is built from */
+  "trade":"trade", "on time":"betyds", "defects":"foute", "closed":"klaar",
+  "week lead":"weke lead", "float":"float", "net":"netto", "used":"gebruik",
+  "times":"keer", "from":"uit", "project(s)":"projek(te)",
+  "Final account":"Final account", "Objection window":"Beswaar venster",
+  "Practical completion":"Practical completion", "Defects liability":"Defects liability",
+  "Recovery of expense":"Verhaal van koste", "Revision of PC date":"Hersiening van PC datum",
+  "Principal agent issues the final account":"Die PA reik die final account uit",
+  "Contractor accepts or objects":"Kontrakteur aanvaar of maak beswaar",
+  "Inspection and the list":"Inspeksie en die lys",
+  "Defects during the liability period":"Foute in die liability tydperk",
+  "Notice within 20 working days":"Notice binne 20 werksdae",
+  "Extension of time":"Tydsverlenging",
+
+  /* queue actions */
+  "Serve it today":"Stuur dit vandag", "Diarise and draft":"Diariseer en stel op",
+  "Record a deemed refusal and open the dispute file":"Teken geag geweier aan en maak die dispuut lêer oop",
+  "Call the site agent before the next claim":"Bel die site agent voor die volgende claim",
+  "Review cost to complete with the contracts manager":"Gaan koste om klaar te maak na met die kontrakte bestuurder",
+  "Already late, order and re-plan":"Reeds laat, bestel en beplan oor", "Place the order":"Plaas die bestelling",
+  "Take off the approved list at the next adjudication":"Haal van die goedgekeurde lys af by die volgende adjudication",
+
+  /* insights and the assistant */
+  "Insights":"Insigte", "Agentic":"Agenties",
+  "What the data is asking you to do, and anything you want to ask it":"Wat die data vra jy moet doen, en enigiets wat jy wil vra",
+  "Needs action":"Vra aksie", "Value in the queue":"Waarde in die ry",
+  "Saved widgets":"Gestoorde widgets", "Cleared":"Afgehandel",
+  "Action queue":"Aksie ry", "Ranked by what it costs to ignore":"Gerangskik volgens wat dit kos om te ignoreer",
+  "Ask the data":"Vra die data", "Deterministic, computed live":"Deterministies, lewendig uitgewerk",
+  "View":"Bekyk", "Done":"Klaar", "Pin as widget":"Steek vas as widget", "Remove":"Verwyder",
+  "Nothing pinned yet. Ask a question, then pin the answer.":"Nog niks vasgesteek nie. Vra 'n vraag, steek dan die antwoord vas.",
+  "Nothing in the queue. Everything with a clock on it is inside its window.":"Niks in die ry nie. Alles met 'n klok op is binne sy tyd.",
+  "Ask me about the book of work. I compute the answer from the same data these screens read, so I can show my working.":"Vra my oor die werk. Ek werk die antwoord uit uit dieselfde data wat hierdie skerms lees, so ek kan my somme wys.",
+  "The company brain":"Die maatskappy se brein",
+  "Every record, seen sideways":"Elke rekord, van die kant af gesien",
+  "Trace it":"Volg dit", "nodes":"nodes", "links":"verbande",
+  "Projects":"Projekte", "People":"Mense", "Suppliers":"Verskaffers", "Trades":"Trades",
+  "Contract":"Kontrak", "Lessons":"Lesse", "Standards":"Standaarde",
+
+  /* roles */
+  "Contracts director":"Kontrakte direkteur", "Contracts manager":"Kontrakte bestuurder",
+  "Site agent":"Site agent",
+
+  /* misc */
+  "Back to portfolio":"Terug na portefeulje", "Site agent ":"Site agent ",
+  "Practical completion":"Practical completion", "Rework items open":"Oordoen items oop",
+  "Labour against allowable":"Arbeid teen allowable",
+  "Nothing is running out on this project.":"Niks loop op hierdie projek uit nie.",
+  "Nothing running out":"Niks loop uit nie", "Nothing here yet.":"Nog niks hier nie.",
+  "today":"vandag",
+
+  /* foot notes */
+  "Every project runs on the contract edition it was signed under, so the same milestone produces a different deadline on each one. The clock column is computed per project from that edition and the South African working-day calendar, which is the only reason it can be compared down the column.":
+    "Elke projek loop op die edition waaronder dit geteken is, so dieselfde milestone gee 'n ander datum op elkeen. Die klok kolom word per projek uitgewerk uit daardie edition en die SA werksdag kalender. Dis die enigste rede hoekom jy dit in een kolom kan vergelyk.",
+  "Click a site to open it. The bar under each is control points closed, out of the forty-eight a project carries from tender to final account.":
+    "Klik op 'n erf om dit oop te maak. Die balkie onder elkeen is kontrolepunte klaar, uit die agt en veertig wat 'n projek dra van tender tot final account.",
+  "A bid with zero qualifications is not a clean bid, it is unqualified risk carried for the length of the contract. Samrand has been priced for two days and has five provisional items still open.":
+    "'n Bid met nul qualifications is nie 'n skoon bid nie, dis risiko wat jy vir die hele kontrak dra. Samrand is twee dae lank geprys en het nog vyf provisional items oop.",
+  "Benchmarks only exist because closed projects were signed off with their outcome recorded. A single-source rate with no spread is a guess wearing a number.":
+    "Benchmarks bestaan net omdat klaar projekte afgeteken is met hulle uitkoms aangeteken. 'n Rate uit een projek met geen spreiding is 'n raaiskoot met 'n syfer aan.",
+  "Bekker Plumbing sits at 62% on time with seven defects, and is the sub-contractor currently on a default notice at Menlyn. That is the same fact reaching head office and the site from opposite directions.":
+    "Bekker Plumbing sit op 62% betyds met sewe foute, en is die sub wat nou op 'n default notice by Menlyn is. Dis dieselfde feit wat die kantoor en die erf van twee kante af bereik.",
+  "Rosslyn has not been captured in twenty-one days and is running 18% over allowable labour. Those two numbers are the same problem: the site that stops reporting is the site that has stopped being managed, and the cost only shows up at final account.":
+    "Rosslyn is een en twintig dae laas ingevoer en loop 18% oor allowable arbeid. Daai twee syfers is dieselfde probleem: die erf wat ophou rapporteer is die erf wat ophou bestuur word, en die koste wys eers by final account.",
+  "Margin is measured against the price each job was won at, never against a revised internal budget. A budget that moves with the job cannot tell you the job is losing money.":
+    "Margin word gemeet teen die prys waarteen elke job gewen is, nooit teen 'n begroting wat aangepas is nie. 'n Begroting wat saam met die job skuif kan jou nie sê die job verloor geld nie.",
+  "The second option at Menlyn recovers nothing on site and is worth more than the first, because four days claimed as an extension carries the time-related preliminaries with it. Recovery is a commercial decision before it is a programme one.":
+    "Die tweede opsie by Menlyn haal niks op die erf in nie en is meer werd as die eerste, want vier dae wat as EOT geclaim word dra die time-related P&G saam. Inhaal is eers 'n kommersiële besluit voor dit 'n program besluit is.",
+  "Bronkhorstspruit lost 3.5 points because ground conditions were never qualified at tender. That lesson is now a line on the tender qualification checklist, which is the only form a lesson can take that survives the person who learned it.":
+    "Bronkhorstspruit het 3,5 punte verloor omdat grondtoestande nooit by tender qualify is nie. Daai les is nou 'n lyn op die tender qualification lys, wat die enigste vorm is waarin 'n les die persoon oorleef wat dit geleer het.",
+  "Head office does not chase these. Each was produced on a phone on site, by the person doing the work, at the moment the clock started. This register is the by-product, not the effort.":
+    "Die kantoor jaag nie hierdie goed nie. Elkeen is op 'n foon op die erf gemaak, deur die ou wat die werk doen, op die oomblik wat die klok begin loop het. Hierdie register is die byproduk, nie die werk nie.",
+  "Three editions of the same contract are live here at once. The final account window is 90 working days under the 2007 and 2014 editions and 60 under 2018; a works completion list is 7 days on one and 5 working days plus 5 on another. Nobody is expected to remember which, and nobody should have to.":
+    "Drie editions van dieselfde kontrak loop hier gelyk. Die final account venster is 90 werksdae onder die 2007 en 2014 editions en 60 onder 2018; 'n works completion lys is 7 dae op een en 5 werksdae plus 5 op 'n ander. Niemand word verwag om te onthou watter een nie, en niemand behoort te hoef nie.",
+  "On time means the notice reached the principal agent inside the contractual window. It is the one measure that cannot be gamed in a way that hurts the business: a site agent who games it is a site agent who never misses a claim. Pieter Louw carries two projects and the worst record on this table, which is a workload question before it is a performance one.":
+    "Betyds beteken die notice het die PA binne die kontrak se venster bereik. Dis die een maatstaf wat jy nie kan game op 'n manier wat die besigheid seermaak nie: 'n site agent wat dit game is 'n site agent wat nooit 'n claim mis nie. Pieter Louw dra twee projekte en die swakste rekord op hierdie tabel, wat eers 'n werklas vraag is voor dit 'n prestasie vraag is."
+};
+
+/* Anything carrying a number cannot be matched exactly. */
+const AF_PAT = [
+  [/^(\d+) live projects, (.+) under contract$/, "$1 lopende projekte, $2 onder kontrak"],
+  [/^(\d+) projects$/, "$1 projekte"],
+  [/^(\d+) open clocks$/, "$1 oop klokke"],
+  [/^(\d+) items overdue$/, "$1 items agterstallig"],
+  [/^(.+) retention held$/, "$1 retention gehou"],
+  [/^([-+\d.]+) pts against (.+) at tender$/, "$1 pte teen $2 by tender"],
+  [/^([-+\d.]+) pts against tender$/, "$1 pte teen tender"],
+  [/^(\d+) records$/, "$1 rekords"],
+  [/^(\d+) d ago$/, "$1 d gelede"],
+  [/^(\d+) live bids$/, "$1 lopende bids"],
+  [/^Average days spent per bid$/, "Gemiddelde dae per bid"],
+  [/^Provisional or missing across live bids$/, "Provisional of weg oor lopende bids"],
+  [/^([\d.]+)% over tendered$/, "$1% oor getender"],
+  [/^On (\d+) open adjudications$/, "Op $1 oop adjudications"],
+  [/^(.+) on time$/, "$1 betyds"],
+  [/^Long-lead items still open$/, "Lang lead items nog oop"],
+  [/^Average available on terms$/, "Gemiddeld beskikbaar op terme"],
+  [/^Sites that logged today$/, "Erwe wat vandag ingevoer het"],
+  [/^Items across all sites$/, "Items oor al die erwe"],
+  [/^Waiting on information$/, "Wag vir inligting"],
+  [/^Of (\d+) sites$/, "Van $1 erwe"],
+  [/^Across (\d+) projects$/, "Oor $1 projekte"],
+  [/^Value of the drift against tender$/, "Waarde van die wegloop teen tender"],
+  [/^(.+) still to certify$/, "$1 nog te sertifiseer"],
+  [/^Past a contractual window$/, "Verby 'n kontrak venster"],
+  [/^Deduct before the next certificate$/, "Trek af voor die volgende certificate"],
+  [/^Forecast past the baseline date$/, "Forecast verby die baseline datum"],
+  [/^(\d+) activities at or past zero float$/, "$1 aktiwiteite op of verby nul float"],
+  [/^Open across the portfolio$/, "Oop oor die portefeulje"],
+  [/^Priced and ready to choose$/, "Geprys en reg om te kies"],
+  [/^With outcome recorded against tender$/, "Met uitkoms aangeteken teen tender"],
+  [/^Final margin against tendered$/, "Finale margin teen getender"],
+  [/^Building types with a rate$/, "Tipes gebou met 'n rate"],
+  [/^Checklists the process enforces$/, "Lyste wat die proses afdwing"],
+  [/^Baseline (.+)$/, "Baseline $1"],
+  [/^PC (.+)$/, "PC $1"],
+  [/^(\d+) control points open$/, "$1 kontrolepunte oop"],
+  [/^(\d+) still open$/, "$1 nog oop"],
+  [/^(\d+) project(s?)$/, "$1 projek$2"],
+  [/^(\d+) wd late$/, "$1 wd laat"],
+  [/^on time$/, "betyds"],
+  [/^As at (.+)$/, "Soos op $1"],
+  [/^(\d+) of (\d+) subs in$/, "$1 van $2 subs in"]
+];
+
+function tr(s){
+  if (LANG !== "af") return s;
+  if (AF[s]) return AF[s];
+  for (const [re, out] of AF_PAT){ if (re.test(s)) return s.replace(re, out); }
+  return s;
+}
+
+// Walk the rendered text nodes rather than wrapping several hundred literals.
+function translateDOM(root){
+  if (LANG !== "af") return;
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (w.nextNode()) nodes.push(w.currentNode);
+  for (const n of nodes){
+    const raw = n.nodeValue, k = raw.trim();
+    if (!k || /^[\d\s.,%+\-/]*$/.test(k)) continue;
+    const out = tr(k);
+    if (out !== k) n.nodeValue = raw.replace(k, out);
+  }
+}
+
+/* ================================================================
+   Console tools: search, sort, copy, deep links, keyboard
+   ================================================================ */
+let QUERY = "";
+
+function applyFilter(){
+  const q = QUERY.trim().toLowerCase();
+  document.querySelectorAll("#view table").forEach(tb => {
+    let shown = 0;
+    tb.querySelectorAll("tbody tr").forEach(tr => {
+      const hit = !q || tr.textContent.toLowerCase().includes(q);
+      tr.style.display = hit ? "" : "none";
+      if (hit) shown++;
+    });
+    const wrap = tb.closest(".card") || tb.closest(".panel");
+    if (wrap) wrap.style.display = (q && !shown) ? "none" : "";
+  });
+  document.querySelectorAll("#view .site").forEach(el => {
+    el.style.display = (!q || el.textContent.toLowerCase().includes(q)) ? "" : "none";
+  });
+}
+
+// Numeric-aware, so "R1 240 000" and "12 wd" sort as numbers rather than text.
+function cellVal(td){
+  const s = td.textContent.trim();
+  const n = s.replace(/[^\d.\-]/g, "");
+  return (n && /\d/.test(s)) ? parseFloat(n) : s.toLowerCase();
+}
+function makeSortable(){
+  document.querySelectorAll("#view table").forEach(tb => {
+    const head = tb.tHead; if (!head) return;
+    [...head.rows[0].cells].forEach((th, i) => {
+      if (!th.textContent.trim()) return;
+      th.classList.add("sortable");
+      th.onclick = () => {
+        const body = tb.tBodies[0];
+        const rows = [...body.rows];
+        const dir = th.dataset.dir === "asc" ? -1 : 1;
+        [...head.rows[0].cells].forEach(c => { delete c.dataset.dir; c.classList.remove("sorted"); });
+        th.dataset.dir = dir === 1 ? "asc" : "desc";
+        th.classList.add("sorted");
+        rows.sort((a,b) => {
+          const x = cellVal(a.cells[i]), y = cellVal(b.cells[i]);
+          return (x > y ? 1 : x < y ? -1 : 0) * dir;
+        });
+        rows.forEach(r => body.appendChild(r));
+      };
+    });
+  });
+}
+
+// Downloads are inert inside an embedded frame, so this puts the table on the
+// clipboard as tab-separated text, which pastes straight into a spreadsheet.
+function copyTable(){
+  const tb = document.querySelector("#view table");
+  if (!tb) return toast(tr("Nothing here yet."));
+  const rows = [];
+  if (tb.tHead) rows.push([...tb.tHead.rows[0].cells].map(c => c.textContent.trim()).join("\t"));
+  [...tb.tBodies[0].rows].filter(r => r.style.display !== "none")
+    .forEach(r => rows.push([...r.cells].map(c => c.textContent.trim().replace(/\s+/g," ")).join("\t")));
+  const text = rows.join("\n");
+  const done = () => toast(LANG==="af" ? rows.length-1 + " rye gekopieer" : (rows.length-1) + " rows copied");
+  if (navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text).then(done, () => legacyCopy(text, done));
+  } else legacyCopy(text, done);
+}
+function legacyCopy(text, done){
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.style.cssText = "position:fixed;left:-9999px";
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); done(); } catch(e){ toast("Copy blocked"); }
+  ta.remove();
+}
+
+let toastT;
+function toast(msg){
+  const el = $("#toast");
+  el.textContent = msg; el.hidden = false;
+  clearTimeout(toastT); toastT = setTimeout(() => el.hidden = true, 2600);
+}
+
+/* deep links: #tender, #p/lou */
+function readHash(){
+  const h = (location.hash || "").replace(/^#/, "");
+  if (!h) return;
+  if (h.startsWith("p/")){ const id = h.slice(2); if (S.projects.some(p=>p.id===id)){ SEL = id; VIEW = "project"; } return; }
+  if (VIEWS[h]) VIEW = h;
+}
+function writeHash(){
+  const h = VIEW === "project" && SEL ? "p/" + SEL : VIEW;
+  try { if (location.hash !== "#" + h) history.replaceState(null, "", "#" + h); } catch(e){}
+}
+
+/* ================================================================
+   Wiring
+   ================================================================ */
+const baseRender = render;
+render = function(){
+  baseRender();
+  translateDOM($("#view"));
+  translateDOM($("#head"));
+  translateDOM(document.querySelector("#nav"));
+  $("#asof").textContent = tr("As at " + fmt(TODAY));
+  $("#theme").textContent = tr("Theme");
+  $("#reset").textContent = tr("Reset");
+  $("#copy").textContent = tr("Copy table");
+  $("#q").placeholder = tr("Search") + "  /";
+  $("#lang").textContent = LANG === "af" ? "AF" : "EN";
+  $("#lang").classList.toggle("af", LANG === "af");
+  const jb = $("#ct-jobs"); if (jb) jb.textContent = jobs().length;
+  makeSortable();
+  applyFilter();
+  writeHash();
+  if (VIEW === "knowledge"){
+    const boot = (tries) => {
+      const cv = document.getElementById("brain");
+      if (!cv) return;
+      if (!cv.clientWidth){ if ((tries||0) < 20) setTimeout(() => boot((tries||0)+1), 30); return; }
+      try { initGraph(); paintBrainPanel(); } catch(err){ console.error("graph:", err); }
+    };
+    boot(0);
+  }
+  if (VIEW === "insights"){
+    const log = $("#chatlog"); if (log) log.scrollTop = log.scrollHeight;
+  }
+};
+
+$("#lang").onclick = () => {
+  LANG = LANG === "af" ? "en" : "af";
+  try { localStorage.setItem("siteos.lang", LANG); } catch(e){}
+  render();
+  toast(LANG === "af" ? "Taal gestel op Afrikaans" : "Language set to English");
+};
+$("#copy").onclick = copyTable;
+$("#q").addEventListener("input", e => { QUERY = e.target.value; applyFilter(); });
+
+addEventListener("keydown", e => {
+  const typing = /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName);
+  if (e.key === "/" && !typing){ e.preventDefault(); $("#q").focus(); return; }
+  if (e.key === "Escape"){
+    if (typing){ $("#q").value = ""; QUERY = ""; applyFilter(); $("#q").blur(); }
+    else if (VIEW === "project"){ VIEW = "portfolio"; SEL = null; render(); }
+    return;
+  }
+  if (typing) return;
+  if (e.key >= "1" && e.key <= "6"){ VIEW = AREAS[+e.key - 1][2]; SEL = null; render(); return; }
+  if (e.key.toLowerCase() === "p"){ VIEW = "portfolio"; SEL = null; render(); }
+  if (e.key.toLowerCase() === "s"){ VIEW = "sites"; SEL = null; render(); }
+  if (e.key.toLowerCase() === "l"){ $("#lang").click(); }
+});
+
+/* insights and graph interactions */
+document.addEventListener("click", e => {
+  const done = e.target.closest("[data-job]");
+  if (done){ S.doneJobs[done.dataset.job] = 1; save(); render();
+    toast(LANG==="af" ? "Afgehandel" : "Cleared"); return; }
+
+  const pin = e.target.closest("[data-pin]");
+  if (pin){
+    try { S.widgets.push(JSON.parse(pin.dataset.pin)); save(); render();
+      toast(LANG==="af" ? "Widget vasgesteek" : "Widget pinned"); } catch(err){}
+    return;
+  }
+
+  const del = e.target.closest("[data-del]");
+  if (del){ S.widgets.splice(+del.dataset.del, 1); save(); render(); return; }
+
+  const say = e.target.closest("[data-say]");
+  if (say){ sendChat(say.dataset.say); return; }
+
+  if (e.target.closest("#csend")){ const i = $("#cq"); if (i){ sendChat(i.value); i.value = ""; } return; }
+
+  if (e.target.closest("#bqs")){
+    const i = $("#bqi");
+    if (i){ const r = brainQuery(i.value); if (r){ BRAIN_ANS = r.text;
+      const a = $("#bqa"); if (a){ a.innerHTML = r.text; a.hidden = false; } } }
+    return;
+  }
+
+  const gt = e.target.closest("[data-gt]");
+  if (gt){
+    const k = gt.dataset.gt;
+    if (GOFF.has(k)) GOFF.delete(k); else GOFF.add(k);
+    gt.classList.toggle("off", GOFF.has(k));
+    const cv = document.getElementById("brain"); if (cv) drawGraph(cv);
+    return;
+  }
+}, true);
+
+document.addEventListener("keydown", e => {
+  if (e.key !== "Enter") return;
+  if (e.target.id === "cq"){ sendChat(e.target.value); e.target.value = ""; }
+  if (e.target.id === "bqi"){ const b = $("#bqs"); if (b) b.click(); }
+});
+
+addEventListener("resize", () => {
+  if (VIEW === "knowledge"){ const cv = document.getElementById("brain");
+    if (cv && G){ GALPHA = Math.max(GALPHA, 0.35); drawGraph(cv); } }
+});
+
+addEventListener("hashchange", () => { readHash(); render(); });
+
+readHash();
 render();
 
 </script>
