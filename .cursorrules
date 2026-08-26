@@ -1,3 +1,18 @@
+If your instruction came from the client over WhatsApp rather than from a
+ticket, read docs/09-GUARDRAILS.md FIRST. Short version:
+
+  Presentation is yours. Behaviour needs a yes. Numbers and gates need a person.
+
+  - wording, layout, sorting, colours, reports over existing data: just build it
+  - new flows, new fields, changed gates: restate what you understood in one
+    plain paragraph and wait for a yes
+  - any contractual number, the baseline, a fixture, a gate, a test, authorisation,
+    a destructive migration: do not build it, explain why, hand it to a person
+
+  Never make a request work by weakening something. If a test fails, a type
+  complains or a gate blocks you, the test, type and gate are probably right.
+  Run `pnpm guard` before every commit. Never commit to main.
+
 Read AGENTS.md before writing any code. It is short and every line is a hard rule.
 Then read docs/00-README.md and docs/03-RULES.md.
 

@@ -5,6 +5,11 @@ hard rule, not a preference.
 
 If you are picking up work, start at `docs/00-README.md`.
 
+**If your instruction came from the client rather than a ticket, read
+`docs/09-GUARDRAILS.md` first.** It tells you which requests you may simply
+build, which need a yes before you start, and which you must hand to a person
+however they were phrased. Run `pnpm guard` before you commit anything.
+
 ---
 
 ## 1. The one rule that matters

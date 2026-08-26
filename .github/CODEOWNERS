@@ -1,0 +1,30 @@
+# Anything listed here needs a human review before it can merge, however the
+# change arrived. See docs/09-GUARDRAILS.md.
+#
+# Replace @tobievii if someone else should hold these.
+
+*                           @tobievii
+
+# The rules engine. Every constant came from a contract.
+/packages/rules/            @tobievii
+/packages/domain/           @tobievii
+
+# Golden numbers. Verified, not guessed.
+/fixtures/                  @tobievii
+
+# The specification. Changing a rule here changes the product's meaning.
+/docs/03-RULES.md           @tobievii
+/docs/08-DECISIONS.md       @tobievii
+/docs/09-GUARDRAILS.md      @tobievii
+/AGENTS.md                  @tobievii
+/.cursorrules               @tobievii
+
+# The guard rails themselves, and the client documents.
+/scripts/guard.mjs          @tobievii
+/docs/knowledge/            @tobievii
+
+# Anything that changes how the repository is built or shipped.
+/.github/                   @tobievii
+/package.json               @tobievii
+/vitest.config.ts           @tobievii
+/tsconfig.json              @tobievii

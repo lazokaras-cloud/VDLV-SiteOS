@@ -20,6 +20,7 @@ production code. Read it, run it, then build the real thing properly.
 | 06 | `06-ACCEPTANCE.md` | Golden fixtures. Every number verified. |
 | 07 | `07-GLOSSARY.md` | Domain vocabulary and the Afrikaans register |
 | 08 | `08-DECISIONS.md` | What is already settled, and why. Argue with the reason, not the choice. |
+| 09 | **`09-GUARDRAILS.md`** | **Read this if a request came from the client rather than a ticket.** What you may build, what needs a yes, what needs a person. |
 | — | `OPEN-QUESTIONS.md` | Where to put things you needed and could not find |
 | — | [`knowledge/`](knowledge/README.md) | **The source documents this was specified from.** Check a fact against the original rather than guessing. Private repo only — read its handling rules first. |
 | — | [`knowledge/CLIENT-NARRATIVE.md`](knowledge/CLIENT-NARRATIVE.md) | The contractor describing their own process. Primary source; where it disagrees with a doc, it wins. |
@@ -66,6 +67,8 @@ pnpm install
 pnpm verify      # 36 checks over the golden fixtures, must be green
 pnpm test        # prints the work list: every todo is a ticket
 pnpm typecheck
+pnpm guard       # the guard rails, see docs/09-GUARDRAILS.md
+pnpm check       # all four, what CI runs
 ```
 
 `pnpm verify` is the fastest way to know your environment is sane. It runs a
