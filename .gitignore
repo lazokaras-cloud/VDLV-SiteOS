@@ -2,3 +2,9 @@
 .DS_Store
 node_modules
 Thumbs.db
+
+# Client tender packs and priced bills stay out of a public repo
+*.pdf
+*.xlsx
+*.xls
+tender-source/
