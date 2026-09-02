@@ -1,4 +1,4 @@
-# SiteOS — product requirements
+# SiteOS: product requirements
 
 ## The problem, in one paragraph
 

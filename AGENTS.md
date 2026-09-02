@@ -36,6 +36,17 @@ A hallucinated working-day count is not a bad answer. It is a lost claim worth
 more than the software. If you find yourself prompting a model for arithmetic,
 you have taken a wrong turn: put it in the rules engine and write a test.
 
+### 1b. Two runtimes, one rule
+
+The back office calls hosted models on Vercel. The site app runs a small Gemma
+model **on the handset, with no network**. The rule above applies identically to
+both, and it binds harder on the handset: a 2B model will answer a working-day
+question confidently and wrongly.
+
+Read `docs/11-AGENT-RUNTIME.md` before writing anything that calls a model.
+The short version: the model hears, extracts, classifies and phrases. The rules
+engine computes. A person approves. Nothing crosses those lines.
+
 ## 2. The rules engine is sacred
 
 `packages/rules` has these properties and must keep them:

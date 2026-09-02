@@ -6,7 +6,7 @@ entry: mark it answered with the answer and its source.
 Format:
 
 ```
-### Q-01 — short title
+### Q-01: short title
 **Asked by:** agent / ticket
 **Blocking:** which ticket, or "no"
 **Question:** ...
@@ -15,7 +15,7 @@ Format:
 
 ---
 
-### Q-01 — Are the clause references verified?
+### Q-01: Are the clause references verified?
 **Asked by:** hand-off
 **Blocking:** no, but blocks commercial reliance
 **Question:** Section 3 of `03-RULES.md` was transcribed from a tender pack, a
@@ -25,7 +25,7 @@ the clause numbers and windows correct?
 `editions.ts`, and have someone with the executed contract check it before the
 pilot goes live.
 
-### Q-02 — Which builders' break dates apply per contract?
+### Q-02: Which builders' break dates apply per contract?
 **Asked by:** hand-off
 **Blocking:** RULES-01 fixture accuracy
 **Question:** The break is published annually by the regional master builders
@@ -34,7 +34,7 @@ the qualification, or hold a company default and let the contract override?
 **Answer:** Per contract, from the qualification. The default is a convenience
 only. Two live projects can differ.
 
-### Q-03 — Does the pay-when-paid position apply on every project?
+### Q-03: Does the pay-when-paid position apply on every project?
 **Asked by:** hand-off
 **Blocking:** RULES-06
 **Question:** Paying nominated and selected sub-contractors only once the
@@ -44,7 +44,7 @@ agreed?
 **Answer:** No. Model it as a project-level flag defaulting to off, and surface
 whether it was actually agreed for that contract.
 
-### Q-04 — What is the working-days-per-month divisor for EOT recovery?
+### Q-04: What is the working-days-per-month divisor for EOT recovery?
 **Asked by:** hand-off
 **Blocking:** RULES-07 rounding
 **Question:** Time-related P&G is held per month. An extension is granted in
@@ -53,7 +53,7 @@ conventional?
 **Answer:** Unknown. Roughly 21.7 working days per month is the arithmetic
 average, but the contract may define it. Ask before shipping a claim figure.
 
-### Q-05 — How are the 48 control points allocated to owners?
+### Q-05: How are the 48 control points allocated to owners?
 **Asked by:** hand-off
 **Blocking:** RULES-09
 **Question:** Every control point carries a named owner. Is the mapping from
@@ -61,7 +61,7 @@ control point to role fixed, or set per project at handover?
 **Answer:** Unknown. Assume per project with a role-based default until told
 otherwise.
 
-### Q-06 — Why is the estimating package round trip broken?
+### Q-06: Why is the estimating package round trip broken?
 **Asked by:** hand-off
 **Blocking:** IMPORT-01, TENDER-03
 **Question:** The per-trade packages in `docs/knowledge/source/boq/` are
@@ -72,3 +72,35 @@ restructured spreadsheet with rows added or removed, or they quote on their own
 letterhead against nothing?
 **Answer:** Unknown. Ask before building the importer, because the answer decides
 whether the work is a file parser, a reconciler, or an extraction problem.
+
+---
+
+### Q-07: Which Gemma variant, and does its licence permit store distribution?
+
+Needed before `MOBILE-06`. Pin a specific on-device Gemma release and
+quantisation, and confirm the licence allows shipping it inside a commercial app
+on both the App Store and Play Store. Do not assume the version named in a
+conversation is still current.
+
+### Q-08: One native module for both platforms, or two?
+
+Does the chosen on-device runtime support Android and iOS well enough to ship a
+single Expo native module, or does iOS need a different backend?
+
+### Q-09: Does Afrikaans speech work on a small local model?
+
+Test against the real site voice notes in `docs/knowledge` before committing.
+If it does not hold up on real site audio, version one is English voice with
+Afrikaans by typing, which is acceptable. Guessing here is not.
+
+### Q-10: Who pays for the model download?
+
+The handset downloads roughly 2 GB on first launch. Over whose connection, and
+is it wifi-only enforced?
+
+### Q-11: Does the shipped Next.js site app get ported or retired?
+
+`apps/site` shipped as a web app before the native decision. The flows are the
+reference implementation either way. Decide whether it stays as a back-office
+view of the same flows, or is retired once `MOBILE-01` lands. Nobody should
+maintain both.

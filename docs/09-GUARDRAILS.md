@@ -41,7 +41,7 @@ mechanically by `pnpm guard`.
 Every request gets a colour before any code is written. When in doubt, go up a
 colour, never down.
 
-### Green — build it
+### Green: build it
 
 Presentation and convenience. Reversible, no contractual meaning.
 
@@ -55,7 +55,7 @@ Presentation and convenience. Reversible, no contractual meaning.
 **Agent does:** builds it on a branch, opens a pull request, replies with what
 changed and the preview link.
 
-### Amber — restate it, then build it
+### Amber: restate it, then build it
 
 Behaviour changes. The agent must reply first with its understanding, in one
 short paragraph in plain language, and wait for a yes.
@@ -74,7 +74,7 @@ short paragraph in plain language, and wait for a yes.
 If the restatement comes back corrected, restate again. Two rounds of that is
 cheaper than one wrong build.
 
-### Red — stop and hand to a person
+### Red: stop and hand to a person
 
 The agent does not build these, whatever the request says, however senior the
 person asking. It replies, explains, and tags a human.
@@ -190,7 +190,7 @@ which.
 - **A branch and a pull request.** Never `main`.
 - **A one-line why**, in the words the client used, so the next person can trace
   a decision back to a request.
-- **A passing `pnpm check`** — guard, fixtures, types, coverage.
+- **A passing `pnpm check`**: guard, fixtures, types, coverage.
 - **A revert path.** If it cannot be undone by reverting one commit, it is too
   big; split it.
 

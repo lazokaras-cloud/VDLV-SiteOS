@@ -11,7 +11,7 @@ production code. Read it, run it, then build the real thing properly.
 
 | # | Document | Why |
 | --- | --- | --- |
-| — | **`AGENTS.md`** | Non-negotiable operating rules. Read first, it is short. |
+| - | **`AGENTS.md`** | Non-negotiable operating rules. Read first, it is short. |
 | 01 | `01-PRD.md` | What we are building and for whom |
 | 02 | `02-DOMAIN.md` | Entities and field names. These are the contract. |
 | 03 | **`03-RULES.md`** | **The rules engine spec. The most important document here.** |
@@ -22,9 +22,10 @@ production code. Read it, run it, then build the real thing properly.
 | 08 | `08-DECISIONS.md` | What is already settled, and why. Argue with the reason, not the choice. |
 | 09 | **`09-GUARDRAILS.md`** | **Read this if a request came from the client rather than a ticket.** What you may build, what needs a yes, what needs a person. |
 | 10 | `10-AUTHORITY.md` | Who may ask for what. Identity is a phone number, never a display name. |
-| — | `OPEN-QUESTIONS.md` | Where to put things you needed and could not find |
-| — | [`knowledge/`](knowledge/README.md) | **The source documents this was specified from.** Check a fact against the original rather than guessing. Private repo only — read its handling rules first. |
-| — | [`knowledge/CLIENT-NARRATIVE.md`](knowledge/CLIENT-NARRATIVE.md) | The contractor describing their own process. Primary source; where it disagrees with a doc, it wins. |
+| 11 | **`11-AGENT-RUNTIME.md`** | **The two agent runtimes.** Hosted on Vercel for the back office, Gemma on the handset for the site app. Read before writing anything that calls a model. |
+| - | `OPEN-QUESTIONS.md` | Where to put things you needed and could not find |
+| - | [`knowledge/`](knowledge/README.md) | **The source documents this was specified from.** Check a fact against the original rather than guessing. Private repo only, read its handling rules first. |
+| - | [`knowledge/CLIENT-NARRATIVE.md`](knowledge/CLIENT-NARRATIVE.md) | The contractor describing their own process. Primary source; where it disagrees with a doc, it wins. |
 
 If you read only one thing beyond `AGENTS.md`, read `03-RULES.md`.
 
@@ -94,7 +95,7 @@ fixtures/                       golden data and the verifier
 ## Working as a swarm
 
 1. Read `AGENTS.md` and `03-RULES.md`.
-2. Take a ticket from `05-WORKSTREAMS.md`. **Respect the waves** — wave 0 blocks
+2. Take a ticket from `05-WORKSTREAMS.md`. **Respect the waves**: wave 0 blocks
    everything.
 3. Claim it with a draft PR titled `[TICKET-ID] …` before starting.
 4. Stay inside your blast radius. Two agents reformatting one file is the main

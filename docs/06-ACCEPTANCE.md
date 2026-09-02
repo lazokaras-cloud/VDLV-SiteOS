@@ -61,7 +61,7 @@ Instruction `SI-114` issued **2026-08-19**, edition `JBCC_2018_05`.
 | --- | --- | --- |
 | Notice to principal agent | `2026-09-16` | 17 |
 | Priced claim | `2026-10-15` | 37 |
-| Principal agent acts, else deemed refused | 20 wd from claim | — |
+| Principal agent acts, else deemed refused | 20 wd from claim | - |
 
 `onMiss` for the third row must be `"deemed_refused"`, and the system must raise
 a dispute record rather than merely warning.
