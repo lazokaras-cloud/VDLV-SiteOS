@@ -119,7 +119,7 @@ describe("channel HTTP server", () => {
     expect(listItems(dir)[0]?.body).toBe("rain on grid 4");
     expect(sent[0]).toEqual({
       to: "27820000000",
-      text: "Note stored. Cursor can see it in the inbox.",
+      text: "Noted. In the inbox: SiteOS-Agent can read it from there.",
     });
   });
 

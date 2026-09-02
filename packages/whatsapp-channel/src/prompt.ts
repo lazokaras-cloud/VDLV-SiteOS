@@ -111,6 +111,49 @@ export function buildAppLaunchPrompt(item: InboxItem, repoUrl: string): string {
   ].join("\n");
 }
 
+export function buildKnowledgeInterpretPrompt(item: InboxItem, repoUrl: string): string {
+  const body = sanitizeInbound(item.body).trim();
+  const mediaLine =
+    item.media === undefined
+      ? "No file attached: unexpected for knowledge capture."
+      : `Knowledge file on the bridge host: ${item.media.filename} (${item.media.mimeType}, ${String(item.media.sizeBytes)} bytes) at ${item.media.path}. Use the WhatsApp channel MCP to read inbox media bytes if you cannot open the path.`;
+
+  return [
+    "You were launched from the SiteOS WhatsApp channel to interpret a knowledge-base capture.",
+    `Repository: ${repoUrl}`,
+    "Read AGENTS.md and docs/00-README.md before changing product code.",
+    "",
+    "This is not a /update build request. The channel user sent a document or image",
+    "for the system knowledge base: tender packs, drawings, process notes, site photos,",
+    "marked-up sheets, anything the product should learn from.",
+    "",
+    "Your job:",
+    "1. Read the attachment (and any caption) via MCP if needed.",
+    "2. Extract facts that belong in docs/03-RULES.md, docs/07-GLOSSARY.md, or fixtures -",
+    "   only when they are clearly generic and cited to a source in the file.",
+    "3. If something is unclear, add docs/OPEN-QUESTIONS.md: do not guess.",
+    "4. Never commit client names, real priced rates, contact details, or source tender documents.",
+    "5. Never invent dates, deadlines, quantities, rates, percentages or rand amounts.",
+    "",
+    "Caption or note from WhatsApp:",
+    body.length === 0 ? "(no caption: file only)" : body,
+    "",
+    mediaLine,
+    "",
+    "Open a pull request only when you have structured knowledge to land (doc updates,",
+    "fixtures, or code that reads the new knowledge). Otherwise reply on WhatsApp with",
+    "what you learned and what still needs a human.",
+  ].join("\n");
+}
+
+export function launchPromptForItem(item: InboxItem, repoUrl: string): string {
+  if (item.kind === "knowledge" || item.kind === "document") {
+    return buildKnowledgeInterpretPrompt(item, repoUrl);
+  }
+  if (item.kind === "updateDemo") return buildDemoLaunchPrompt(item, repoUrl);
+  if (item.kind === "updateApp") return buildAppLaunchPrompt(item, repoUrl);
+  return buildLaunchPrompt(item, repoUrl);
+}
 export function buildFollowupPrompt(item: InboxItem): string {
   const body = sanitizeInbound(item.body).trim();
   return [

@@ -2,13 +2,14 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
 import { configIssues } from "./config.js";
+import { isKnowledgeKind } from "./inbox-kind.js";
 import { imageForCursorPrompt } from "./cursor-api.js";
 import type { CursorCloudClient } from "./cursor-api.js";
 import { waMeLink } from "./phone.js";
 import {
   agentDisplayName,
   buildFollowupPrompt,
-  buildLaunchPrompt,
+  launchPromptForItem,
 } from "./prompt.js";
 import { getItem, listItems, readMediaBytes, saveItem } from "./store.js";
 import type { ChannelConfig, InboxItem, WhatsappClient } from "./types.js";
@@ -39,6 +40,7 @@ function publicItem(item: InboxItem): Record<string, unknown> {
     };
   }
   if (item.cursor !== undefined) out.cursor = item.cursor;
+  if (isKnowledgeKind(item.kind)) out.role = "knowledgebase";
   return out;
 }
 
@@ -92,10 +94,19 @@ export function createWhatsappMcpServer(deps: McpDeps): McpServer {
     {
       title: "List WhatsApp inbox",
       description:
-        "List notes, documents and update requests captured from the WhatsApp channel.",
+        "List notes, knowledge-base captures, and update requests from the WhatsApp channel.",
       inputSchema: {
         limit: z.number().int().min(1).max(200).optional(),
-        kind: z.enum(["note", "document", "update"]).optional(),
+        kind: z
+          .enum([
+            "note",
+            "knowledge",
+            "document",
+            "update",
+            "updateDemo",
+            "updateApp",
+          ])
+          .optional(),
       },
     },
     async ({ limit, kind }) => {
@@ -103,6 +114,66 @@ export function createWhatsappMcpServer(deps: McpDeps): McpServer {
         (item) => kind === undefined || item.kind === kind,
       );
       return jsonResult({ items: items.map(publicItem) });
+    },
+  );
+
+  server.registerTool(
+    "whatsapp_list_knowledge",
+    {
+      title: "List WhatsApp knowledge base",
+      description:
+        "List documents and images captured for the system knowledge base (standalone media, not /update requests).",
+      inputSchema: {
+        limit: z.number().int().min(1).max(200).optional(),
+      },
+    },
+    async ({ limit }) => {
+      const items = listItems(deps.config.inboxDir, limit ?? 50).filter((item) =>
+        isKnowledgeKind(item.kind),
+      );
+      return jsonResult({ items: items.map(publicItem) });
+    },
+  );
+
+  server.registerTool(
+    "whatsapp_read_inbox_media",
+    {
+      title: "Read WhatsApp inbox media",
+      description:
+        "Read bytes for a captured document or image so an agent can interpret knowledge-base uploads.",
+      inputSchema: {
+        id: z.string().describe("Inbox item id"),
+        maxBytes: z
+          .number()
+          .int()
+          .min(1)
+          .max(20_000_000)
+          .optional()
+          .describe("Cap read size (default 8MB)"),
+      },
+    },
+    async ({ id, maxBytes }) => {
+      const item = getItem(deps.config.inboxDir, id);
+      if (item === undefined) return jsonResult({ error: "not_found", id });
+      if (item.media === undefined) return jsonResult({ error: "no_media", id });
+      const cap = maxBytes ?? 8_000_000;
+      if (item.media.sizeBytes > cap) {
+        return jsonResult({
+          error: "too_large",
+          id,
+          sizeBytes: item.media.sizeBytes,
+          maxBytes: cap,
+        });
+      }
+      const bytes = readMediaBytes(item.media.path);
+      return jsonResult({
+        id,
+        kind: item.kind,
+        filename: item.media.filename,
+        mimeType: item.media.mimeType,
+        sizeBytes: bytes.byteLength,
+        dataBase64: Buffer.from(bytes).toString("base64"),
+      });
     },
   );
 
@@ -125,9 +196,9 @@ export function createWhatsappMcpServer(deps: McpDeps): McpServer {
   server.registerTool(
     "cursor_launch_from_inbox",
     {
-      title: "Launch Cursor from inbox",
+      title: "Launch SiteOS-Agent from inbox",
       description:
-        "Start a Cursor cloud agent on this repository from a WhatsApp inbox item. Use for /update requests, or to turn a note/document into a change.",
+        "Start a SiteOS cloud agent from a WhatsApp inbox item. Uses interpret prompt for knowledge captures; build prompt for /update requests.",
       inputSchema: {
         id: z.string().describe("Inbox item id"),
       },
@@ -142,9 +213,14 @@ export function createWhatsappMcpServer(deps: McpDeps): McpServer {
         if (image !== undefined) images.push(image);
       }
       const launched = await deps.cursor.launch({
-        promptText: buildLaunchPrompt(item, deps.config.cursorRepoUrl),
+        promptText: launchPromptForItem(item, deps.config.cursorRepoUrl),
         images,
-        name: agentDisplayName(item.body),
+        name: agentDisplayName(
+          item.body.length > 0 ? item.body : item.media?.filename ?? "knowledge",
+        ),
+        ...(isKnowledgeKind(item.kind)
+          ? { autoCreatePr: true }
+          : {}),
         ...(deps.config.publicBaseUrl.length > 0 && deps.config.mcpAuthToken.length > 0
           ? {
               mcpUrl: `${deps.config.publicBaseUrl}/mcp`,
@@ -152,7 +228,9 @@ export function createWhatsappMcpServer(deps: McpDeps): McpServer {
             }
           : {}),
       });
-      item.kind = "update";
+      if (!isKnowledgeKind(item.kind)) {
+        item.kind = "update";
+      }
       item.cursor = {
         agentId: launched.agentId,
         url: launched.url,

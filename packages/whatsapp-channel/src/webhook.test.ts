@@ -98,6 +98,12 @@ function clients(
         { status: 200 },
       );
     }
+    if (url.includes("/media-2") || url.endsWith("/media-2")) {
+      return new Response(
+        JSON.stringify({ url: "https://cdn.test/file2", mime_type: "image/jpeg" }),
+        { status: 200 },
+      );
+    }
     if (url.includes("cdn.test")) {
       return new Response(new Uint8Array([37, 80, 68, 70]), { status: 200 });
     }
@@ -227,7 +233,7 @@ describe("handleInbound", () => {
       whatsapp,
       cursor,
     });
-    expect(result.reply).toMatch(/stored/i);
+    expect(result.reply).toMatch(/Noted.*SiteOS-Agent/);
     expect(listItems(inbox)[0]?.kind).toBe("note");
     expect(calls.some((call) => call.url.includes("/v1/agents"))).toBe(false);
   });
@@ -240,7 +246,7 @@ describe("handleInbound", () => {
       inbound({ text: "/update add an offline indicator" }),
       { config, whatsapp, cursor },
     );
-    expect(result.reply).toMatch(/CURSOR_API_KEY/);
+    expect(result.reply).toMatch(/No agent key yet.*SiteOS-Agent/);
     expect(listItems(inbox)[0]?.kind).toBe("update");
     expect(listItems(inbox)[0]?.cursor).toBeUndefined();
   });
@@ -275,7 +281,7 @@ describe("handleInbound", () => {
     expect(listItems(inbox)[0]?.cursor?.agentId).toBe("bc-test");
   });
 
-  it("stores a document attachment", async () => {
+  it("stores media as knowledge base for agents", async () => {
     const inbox = join(dir, "doc");
     const config = configFor(inbox);
     const { whatsapp, cursor } = clients(config);
@@ -291,9 +297,27 @@ describe("handleInbound", () => {
       }),
       { config, whatsapp, cursor },
     );
-    expect(result.reply).toMatch(/Document received/);
+    expect(result.reply).toMatch(/knowledge base.*SiteOS-Agent/i);
     expect(listItems(inbox)[0]?.media?.filename).toBe("daywork.pdf");
-    expect(listItems(inbox)[0]?.kind).toBe("document");
+    expect(listItems(inbox)[0]?.kind).toBe("knowledge");
+  });
+
+  it("stores image-only capture as knowledge", async () => {
+    const inbox = join(dir, "img");
+    const config = configFor(inbox);
+    const { whatsapp, cursor } = clients(config);
+    const result = await handleInbound(
+      inbound({
+        wamid: "wamid.img",
+        media: {
+          id: "media-2",
+          mimeType: "image/jpeg",
+        },
+      }),
+      { config, whatsapp, cursor },
+    );
+    expect(result.reply).toMatch(/knowledge base/i);
+    expect(listItems(inbox)[0]?.kind).toBe("knowledge");
   });
 
   it("reports status from the last launched agent", async () => {
@@ -322,7 +346,7 @@ describe("handleInbound", () => {
       whatsapp,
       cursor,
     });
-    expect(result.reply).toMatch(/Say what Cursor should do/);
+    expect(result.reply).toMatch(/Say what should ship/);
   });
 });
 

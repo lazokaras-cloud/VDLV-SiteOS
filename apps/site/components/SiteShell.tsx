@@ -2,6 +2,9 @@
 
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 
+import { FlowRunner } from "./FlowRunner";
+import { GuidesPane } from "./GuidesPane";
+import { TodayPane } from "./TodayPane";
 import { otherLocale, t, type Locale } from "../lib/locale";
 import "./site-shell.css";
 
@@ -43,6 +46,9 @@ export function SiteShell({ children }: { children: ReactNode }) {
   const [tab, setTab] = useState<TabId>("today");
   const [online, setOnline] = useState(true);
   const [theme, setTheme] = useState<"light" | "dark" | null>(null);
+  const [activeFlow, setActiveFlow] = useState<string | undefined>();
+  const [criticalDot, setCriticalDot] = useState(false);
+  const [todayKey, setTodayKey] = useState(0);
 
   useEffect(() => {
     setLocale(readStoredLang());
@@ -83,8 +89,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
     const isDark =
       theme === "dark" ||
       (theme === null && root.getAttribute("data-theme") === "dark") ||
-      (theme === null &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
+      (theme === null && window.matchMedia("(prefers-color-scheme: dark)").matches);
     const next = isDark ? "light" : "dark";
     setTheme(next);
     try {
@@ -93,6 +98,19 @@ export function SiteShell({ children }: { children: ReactNode }) {
       /* ignore */
     }
   }, [theme]);
+
+  const openFlow = useCallback((flowId: string) => {
+    setActiveFlow(flowId);
+  }, []);
+
+  const closeFlow = useCallback(() => {
+    setActiveFlow(undefined);
+  }, []);
+
+  const onFlowFinished = useCallback(() => {
+    setTodayKey((k) => k + 1);
+    setTab("today");
+  }, []);
 
   return (
     <div className="shell">
@@ -126,16 +144,31 @@ export function SiteShell({ children }: { children: ReactNode }) {
         </div>
 
         <div className="scroll">
-          {TABS.map((id) => (
-            <section
-              key={id}
-              className={`pane ${tab === id ? "on" : ""}`}
-              hidden={tab !== id}
-              aria-hidden={tab !== id}
-            >
-              {paneContent(id, locale)}
-            </section>
-          ))}
+          {activeFlow !== undefined ? (
+            <FlowRunner
+              locale={locale}
+              flowId={activeFlow}
+              onClose={closeFlow}
+              onFinished={onFlowFinished}
+            />
+          ) : (
+            <>
+              {TABS.map((id) => (
+                <section
+                  key={id}
+                  className={`pane ${tab === id ? "on" : ""}`}
+                  hidden={tab !== id}
+                  aria-hidden={tab !== id}
+                >
+                  {paneContent(id, locale, {
+                    onOpenFlow: openFlow,
+                    onCriticalChange: setCriticalDot,
+                    todayKey,
+                  })}
+                </section>
+              ))}
+            </>
+          )}
         </div>
 
         <nav className="tabs" aria-label="Main">
@@ -146,8 +179,10 @@ export function SiteShell({ children }: { children: ReactNode }) {
               className={tab === id ? "on" : ""}
               onClick={() => setTab(id)}
               aria-current={tab === id ? "page" : undefined}
+              disabled={activeFlow !== undefined}
             >
               <span>{t(locale, TAB_LABEL[id])}</span>
+              {id === "today" && criticalDot && <i className="dot" aria-hidden />}
             </button>
           ))}
         </nav>
@@ -157,24 +192,27 @@ export function SiteShell({ children }: { children: ReactNode }) {
   );
 }
 
-function paneContent(tab: TabId, locale: Locale) {
+function paneContent(
+  tab: TabId,
+  locale: Locale,
+  ctx: {
+    onOpenFlow: (flowId: string) => void;
+    onCriticalChange: (v: boolean) => void;
+    todayKey: number;
+  },
+) {
   if (tab === "today") {
     return (
-      <div className="card clear">
-        <h2>{t(locale, "today.heading")}</h2>
-        <p className="lead">{t(locale, "today.clear")}</p>
-        <p className="sub">{t(locale, "today.sub")}</p>
-        <p className="note">{t(locale, "today.shellNote")}</p>
-      </div>
+      <TodayPane
+        key={ctx.todayKey}
+        locale={locale}
+        onOpenFlow={ctx.onOpenFlow}
+        onCriticalChange={ctx.onCriticalChange}
+      />
     );
   }
   if (tab === "guides") {
-    return (
-      <div className="card">
-        <h2>{t(locale, "guides.heading")}</h2>
-        <p>{t(locale, "guides.body")}</p>
-      </div>
-    );
+    return <GuidesPane locale={locale} onOpenFlow={ctx.onOpenFlow} />;
   }
   if (tab === "money") {
     return (

@@ -65,7 +65,7 @@ describe("parseWebMessage", () => {
         remoteJid: "120363@g.us",
         fromMe: true,
         timestamp: 0,
-        text: "Note stored. Cursor can see it in the inbox.",
+        text: "Noted. In the inbox: SiteOS-Agent can read it from there.",
       }),
     ).toBe(false);
   });

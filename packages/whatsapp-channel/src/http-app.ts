@@ -176,7 +176,7 @@ function pairPage(runtime: Runtime): string {
   const group =
     status.groupJid === undefined
       ? `<p>On your phone, create a group named <strong>${escapeHtml(subject)}</strong>, then send <code>/help</code> in it. That group is the channel.</p>`
-      : `<p>Channel group is linked (<code>${escapeHtml(status.groupJid)}</code>). Send <code>/update ...</code> there to start a Cursor agent.</p>`;
+      : `<p>Channel group is linked (<code>${escapeHtml(status.groupJid)}</code>). Send <code>/update ...</code> there to wake SiteOS-Agent.</p>`;
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -193,8 +193,7 @@ function pairPage(runtime: Runtime): string {
   <p>WhatsApp → Linked devices → Link a device. Scan this QR. Same flow as WhatsApp Web.</p>
   ${qr}
   ${group}
-  <p>Then: <code>/help</code>, <code>/note ...</code>, or send documents.</p>
-  <p><code>/updateDemo ...</code> changes the demo and goes straight to main, so Vercel deploys it. <code>/updateApp ...</code> is a request against the real application and always opens a pull request.</p>
+  <p>Then: <code>/help</code>, <code>/note ...</code>, a doc or photo for the knowledge base, or <code>/update ...</code> to ship via SiteOS-Agent.</p>
 </body>
 </html>
 `;
