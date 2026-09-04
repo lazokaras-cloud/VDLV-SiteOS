@@ -23,6 +23,7 @@ production code. Read it, run it, then build the real thing properly.
 | 09 | **`09-GUARDRAILS.md`** | **Read this if a request came from the client rather than a ticket.** What you may build, what needs a yes, what needs a person. |
 | 10 | `10-AUTHORITY.md` | Who may ask for what. Identity is a phone number, never a display name. |
 | 11 | **`11-AGENT-RUNTIME.md`** | **The two agent runtimes.** Hosted on Vercel for the back office, Gemma on the handset for the site app. Read before writing anything that calls a model. |
+| 12 | `12-BOOTSTRAP-PROMPT.md` | The first prompt handed to the swarm building the product in the `siteOS` repo. Operator preconditions at the top. |
 | - | `OPEN-QUESTIONS.md` | Where to put things you needed and could not find |
 | - | [`knowledge/`](knowledge/README.md) | **The source documents this was specified from.** Check a fact against the original rather than guessing. Private repo only, read its handling rules first. |
 | - | [`knowledge/CLIENT-NARRATIVE.md`](knowledge/CLIENT-NARRATIVE.md) | The contractor describing their own process. Primary source; where it disagrees with a doc, it wins. |
