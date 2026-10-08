@@ -203,7 +203,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 /* -- Tabs -------------------------------------------------------- */
 .tabs{
-  flex:none; display:grid; grid-template-columns:repeat(4,1fr);
+  flex:none; display:grid; grid-template-columns:repeat(2,1fr);
   background:var(--surface); border-top:1px solid var(--rule);
   padding-bottom:env(safe-area-inset-bottom);
 }
@@ -353,7 +353,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .guide:last-child{border-bottom:0}
 .guide:hover{background:var(--surface-2)}
 .guide .num{
-  width:30px; height:30px; flex:none; border-radius:5px; display:grid; place-items:center;
+  min-width:30px; height:30px; padding:0 6px; flex:none; border-radius:5px; display:grid; place-items:center;
   background:var(--ink); color:var(--ground); font-family:var(--mono); font-size:11px; font-weight:700;
 }
 .guide.locked{opacity:.5; cursor:default}
@@ -440,6 +440,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .calc span:last-child{font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600}
 .calc .tot{background:var(--ink); color:var(--ground)}
 .calc .tot span:last-child{color:var(--signal-txt)}
+.calc .bad span:last-child{color:var(--crit)}
+.calc .good span:last-child{color:var(--ok)}
+.calc span:last-child{white-space:normal; text-align:right}
 
 /* generated document */
 .doc{
@@ -583,54 +586,39 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 <div class="bench">
 
-  <!-- -- Title block (desktop) ----------------------------------- -->
   <aside class="titleblock">
     <div class="tb-head">
       <div class="tb-mark"><h1>Plumbline</h1><i class="tick"></i></div>
-      <p class="tb-sub">The process, on the phone, with the contract clock running.</p>
+      <p class="tb-sub" data-i18n="The simple site app. One question at a time, from the tender to the job.">The simple site app. One question at a time, from the tender to the job.</p>
     </div>
     <div class="tb-rows">
-      <div class="client">
-        <span class="lab">Demo client</span>
-        <span class="lockup">
-          <svg class="vv" viewBox="0 0 100 100" role="img" aria-label="J.C. van der Linde and Venter Projects">
-            <rect width="100" height="100" fill="#0B0B0B"/>
-            <g transform="translate(6,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFCB05"/></g>
-            <g transform="translate(52,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFCB05"/></g>
-          </svg>
-          <b>J.C. van der Linde<br>&amp; Venter Projects</b>
-        </span>
-      </div>
-      <div><span class="lab">Drawn</span><b>2026-08-24</b></div>
-      <div><span class="lab">Scope</span><b>Tender to final account</b></div>
-      <div><span class="lab">Contract</span><b>JBCC PBA May 2018</b></div>
+      <div><span class="lab" data-i18n="Job">Job</span><b>Harbour School Hall</b></div>
+      <div><span class="lab" data-i18n="Town">Town</span><b>Lakeside</b></div>
+      <div><span class="lab" data-i18n="As at">As at</span><b>2026-08-24</b></div>
+      <div><span class="lab" data-i18n="Scope">Scope</span><b data-i18n="Tender to the site">Tender to the site</b></div>
     </div>
     <div class="tb-note">
-      <span class="stamp">Working prototype</span>
-      <p>Every enterprise tool shows a <strong>site agent a portfolio</strong>. This one shows him the
-         <strong>one thing that is about to cost money</strong>, then walks him through it.</p>
-      <p>The guidance is a deterministic rules engine reading the JBCC clauses and the standard
-         building workflow. Working days are computed against the SA public holiday calendar.
-         Nothing here calls a language model yet.</p>
-      <p><strong>Try:</strong> the red card on Today.</p>
+      <span class="stamp" data-i18n="Working prototype">Working prototype</span>
+      <p data-i18n="Plumbline walks one job from the tender result onto the site.">Plumbline walks one job from the tender result onto the site.</p>
+      <p data-i18n="Dates and amounts are the ones on the loaded documents.">Dates and amounts are the ones on the loaded documents.</p>
+      <p><strong data-i18n="Try">Try</strong> <span data-i18n="Start on Tender, while it is Waiting for Results.">Start on Tender, while it is Waiting for Results.</span></p>
     </div>
     <div class="tb-foot">
-      <button id="theme">Flip theme</button>
-      <button id="reset">Reset demo</button>
+      <button id="theme" data-i18n="Flip theme">Flip theme</button>
+      <button id="reset" data-i18n="Reset demo">Reset demo</button>
     </div>
   </aside>
 
-  <!-- -- Device ------------------------------------------------- -->
   <div class="stage">
    <div class="device">
     <div class="notch"></div>
     <div class="app">
 
       <header class="bar">
-        <div class="avatar">RB</div>
+        <div class="avatar">SF</div>
         <div class="bar-id">
-          <div class="proj">Menlyn Office Park Ph2</div>
-          <span class="chip">JBCC PBA May 2018</span>
+          <div class="proj">Harbour School Hall</div>
+          <span class="chip">Waiting for Results</span>
         </div>
         <button class="langbtn" id="lang" aria-label="Taal / Language">EN</button>
         <button class="iconbtn" id="theme2" aria-label="Flip theme">
@@ -639,36 +627,21 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       </header>
 
       <div class="scroll">
-        <!-- TODAY -->
-        <section class="pane on" id="pane-today"></section>
-        <!-- GUIDES -->
-        <section class="pane" id="pane-guides"></section>
-        <!-- MONEY -->
-        <section class="pane" id="pane-money"></section>
-        <!-- BOARD -->
-        <section class="pane" id="pane-board"></section>
+        <section class="pane on" id="pane-project"></section>
+        <section class="pane" id="pane-path"></section>
       </div>
 
       <nav class="tabs" id="tabs">
-        <button data-tab="today" class="on">
+        <button data-tab="project" class="on">
           <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h11M4 18h7"/><circle cx="19.5" cy="18" r="2.2"/></svg>
-          <span>Today</span><i class="dot" id="tabdot"></i>
+          <span data-i18n="Project">Project</span><i class="dot" id="tabdot"></i>
         </button>
-        <button data-tab="guides">
+        <button data-tab="path">
           <svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4H11v16H5.5A1.5 1.5 0 014 18.5z"/><path d="M20 5.5A1.5 1.5 0 0018.5 4H13v16h5.5a1.5 1.5 0 001.5-1.5z"/></svg>
-          <span>Guides</span>
-        </button>
-        <button data-tab="money">
-          <svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>
-          <span>Money</span>
-        </button>
-        <button data-tab="board">
-          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/></svg>
-          <span>Board</span>
+          <span data-i18n="Path">Path</span>
         </button>
       </nav>
 
-      <!-- CHAT OVERLAY -->
       <div class="chat" id="chat" hidden>
         <div class="chat-bar">
           <div class="r1">
@@ -676,7 +649,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
               <svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
             </button>
             <h2 id="chat-title">Flow</h2>
-            <span class="chip" id="chat-clause">JBCC</span>
+            <span class="chip" id="chat-clause">Tender</span>
           </div>
           <div class="steps" id="steps"></div>
         </div>
@@ -693,1639 +666,1340 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 <script>
 "use strict";
 
-/* ================================================================
-   1. TIME - working days against the SA public holiday calendar.
-   Contractual deadlines in JBCC are counted in working days, so
-   this is not cosmetic: it is the arithmetic the whole app rests on.
-   ================================================================ */
-const TODAY = new Date(2026, 7, 24);          // Mon 24 Aug 2026, pinned for a stable demo
-const HOLIDAYS = new Set([
-  "2026-01-01","2026-03-23","2026-04-03","2026-04-06","2026-04-27","2026-05-01",
-  "2026-06-16","2026-08-10","2026-09-24","2026-12-16","2026-12-25","2026-12-28",
-  "2027-01-01","2027-03-22","2027-03-26","2027-03-29","2027-04-27","2027-05-01"
-]);
-const iso = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-const isWork = d => d.getDay()!==0 && d.getDay()!==6 && !HOLIDAYS.has(iso(d));
+/* Harbour School Hall, Lakeside. Fictional.
+   As at 2026-08-24. Every date below is a label on a loaded document
+   for this demo, or a date the user confirms. Nothing here reads the clock.
+   Money is integer cents.
 
-function addWorkdays(from, n){
-  const d = new Date(from); let left = n;
-  while (left > 0){ d.setDate(d.getDate()+1); if (isWork(d)) left--; }
-  return d;
-}
-function workdaysBetween(a, b){          // exclusive of a, inclusive of b
-  const d = new Date(a); let n = 0;
-  while (d < b){ d.setDate(d.getDate()+1); if (isWork(d)) n++; }
-  return n;
-}
-const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const fmt = d => d.getDate()+" "+MON[d.getMonth()]+" "+d.getFullYear();
-const plural = (n, w) => n + " " + w + (n === 1 ? "" : "s");
-const pluralT = n => n + " " + (n === 1 ? t("working day") : t("working days"));
-const R = n => "R"+Math.round(n).toLocaleString("en-ZA").replace(/,/g," ");
+   SiteOS Rev 4 section 2.3: appointments and bulk orders are both closed
+   out within 7 days after award. Operating rule for this demo only.
+   Not a packages/rules constant. The app does not add 7 to the award date.
 
-/* ================================================================
-   1b. LANGUAGE
-   Afrikaans is not a translation layer bolted on for show. On a Western
-   Cape site it is the language the work is actually discussed in, and a
-   system that forces a foreman to operate in his second language is a
-   system he will work around. Keys are the English strings; anything
-   without an entry falls through to English rather than breaking.
-   ================================================================ */
+   SiteOS Rev 4 section 2.5: the remittance check flags retention that is
+   not 10%. That 10% is the sheet's check. It is not a contract clause and
+   not a packages/rules constant.
+*/
+const AS_AT = "2026-08-24";
+
+const FIX = {
+  job: "Harbour School Hall",
+  town: "Lakeside",
+  tenderPc: "2027-06-18",
+  signedPc: "2027-07-02",
+  /* The approved practical-completion date is the date already on the
+     extension document. The app does not add days to produce it. */
+  eotPc: "2027-07-16",
+  dates: {
+    insurances: "2026-09-15",
+    guarantees: "2026-09-18",
+    execution: "2026-09-07",
+    payment: "2026-10-07",
+    suspension: "2026-09-07",
+    dispute: "2026-10-20"
+  },
+  prelim: 12400000,
+  brick: 86250000,
+  ceiling: 24000000,
+  electrical: 31750000,
+  variation: 6400000,
+  subClaim: 18600000,
+  certified: 118000000,
+  paid: 124500000,
+  approved: 118000000,
+  recoveryLoaded: 4200000,
+  recoveryRemit: 2800000,
+  discountLoaded: 1500000,
+  discountRemit: 900000,
+  retentionRemit: "5%",
+  retentionCheck: "10%",
+  qComplete: "2026-08-18",
+  qFinished: "2026-08-24",
+  rfiWindow: "2026-09-11",
+  psSeating: "2026-09-18",
+  psLighting: "2026-10-02"
+};
+
+/* Subtract two ISO dates. No clock read. */
+function daysBetween(a, b){
+  const utc = s => {
+    const p = s.split("-");
+    return Date.UTC(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+  };
+  return Math.round((utc(b) - utc(a)) / 86400000);
+}
+
+function money(cents){
+  const sign = cents < 0 ? "-" : "";
+  const abs = Math.trunc(Math.abs(cents));
+  const rands = Math.trunc(abs / 100);
+  const frac = abs % 100;
+  const body = String(rands).replace(/\B(?=(\d{3})+(?!\d))/g, "\u202F");
+  return sign + "R" + body + (frac ? "," + String(frac).padStart(2, "0") : "");
+}
+
 let LANG = "en";
-try { LANG = localStorage.getItem("plumbline.lang") || "en"; } catch(e){}
+try { LANG = localStorage.getItem("plumbline.lang") || "en"; } catch (e) {}
 
 function t(s, ...args){
   let out = (LANG === "af" && AF[s]) ? AF[s] : s;
-  args.forEach((v, i) => { out = out.split("{"+i+"}").join(v); });
+  args.forEach((v, i) => { out = out.split("{" + i + "}").join(String(v)); });
   return out;
 }
 
 const AF = {
-  /* chrome */
-  "Today":"Vandag", "Guides":"Gidse", "Money":"Geld", "Board":"Direksie",
-  "Flip theme":"Wissel tema", "Reset demo":"Herstel demo",
-  "Working days to practical completion":"Werksdae tot PC",
-  "At risk today":"Risiko vandag", "Clear":"Skoon",
-  "Against the locked baseline":"Teen die vaste baseline",
-  "Locked {0}":"Gesluit {0}",
-  "Contract value":"Kontrakwaarde", "Margin":"Margin", "Programme":"Program",
-  "Contingency left":"Res waarde",
-  "on baseline":"op basislyn", "wks":"wke",
-  "Every figure here was set when the tender was locked and has not been edited since. The variance is what the site has done to it.":
-    "Elke syfer hier kom van toe die tender gesluit is en is nooit weer verander nie. Die verskil is wat die erf daaraan gedoen het.",
-  "Needs you now":"Vat nou aandag", "{0} open":"{0} oop",
-  "Running quietly":"Loop stil aan", "Open":"Maak oop", "Soon":"Binnekort",
-  "Nothing is running out today.":"Niks loop vandag uit nie.",
-  "Every open contractual clock on this project is inside its window.":
-    "Elke klok op hierdie job is nog binne sy tyd.",
-  "Deemed-refusal watch / VO-109":"Geag geweier / VO-109",
-  "Defects liability opens on works completion":"Defects liability begin by works completion",
-  "Final account from PC (2018 ed.)":"Final account vanaf PC (2018)",
-  "Performance guarantee expiry":"Performance guarantee verval",
-  "Working days exclude weekends and South African public holidays. Countdowns are computed live from the instruction dates, not typed in.":
-    "Werksdae sluit naweke en Suid-Afrikaanse openbare vakansiedae uit. Aftellings word lewendig uit die opdragdatums bereken, nie ingetik nie.",
-
-  /* lifecycle */
-  "Tender":"Tender", "Baseline":"Baseline", "On site":"Op erf",
-  "Claims":"Claims", "Completion":"Voltooiing", "Final account":"Final account",
-
-  /* today cards */
-  "Rock excavation to lift pit, no variation order raised":
-    "Rots in die lift pit, geen VO opgestel nie",
-  "Site instruction from the principal agent 3 working days ago. Nothing has been priced, no notice has gone out.":
-    "SI van die PA 3 werksdae gelede. Niks is geprys nie, geen notice het uitgegaan nie.",
-  "{0} wd to notice":"{0} wd tot notice",
-  "Default notice runs out in {0}":"Default notice loop uit oor {0}",
-  "working day":"werksdag", "working days":"werksdae",
-  "First-fix drainage to blocks C and D is 11 days behind the baseline. The 5-day notice was served on {0}.":
-    "First fix drainage by blok C en D is 11 dae agter. Die 5-dag notice is op {0} gestuur.",
-  "Day {0} of 5":"Dag {0} van 5", "Contra {0}":"Contra {0}",
-  "Monthly claim closes tomorrow":"Maandelikse claim sluit môre",
-  "Own measure, sub-contractor claims and contra charges must be reconciled against the cost report before cut-off.":
-    "Eie measure, die subs se claims en die contras moet teen die cost report klop voor cut-off.",
-  "Cut-off {0}":"Cut-off {0}", "4 of 9 subs in":"4 van 9 subs in",
-  "Quality":"Gehalte",
-  "Concrete cast register not updated since {0}":"Beton cast register nie opgedateer sedert {0} nie",
-  "Two pours logged on paper. Test cube results for the block C raft are outstanding.":
-    "Twee pours op papier geskryf. Die test cube results vir blok C se raft is nog uit.",
-  "2 pours open":"2 pours oop",
-  "Mapped, not built in this prototype.":"Uitgelê, nog nie gebou nie.",
-
-  /* guides */
-  "Live in this prototype":"Werk al in hierdie prototipe",
-  "Mapped, not yet built":"Uitgelê, nog nie gebou nie",
-  "Tender to baseline":"Tender tot baseline",
-  "Load the bill, price it, lock the baseline":"Laai die BoQ, prys dit, sluit die baseline",
-  "Site instruction to variation":"SI tot VO",
-  "Speak it, price it, notice, EOT link":"Sê dit, prys dit, notice, EOT",
-  "Progress report":"Progress report",
-  "Read off site photos, forced against last week":"Van die foto's af gelees, teen verlede week gehou",
-  "Monthly claim":"Maandelikse claim",
-  "Measure, reconcile, deduct, submit":"Meet, klop dit, trek af, stuur in",
-  "Sub-contractor default":"Sub in default",
-  "Notice, remedy period, termination":"Notice, tyd om reg te maak, kanselleer",
-  "Appointments & bulk orders":"Appointments en bulk orders",
-  "Adjudication, settlement discount, PO":"Adjudication, settlement discount, PO",
-  "Practical completion":"Practical completion",
-  "Inspection, list, deemed completion":"Inspeksie, die lys, geag klaar",
-  "60 or 90 working days, by edition":"60 of 90 werksdae, hang af van die edition",
-  "Quality & concrete register":"Quality en beton register",
-  "Cast register, cube results, defects":"Cast register, cube results, snags",
-  "Sign-off project":"Teken die job af",
-  "9-point closure, guarantee cancellation":"9-punt afsluiting, kanselleer die guarantee",
-  "All ten are standard commercial building process. The process already exists and is already correct at most contractors. It just lives in a document nobody opens, which is why it has to be taught to every new site agent by hand.":
-    "Al tien is doodgewone bouproses. Die proses bestaan al klaar en is al klaar reg by die meeste kontrakteurs. Dit lê net in 'n dokument wat niemand oopmaak nie, en daarom moet elke nuwe site agent dit met die hand geleer word.",
-
-  /* money */
-  "This project":"Hierdie projek", "Contract {0}":"Kontrak {0}",
-  "Variation markup recovered":"VO markup teruggekry",
-  "{0}% of {1} identified.":"{0}% van {1} geïdentifiseer.",
-  "{0} still unclaimed.":"{0} nog nie geclaim nie.",
-  "Nothing outstanding.":"Niks uitstaande nie.",
-  "EOT days granted":"EOT dae gekry",
-  "{0} of time-related P&amp;G":"{0} se time-related P&amp;G",
-  "Days pending":"Dae wat wag", "{0} on the clock":"{0} op die klok",
-  "Settlement discount":"Settlement discount", "Taken at adjudication":"Gevat by adjudication",
-  "Contra recovered":"Contra teruggekry", "Deducted before certificate":"Afgetrek voor die certificate",
-  "Where it comes from":"Waarvandaan dit kom",
-  "Variations at cost + 10%":"VOs teen koste plus 10%",
-  "Time-related P&amp;G on granted EOT":"Time-related P&amp;G op EOT wat gekry is",
-  "Settlement discount on bulk orders":"Settlement discount op bulk orders",
-  "Contra charges recovered":"Contras teruggekry",
-  "Variations identified but never claimed":"VOs raakgesien maar nooit geclaim nie",
-  "Every line is a step in the process that either happened on time or did not. The five places a building contractor actually makes money (tender, appointments, programme, RFI, claim cycle) are exactly these five lines.":
-    "Elke lyn is 'n stap wat óf betyds gebeur het óf nie. Die vyf plekke waar 'n bouer regtig geld maak (tender, appointments, program, RFIs, die claim cycle) is presies hierdie vyf lyne.",
-
-  /* board */
-  "{0} live projects":"{0} lewende projekte",
-  "Margin against the price it was won at":"Margin teen die prys wat ons gewen het",
-  "At risk now":"Risiko nou", "{0} under contract":"{0} onder kontrak",
-  "Margin drift":"Margin wat wegloop", "{0} against baseline":"{0} teen baseline",
-  "Tender pipeline":"Tenders uit", "{0} out, next closes {1}":"{0} uit, volgende sluit {1}",
-  "Soonest clock first":"Kortste klok eerste", "Working days":"Werksdae",
-  "Where each one sits":"Waar elkeen staan",
-  "Three of these five run on different editions of the contract, so the same milestone gives three different deadlines. The countdowns above are computed per project from the edition it was signed under, which is the only way this column can be trusted.":
-    "Drie van hierdie vyf loop op verskillende editions van die kontrak, so dieselfde milestone gee drie verskillende datums. Die klokke hierbo word per job uitgewerk uit die edition waaronder dit geteken is. Dis die enigste manier om hierdie kolom te vertrou.",
-  "Object to final account":"Objek teen die final account",
-  "Works completion list":"Works completion lys",
-  "Notice on SI-114":"Notice op SI-114",
-  "Claim 14 cut-off":"Claim 14 cut-off",
-  "Sub retention release":"Sub se retention loskom",
-  "Site handover":"Erf handover",
-
-  /* chat chrome */
-  "Why this matters":"Hoekom dit saak maak",
-  "Back to today":"Terug na vandag",
-  "Continue":"Gaan voort", "Correct":"Korrek", "Start":"Begin",
-  "All confirmed, continue":"Alles reg, gaan aan",
-  "{0} of {1}. You cannot submit until all are true":"{0} van {1}. Jy kan nie instuur voor almal reg is nie",
-  "All {0} confirmed":"Al {0} reg",
-  "Take photo":"Neem foto", "Photo attached":"Foto aangeheg",
-  "Hold to talk":"Hou in om te praat", "Listening":"Luister",
-  "Type it instead":"Tik dit eerder", "All three correct":"Al drie korrek",
-  "Say it again":"Sê dit weer",
-  "Here is what I took from that.":"Hier is wat ek daaruit gekry het.",
-  "Read that back before I use it. A number heard wrong is a number claimed wrong.":
-    "Kyk dit gou na voor ek dit gebruik. 'n Syfer wat verkeerd gehoor is, is 'n syfer wat verkeerd geclaim word.",
-  "Captured with the browser recogniser":"Met die browser se spraakherkenning opgeneem",
-  "Scripted capture: this frame is not allowed a microphone":
-    "Vooraf opname: hierdie venster kry nie 'n mikrofoon nie",
-  "Vision output is illustrative in this prototype":
-    "Die foto-lesing is net 'n voorbeeld in hierdie prototipe",
-  "Labour":"Arbeid", "Plant":"Plant", "Material":"Materiaal",
-  "Net cost":"Netto koste", "Markup 10%":"Markup 10%", "VO-114 total":"VO-114 totaal",
-  "Demo reset":"Demo herstel",
-  "Language set to Afrikaans":"Taal gestel op Afrikaans",
-  "Language set to English":"Language set to English",
-  "Tender to baseline ":"Tender tot basislyn ",
-  "Pre-project":"Voor die job", "Programme ":"Program ",
-  "Payment":"Betaling", "Default":"Default",
-  "Progress report, week 29":"Progress report, week 29",
-  "Monthly claim, cycle 07":"Maandelikse claim, siklus 07",
-  "Sub-contractor default: Bekker":"Sub in default: Bekker",
-  "Standard practice / Site instructions and variation orders":"Standaardpraktyk / Erfopdragte en variasie-opdragte",
-  "JBCC PBA 05/2018 / recovery of expense and-or loss":"JBCC PBA 05/2018 / verhaling van uitgawe en-of verlies",
-  "JBCC PBA 05/2018 / revision of date for practical completion":"JBCC PBA 05/2018 / hersiening van datum vir praktiese voltooiing",
-  "JBCC PBA 05/2018 / sub-contractor default":"JBCC PBA 05/2018 / subkontrakteur in verstek",
-  "Standard practice / Tender: P&G not measured in BoQ":"Standaardpraktyk / Tender: P&G nie in hoeveelheidslys gemeet nie",
-  "Standard practice / Payment procedure":"Standaardpraktyk / Betaalprosedure",
-  "Standard practice / Claim procedure":"Standaardpraktyk / Eisprosedure",
-  "Standard practice / Claim procedure / cost report":"Standaardpraktyk / Eisprosedure / kosteverslag",
-  "Standard practice / EOT (claim time related P&G)":"Standaardpraktyk / Tydsverlenging (eis tydverwante P&G)",
-  "Standard practice / Tender: check rates and details on actual quotes":"Standaardpraktyk / Tender: kontroleer tariewe en besonderhede op werklike kwotasies",
-
-  /* ---- rules: the training text ---- */
-  "A variation is priced at actual cost of labour, plant and material, plus 10% markup. If you price it off a rate instead of actual cost, you give away the markup.":
-    "'n VO word teen die regte koste van arbeid, plant en materiaal geprys, plus 10% markup. Prys jy dit teen 'n rate, gee jy die markup sommer weg.",
-  "Notice of the expense must reach the principal agent within 20 working days of becoming aware of it. Miss it and the claim is out of time no matter how good it is.":
-    "Die notice moet binne 20 werksdae by die PA wees vandat jy van die koste weet. Mis jy dit, is die claim uit tyd uit. Maak nie saak hoe goed dit is nie.",
-  "The priced claim follows within 40 working days. The principal agent then has 20 working days to act. If he does nothing, it is deemed refused, which is what you want on record, because a deemed refusal is a dispute you can run.":
-    "Die geprysde claim volg binne 40 werksdae. Die PA het dan 20 werksdae om iets te doen. Doen hy niks, is dit geag geweier, en dis wat jy op rekord wil hê, want dan het jy 'n dispuut wat jy kan loop.",
-  "If the instruction also costs you time, that is a separate claim, and the time-related P&G runs with it. Most contractors claim the money and forget the days. The days are usually worth more.":
-    "Kos die SI jou ook tyd, dan's dit 'n aparte claim en die time-related P&G loop saam. Die meeste bouers claim die geld en vergeet die dae. Die dae is meestal meer werd.",
-  "Notice within 20 working days of becoming aware of the delay. The revision of the practical completion date follows within 40 working days from when you can quantify the delay.":
-    "Notice binne 20 werksdae vandat jy van die vertraging weet. Die nuwe PC datum volg binne 40 werksdae vandat jy die vertraging kan uitwerk.",
-  "P&G is not measured in the bill of quantities. It gets measured off the drawings for the actual site you are going to build, or you carry the shortfall for the whole contract.":
-    "P&G word nie in die BoQ gemeet nie. Jy meet dit van die tekeninge af vir die erf waarop jy gaan bou, anders dra jy die tekort vir die hele kontrak.",
-  "Sub-contractors are paid 7 calendar days after the certificate is approved, and only once the client has paid. Their rates are paid without the 10% markup. The markup is yours.":
-    "Subs kry hulle geld 7 kalenderdae ná die certificate goedgekeur is, en eers as die kliënt betaal het. Hulle rates gaan sonder die 10% markup deur. Die markup is joune.",
-  "Contra charges must be current and deducted before the claim goes out. A contra raised after the certificate is money you chase instead of money you keep.":
-    "Contras moet op datum wees en afgetrek word voor die claim uitgaan. 'n Contra ná die certificate is geld wat jy jaag in plaas van geld wat jy hou.",
-  "Measure your own work and reconcile it against actual cost in the cost report before it goes on the claim. Allowable versus actual is where the saving shows up.":
-    "Meet jou eie werk en klop dit teen die regte koste in die cost report voor dit op die claim gaan. Allowable teen actual, dis waar die besparing wys.",
-  "Serve notice, give 5 working days to remedy. If the sub-contractor is still in default after that, the termination process opens and the cost to complete goes to his account.":
-    "Stuur die notice, gee hom 5 werksdae om dit reg te maak. Is hy daarna nog in default, sny jy hom af en die koste om klaar te maak gaan op sy rekening.",
-  "Check the adjudicator's rates against the actual quotes you hold, including P&G and terms. Risk you did not qualify at tender is risk you own for the whole contract.":
-    "Kyk die adjudicator se rates na teen die regte kwotes wat jy het, P&G en terme ook. Risiko wat jy nie by tender qualify nie, dra jy vir die hele kontrak.",
-
-  /* ---- si_to_vo ---- */
-  "Site instruction to variation order":"SI tot VO",
-  "Expense / loss":"Koste / verlies",
-  "Morning Ruan. <b>SI-114</b> came in on {0}: rock excavation to the lift pit, grids C4 to D5.":
-    "Môre Ruan. <b>SI-114</b> het op {0} ingekom: rots uitgrawing by die lift pit, grids C4 tot D5.",
-  "Nothing has been priced against it. Let's get the notice out before the clock runs down. This takes about four minutes.":
-    "Niks is daarteen geprys nie. Kom ons kry die notice uit voor die klok klaar loop. Vat so vier minute.",
-  "Has the work started?":"Het die werk begin?",
-  "First thing: has any of this work actually started on site?":
-    "Eerste ding: het julle al daar begin werk?",
-  "Started Friday":"Vrydag begin", "Not yet":"Nog nie", "Already finished":"Reeds klaar",
-  "Then the 20 working days ran from the instruction, not from today. You have <b>{0} working days</b> left on the notice. Keep going.":
-    "Dan loop die 20 werksdae van die SI af, nie van vandag af nie. Jy het <b>{0} werksdae</b> oor. Kom ons gaan aan.",
-  "Good. You are inside the window either way. Getting the notice out before you start is the cleanest position.":
-    "Goed. Jy's in elk geval binne die tyd. Notice uit voor jy begin, dis die skoonste plek om te wees.",
-  "Labour, plant and material":"Arbeid, plant en materiaal",
-  "Now the actual cost. Not a rate out of the bill, what it actually cost you. You can just tell me, and you can do it from the bakkie.":
-    "Nou die regte koste. Nie 'n rate uit die BoQ nie, wat dit jou gekos het. Sê dit sommer vir my, jy kan dit uit die bakkie uit doen.",
-  "Say the labour, plant and material":"Sê die arbeid, plant en materiaal",
-  "<b>Labour</b> first: own team plus the labour-only sub.":
-    "<b>Arbeid</b> eerste: eie span plus die labour-only sub.",
-  "<b>Plant.</b> The breaker and the 8-tonner. Include standing time if the machine sat waiting for the instruction.":
-    "<b>Plant.</b> Die breker en die 8-tonner. Sit standing time in as die masjien gewag het vir die SI.",
-  "<b>Material.</b> Cart-away, the extra blinding and the mesh.":
-    "<b>Materiaal.</b> Cart-away, die ekstra blinding en die mesh.",
-  "That is your priced variation.":"Dis jou geprysde VO.",
-  "The <b>{0}</b> markup only survives if this is submitted as actual cost. Priced off a bill rate, it disappears.":
-    "Daai <b>{0}</b> markup bly net staan as jy dit as werklike koste instuur. Teen 'n BoQ rate geprys, is dit weg.",
-  "Photograph the excavation":"Neem 'n foto van die gat",
-  "Photograph it now, with the pegs visible. Evidence attached to the notice is what stops this becoming an argument in six months.":
-    "Vat nou die foto, pegs moet wys. Bewyse by die notice keer dat dit oor ses maande 'n argument word.",
-  "Read off the photograph, checked against the drawing for grid C4 to D5:":
-    "Van die foto af gelees en teen die tekening vir grid C4 tot D5 gehou:",
-  "Excavation depth":"Diepte van die gat", "Material at face":"Wat in die gat is",
-  "Volume to cart":"Volume om weg te ry", "Pegs and level datum":"Pegs en level datum",
-  "Stamped":"Gestempel",
-  "2.4 m against 1.1 m on the drawing":"2,4 m teen 1,1 m op die tekening",
-  "Rock, not the clay that was priced":"Rots, nie die klei wat geprys is nie",
-  "62 m3 estimated":"62 m3 geraam", "Visible and legible":"Sigbaar en leesbaar",
-  "Geotag, time, SI-114":"GPS, tyd, SI-114",
-  "The depth reading is the one that matters. It is the difference between the priced excavation and what is actually in the hole, and it is now on a photograph that cannot be edited.":
-    "Die diepte is die ding. Dis die verskil tussen wat geprys is en wat regtig in die gat is, en dit sit nou op 'n foto wat niemand kan verander nie.",
-  "Attach to the notice":"Sit by die notice",
-  "Did it cost you days?":"Het dit jou dae gekos?",
-  "Here is the part most people skip. Did the rock cost you <b>time</b> on the critical path, not just money?":
-    "Hier's die deel wat almal oorslaan. Het die rots jou <b>tyd</b> op die critical path gekos, nie net geld nie?",
-  "Yes, about 4 days":"Ja, omtrent 4 dae", "Yes, more than a week":"Ja, meer as 'n week",
-  "No time lost":"Geen tyd verloor",
-  "Understood. Money claim only. I will note that no delay was claimed against SI-114.":
-    "Reg so. Net 'n geld claim. Ek skryf op daar's geen vertraging teen SI-114 geclaim nie.",
-  "Then there is a second claim here. Time-related P&G on this contract runs at <code>{0}</code> per working day. {1} days is <b>{2}</b> that would have gone unclaimed, more than the variation itself.":
-    "Dan's daar nog 'n claim ook. Time-related P&G loop teen <code>{0}</code> per werksdag op hierdie job. {1} dae is <b>{2}</b> wat sou weggeval het, meer as die VO self.",
-  "Last gate. I cannot submit until all four are true. These are the ones that get claims thrown out.":
-    "Laaste hek. Ek stuur niks in voor al vier reg is nie. Dis die goed wat claims laat uitgooi.",
-  "Priced on actual cost, not bill rates":"Geprys op werklike koste, nie BoQ rates nie",
-  "Protects the 10% markup":"Beskerm die 10% markup",
-  "Instruction is in writing from the principal agent":"SI is op skrif van die PA af",
-  "A verbal instruction is not a variation":"'n Mondelinge opdrag is nie 'n VO nie",
-  "Photographs and the site diary entry attached":"Foto's en die site diary inskrywing aangeheg",
-  "Evidence dated before the claim":"Bewyse gedateer voor die claim",
-  "Foreman's daywork sheets signed":"Voorman se daywork sheets geteken",
-  "Labour and plant hours substantiated":"Arbeid en plant ure bewys",
-  "Done. Here is what goes out under your name today.":
-    "Klaar. Dis wat vandag onder jou naam uitgaan.",
-  "Notice to principal agent":"Notice aan die PA",
-  "Instruction":"SI", "Amount":"Bedrag", "Notice due":"Notice teen",
-  "Priced claim by":"Geprysde claim teen", "PA must act by":"PA moet optree teen",
-  "Delay claimed":"Vertraging geclaim", "None":"Geen", "net":"netto",
-  "{0} wd left":"{0} wd oor",
-  "If the principal agent does not respond by <b>{0}</b>, it is deemed refused and I will open the dispute file automatically.":
-    "Hoor jy niks van die PA teen <b>{0}</b> nie, is dit geag geweier en ek maak die dispuut lêer vanself oop.",
-  "Submit to principal agent":"Stuur aan die PA",
-  "<b>Submitted.</b> {0} on the variation{1}.":"<b>Ingestuur.</b> {0} op die VO{1}.",
-  " and {0} days of extension worth {1}":" en {0} dae EOT wat {1} werd is",
-  "Four minutes of work, <b>{0}</b> on the certificate. I have diarised the 40-day claim date and set the deemed-refusal trigger. Nothing else for you to remember.":
-    "Vier minute se werk, <b>{0}</b> op die certificate. Ek't die 40-dag claim datum in die dagboek gesit en die wekker gestel. Jy hoef niks te onthou nie.",
-  "SI-114 closed out":"SI-114 klaar",
-  "That guide is mapped but not built in this prototype.":
-    "Daardie gids is uitgelê maar nog nie in hierdie prototipe gebou nie.",
-  "Hierdie een is nog net in Engels. Die res van die app is in Afrikaans.":
-    "Hierdie een is nog net in Engels. Die res van die app is in Afrikaans."
+  "Project": "Projek",
+  "Path": "Pad",
+  "Flip theme": "Wissel tema",
+  "Reset demo": "Herstel demo",
+  "Job": "Job",
+  "Town": "Dorp",
+  "As at": "Soos op",
+  "Scope": "Omvang",
+  "Tender to the site": "Tender tot op die erf",
+  "Working prototype": "Werkende prototipe",
+  "The simple site app. One question at a time, from the tender to the job.":
+    "Die eenvoudige erf-app. Een vraag op 'n slag, van die tender tot die job.",
+  "Plumbline walks one job from the tender result onto the site.":
+    "Plumbline loop een job van die tender-resultaat af tot op die erf.",
+  "Dates and amounts are the ones on the loaded documents.":
+    "Datums en bedrae is die wat op die gelaaide dokumente staan.",
+  "Try": "Probeer",
+  "Start on Tender, while it is Waiting for Results.":
+    "Begin by Tender, terwyl dit Wag vir resultate is.",
+  "Waiting for Results": "Wag vir resultate",
+  "Tender Awarded": "Tender toegeken",
+  "Tender Unsuccessful": "Tender onsuksesvol",
+  "Not loaded": "Nog nie gelaai nie",
+  "Draft loaded": "Draft gelaai",
+  "Signed loaded": "Getekende kontrak gelaai",
+  "Tender programme": "Tender programme",
+  "Signed contract programme": "Getekende kontrak se programme",
+  "Days until practical completion": "Dae tot practical completion",
+  "Practical completion": "Practical completion",
+  "As at {0}": "Soos op {0}",
+  "{0} to {1} is {2} calendar days.": "{0} tot {1} is {2} kalenderdae.",
+  "Contract status": "Kontrakstatus",
+  "Programme baseline": "Programme baseline",
+  "Open RFIs": "Oop RFIs",
+  "Appointments still open": "Appointments nog oop",
+  "No project yet.": "Nog geen projek nie.",
+  "The tender is kept. No project was opened.": "Die tender bly. Geen projek is oopgemaak nie.",
+  "Open the tender": "Maak die tender oop",
+  "Sheet order": "Blad-volgorde",
+  "A step stays closed until the one before it is done.":
+    "'n Stap bly toe tot die een voor hom klaar is.",
+  "Done": "Klaar",
+  "Kept": "Gehou",
+  "The step before this one is not done yet.": "Die stap voor hierdie een is nog nie klaar nie.",
+  "That tender result is already kept. Reset the demo to try the other one.":
+    "Daai tender-resultaat is al gehou. Herstel die demo om die ander een te probeer.",
+  "Why this matters": "Hoekom dit saak maak",
+  "Back to the project": "Terug na die projek",
+  "Continue": "Gaan voort",
+  "Keep it": "Hou dit",
+  "Say it again": "Sê dit weer",
+  "Hold to talk": "Hou in om te praat",
+  "Listening": "Luister",
+  "The sample note": "Die voorbeeld-nota",
+  "Take photo": "Neem foto",
+  "Photo attached": "Foto aangeheg",
+  "All confirmed, continue": "Alles reg, gaan aan",
+  "{0} of {1}. The next step stays hidden until all are true":
+    "{0} van {1}. Die volgende stap bly weg tot almal reg is",
+  "All {0} confirmed": "Al {0} bevestig",
+  "Demo reset": "Demo herstel",
+  "Language set to Afrikaans": "Taal gestel op Afrikaans",
+  "Language set to English": "Language set to English",
+  "Tender": "Tender",
+  "Contract": "Kontrak",
+  "RFI": "RFI",
+  "Appointments": "Appointments",
+  "Programme": "Programme",
+  "Claim": "Claim",
+  "Quality": "Gehalte",
+  "Default": "Default",
+  "Files": "Lêers",
+  "Result": "Resultaat",
+  "Rules": "Rules",
+  "Before": "Voor",
+  "Change": "Verandering",
+  "Signed": "Geteken",
+  "Schedule": "Schedule",
+  "Tick": "Merk",
+  "Diary": "Dagboek",
+  "Update": "Opdateer",
+  "Extension": "EOT",
+  "Load": "Laai",
+  "Compare": "Vergelyk",
+  "Remit": "Remittance",
+  "Photo": "Foto",
+  "Note": "Nota",
+  "Late": "Laat",
+  "Steps": "Stappe",
+  "Lakeside": "Lakeside",
+  "Hall store": "Store by die hall",
+  "Geotagged and timestamped. It cannot be edited after this point.":
+    "GPS en tyd is op. Niemand kan dit hierna verander nie.",
+  "Read that back before it is kept.": "Lees dit terug voor dit gehou word.",
+  "Fixed sample note. Confirm the read-back before it is kept.":
+    "Vaste voorbeeld-nota. Bevestig die teruglees voor dit gehou word.",
+  "Here is the diary, read back.": "Hier is die dagboek, teruggelees.",
+  "Here is the photo note, read back.": "Hier is die foto-nota, teruggelees.",
+  "The ceiling and electrical layout line is an outstanding RFI.":
+    "Die ceiling en electrical layout lyn is 'n outstanding RFI.",
+  "Work completed": "Werk klaar",
+  "West wall of the hall, up to window height": "Wes-muur van die hall, tot by vensterhoogte",
+  "Labour and subcontractors": "Arbeid en subcontractors",
+  "Twelve of our own, and the ceiling sub": "Twaalf van ons eie, en die ceiling sub",
+  "Materials": "Materiaal",
+  "Brick and mortar delivered": "Bakstene en mortar afgelewer",
+  "Delays": "Vertragings",
+  "Rain held the east wall this morning": "Reën het die oos-muur vanoggend gehou",
+  "RFIs": "RFIs",
+  "Ceiling and electrical layout, still outstanding": "Ceiling en electrical layout, nog outstanding",
+  "Outstanding drawings": "Outstanding tekeninge",
+  "Window drawings not back": "Window-tekeninge nie terug nie",
+  "Instructions": "Instructions",
+  "None today": "Geen vandag nie",
+  "Snags": "Snags",
+  "Store door frame": "Deurraam by die store",
+  "Plant": "Plant",
+  "Scaffold on the west wall": "Scaffold op die wes-muur",
+  "Weather": "Weer",
+  "Rain in the morning, clear after lunch": "Reën in die oggend, skoon na middagete",
+  "Programme or cost effect": "Programme of koste-effek",
+  "Ceiling sub is behind on the hall ceiling. The outstanding RFI is where the programme moves.":
+    "Ceiling sub is agter op die hall se ceiling. Die outstanding RFI is waar die programme skuif.",
+  "Area": "Area",
+  "Description": "Beskrywing",
+  "Door frame out of square": "Deurraam is skeef",
+  "Responsible person": "Verantwoordelike persoon",
+  "Site foreman": "Voorman",
+  "Completion date": "Completion date",
+  "Date finished": "Datum klaar",
+  "Status": "Status",
+  "Finished": "Klaar",
+  "Days late": "Dae laat",
+  "Days late, from the two dates you confirmed.": "Dae laat, van die twee datums wat jy bevestig het.",
+  "{0} minus {1} is {2} calendar days.": "{0} minus {1} is {2} kalenderdae.",
+  "From the tender": "Van die tender af",
+  "Contract Rules": "Contract Rules",
+  "Loaded contract": "Gelaaide kontrak",
+  "Loaded contract / Harbour School Hall": "Gelaaide kontrak / Harbour School Hall",
+  "SiteOS Rev 4 section 2.3": "SiteOS Rev 4 section 2.3",
+  "SiteOS Rev 4 section 2.5": "SiteOS Rev 4 section 2.5",
+  "Already with this tender": "Al by hierdie tender",
+  "Priced in Candy. Not priced in this app": "In Candy geprys. Nie hier geprys nie",
+  "Contract basis": "Contract basis",
+  "Bill of quantities": "BoQ",
+  "Drawings": "Tekeninge",
+  "Health and safety specification": "Health and safety specification",
+  "Preliminaries": "Preliminaries",
+  "Priced bill": "Priced bill",
+  "Qualifications": "Qualifications",
+  "Open the project": "Maak die projek oop",
+  "Noted": "Reg so",
+  "Update the programme": "Dateer die programme op",
+  "Record the ceiling sub behind": "Skryf die ceiling sub agter",
+  "Loaded before signature": "Gelaai voor julle teken",
+  "Confirm the signed contract is loaded": "Bevestig die getekende kontrak is gelaai",
+  "Documents confirmed": "Dokumente bevestig",
+  "Documents loaded": "Dokumente gelaai",
+  "All loaded, continue": "Alles gelaai, gaan aan",
+  "Approve {0}": "Keur {0} goed",
+  "Confirm {0}": "Bevestig {0}",
+  "Project opened": "Projek oop",
+  "Tender kept": "Tender gehou",
+  "Extension approved": "EOT goedgekeur",
+  "Diary kept": "Dagboek gehou",
+  "Schedule kept": "Schedule gehou",
+  "Orders loaded": "Orders gelaai",
+  "Claim compared": "Claim vergelyk",
+  "Photo kept": "Foto gehou",
+  "Default recorded": "Default aangeteken",
+  "Contract kept": "Kontrak gehou",
+  "Insurances": "Insurances",
+  "Guarantees": "Guarantees",
+  "Execution": "Execution",
+  "Completion": "Completion",
+  "Payment": "Payment",
+  "Suspension and termination": "Suspension en termination",
+  "Dispute resolution": "Dispute resolution",
+  "Completion on the Contract Rules": "Completion op die Contract Rules",
+  "Completion on the draft": "Completion op die draft",
+  "Completion on the signed contract": "Completion op die getekende kontrak",
+  "These dates are the ones printed on the contract loaded for this job.":
+    "Hierdie datums is die wat op die kontrak staan wat vir hierdie job gelaai is.",
+  "Appointments and bulk orders are both closed out within 7 days after award. On this sheet that is the reminder for the demo. It is not a contract clause.":
+    "Appointments en bulk orders word albei binne 7 dae ná award klaar gemaak. Op hierdie blad is dit die herinnering vir die demo. Dit is nie 'n kontrakklousule nie.",
+  "Check the remittance against the figures already on the documents. The amount we approved is at or below the certified amount. Flag a recovery or a settlement discount that was reduced. Flag retention that is not 10%. That 10% is this sheet's check, not a contract clause.":
+    "Kyk die remittance teen die syfers wat al op die dokumente staan. Die bedrag wat ons goedgekeur het is op of onder die certified bedrag. Merk 'n recovery of 'n settlement discount wat verminder is. Merk retention wat nie 10% is nie. Daai 10% is hierdie blad se check, nie 'n kontrakklousule nie.",
+  "These steps are the contract rules loaded for this job.":
+    "Hierdie stappe is die contract rules wat vir hierdie job gelaai is.",
+  "Harbour School Hall is in Lakeside. The tender is Waiting for Results. Candy has already priced the bill. This app receives the result. It does not price anything.":
+    "Harbour School Hall is in Lakeside. Die tender is Wag vir resultate. Candy het die bill al geprys. Hierdie app kry die resultaat. Dit prys niks.",
+  "Confirm the files already with this tender. The result stays hidden until every file is confirmed.":
+    "Bevestig die lêers wat al by hierdie tender is. Die resultaat bly weg tot elke lêer bevestig is.",
+  "What is the result?": "Wat is die resultaat?",
+  "The tender is awarded. These documents are now the Contract Rules.":
+    "Die tender is toegeken. Hierdie dokumente is nou die Contract Rules.",
+  "Nothing was priced in this app. The priced bill came from Candy.":
+    "Niks is hier geprys nie. Die priced bill kom van Candy af.",
+  "Project opened. Harbour School Hall carries the tender documents as the Contract Rules.":
+    "Projek oop. Harbour School Hall dra die tender-dokumente as die Contract Rules.",
+  "Tender Unsuccessful. The tender is kept. No project was opened.":
+    "Tender onsuksesvol. Die tender bly. Geen projek is oopgemaak nie.",
+  "The contracts manager confirms the contract was loaded before anyone signs. The next screen stays hidden until that is confirmed.":
+    "Die contracts manager bevestig die kontrak is gelaai voor iemand teken. Die volgende skerm bly weg tot dit bevestig is.",
+  "Has the contract been loaded before signature?": "Is die kontrak gelaai voor ondertekening?",
+  "Contract status is Draft loaded. One change stands out against the Contract Rules.":
+    "Kontrakstatus is Draft gelaai. Een verandering staan uit teen die Contract Rules.",
+  "One change against the Contract Rules.": "Een verandering teen die Contract Rules.",
+  "Before signature": "Voor ondertekening",
+  "The draft moves completion from {0} to {1}.": "Die draft skuif completion van {0} na {1}.",
+  "Keep the change in view": "Hou die verandering in sig",
+  "Is the signed contract loaded?": "Is die getekende kontrak gelaai?",
+  "Contract status is Signed loaded. The rules are revised. The change stays on screen.":
+    "Kontrakstatus is Getekende kontrak gelaai. Die rules is hersien. Die verandering bly op die skerm.",
+  "Signed contract": "Getekende kontrak",
+  "The signed contract includes a programme, so the signed contract programme is the baseline. If the signed contract had no programme, the tender programme would have stayed.":
+    "Die getekende kontrak het 'n programme, so die getekende kontrak se programme is die baseline. As die getekende kontrak geen programme gehad het nie, sou die tender programme gebly het.",
+  "Both dates stay on screen.": "Albei datums bly op die skerm.",
+  "The contract is loaded. Completion on the signed contract is the practical completion date until an extension is approved.":
+    "Die kontrak is gelaai. Completion op die getekende kontrak is die practical completion datum tot 'n EOT goedgekeur word.",
+  "A draft request for information, and an appointment schedule for the provisional sums. Both come off the loaded programme and the bill.":
+    "'n Draft request for information, en 'n appointment schedule vir die provisional sums. Albei kom van die gelaaide programme en die bill af.",
+  "Confirm the date": "Bevestig die datum",
+  "Window schedule. The programme has {0}. Confirm that date.":
+    "Window schedule. Die programme het {0}. Bevestig daai datum.",
+  "Date kept.": "Datum gehou.",
+  "Hall seating is a provisional sum. The programme has {0}. Confirm that date.":
+    "Hall-sitplekke is 'n provisional sum. Die programme het {0}. Bevestig daai datum.",
+  "Stage lighting is a provisional sum. The programme has {0}. Confirm that date.":
+    "Stage lighting is 'n provisional sum. Die programme het {0}. Bevestig daai datum.",
+  "Ceiling and electrical layout": "Ceiling en electrical layout",
+  "Ceiling and electrical layout has no date on the programme. A missing date is the point where an extension of time would start.":
+    "Ceiling en electrical layout het geen datum op die programme nie. 'n Datum wat weg is, is waar 'n EOT sou begin.",
+  "One RFI is still open, because it has no date.": "Een RFI is nog oop, want dit het geen datum nie.",
+  "The list is the Candy resource list and the adjudication packages for this job. Nothing is priced here.":
+    "Die lys is die Candy resource list en die adjudication packages vir hierdie job. Niks word hier geprys nie.",
+  "Appointments and bulk orders are both closed out within 7 days after award. This job was awarded on {0}.":
+    "Appointments en bulk orders word albei binne 7 dae ná award klaar gemaak. Hierdie job is op {0} toegeken.",
+  "Tick the appointments": "Merk die appointments",
+  "Tick each appointment. The next list stays hidden until these are loaded.":
+    "Merk elke appointment. Die volgende lys bly weg tot hierdie gelaai is.",
+  "Electrical installation, hall and stage": "Electrical installation, hall en stage",
+  "Ceilings and partitions": "Ceilings en partitions",
+  "Aluminium windows and doors": "Aluminium windows en deure",
+  "The appointment is loaded. That document is now the subcontractor's rules.":
+    "Die appointment is gelaai. Daai dokument is nou die sub se rules.",
+  "Those appointments are loaded. Each document is now that subcontractor's rules.":
+    "Daai appointments is gelaai. Elke dokument is nou daai sub se rules.",
+  "Tick the bulk orders": "Merk die bulk orders",
+  "Face brick": "Face brick",
+  "Structural steel": "Structural steel",
+  "Reinforcing": "Reinforcing",
+  "The purchase order is loaded. That document is now the subcontractor's rules.":
+    "Die purchase order is gelaai. Daai dokument is nou die sub se rules.",
+  "Those purchase orders are loaded. Each document is now that subcontractor's rules.":
+    "Daai purchase orders is gelaai. Elke dokument is nou daai sub se rules.",
+  "Appointments and bulk orders are both loaded.": "Appointments en bulk orders is albei gelaai.",
+  "Foreman's daily diary. One note. I will read it back before it is kept.":
+    "Voorman se daaglikse dagboek. Een nota. Ek lees dit terug voor dit gehou word.",
+  "Hold to play the sample note": "Hou in om die voorbeeld-nota te speel",
+  "The diary is kept. The ceiling and electrical layout line stays an outstanding RFI.":
+    "Die dagboek is gehou. Die ceiling en electrical layout lyn bly 'n outstanding RFI.",
+  "Question off the programme": "'n Vraag van die programme af",
+  "The programme has west-wall brickwork to window height this week. The diary says that work is done. Update the programme?":
+    "Die programme het wes-muur brickwork tot vensterhoogte hierdie week. Die dagboek sê daai werk is klaar. Dateer die programme op?",
+  "Updated. West-wall brickwork to window height is done.":
+    "Opgedateer. Wes-muur brickwork tot vensterhoogte is klaar.",
+  "The programme has the ceiling sub on the hall ceiling this week. The diary has them behind. Record that on the programme?":
+    "Die programme het die ceiling sub op die hall se ceiling hierdie week. Die dagboek het hulle agter. Skryf dit op die programme?",
+  "Recorded. The ceiling sub is behind on the hall ceiling.":
+    "Aangeteken. Die ceiling sub is agter op die hall se ceiling.",
+  "Approve the extension": "Keur die EOT goed",
+  "RFI-01, ceiling and electrical layout, has no date. A missing date is the point where an extension of time starts. The extension on file moves practical completion to {0}.":
+    "RFI-01, ceiling en electrical layout, het geen datum nie. 'n Datum wat weg is, is waar 'n EOT begin. Die EOT op lêer skuif practical completion na {0}.",
+  "Practical completion was {0}. It is now {1}. The new baseline must be submitted.":
+    "Practical completion was {0}. Dit is nou {1}. Die nuwe baseline moet ingestuur word.",
+  "Practical completion is {0}. The new baseline must be submitted.":
+    "Practical completion is {0}. Die nuwe baseline moet ingestuur word.",
+  "Load the cost report, the monthly claim, the subcontractor claim, the PQS valuation and the remittance. The figures are already on those documents. This app does not price them.":
+    "Laai die cost report, die monthly claim, die subcontractor claim, die PQS valuation en die remittance. Die syfers staan al op daai dokumente. Hierdie app prys hulle nie.",
+  "Confirm the five documents are the ones already on file.":
+    "Bevestig die vyf dokumente is die wat al op lêer is.",
+  "Cost report": "Cost report",
+  "Monthly claim": "Monthly claim",
+  "Subcontractor claim": "Subcontractor claim",
+  "PQS valuation": "PQS valuation",
+  "Remittance": "Remittance",
+  "On file": "Op lêer",
+  "The monthly claim set against the cost report.": "Die monthly claim teen die cost report.",
+  "Cost report, preliminaries": "Cost report, preliminaries",
+  "Monthly claim, preliminaries": "Monthly claim, preliminaries",
+  "Cost report, brickwork": "Cost report, brickwork",
+  "Monthly claim, brickwork": "Monthly claim, brickwork",
+  "Cost report, ceiling": "Cost report, ceiling",
+  "Monthly claim, ceiling": "Monthly claim, ceiling",
+  "Cost report, electrical": "Cost report, electrical",
+  "Monthly claim, electrical": "Monthly claim, electrical",
+  "Missing": "Weg",
+  "The ceiling line is on the cost report and missing from the monthly claim.":
+    "Die ceiling lyn is op die cost report en weg van die monthly claim af.",
+  "Variation on file": "Variation op lêer",
+  "On the monthly claim": "Op die monthly claim",
+  "Not yet": "Nog nie",
+  "The variation is not on the monthly claim yet.": "Die variation is nog nie op die monthly claim nie.",
+  "In the main claim": "In die hoof claim",
+  "No": "Nee",
+  "Ceiling sub": "Ceiling sub",
+  "The subcontractor claim is not in the main claim.": "Die sub se claim is nie in die hoof claim nie.",
+  "The payment set against the PQS valuation.": "Die betaling teen die PQS valuation.",
+  "Payment on the remittance": "Betaling op die remittance",
+  "Payment minus valuation": "Betaling minus valuation",
+  "{0} minus {1} is {2}. The payment is above the valuation.":
+    "{0} minus {1} is {2}. Die betaling is bo die valuation.",
+  "{0} minus {1} is {2}. The payment is at or below the valuation.":
+    "{0} minus {1} is {2}. Die betaling is op of onder die valuation.",
+  "The remittance checks.": "Die remittance checks.",
+  "The amount we approved": "Die bedrag wat ons goedgekeur het",
+  "Certified amount": "Certified bedrag",
+  "Approved against certified": "Goedgekeur teen certified",
+  "At or below": "Op of onder",
+  "Above": "Bo",
+  "Recovery loaded": "Recovery gelaai",
+  "Recovery on the remittance": "Recovery op die remittance",
+  "Recovery": "Recovery",
+  "Reduced": "Verminder",
+  "Unchanged": "Onveranderd",
+  "Settlement discount loaded": "Settlement discount gelaai",
+  "Settlement discount on the remittance": "Settlement discount op die remittance",
+  "Settlement discount": "Settlement discount",
+  "Retention on the remittance": "Retention op die remittance",
+  "The check looks for": "Die check soek",
+  "Retention": "Retention",
+  "Flagged": "Gemerk",
+  "In line": "In lyn",
+  "Flagged. Retention on this remittance is not 10%.":
+    "Gemerk. Retention op hierdie remittance is nie 10% nie.",
+  "Retention matches the check.": "Retention pas by die check.",
+  "The comparisons are kept. Nothing here was priced in the app.":
+    "Die vergelykings is gehou. Niks is hier in die app geprys nie.",
+  "Photograph the snag. Then say the area, what it is, who is responsible, the completion date, the date finished, and the status.":
+    "Neem 'n foto van die snag. Sê dan die area, wat dit is, wie verantwoordelik is, die completion date, die datum klaar, en die status.",
+  "Photograph the snag": "Neem 'n foto van die snag",
+  "The photo is kept.": "Die foto is gehou.",
+  "The progress update shows the ceiling sub behind on the hall ceiling. The steps that follow are the contract rules for this job.":
+    "Die progress update wys die ceiling sub is agter op die hall se ceiling. Die stappe wat volg is die contract rules vir hierdie job.",
+  "Start": "Begin",
+  "Tell the subcontractor, in writing, that the hall ceiling is behind.":
+    "Sê die sub op skrif die hall ceiling is agter.",
+  "Give them the chance to catch up, the way the contract rules for this job set out.":
+    "Gee hulle kans om in te haal, soos die contract rules vir hierdie job dit stel.",
+  "If the work is still behind, the contract rules for this job allow the work to be taken away.":
+    "As die werk nog agter is, laat die contract rules vir hierdie job toe dat die werk weggeneem word.",
+  "Recoveries are deducted under claims.": "Recoveries word onder claims afgetrek.",
+  "The ceiling sub is in default on this job. Recoveries are deducted under claims.":
+    "Die ceiling sub is in default op hierdie job. Recoveries word onder claims afgetrek.",
+  "Tender — load the documents, then the result": "Tender — laai die dokumente, dan die resultaat",
+  "Contract — before signature, then the signed copy": "Kontrak — voor ondertekening, dan die getekende kopie",
+  "RFI and appointment schedule": "RFI en appointment schedule",
+  "Dates off the programme and the bill": "Datums van die programme en die bill af",
+  "Appointments and bulk orders": "Appointments en bulk orders",
+  "Tick them in within 7 days of award": "Merk hulle binne 7 dae van award",
+  "Progress and extension of time": "Progress en extension of time",
+  "Diary, then the approved completion date": "Dagboek, dan die goedgekeurde completion datum",
+  "Claims, valuations, recoveries, payments": "Claims, valuations, recoveries, payments",
+  "Compare the figures already on the documents": "Vergelyk die syfers wat al op die dokumente staan",
+  "Quality and safety": "Gehalte en safety",
+  "Photo, then days late": "Foto, dan dae laat",
+  "Subcontractor default": "Subcontractor default",
+  "The contract rules for this job": "Die contract rules vir hierdie job"
 };
 
-/* ================================================================
-   2. PROJECT STATE
-   ================================================================ */
 const SEED = {
-  vo:{ identified: 518000, recovered: 412800 },
-  eot:{ granted: 14, pending: 9, perDay: 24600 },
-  settle: 96300,
-  contra: 71500,
-  claimNo: 7,
-  done: {},
-
-  // The baseline is created when a tender is locked and never edited again.
-  // Everything downstream is measured against it, which is what makes the
-  // tender the opening balance of the project rather than a filed document.
-  baseline: {
-    ref:"T-104", locked:"2026-01-27",
-    value:48240000, pg:3180000, contingency:965000,
-    weeks:57, margin:7.4, staff:14
-  },
-  actual:{ value:48844800, pg:3180000, contingencyLeft:412000, weeks:60, margin:6.9 },
-
-  // Other live projects, for the board view
-  fleet:[
-    { id:"lou", name:"Menlyn Office Park Ph2", town:"Pretoria East", ed:"05/2018",
-      stage:"site", value:48240000, base:7.4, now:6.9, risk:205040, clock:17, clockOf:"Notice on SI-114" },
-    { id:"tyg", name:"Centurion Retail Centre", town:"Centurion", ed:"03/2014",
-      stage:"claims", value:71600000, base:8.1, now:8.4, risk:0, clock:31, clockOf:"Claim 14 cut-off" },
-    { id:"str", name:"Waterkloof Ridge Apartments", town:"Waterkloof", ed:"05/2018",
-      stage:"completion", value:39900000, base:6.6, now:5.2, risk:486000, clock:4, clockOf:"Works completion list" },
-    { id:"wor", name:"Mamelodi Clinic Upgrade", town:"Mamelodi", ed:"Minor Works",
-      stage:"site", value:12400000, base:9.2, now:9.6, risk:0, clock:22, clockOf:"Sub retention release" },
-    { id:"ste", name:"Rosslyn Plant Extension", town:"Rosslyn", ed:"07/2007",
-      stage:"final", value:26800000, base:7.8, now:4.1, risk:1240000, clock:2, clockOf:"Object to final account" }
-  ],
-  pipeline:[
-    { name:"Midstream Medical Centre", value:31480000, closes:"2026-08-27", state:"adjudicating" },
-    { name:"Garsfontein School Hall", value:18900000, closes:"2026-09-03", state:"pricing" },
-    { name:"Samrand Warehouse", value:44200000, closes:"2026-09-11", state:"pricing" }
-  ]
+  tenderStatus: "waiting",
+  project: false,
+  contractStatus: "none",
+  baselineSource: "none",
+  pcDate: null,
+  openRfi: 0,
+  appointmentsOpen: 6,
+  eotApproved: false,
+  subBehind: false,
+  done: {}
 };
 
-// The end-to-end spine. A project is always at exactly one of these.
-const LIFECYCLE = [
-  ["tender","Tender"], ["baseline","Baseline"], ["site","On site"],
-  ["claims","Claims"], ["completion","Completion"], ["final","Final account"]
-];
-let S = JSON.parse(JSON.stringify(SEED));
-try { const raw = localStorage.getItem("plumbline"); if (raw) S = JSON.parse(raw); } catch(e){}
-const save = () => { try { localStorage.setItem("plumbline", JSON.stringify(S)); } catch(e){} };
+function fresh(){ return JSON.parse(JSON.stringify(SEED)); }
+let S = fresh();
+try {
+  const raw = localStorage.getItem("plumbline.rev4");
+  if (raw){
+    const p = JSON.parse(raw);
+    if (p && typeof p.tenderStatus === "string" && p.done) S = Object.assign(fresh(), p);
+  }
+} catch (e) {}
+function save(){ try { localStorage.setItem("plumbline.rev4", JSON.stringify(S)); } catch (e) {} }
 
-const SI114_ISSUED = new Date(2026,7,19);     // Wed 19 Aug 2026
-const SUB_NOTICE   = new Date(2026,7,18);     // Tue 18 Aug 2026
-const CLAIM_CUTOFF = new Date(2026,7,25);     // Tue 25 Aug 2026
-const CAST_LAST    = new Date(2026,7,20);
-
-function tasks(){
-  const rows = [];
-
-  const noticeDue = addWorkdays(SI114_ISSUED, 20);
-  rows.push({
-    id:"si114", sev:"crit", flow:"si_to_vo",
-    tag:"SI-114", tagCls:"crit",
-    title:t("Rock excavation to lift pit, no variation order raised"),
-    body:t("Site instruction from the principal agent 3 working days ago. Nothing has been priced, no notice has gone out."),
-    pills:[
-      {cls:"crit", txt:t("{0} wd to notice", workdaysBetween(TODAY,noticeDue))},
-      {cls:"flat", txt:"~"+R(186400)+" + 10%"}
-    ]
-  });
-
-  const remedyDue = addWorkdays(SUB_NOTICE, 5);
-  rows.push({
-    id:"bekker", sev:"warn", flow:"sub_default",
-    tag:"Bekker Plumbing", tagCls:"warn",
-    title:t("Default notice runs out in {0}", pluralT(workdaysBetween(TODAY,remedyDue))),
-    body:t("First-fix drainage to blocks C and D is 11 days behind the baseline. The 5-day notice was served on {0}.", fmt(SUB_NOTICE)),
-    pills:[
-      {cls:"warn", txt:t("Day {0} of 5", 5-workdaysBetween(TODAY,remedyDue))},
-      {cls:"flat", txt:t("Contra {0}", R(71500))}
-    ]
-  });
-
-  rows.push({
-    id:"claim7", sev:"warn", flow:"monthly_claim",
-    tag:"Claim 07", tagCls:"warn",
-    title:t("Monthly claim closes tomorrow"),
-    body:t("Own measure, sub-contractor claims and contra charges must be reconciled against the cost report before cut-off."),
-    pills:[
-      {cls:"warn", txt:t("Cut-off {0}", fmt(CLAIM_CUTOFF))},
-      {cls:"flat", txt:t("4 of 9 subs in")}
-    ]
-  });
-
-  rows.push({
-    id:"cast", sev:"info", flow:"locked",
-    tag:t("Quality"), tagCls:"info",
-    title:t("Concrete cast register not updated since {0}", fmt(CAST_LAST)),
-    body:t("Two pours logged on paper. Test cube results for the block C raft are outstanding."),
-    pills:[{cls:"info", txt:t("2 pours open")}]
-  });
-
-  return rows.filter(x => !S.done[x.id]);
-}
-
-/* ================================================================
-   3. THE RULES - every one traceable to a contract clause or standard practice.
-   ================================================================ */
 const RULE = {
-  voMarkup:   {txt:"A variation is priced at actual cost of labour, plant and material, plus 10% markup. If you price it off a rate instead of actual cost, you give away the markup.", cl:"Standard practice / Site instructions and variation orders"},
-  voNotice:   {txt:"Notice of the expense must reach the principal agent within 20 working days of becoming aware of it. Miss it and the claim is out of time no matter how good it is.", cl:"JBCC PBA 05/2018 / recovery of expense and/or loss"},
-  voClaim:    {txt:"The priced claim follows within 40 working days. The principal agent then has 20 working days to act. If he does nothing, it is deemed refused, which is what you want on record, because a deemed refusal is a dispute you can run.", cl:"JBCC PBA 05/2018 / recovery of expense and-or loss"},
-  eotLink:    {txt:"If the instruction also costs you time, that is a separate claim, and the time-related P&G runs with it. Most contractors claim the money and forget the days. The days are usually worth more.", cl:"Standard practice / EOT (claim time related P&G)"},
-  eotNotice:  {txt:"Notice within 20 working days of becoming aware of the delay. The revision of the practical completion date follows within 40 working days from when you can quantify the delay.", cl:"JBCC PBA 05/2018 / revision of date for practical completion"},
-  pgOffDrawing:{txt:"P&G is not measured in the bill of quantities. It gets measured off the drawings for the actual site you are going to build, or you carry the shortfall for the whole contract.", cl:"Standard practice / Tender: P&G not measured in BoQ"},
-  subPay:     {txt:"Sub-contractors are paid 7 calendar days after the certificate is approved, and only once the client has paid. Their rates are paid without the 10% markup. The markup is yours.", cl:"Standard practice / Payment procedure"},
-  contra:     {txt:"Contra charges must be current and deducted before the claim goes out. A contra raised after the certificate is money you chase instead of money you keep.", cl:"Standard practice / Claim procedure"},
-  measure:    {txt:"Measure your own work and reconcile it against actual cost in the cost report before it goes on the claim. Allowable versus actual is where the saving shows up.", cl:"Standard practice / Claim procedure / cost report"},
-  remedy:     {txt:"Serve notice, give 5 working days to remedy. If the sub-contractor is still in default after that, the termination process opens and the cost to complete goes to his account.", cl:"JBCC PBA 05/2018 / sub-contractor default"},
-  adjudicate: {txt:"Check the adjudicator's rates against the actual quotes you hold, including P&G and terms. Risk you did not qualify at tender is risk you own for the whole contract.", cl:"Standard practice / Tender: check rates and details on actual quotes"}
+  loadedDates: {
+    txt: "These dates are the ones printed on the contract loaded for this job.",
+    cl: "Loaded contract / Harbour School Hall"
+  },
+  /* SiteOS Rev 4 section 2.3. Not a packages/rules constant. */
+  ordersWindow: {
+    txt: "Appointments and bulk orders are both closed out within 7 days after award. On this sheet that is the reminder for the demo. It is not a contract clause.",
+    cl: "SiteOS Rev 4 section 2.3"
+  },
+  /* SiteOS Rev 4 section 2.5. The 10% is the sheet's check, not a contract clause. */
+  remitCheck: {
+    txt: "Check the remittance against the figures already on the documents. The amount we approved is at or below the certified amount. Flag a recovery or a settlement discount that was reduced. Flag retention that is not 10%. That 10% is this sheet's check, not a contract clause.",
+    cl: "SiteOS Rev 4 section 2.5"
+  },
+  jobRules: {
+    txt: "These steps are the contract rules loaded for this job.",
+    cl: "Loaded contract / Harbour School Hall"
+  }
 };
 
-/* ================================================================
-   4. FLOWS - the forced sequence. One question per screen.
-   ================================================================ */
+const TENDER_FILES = [
+  ["Contract basis", "Already with this tender"],
+  ["Bill of quantities", "Already with this tender"],
+  ["Drawings", "Already with this tender"],
+  ["Health and safety specification", "Already with this tender"],
+  ["Preliminaries", "Already with this tender"],
+  ["Priced bill", "Priced in Candy. Not priced in this app"],
+  ["Qualifications", "Already with this tender"],
+  ["Programme", "Already with this tender"]
+];
+
+const APPOINTMENTS = [
+  ["Electrical installation, hall and stage", "The appointment is loaded. That document is now the subcontractor's rules."],
+  ["Ceilings and partitions", "The appointment is loaded. That document is now the subcontractor's rules."],
+  ["Aluminium windows and doors", "The appointment is loaded. That document is now the subcontractor's rules."]
+];
+
+const BULK = [
+  ["Face brick", "The purchase order is loaded. That document is now the subcontractor's rules."],
+  ["Structural steel", "The purchase order is loaded. That document is now the subcontractor's rules."],
+  ["Reinforcing", "The purchase order is loaded. That document is now the subcontractor's rules."]
+];
+
+const CLAIM_DOCS = ["Cost report", "Monthly claim", "Subcontractor claim", "PQS valuation", "Remittance"];
+
+const DIARY_DEMO = "West wall of the hall is up to window height. Twelve of our own and the ceiling sub on site. Brick and mortar delivered. Rain held the east wall this morning. Ceiling and electrical layout RFI still outstanding. Window drawings not back. No new instruction. Snag on the store door frame. Scaffold up on the west wall. Rain this morning, clear after lunch. Ceiling sub is behind on the hall ceiling. The outstanding RFI is where the programme moves.";
+const DIARY_DEMO_AF = "Wes-muur van die hall is tot by vensterhoogte. Twaalf van ons eie en die ceiling sub op die erf. Bakstene en mortar afgelewer. Reën het die oos-muur vanoggend gehou. Ceiling en electrical layout RFI nog outstanding. Window-tekeninge nie terug nie. Geen nuwe instruction nie. Snag op die store se deurraam. Scaffold op die wes-muur. Reën vanoggend, skoon na middagete. Ceiling sub is agter op die hall se ceiling. Die outstanding RFI is waar die programme skuif.";
+
+const DIARY_FIELDS = [
+  ["Work completed", "West wall of the hall, up to window height"],
+  ["Labour and subcontractors", "Twelve of our own, and the ceiling sub"],
+  ["Materials", "Brick and mortar delivered"],
+  ["Delays", "Rain held the east wall this morning"],
+  ["RFIs", "Ceiling and electrical layout, still outstanding", "bad"],
+  ["Outstanding drawings", "Window drawings not back"],
+  ["Instructions", "None today"],
+  ["Snags", "Store door frame"],
+  ["Plant", "Scaffold on the west wall"],
+  ["Weather", "Rain in the morning, clear after lunch"],
+  ["Programme or cost effect", "Ceiling sub is behind on the hall ceiling. The outstanding RFI is where the programme moves."]
+];
+
 const FLOWS = {
-
-  si_to_vo: {
-    af:true,
-    title:"Site instruction to variation order",
-    clause:"Expense / loss",
-    task:"si114",
-    steps:[
-      { kind:"say", stage:"Confirm",
-        msg:() => [t("Morning Ruan. <b>SI-114</b> came in on {0}: rock excavation to the lift pit, grids C4 to D5.", fmt(SI114_ISSUED)),
-             "Nothing has been priced against it. Let's get the notice out before the clock runs down. This takes about four minutes."],
-        opts:[{label:"Start", cls:"primary full"}] },
-
-      { kind:"choice", stage:"Confirm", q:"Has the work started?",
-        msg:"First thing: has any of this work actually started on site?",
-        why:"voNotice",
-        opts:[
-          {label:"Started Friday", v:"started"},
-          {label:"Not yet", v:"not"},
-          {label:"Already finished", v:"done"}
-        ],
-        after(v){
-          if (v==="started" || v==="done")
-            return t("Then the 20 working days ran from the instruction, not from today. You have <b>{0} working days</b> left on the notice. Keep going.", workdaysBetween(TODAY, addWorkdays(SI114_ISSUED,20)));
-          return "Good. You are inside the window either way. Getting the notice out before you start is the cleanest position.";
-        } },
-
-      { kind:"voice", stage:"Price", q:"Labour, plant and material",
-        msg:"Now the actual cost. Not a rate out of the bill, what it actually cost you. You can just tell me, and you can do it from the bakkie.",
-        why:"voMarkup",
-        hint:"Say the labour, plant and material",
-        demo:"Rock at the lift pit. Labour was sixty four thousand two hundred, plant eighty eight thousand four hundred, and material thirty three thousand eight hundred.",
-        demoAf:"Rots by die lift pit. Arbeid was vier en sestig duisend twee honderd, plant agt en tagtig duisend vier honderd, en materiaal drie en dertig duisend agt honderd.",
-        back:"Here is what I took from that.",
-        keys:[
-          {key:"labour",   label:"Labour",   re:/\b(labour|labor|the guys|my team)\b/},
-          {key:"plant",    label:"Plant",    re:/\b(plant|machine|machinery|the breaker)\b/},
-          {key:"material", label:"Material", re:/\b(material|materials|stock)\b/}
-        ],
-        keysAf:[
-          {key:"labour",   label:"Labour",   re:/\b(arbeid|my span|die manne)\b/},
-          {key:"plant",    label:"Plant",    re:/\b(plant|toerusting|masjien|die breker)\b/},
-          {key:"material", label:"Material", re:/\b(materiaal|voorraad)\b/}
+  tender: {
+    title: "Tender",
+    clause: "Result",
+    steps: [
+      { kind: "say", stage: "Files",
+        msg: "Harbour School Hall is in Lakeside. The tender is Waiting for Results. Candy has already priced the bill. This app receives the result. It does not price anything.",
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "checks", stage: "Files",
+        msg: "Confirm the files already with this tender. The result stays hidden until every file is confirmed.",
+        ready: "Documents confirmed",
+        items: TENDER_FILES.map(([name, em]) => ({ t: name, e: em })) },
+      { kind: "choice", stage: "Result", q: "What is the result?",
+        msg: "What is the result?",
+        key: "result",
+        opts: [
+          { label: "Tender Awarded", v: "awarded", cls: "sig" },
+          { label: "Tender Unsuccessful", v: "unsuccessful" }
         ] },
-
-      { kind:"number", stage:"Price", q:"Labour", pre:"R", def:"64200",
-        skipIf(st){ return st.voice; },
-        msg:"<b>Labour</b> first: own team plus the labour-only sub.",
-        why:"voMarkup", key:"labour" },
-
-      { kind:"number", stage:"Price", q:"Plant", pre:"R", def:"88400",
-        skipIf(st){ return st.voice; },
-        msg:"<b>Plant.</b> The breaker and the 8-tonner. Include standing time if the machine sat waiting for the instruction.",
-        why:"voMarkup", key:"plant" },
-
-      { kind:"number", stage:"Price", q:"Material", pre:"R", def:"33800",
-        skipIf(st){ return st.voice; },
-        msg:"<b>Material.</b> Cart-away, the extra blinding and the mesh.",
-        why:"voMarkup", key:"material" },
-
-      { kind:"compute", stage:"Price",
-        run(st){
-          const net = st.labour + st.plant + st.material;
-          st.net = net; st.markup = net*0.10; st.gross = net*1.10;
-          return { msg:"That is your priced variation.",
-            calc:[["Labour",R(st.labour)],["Plant",R(st.plant)],["Material",R(st.material)],
-                  ["Net cost",R(net)],["Markup 10%",R(st.markup)],["VO-114 total",R(st.gross),true]],
-            note:t("The <b>{0}</b> markup only survives if this is submitted as actual cost. Priced off a bill rate, it disappears.", R(st.markup))
-          };
-        },
-        opts:[{label:"Correct", cls:"primary full"}] },
-
-      { kind:"vision", stage:"Evidence", ref:"SI-114 / GRID C4", label:"Photograph the excavation",
-        msg:"Photograph it now, with the pegs visible. Evidence attached to the notice is what stops this becoming an argument in six months.",
-        why:"voClaim",
-        read(st){
+      { kind: "doc", stage: "Rules",
+        skipIf: st => st.result !== "awarded",
+        build(){
           return {
-            msg:"Read off the photograph, checked against the drawing for grid C4 to D5:",
-            rows:[
-              ["Excavation depth","2.4 m against 1.1 m on the drawing"],
-              ["Material at face","Rock, not the clay that was priced"],
-              ["Volume to cart","62 m3 estimated"],
-              ["Pegs and level datum","Visible and legible"],
-              ["Stamped","Geotag, time, SI-114",true]
-            ],
-            note:"The depth reading is the one that matters. It is the difference between the priced excavation and what is actually in the hole, and it is now on a photograph that cannot be edited."
+            msg: "The tender is awarded. These documents are now the Contract Rules.",
+            title: "Contract Rules",
+            sub: "From the tender",
+            rows: TENDER_FILES.map(([name]) => [name, "Contract Rules"]),
+            note: "Nothing was priced in this app. The priced bill came from Candy."
           };
         },
-        opts:[{label:"Attach to the notice", cls:"primary full"}] },
-
-      { kind:"choice", stage:"Time", q:"Did it cost you days?",
-        msg:"Here is the part most people skip. Did the rock cost you <b>time</b> on the critical path, not just money?",
-        why:"eotLink",
-        opts:[
-          {label:"Yes, about 4 days", v:4, cls:"sig"},
-          {label:"Yes, more than a week", v:8, cls:"sig"},
-          {label:"No time lost", v:0}
-        ],
-        key:"days",
-        after(v, st){
-          if (!v) return "Understood. Money claim only. I will note that no delay was claimed against SI-114.";
-          st.eotValue = v * S.eot.perDay;
-          return t("Then there is a second claim here. Time-related P&G on this contract runs at <code>{0}</code> per working day. {1} days is <b>{2}</b> that would have gone unclaimed, more than the variation itself.", R(S.eot.perDay), v, R(st.eotValue));
-        } },
-
-      { kind:"checks", stage:"Check",
-        msg:"Last gate. I cannot submit until all four are true. These are the ones that get claims thrown out.",
-        why:"voClaim",
-        items:[
-          {t:"Priced on actual cost, not bill rates", e:"Protects the 10% markup"},
-          {t:"Instruction is in writing from the principal agent", e:"A verbal instruction is not a variation"},
-          {t:"Photographs and the site diary entry attached", e:"Evidence dated before the claim"},
-          {t:"Foreman's daywork sheets signed", e:"Labour and plant hours substantiated"}
-        ] },
-
-      { kind:"doc", stage:"Submit",
-        build(st){
-          const noticeDue = addWorkdays(SI114_ISSUED, 20);
-          const claimDue  = addWorkdays(SI114_ISSUED, 40);
-          const paDue     = addWorkdays(TODAY, 20);
-          return {
-            msg:"Done. Here is what goes out under your name today.",
-            title:"Notice to principal agent",
-            sub:"Recovery of expense / SI-114 / JBCC PBA May 2018",
-            rows:[
-              ["Instruction","SI-114 / "+fmt(SI114_ISSUED)],
-              ["Amount", R(st.gross)+"  ("+t("net")+" "+R(st.net)+" + 10%)"],
-              ["Notice due", fmt(noticeDue)+"  ("+t("{0} wd left", workdaysBetween(TODAY,noticeDue))+")"],
-              ["Priced claim by", fmt(claimDue)],
-              ["PA must act by", fmt(paDue)],
-              st.days ? ["Delay claimed", st.days+" "+t("working days")+" / "+R(st.eotValue)] : ["Delay claimed","None"]
-            ],
-            note:t("If the principal agent does not respond by <b>{0}</b>, it is deemed refused and I will open the dispute file automatically.", fmt(paDue))
-          };
+        opts: [{ label: "Open the project", cls: "sig full" }] },
+      { kind: "finish", stage: "Rules",
+        skipIf: st => st.result !== "awarded",
+        apply(){
+          S.tenderStatus = "awarded";
+          S.project = true;
+          S.pcDate = FIX.tenderPc;
+          S.baselineSource = "tender";
+          S.contractStatus = "none";
+          S.appointmentsOpen = 6;
+          S.openRfi = 0;
+          S.eotApproved = false;
+          S.subBehind = false;
+          S.done.tender = true;
         },
-        opts:[{label:"Submit to principal agent", cls:"sig full"}] },
-
-      { kind:"finish",
-        apply(st){
-          S.vo.recovered += st.gross;
-          S.vo.identified += st.gross;
-          if (st.days){ S.eot.pending += st.days; }
-          S.done.si114 = true;
+        msg: "Project opened. Harbour School Hall carries the tender documents as the Contract Rules.",
+        toast: "Project opened" },
+      { kind: "finish", stage: "Result",
+        skipIf: st => st.result !== "unsuccessful",
+        apply(){
+          S.tenderStatus = "unsuccessful";
+          S.project = false;
+          S.pcDate = null;
+          S.contractStatus = "none";
+          S.baselineSource = "none";
+          S.done.tender = true;
         },
-        msg(st){
-          const total = st.gross + (st.eotValue||0);
-          return [t("<b>Submitted.</b> {0} on the variation{1}.", R(st.gross), st.days ? t(" and {0} days of extension worth {1}", st.days, R(st.eotValue)) : ""),
-                  t("Four minutes of work, <b>{0}</b> on the certificate. I have diarised the 40-day claim date and set the deemed-refusal trigger. Nothing else for you to remember.", R(total))];
-        },
-        toast:"SI-114 closed out" }
+        msg: "Tender Unsuccessful. The tender is kept. No project was opened.",
+        toast: "Tender kept" }
     ]
   },
 
-  monthly_claim: {
-    title:"Monthly claim, cycle 07",
-    clause:"Payment",
-    task:"claim7",
-    steps:[
-      { kind:"say", stage:"Open",
-        msg:["Claim 07 closes tomorrow, "+fmt(CLAIM_CUTOFF)+".",
-             "I have pulled the cost report and the four sub-contractor claims that came in. Five are still outstanding, we will deal with those."],
-        opts:[{label:"Open claim 07", cls:"primary full"}] },
-
-      { kind:"number", stage:"Measure", q:"Own work measured", pre:"R", def:"3840000",
-        msg:"What did you measure on your own work this month? Take it off the Candy measure, not off the programme.",
-        why:"measure", key:"own" },
-
-      { kind:"compute", stage:"Measure",
-        run(st){
-          st.allowable = 3612000;
-          st.saving = st.own - st.allowable;
-          return { msg:"Reconciling against the cost report.",
-            calc:[["Measured",R(st.own)],["Allowable in cost report",R(st.allowable)],
-                  [st.saving>=0?"Saving":"Over-run", R(Math.abs(st.saving)), true]],
-            note: st.saving>=0
-              ? "You are <b>"+R(st.saving)+"</b> to the good this month. That is real, and it only shows because the measure was reconciled before the claim went out."
-              : "You are <b>"+R(Math.abs(st.saving))+"</b> over. Worth knowing now rather than at final account."
-          };
-        },
-        opts:[{label:"Continue", cls:"primary full"}] },
-
-      { kind:"choice", stage:"Variations", q:"Variations on this claim",
-        msg:"There are <b>3 approved variations</b> and <b>1 submitted but not yet certified</b> sitting against this project. What goes on claim 07?",
-        why:"voClaim",
-        opts:[
-          {label:"Approved only", v:"appr"},
-          {label:"All four, flag the open one", v:"all", cls:"sig"}
-        ],
-        key:"voMode",
-        after(v){
-          if (v==="all") return "Right call. Claiming the uncertified one puts the principal agent on the clock. He has 20 working days to act on it or it is deemed refused.";
-          return "Safe, but the uncertified variation then sits another month without the PA being on any clock. I have flagged it for claim 08.";
-        } },
-
-      { kind:"checks", stage:"Deductions",
-        msg:"Deductions before this goes out. Every one of these is money that walks if it is late.",
-        why:"contra",
-        items:[
-          {t:"Contra charges updated and deducted", e:"Bekker Plumbing, "+R(71500)+" currently open"},
-          {t:"Advance payments recovered", e:"Off the material advance on facade"},
-          {t:"Retention applied at the contract rate", e:"Checked against the contract data, not the default"},
-          {t:"Sub-contractor rates carry no 10% markup", e:"Their rate is their rate. The markup is yours"}
-        ] },
-
-      { kind:"choice", stage:"Subs", q:"Five sub claims outstanding",
-        msg:"Five sub-contractors have not sent claims. If they land after cut-off, you carry their work in your certificate without being able to pay them from it.",
-        opts:[
-          {label:"Send them all a reminder now", v:"nudge", cls:"sig"},
-          {label:"Skip, I'll phone them", v:"skip"}
-        ],
-        after(v){ return v==="nudge"
-          ? "Sent. WhatsApp to all five with the cut-off time and the measure they claimed last month. I will chase again at 16:00."
-          : "Noted. I will flag any that are still missing at 16:00 today."; } },
-
-      { kind:"doc", stage:"Submit",
-        build(st){
-          const gross = st.own + (st.voMode==="all" ? 604800 : 486300);
-          const ret = gross*0.05, contra = 71500, adv = 128000;
-          const net = gross - ret - contra - adv;
-          const subDue = new Date(addWorkdays(TODAY,12)); subDue.setDate(subDue.getDate()+7);
-          return {
-            msg:"Claim 07, ready for the PQS.",
-            title:"Payment claim 07",
-            sub:"Menlyn Office Park Ph2 / "+fmt(CLAIM_CUTOFF),
-            rows:[
-              ["Own work", R(st.own)],
-              ["Variations", R(st.voMode==="all"?604800:486300)],
-              ["Retention 5%", "-"+R(ret)],
-              ["Contra charges", "-"+R(contra)],
-              ["Advance recovery", "-"+R(adv)],
-              ["Net claim", R(net)]
-            ],
-            note:"Sub-contractors get paid <b>7 calendar days after the certificate is approved</b>, and only once the client has paid. I will hold the remittances until both are true."
-          };
-        },
-        opts:[{label:"Send to PQS", cls:"sig full"}] },
-
-      { kind:"finish",
-        apply(st){ S.claimNo = 8; S.done.claim7 = true; if (st.saving>0) S.settle += 0; },
-        msg(){ return ["<b>Claim 07 is with the PQS.</b> Certificate expected within 7 calendar days.",
-                       "I have diarised the sub-contractor payment date off the certificate approval, not off the invoice date. That one distinction is worth about "+R(140000)+" of cash flow a month on a job this size."]; },
-        toast:"Claim 07 submitted" }
-    ]
-  },
-
-  sub_default: {
-    title:"Sub-contractor default: Bekker",
-    clause:"Default",
-    task:"bekker",
-    steps:[
-      { kind:"say", stage:"Position",
-        msg:["Bekker Plumbing. Notice served "+fmt(SUB_NOTICE)+", so the 5 working days expire on <b>"+fmt(addWorkdays(SUB_NOTICE,5))+"</b>.",
-             "Before you decide anything: has the position on site actually changed since the notice?"],
-        opts:[{label:"Walk me through it", cls:"primary full"}] },
-
-      { kind:"choice", stage:"Position", q:"Current state",
-        msg:"What does first-fix drainage to blocks C and D look like this morning?",
-        why:"remedy",
-        opts:[
-          {label:"Still behind", v:"behind"},
-          {label:"Caught up", v:"fixed", cls:"sig"},
-          {label:"Worse", v:"worse"}
-        ],
-        key:"state",
-        after(v){
-          if (v==="fixed") return "Then the default is remedied. I will close the notice, record that it was remedied inside the period, and keep it on his file for the next adjudication.";
-          return "Then you are heading for termination of the sub-contract, and the cost to complete goes to his account. Let's make sure the record supports it.";
-        } },
-
-      { kind:"checks", stage:"Record",
-        skipIf(st){ return st.state==="fixed"; },
-        msg:"The termination only holds if the paper trail does. Confirm what is actually on file.",
-        why:"remedy",
-        items:[
-          {t:"Notice served in writing and acknowledged", e:"WhatsApp read receipt counts, a phone call does not"},
-          {t:"Programme showing the delay against baseline", e:"11 days behind on the current update"},
-          {t:"Quality control list signed off", e:"Separates default from a defects argument"},
-          {t:"Cost to complete priced", e:"This is what goes to his account"}
-        ] },
-
-      { kind:"doc", stage:"Act",
-        build(st){
-          if (st.state==="fixed") return {
-            msg:"Closing it out.",
-            title:"Default notice remedied",
-            sub:"Bekker Plumbing / closed "+fmt(TODAY),
-            rows:[["Notice served",fmt(SUB_NOTICE)],["Remedied",fmt(TODAY)],["Within period","Yes, day 4 of 5"],["Filed to","Sub-contractor record"]],
-            note:"Kept on file. Two remedied defaults inside a contract is a re-engineering conversation at the next adjudication, not a surprise."
-          };
-          return {
-            msg:"Here is the termination position.",
-            title:"Termination of sub-contract",
-            sub:"Bekker Plumbing / effective "+fmt(addWorkdays(SUB_NOTICE,5)),
-            rows:[["Notice served",fmt(SUB_NOTICE)],["Period expires",fmt(addWorkdays(SUB_NOTICE,5))],
-                  ["Cost to complete",R(348000)],["To his account",R(348000)],["Contra open",R(71500)]],
-            note:"Materials and goods on site may be used to complete the work. I have the replacement sub-contractor's rates from the last adjudication ready to compare."
-          };
-        },
-        opts:[{label:"Confirm", cls:"sig full"}] },
-
-      { kind:"finish",
-        apply(st){ S.done.bekker = true; if (st.state!=="fixed") S.contra += 348000; },
-        msg(st){ return st.state==="fixed"
-          ? ["<b>Closed.</b> Remedied inside the period, on his record."]
-          : ["<b>Recorded.</b> Cost to complete of "+R(348000)+" is on his account and the contra is updated to "+R(S.contra)+".",
-             "I have pulled the three replacement quotes from the last adjudication so you are not starting from nothing."]; },
-        toast:"Bekker default closed" }
-    ]
-  },
-
-  progress_report: {
-    title:"Progress report, week 29",
-    clause:"Programme",
-    steps:[
-      { kind:"say", stage:"Open",
-        msg:["Weekly progress report. I have last week's in front of me, so this one gets written against it rather than from scratch.",
-             "Walk the two blocks and photograph them. I will read the progress off the pictures and you tell me where I am wrong."],
-        opts:[{label:"Start the walk", cls:"primary full"}] },
-
-      { kind:"vision", stage:"Read", ref:"BLOCK C / EAST ELEVATION", label:"Photograph block C",
-        msg:"<b>Block C first.</b> Stand back far enough to get the full elevation in, east side.",
-        read(st){
-          st.cPct = 78;
-          return {
-            msg:"Block C, read against the programme for week 29:",
-            rows:[
-              ["Columns to first floor","Cast, 14 of 14"],
-              ["Slab formwork","Up, roughly 80%"],
-              ["Reinforcement","Partially fixed"],
-              ["First floor slab","Not poured"],
-              ["Milestone complete","78%",true]
-            ],
-            note:"The programme has this slab poured by <b>"+fmt(new Date(2026,7,21))+"</b>. It is not poured, so block C is running <b>4 working days</b> behind on this element."
-          };
-        },
-        opts:[{label:"That is right", cls:"primary full"}] },
-
-      { kind:"vision", stage:"Read", ref:"BLOCK D / NORTH ELEVATION", label:"Photograph block D",
-        msg:"<b>Block D.</b> Same again from the north.",
-        read(st){
-          st.dPct = 96;
-          return {
-            msg:"Block D:",
-            rows:[
-              ["Slab","Cast and cured"],
-              ["Blockwork to first floor","Complete"],
-              ["First fix drainage","Open, no visible progress since week 27"],
-              ["Milestone complete","96%",true]
-            ],
-            note:"Blockwork is ahead. The drainage is the sub-contractor already on a default notice, and the photograph now dates that standstill to two weeks."
-          };
-        },
-        opts:[{label:"That is right", cls:"primary full"}] },
-
-      { kind:"compute", stage:"Reconcile",
-        run(st){
-          const slip = 4;
-          st.slip = slip;
-          st.cost = slip * S.eot.perDay;
-          return { msg:"Against last week's report and the baseline programme:",
-            calc:[["Reported last week","74% / 93%"],["Read this week",st.cPct+"% / "+st.dPct+"%"],
-                  ["Programme position","4 wd behind"],
-                  ["Time-related P&G exposure",R(st.cost),true]],
-            note:"Last week you reported 74% on block C and forecast the pour for Monday. It did not happen, and this is the second week it has moved. That pattern is the thing a monthly report hides and a weekly one cannot."
-          };
-        },
-        opts:[{label:"Continue", cls:"primary full"}] },
-
-      { kind:"choice", stage:"Reconcile", q:"What moved the pour?",
-        msg:"Four days on the critical path is a claim or it is your cost. Which was it?",
-        why:"eotNotice",
-        opts:[
-          {label:"Late reinforcement detail from the engineer", v:"info", cls:"sig"},
-          {label:"Rain", v:"rain"},
-          {label:"Our own sequencing", v:"own"}
-        ],
-        key:"cause",
-        after(v, st){
-          if (v==="info") return "Then it is an information delay and the days are claimable. I have pulled RFI-042, which has been open <b>9 working days</b> against a 5 day turnaround, and I will attach it to the notice.";
-          if (v==="rain") return "Then I need the rain meter readings for those days. I have them from the site log: 3 of the 4 days recorded above the threshold in the contract data, so 3 days are claimable and 1 is not.";
-          return "Then it is your cost and it stays out of the claim. Recorded honestly, which matters, because a claim history with your own delays in it is the one a principal agent believes.";
-        } },
-
-      { kind:"checks", stage:"Write",
-        msg:"The report does not go out until these are true. Every one of them is something a principal agent will ask for later.",
-        why:"measure",
-        items:[
-          {t:"Every item from last week's report answered", e:"Open items carried forward, not dropped"},
-          {t:"Photographs attached and dated", e:"Block C and block D, this week"},
-          {t:"Programme updated to reflect the actual position", e:"Not the position you hope to be in"},
-          {t:"Delay events noted with their cause", e:"Claimable and non-claimable both recorded"}
-        ] },
-
-      { kind:"doc", stage:"Issue",
-        build(st){
-          const noticeDue = addWorkdays(TODAY, 20);
-          return {
-            msg:"Progress report 29, ready to issue.",
-            title:"Progress report 29",
-            sub:"Week ending "+fmt(TODAY),
-            rows:[
-              ["Block C", st.cPct+"%  (74% last week)"],
-              ["Block D", st.dPct+"%  (93% last week)"],
-              ["Programme", st.slip+" wd behind"],
-              ["Cause", st.cause==="info" ? "Information delay, RFI-042" : st.cause==="rain" ? "Weather, 3 of 4 days claimable" : "Own sequencing, not claimable"],
-              ["Exposure", R(st.cost)],
-              ["Notice due by", st.cause==="own" ? "Not applicable" : fmt(noticeDue)]
-            ],
-            note: st.cause==="own"
-              ? "No notice, because there is nothing to claim. The report still records the delay, which is what stops it turning up as a surprise at final account."
-              : "I have drafted the delay notice off this report. It needs to reach the principal agent by <b>"+fmt(noticeDue)+"</b>, and I will keep asking until it has gone."
-          };
-        },
-        opts:[{label:"Issue the report", cls:"sig full"}] },
-
-      { kind:"finish",
-        apply(st){
-          S.done.progress = true;
-          if (st.cause !== "own"){ S.eot.pending += (st.cause==="rain" ? 3 : 4); }
-          S.actual.weeks = S.baseline.weeks + 3;
-        },
-        msg(st){ return ["<b>Issued.</b> Report 29 is with the principal agent and the programme is updated to the actual position.",
-                         st.cause==="own"
-                           ? "Next week's report will open with block C, because I do not let an open item disappear between reports."
-                           : "Next week's report will open with block C and RFI-042, and the delay notice is diarised. Neither of them can quietly vanish."]; },
-        toast:"Progress report 29 issued" }
-    ]
-  },
-
-  tender_adj: {
-    title:"Tender to baseline",
-    clause:"Pre-project",
-    steps:[
-      { kind:"say", stage:"Load",
-        msg:["<b>Midstream Medical Centre</b>. Tender closes Thursday.",
-             "Everything a project ever gets measured against is decided in the next four minutes, so let's load it properly and then lock it."],
-        opts:[{label:"Load the tender", cls:"primary full"}] },
-
-      { kind:"compute", stage:"Load",
-        run(st){
-          st.adj = 31480000;
-          return { msg:"Loaded from the estimate.",
-            calc:[["Bill of quantities","1 284 items"],["Priced trades","31"],
-                  ["Programme","46 weeks"],["Site team planned","11"],
-                  ["Adjudicated price",R(st.adj),true]],
-            note:"This is the pack the estimator hands over. From here on, nothing in it changes: what happens on site gets measured against it, not merged into it."
-          };
-        },
-        opts:[{label:"Continue", cls:"primary full"}] },
-
-      { kind:"number", stage:"Load", q:"Contingency carried", pre:"R", def:"780000",
-        msg:"<b>Contingency.</b> What are you actually carrying on this one? Not last tender's figure.",
-        why:"adjudicate", key:"cont" },
-
-      { kind:"number", stage:"P&G", q:"P&G required", pre:"R", def:"2960000",
-        msg:"<b>P&amp;G first.</b> Measure it off the drawings for this site: access, the slope, the distance to the nearest hardware. What does it actually need?",
-        why:"pgOffDrawing", key:"pgNeed" },
-
-      { kind:"compute", stage:"P&G",
-        run(st){
-          st.pgBoq = 2214000;
-          st.pgGap = st.pgNeed - st.pgBoq;
-          return { msg:"Against what is in the bill:",
-            calc:[["Required off drawings",R(st.pgNeed)],["Carried in the BoQ",R(st.pgBoq)],
-                  [st.pgGap>0?"Shortfall":"Cover", R(Math.abs(st.pgGap)), true]],
-            note: st.pgGap>0
-              ? "You would carry <b>"+R(st.pgGap)+"</b> of preliminaries for 14 months on a job you priced to win. That is the single most common way a tender that looked profitable is not."
-              : "Covered. Rare and worth noting."
-          };
-        },
-        opts:[{label:"Continue", cls:"primary full"}] },
-
-      { kind:"checks", stage:"Risk",
-        msg:"Now the adjudicator's work. Each of these has cost this contractor money before.",
-        why:"adjudicate",
-        items:[
-          {t:"Rates checked against actual quotes held", e:"Including terms and settlement discount"},
-          {t:"Provisional amounts checked", e:"Prov sums the client will expect you to carry"},
-          {t:"Contingencies present and adequate", e:"Not the same figure as last tender"},
-          {t:"Risk qualified in the tender qualifications", e:"Unqualified risk is risk you own for 14 months"}
-        ] },
-
-      { kind:"choice", stage:"Risk", q:"Ground conditions",
-        msg:"One more. Is there a <b>geotech report</b>, and does the bill price what it says?",
-        opts:[
-          {label:"Report seen, priced", v:"ok"},
-          {label:"No report", v:"none", cls:"sig"},
-          {label:"Report, but not priced", v:"gap", cls:"sig"}
-        ],
-        key:"geo",
-        after(v){
-          if (v==="ok") return "Good. That is the risk that turned into SI-114 on Menlyn.";
-          return "Then it goes into the tender qualifications as an express exclusion, worded so that rock becomes a variation and not your problem. I have drafted it.";
-        } },
-
-      { kind:"doc", stage:"Lock",
-        build(st){
-          st.net = st.adj + Math.max(0, st.pgGap);
-          return {
-            msg:"This is the baseline you are about to lock.",
-            title:"Baseline T-119",
-            sub:"Midstream Medical Centre / "+fmt(TODAY),
-            rows:[
-              ["Adjudicated", R(st.adj)],
-              ["P&G correction", (st.pgGap>0?"+ ":"")+R(st.pgGap)],
-              ["Contract value", R(st.net)],
-              ["P&G", R(st.pgNeed)],
-              ["Contingency", R(st.cont)],
-              ["Programme", "46 weeks"],
-              ["Margin", "6.8%"],
-              ["Qualifications", st.geo==="ok" ? "Standard" : "Standard + ground conditions"]
-            ],
-            note: st.pgGap>0
-              ? "Submitting at the adjudicated figure would have handed over <b>"+R(st.pgGap)+"</b> before a brick was laid."
-              : "Priced correctly as it stands."
-          };
-        },
-        opts:[{label:"Lock the baseline", cls:"sig full"}] },
-
-      { kind:"finish",
-        apply(st){
-          // Locking a tender creates the project. This is the join between the
-          // two halves of the business, and the reason the tender is not a
-          // document you file.
-          S.pipeline = S.pipeline.filter(p => p.name !== "Midstream Medical Centre");
-          if (!S.fleet.some(p => p.id === "prl")){
-            S.fleet.push({ id:"prl", name:"Midstream Medical Centre", town:"Midstream", ed:"05/2018",
-              stage:"baseline", value:st.net, base:6.8, now:6.8, risk:0,
-              clock:46, clockOf:"Site handover" });
+  contract: {
+    title: "Contract",
+    clause: "Contract",
+    steps: [
+      { kind: "say", stage: "Before",
+        msg: "The contracts manager confirms the contract was loaded before anyone signs. The next screen stays hidden until that is confirmed.",
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "choice", stage: "Before", q: "Has the contract been loaded before signature?",
+        msg: "Has the contract been loaded before signature?",
+        opts: [{ label: "Loaded before signature", v: "yes", cls: "sig full" }],
+        after(){
+          if (S.contractStatus !== "signed"){
+            S.contractStatus = "draft";
+            save();
           }
+          return "Contract status is Draft loaded. One change stands out against the Contract Rules.";
+        } },
+      { kind: "doc", stage: "Change",
+        build(){
+          return {
+            msg: "One change against the Contract Rules.",
+            title: "Contract Rules",
+            sub: "Before signature",
+            rows: [
+              ["Completion on the Contract Rules", FIX.tenderPc],
+              ["Completion on the draft", FIX.signedPc]
+            ],
+            note: "The draft moves completion from {0} to {1}.",
+            noteArgs: [FIX.tenderPc, FIX.signedPc]
+          };
         },
-        msg(st){ return ["<b>Locked.</b> Baseline T-119 is now the opening balance for this project: contract value, P&amp;G breakdown, contingency, programme and the qualifications, all frozen.",
-                         "Midstream Medical Centre is on the board at the baseline stage. Every variation, claim and progress report from here reads against these numbers, and none of them can quietly edit them.",
-                         "That is the whole end to end shape of it: tender, baseline, site, claims, completion, final account."]; },
-        toast:"Baseline locked, project created" }
+        opts: [{ label: "Keep the change in view", cls: "primary full" }] },
+      { kind: "choice", stage: "Signed", q: "Is the signed contract loaded?",
+        msg: "Is the signed contract loaded?",
+        opts: [{ label: "Confirm the signed contract is loaded", v: "yes", cls: "sig full" }],
+        after(){
+          S.contractStatus = "signed";
+          S.baselineSource = "signed";
+          if (!S.eotApproved) S.pcDate = FIX.signedPc;
+          save();
+          return "Contract status is Signed loaded. The rules are revised. The change stays on screen.";
+        } },
+      { kind: "doc", stage: "Signed", why: "loadedDates",
+        build(){
+          return {
+            msg: "Both dates stay on screen.",
+            title: "Signed contract",
+            sub: "Loaded contract",
+            rows: [
+              ["Completion on the Contract Rules", FIX.tenderPc],
+              ["Completion on the signed contract", FIX.signedPc],
+              ["Programme baseline", "Signed contract programme"],
+              ["Tender programme", FIX.tenderPc],
+              ["Signed contract programme", FIX.signedPc],
+              ["Insurances", FIX.dates.insurances],
+              ["Guarantees", FIX.dates.guarantees],
+              ["Execution", FIX.dates.execution],
+              ["Completion", FIX.signedPc],
+              ["Payment", FIX.dates.payment],
+              ["Suspension and termination", FIX.dates.suspension],
+              ["Dispute resolution", FIX.dates.dispute]
+            ],
+            note: "The signed contract includes a programme, so the signed contract programme is the baseline. If the signed contract had no programme, the tender programme would have stayed."
+          };
+        },
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "finish", stage: "Signed",
+        apply(){ S.done.contract = true; },
+        msg: "The contract is loaded. Completion on the signed contract is the practical completion date until an extension is approved.",
+        toast: "Contract kept" }
+    ]
+  },
+
+  rfi: {
+    title: "RFI and appointment schedule",
+    clause: "RFI",
+    steps: [
+      { kind: "say", stage: "Schedule",
+        msg: "A draft request for information, and an appointment schedule for the provisional sums. Both come off the loaded programme and the bill.",
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "choice", stage: "Schedule", q: "Confirm the date",
+        msg: () => t("Window schedule. The programme has {0}. Confirm that date.", FIX.rfiWindow),
+        opts: [{ label: "Confirm {0}", args: [FIX.rfiWindow], v: FIX.rfiWindow, cls: "sig full" }],
+        after: "Date kept." },
+      { kind: "choice", stage: "Schedule", q: "Confirm the date",
+        msg: () => t("Hall seating is a provisional sum. The programme has {0}. Confirm that date.", FIX.psSeating),
+        opts: [{ label: "Confirm {0}", args: [FIX.psSeating], v: FIX.psSeating, cls: "sig full" }],
+        after: "Date kept." },
+      { kind: "choice", stage: "Schedule", q: "Confirm the date",
+        msg: () => t("Stage lighting is a provisional sum. The programme has {0}. Confirm that date.", FIX.psLighting),
+        opts: [{ label: "Confirm {0}", args: [FIX.psLighting], v: FIX.psLighting, cls: "sig full" }],
+        after: "Date kept." },
+      { kind: "choice", stage: "Schedule", q: "Ceiling and electrical layout",
+        msg: "Ceiling and electrical layout has no date on the programme. A missing date is the point where an extension of time would start.",
+        opts: [{ label: "Noted", v: "missing", cls: "primary full" }],
+        after(){
+          S.openRfi = 1;
+          save();
+          return "One RFI is still open, because it has no date.";
+        } },
+      { kind: "finish", stage: "Schedule",
+        apply(){ S.openRfi = 1; S.done.rfi = true; },
+        msg: "One RFI is still open, because it has no date.",
+        toast: "Schedule kept" }
+    ]
+  },
+
+  orders: {
+    title: "Appointments and bulk orders",
+    clause: "Appointments",
+    steps: [
+      { kind: "say", stage: "Tick", why: "ordersWindow",
+        msg: [
+          "The list is the Candy resource list and the adjudication packages for this job. Nothing is priced here.",
+          () => t("Appointments and bulk orders are both closed out within 7 days after award. This job was awarded on {0}.", AS_AT)
+        ],
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "checks", stage: "Tick", q: "Tick the appointments",
+        msg: "Tick each appointment. The next list stays hidden until these are loaded.",
+        ready: "All loaded, continue",
+        items: APPOINTMENTS.map(([name, em]) => ({ t: name, e: em })) },
+      { kind: "say", stage: "Tick",
+        msg: "Those appointments are loaded. Each document is now that subcontractor's rules.",
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "checks", stage: "Tick",
+        msg: "Tick the bulk orders",
+        ready: "All loaded, continue",
+        items: BULK.map(([name, em]) => ({ t: name, e: em })) },
+      { kind: "say", stage: "Tick",
+        msg: "Those purchase orders are loaded. Each document is now that subcontractor's rules.",
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "finish", stage: "Tick",
+        apply(){ S.appointmentsOpen = 0; S.done.orders = true; },
+        msg: "Appointments and bulk orders are both loaded.",
+        toast: "Orders loaded" }
+    ]
+  },
+
+  progress: {
+    title: "Progress and extension of time",
+    clause: "Programme",
+    steps: [
+      { kind: "say", stage: "Diary",
+        msg: "Foreman's daily diary. One note. I will read it back before it is kept.",
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "talk", stage: "Diary", q: "Hold to play the sample note",
+        msg: "Hold to play the sample note",
+        hint: "The sample note",
+        demo: DIARY_DEMO,
+        demoAf: DIARY_DEMO_AF,
+        back: "Here is the diary, read back.",
+        fields: DIARY_FIELDS,
+        flagNote: "The ceiling and electrical layout line is an outstanding RFI." },
+      { kind: "say", stage: "Update",
+        msg: "The diary is kept. The ceiling and electrical layout line stays an outstanding RFI.",
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "choice", stage: "Update", q: "Question off the programme",
+        msg: "The programme has west-wall brickwork to window height this week. The diary says that work is done. Update the programme?",
+        opts: [{ label: "Update the programme", v: "yes", cls: "sig full" }],
+        after: "Updated. West-wall brickwork to window height is done." },
+      { kind: "choice", stage: "Update", q: "Question off the programme",
+        msg: "The programme has the ceiling sub on the hall ceiling this week. The diary has them behind. Record that on the programme?",
+        opts: [{ label: "Record the ceiling sub behind", v: "behind", cls: "sig full" }],
+        after(){
+          S.subBehind = true;
+          save();
+          return "Recorded. The ceiling sub is behind on the hall ceiling.";
+        } },
+      { kind: "choice", stage: "Extension", q: "Approve the extension",
+        msg: () => t("RFI-01, ceiling and electrical layout, has no date. A missing date is the point where an extension of time starts. The extension on file moves practical completion to {0}.", FIX.eotPc),
+        opts: [{ label: "Approve {0}", args: [FIX.eotPc], v: "yes", cls: "sig full" }],
+        after(){
+          const was = S.pcDate;
+          S.pcDate = FIX.eotPc;
+          S.eotApproved = true;
+          S.subBehind = true;
+          save();
+          return t("Practical completion was {0}. It is now {1}. The new baseline must be submitted.", was, FIX.eotPc);
+        } },
+      { kind: "finish", stage: "Extension",
+        apply(){ S.done.progress = true; S.subBehind = true; },
+        msg: () => t("Practical completion is {0}. The new baseline must be submitted.", S.pcDate),
+        toast: "Extension approved" }
+    ]
+  },
+
+  claims: {
+    title: "Claims, valuations, recoveries, payments",
+    clause: "Claim",
+    steps: [
+      { kind: "say", stage: "Load",
+        msg: "Load the cost report, the monthly claim, the subcontractor claim, the PQS valuation and the remittance. The figures are already on those documents. This app does not price them.",
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "checks", stage: "Load",
+        msg: "Confirm the five documents are the ones already on file.",
+        ready: "Documents loaded",
+        items: CLAIM_DOCS.map(name => ({ t: name, e: "On file" })) },
+      { kind: "compute", stage: "Compare",
+        run(){
+          return {
+            msg: "The monthly claim set against the cost report.",
+            calc: [
+              ["Cost report, preliminaries", money(FIX.prelim)],
+              ["Monthly claim, preliminaries", money(FIX.prelim)],
+              ["Cost report, brickwork", money(FIX.brick)],
+              ["Monthly claim, brickwork", money(FIX.brick)],
+              ["Cost report, ceiling", money(FIX.ceiling), "bad"],
+              ["Monthly claim, ceiling", "Missing", "bad"],
+              ["Cost report, electrical", money(FIX.electrical)],
+              ["Monthly claim, electrical", money(FIX.electrical)]
+            ],
+            note: "The ceiling line is on the cost report and missing from the monthly claim."
+          };
+        },
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "compute", stage: "Compare",
+        run(){
+          return {
+            msg: "The variation is not on the monthly claim yet.",
+            calc: [
+              ["Variation on file", money(FIX.variation), "bad"],
+              ["Store door frame", "Store door frame"],
+              ["On the monthly claim", "Not yet", "bad"]
+            ],
+            note: "The variation is not on the monthly claim yet."
+          };
+        },
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "compute", stage: "Compare",
+        run(){
+          return {
+            msg: "The subcontractor claim is not in the main claim.",
+            calc: [
+              ["Subcontractor claim", money(FIX.subClaim), "bad"],
+              ["Ceiling sub", "Ceiling sub"],
+              ["In the main claim", "No", "bad"]
+            ],
+            note: "The subcontractor claim is not in the main claim."
+          };
+        },
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "compute", stage: "Compare",
+        run(){
+          const gap = FIX.paid - FIX.certified;
+          const above = gap > 0;
+          return {
+            msg: "The payment set against the PQS valuation.",
+            calc: [
+              ["Payment on the remittance", money(FIX.paid), above ? "bad" : "good"],
+              ["PQS valuation", money(FIX.certified)],
+              ["Payment minus valuation", money(gap), above ? "bad" : "good"]
+            ],
+            note: above
+              ? "{0} minus {1} is {2}. The payment is above the valuation."
+              : "{0} minus {1} is {2}. The payment is at or below the valuation.",
+            noteArgs: [money(FIX.paid), money(FIX.certified), money(Math.abs(gap))]
+          };
+        },
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "compute", stage: "Remit", why: "remitCheck",
+        run(){
+          const approvedOk = FIX.approved <= FIX.certified;
+          const recoveryDown = FIX.recoveryRemit < FIX.recoveryLoaded;
+          const discountDown = FIX.discountRemit < FIX.discountLoaded;
+          const retentionFlag = FIX.retentionRemit !== FIX.retentionCheck;
+          return {
+            msg: "The remittance checks.",
+            calc: [
+              ["The amount we approved", money(FIX.approved), approvedOk ? "good" : "bad"],
+              ["Certified amount", money(FIX.certified)],
+              ["Approved against certified", approvedOk ? "At or below" : "Above", approvedOk ? "good" : "bad"],
+              ["Recovery loaded", money(FIX.recoveryLoaded)],
+              ["Recovery on the remittance", money(FIX.recoveryRemit), recoveryDown ? "bad" : ""],
+              ["Recovery", recoveryDown ? "Reduced" : "Unchanged", recoveryDown ? "bad" : "good"],
+              ["Settlement discount loaded", money(FIX.discountLoaded)],
+              ["Settlement discount on the remittance", money(FIX.discountRemit), discountDown ? "bad" : ""],
+              ["Settlement discount", discountDown ? "Reduced" : "Unchanged", discountDown ? "bad" : "good"],
+              ["Retention on the remittance", FIX.retentionRemit, retentionFlag ? "bad" : "good"],
+              ["The check looks for", FIX.retentionCheck],
+              ["Retention", retentionFlag ? "Flagged" : "In line", retentionFlag ? "bad" : "good"]
+            ],
+            note: retentionFlag
+              ? "Flagged. Retention on this remittance is not 10%."
+              : "Retention matches the check."
+          };
+        },
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "finish", stage: "Remit",
+        apply(){ S.done.claims = true; },
+        msg: "The comparisons are kept. Nothing here was priced in the app.",
+        toast: "Claim compared" }
+    ]
+  },
+
+  quality: {
+    title: "Quality and safety",
+    clause: "Quality",
+    steps: [
+      { kind: "photo", stage: "Photo",
+        ref: "Hall store",
+        place: "Lakeside",
+        msg: "Photograph the snag. Then say the area, what it is, who is responsible, the completion date, the date finished, and the status.",
+        kept: "Geotagged and timestamped. It cannot be edited after this point." },
+      { kind: "talk", stage: "Note", q: "Hold to play the sample note",
+        msg: "Hold to play the sample note",
+        hint: "The sample note",
+        demo: "Hall store. Door frame out of square. Site foreman. Completion date " + FIX.qComplete + ". Finished " + FIX.qFinished + ". Status finished.",
+        demoAf: "Store by die hall. Deurraam is skeef. Voorman. Completion date " + FIX.qComplete + ". Klaar " + FIX.qFinished + ". Status klaar.",
+        back: "Here is the photo note, read back.",
+        fields: [
+          ["Area", "Hall store"],
+          ["Description", "Door frame out of square"],
+          ["Responsible person", "Site foreman"],
+          ["Completion date", FIX.qComplete],
+          ["Date finished", FIX.qFinished],
+          ["Status", "Finished"]
+        ] },
+      { kind: "compute", stage: "Late",
+        run(){
+          const n = daysBetween(FIX.qComplete, FIX.qFinished);
+          return {
+            msg: "Days late, from the two dates you confirmed.",
+            calc: [
+              ["Completion date", FIX.qComplete],
+              ["Date finished", FIX.qFinished],
+              ["Days late", String(n), n > 0 ? "bad" : "good"]
+            ],
+            note: "{0} minus {1} is {2} calendar days.",
+            noteArgs: [FIX.qFinished, FIX.qComplete, n]
+          };
+        },
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "finish", stage: "Late",
+        apply(){ S.done.quality = true; },
+        msg: "The photo is kept.",
+        toast: "Photo kept" }
+    ]
+  },
+
+  subdefault: {
+    title: "Subcontractor default",
+    clause: "Default",
+    steps: [
+      { kind: "say", stage: "Steps", why: "jobRules",
+        msg: "The progress update shows the ceiling sub behind on the hall ceiling. The steps that follow are the contract rules for this job.",
+        opts: [{ label: "Start", cls: "primary full" }] },
+      { kind: "say", stage: "Steps",
+        msg: "Tell the subcontractor, in writing, that the hall ceiling is behind.",
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "say", stage: "Steps",
+        msg: "Give them the chance to catch up, the way the contract rules for this job set out.",
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "say", stage: "Steps",
+        msg: "If the work is still behind, the contract rules for this job allow the work to be taken away.",
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "say", stage: "Steps",
+        msg: "Recoveries are deducted under claims.",
+        opts: [{ label: "Continue", cls: "primary full" }] },
+      { kind: "finish", stage: "Steps",
+        apply(){ S.done.subdefault = true; },
+        msg: "The ceiling sub is in default on this job. Recoveries are deducted under claims.",
+        toast: "Default recorded" }
     ]
   }
 };
 
-/* ================================================================
-   5. RENDER - Today / Guides / Money
-   ================================================================ */
+const GUIDES = [
+  { n: "1", flow: "tender", title: "Tender", sub: "Tender — load the documents, then the result", open: () => S.tenderStatus === "waiting" },
+  { n: "2.1", flow: "contract", title: "Contract", sub: "Contract — before signature, then the signed copy", open: () => S.project },
+  { n: "2.2", flow: "rfi", title: "RFI and appointment schedule", sub: "Dates off the programme and the bill", open: () => S.contractStatus === "signed" },
+  { n: "2.3", flow: "orders", title: "Appointments and bulk orders", sub: "Tick them in within 7 days of award", open: () => !!S.done.rfi },
+  { n: "2.4", flow: "progress", title: "Progress and extension of time", sub: "Diary, then the approved completion date", open: () => !!S.done.orders },
+  { n: "2.5", flow: "claims", title: "Claims, valuations, recoveries, payments", sub: "Compare the figures already on the documents", open: () => !!S.done.progress },
+  { n: "2.6", flow: "quality", title: "Quality and safety", sub: "Photo, then days late", open: () => !!S.done.claims },
+  { n: "2.7", flow: "subdefault", title: "Subcontractor default", sub: "The contract rules for this job", open: () => !!S.done.quality && !!S.subBehind }
+];
+
 const $ = s => document.querySelector(s);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const ARROW = '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
-// The spine is drawn on every view that belongs to a project, so the end to end
-// shape of the job is never more than a glance away.
-function spine(at){
-  const i = LIFECYCLE.findIndex(x => x[0] === at);
-  return `<div class="spine">` + LIFECYCLE.map(([k,label],n) =>
-    `<div class="${n<i?"past":n===i?"now":""}">${esc(t(label))}</div>`).join("") + `</div>`;
+function chipKey(){
+  if (S.tenderStatus === "waiting") return "Waiting for Results";
+  if (S.tenderStatus === "unsuccessful") return "Tender Unsuccessful";
+  if (S.contractStatus === "signed") return "Signed loaded";
+  if (S.contractStatus === "draft") return "Draft loaded";
+  if (S.project) return "Tender Awarded";
+  return "Waiting for Results";
+}
+function contractLabel(){
+  if (S.contractStatus === "signed") return "Signed loaded";
+  if (S.contractStatus === "draft") return "Draft loaded";
+  return "Not loaded";
+}
+function baselineLabel(){
+  if (S.baselineSource === "signed") return "Signed contract programme";
+  if (S.baselineSource === "tender") return "Tender programme";
+  return "Not loaded";
 }
 
-// Variance against the locked baseline. Direction matters more than magnitude:
-// good is not "up", it is "the way that makes money on this particular line".
-function vline(label, base, now, fmtFn, goodUp){
-  const d = now - base, flat = Math.abs(d) < 1e-9;
-  const cls = flat ? "fl" : ((d > 0) === !!goodUp ? "up" : "dn");
-  const sign = flat ? "" : (d > 0 ? "+" : "-");
-  return `<div class="row"><span>${esc(t(label))}</span>
-    <span class="v2"><b>${fmtFn(now)}</b><i class="${cls}">${flat?t("on baseline"):sign+fmtFn(Math.abs(d))}</i></span></div>`;
-}
-
-function renderToday(){
-  const tk = tasks();
-  const pcDue = new Date(2027,2,19);
-  const left = workdaysBetween(TODAY, pcDue);
-  const money = tk.reduce((a,x)=>a+(x.id==="si114"?205040:0),0);
-
-  let h = spine("site") + `
-    <div class="clock" style="margin-top:10px">
-      <div class="row">
-        <div>
-          <div class="lab">${t("Working days to practical completion")}</div>
-          <div class="big">${left}<small> / 285</small></div>
-        </div>
-        <div class="meta">
-          <span class="lab">${t("At risk today")}</span>
-          <b>${money?R(money):t("Clear")}</b>
-          ${fmt(TODAY)}
-        </div>
-      </div>
-    </div>`;
-
-  const B = S.baseline, A = S.actual;
-  h += `<div class="sec"><span class="lab">${t("Against the locked baseline")}</span></div>
-    <div class="card base">
-      <div class="hd">
-        <b>${esc(B.ref)}</b>
-        <span>${t("Locked {0}", esc(B.locked))}</span>
-      </div>
-      ${vline("Contract value", B.value, A.value, R, true)}
-      ${vline("Margin", B.margin, A.margin, n=>n.toFixed(1)+"%", true)}
-      ${vline("Programme", B.weeks, A.weeks, n=>n+" "+t("wks"), false)}
-      ${vline("Contingency left", B.contingency, A.contingencyLeft, R, true)}
-    </div>
-    <p class="foot-note" style="margin-top:9px">${t("Every figure here was set when the tender was locked and has not been edited since. The variance is what the site has done to it.")}</p>`;
-
-  h += `<div class="sec"><span class="lab">${t("Needs you now")}</span><span class="lab">${t("{0} open", tk.length)}</span></div>`;
-
-  if (!tk.length){
-    h += `<div class="card" style="padding:26px 16px;text-align:center">
-      <div style="font-size:15px;font-weight:600">${t("Nothing is running out today.")}</div>
-      <p style="margin:7px 0 0;font-size:13px;color:var(--ink-2)">${t("Every open contractual clock on this project is inside its window.")}</p>
-    </div>`;
-  } else {
-    h += `<div class="stack">` + tk.map(x=>`
-      <button class="card task ${x.sev}" data-flow="${x.flow}">
-        <i class="sev"></i>
-        <div class="body">
-          <div class="top">
-            <span class="pill ${x.tagCls}">${esc(x.tag)}</span>
-          </div>
-          <h3>${esc(x.title)}</h3>
-          <p>${esc(x.body)}</p>
-          <div class="foot">
-            ${x.pills.map(p=>`<span class="pill ${p.cls}">${esc(p.txt)}</span>`).join("")}
-            <span class="go">${t(x.flow==="locked"?"Soon":"Open")} ${x.flow==="locked"?"":ARROW}</span>
-          </div>
-        </div>
-      </button>`).join("") + `</div>`;
+function renderProject(){
+  let h = "";
+  if (!S.project){
+    const waiting = S.tenderStatus === "waiting";
+    $("#pane-project").innerHTML = waiting
+      ? `<button class="card task info" data-flow="tender"><i class="sev"></i><div class="body"><div class="top"><span class="pill info">${esc(t("Waiting for Results"))}</span></div><h3>${esc(FIX.job)}</h3><p>${esc(FIX.town)}. ${esc(t("No project yet."))}</p><div class="foot"><span class="go">${esc(t("Open the tender"))} ${ARROW}</span></div></div></button>`
+      : `<div class="card task warn"><i class="sev"></i><div class="body"><div class="top"><span class="pill warn">${esc(t("Tender Unsuccessful"))}</span></div><h3>${esc(FIX.job)}</h3><p>${esc(t("The tender is kept. No project was opened."))}</p><p>${esc(FIX.town)}</p></div></div>`;
+    return;
   }
 
-  h += `<div class="sec"><span class="lab">${t("Running quietly")}</span></div>
-    <div class="card">
-      <table class="ledger">
-        <tr><td>${t("Deemed-refusal watch / VO-109")}</td><td class="mono">6 wd</td></tr>
-        <tr><td>${t("Defects liability opens on works completion")}</td><td class="mono">90 cal</td></tr>
-        <tr><td>${t("Final account from PC (2018 ed.)")}</td><td class="mono">60 wd</td></tr>
-        <tr><td>${t("Performance guarantee expiry")}</td><td class="mono">2027-06-30</td></tr>
-      </table>
-    </div>
-    <p class="foot-note">${t("Working days exclude weekends and South African public holidays. Countdowns are computed live from the instruction dates, not typed in.")}</p>`;
-
-  $("#pane-today").innerHTML = h;
-  $("#tabdot").style.display = tk.some(x=>x.sev==="crit") ? "" : "none";
-}
-
-function renderGuides(){
-  const built = [
-    ["01","Tender to baseline","Load the bill, price it, lock the baseline","tender_adj"],
-    ["02","Site instruction to variation","Speak it, price it, notice, EOT link","si_to_vo"],
-    ["03","Progress report","Read off site photos, forced against last week","progress_report"],
-    ["04","Monthly claim","Measure, reconcile, deduct, submit","monthly_claim"],
-    ["05","Sub-contractor default","Notice, remedy period, termination","sub_default"]
-  ];
-  const soon = [
-    ["06","Appointments & bulk orders","Adjudication, settlement discount, PO"],
-    ["07","Practical completion","Inspection, list, deemed completion"],
-    ["08","Final account","60 or 90 working days, by edition"],
-    ["09","Quality & concrete register","Cast register, cube results, defects"],
-    ["10","Sign-off project","9-point closure, guarantee cancellation"]
-  ];
-  $("#pane-guides").innerHTML = `
-    <div class="sec"><span class="lab">${t("Live in this prototype")}</span></div>
-    <div class="card">${built.map(([n,ttl,sub,f])=>`
-      <button class="guide" data-flow="${f}">
-        <span class="num">${n}</span>
-        <span class="t"><b>${esc(t(ttl))}</b><span>${esc(t(sub))}</span></span>
-        <span class="go">${ARROW}</span>
-      </button>`).join("")}</div>
-
-    <div class="sec"><span class="lab">${t("Mapped, not yet built")}</span></div>
-    <div class="card">${soon.map(([n,ttl,sub])=>`
-      <div class="guide locked">
-        <span class="num">${n}</span>
-        <span class="t"><b>${esc(t(ttl))}</b><span>${esc(t(sub))}</span></span>
-      </div>`).join("")}</div>
-
-    <p class="foot-note">${t("All ten are standard commercial building process. The process already exists and is already correct at most contractors. It just lives in a document nobody opens, which is why it has to be taught to every new site agent by hand.")}</p>`;
-}
-
-function renderMoney(){
-  const leak = Math.max(0, S.vo.identified - S.vo.recovered);
-  const pct = S.vo.identified ? Math.round(S.vo.recovered/S.vo.identified*100) : 100;
-  $("#pane-money").innerHTML = `
-    <div class="sec"><span class="lab">${t("This project")}</span><span class="lab">${t("Contract {0}", R(48240000))}</span></div>
-
-    <div class="card stat">
-      <span class="lab">${t("Variation markup recovered")}</span>
-      <div class="v">${R(S.vo.recovered)}</div>
-      <div class="bar-track"><div class="bar-fill part" style="--p:${pct}%;width:100%"></div></div>
-      <div class="d">${t("{0}% of {1} identified.", pct, R(S.vo.identified))}
-        ${leak? `<b style="color:var(--crit)">${t("{0} still unclaimed.", R(leak))}</b>` : t("Nothing outstanding.")}</div>
-    </div>
-
-    <div class="grid2" style="margin-top:10px">
-      <div class="card stat gain">
-        <span class="lab">${t("EOT days granted")}</span>
-        <div class="v">${S.eot.granted}</div>
-        <div class="d">${t("{0} of time-related P&amp;G", R(S.eot.granted*S.eot.perDay))}</div>
-      </div>
-      <div class="card stat">
-        <span class="lab">${t("Days pending")}</span>
-        <div class="v">${S.eot.pending}</div>
-        <div class="d">${t("{0} on the clock", R(S.eot.pending*S.eot.perDay))}</div>
-      </div>
-      <div class="card stat gain">
-        <span class="lab">${t("Settlement discount")}</span>
-        <div class="v">${R(S.settle)}</div>
-        <div class="d">${t("Taken at adjudication")}</div>
-      </div>
-      <div class="card stat gain">
-        <span class="lab">${t("Contra recovered")}</span>
-        <div class="v">${R(S.contra)}</div>
-        <div class="d">${t("Deducted before certificate")}</div>
-      </div>
-    </div>
-
-    <div class="sec"><span class="lab">${t("Where it comes from")}</span></div>
-    <div class="card">
-      <table class="ledger">
-        <tr><td>${t("Variations at cost + 10%")}</td><td class="pos">+ ${R(S.vo.recovered)}</td></tr>
-        <tr><td>${t("Time-related P&amp;G on granted EOT")}</td><td class="pos">+ ${R(S.eot.granted*S.eot.perDay)}</td></tr>
-        <tr><td>${t("Settlement discount on bulk orders")}</td><td class="pos">+ ${R(S.settle)}</td></tr>
-        <tr><td>${t("Contra charges recovered")}</td><td class="pos">+ ${R(S.contra)}</td></tr>
-        <tr><td>${t("Variations identified but never claimed")}</td><td class="neg">-${R(leak)}</td></tr>
-      </table>
-    </div>
-
-    <p class="foot-note">${t("Every line is a step in the process that either happened on time or did not. The five places a building contractor actually makes money (tender, appointments, programme, RFI, claim cycle) are exactly these five lines.")}</p>`;
-}
-
-/* The board: what a director wants, which is not a rollup of progress bars.
-   It is which jobs are drifting off the price they were won at, and which
-   contractual clock runs out first. */
-function renderBoard(){
-  const F = S.fleet;
-  const value = F.reduce((a,p)=>a+p.value,0);
-  const risk  = F.reduce((a,p)=>a+p.risk,0);
-  const wBase = F.reduce((a,p)=>a+p.base*p.value,0)/value;
-  const wNow  = F.reduce((a,p)=>a+p.now*p.value,0)/value;
-  const drift = wNow - wBase;
-  const pipe  = S.pipeline.reduce((a,p)=>a+p.value,0);
-  const sorted = F.slice().sort((a,b)=> a.clock - b.clock);
-  const stageName = k => (LIFECYCLE.find(x=>x[0]===k)||["","?"])[1];
-
-  const sev = p => p.clock <= 5 ? "crit" : p.clock <= 20 ? "warn" : "ok";
-
-  $("#pane-board").innerHTML = `
-    <div class="sec" style="margin-top:2px"><span class="lab">${t("{0} live projects", F.length)}</span><span class="lab">${fmt(TODAY)}</span></div>
-
-    <div class="clock">
+  const n = daysBetween(AS_AT, S.pcDate);
+  h = `<div class="clock">
       <div class="row">
         <div>
-          <div class="lab">${t("Margin against the price it was won at")}</div>
-          <div class="big">${wNow.toFixed(1)}<small>% / ${wBase.toFixed(1)}%</small></div>
+          <div class="lab">${esc(t("Days until practical completion"))}</div>
+          <div class="big">${n}</div>
         </div>
         <div class="meta">
-          <span class="lab">${t("At risk now")}</span>
-          <b style="color:var(--crit)">${R(risk)}</b>
-          ${t("{0} under contract", R(value))}
+          <span class="lab">${esc(t("Practical completion"))}</span>
+          <b>${esc(S.pcDate)}</b>
+          ${esc(t("As at {0}", AS_AT))}
         </div>
       </div>
     </div>
-
-    <div class="grid2" style="margin-top:10px">
-      <div class="card stat ${drift<0?"leak":"gain"}">
-        <span class="lab">${t("Margin drift")}</span>
-        <div class="v">${drift>=0?"+":"-"}${Math.abs(drift).toFixed(1)} pts</div>
-        <div class="d">${t("{0} against baseline", R(Math.abs(drift/100*value)))}</div>
-      </div>
-      <div class="card stat">
-        <span class="lab">${t("Tender pipeline")}</span>
-        <div class="v">${R(pipe)}</div>
-        <div class="d">${t("{0} out, next closes {1}", S.pipeline.length, esc(S.pipeline[0].closes))}</div>
-      </div>
-    </div>
-
-    <div class="sec"><span class="lab">${t("Soonest clock first")}</span><span class="lab">${t("Working days")}</span></div>
-    <div class="card">${sorted.map(p=>`
-      <div class="proj">
-        <div class="l1">
-          <b>${esc(p.name)}</b>
-          <span class="edch">${esc(p.ed)}</span>
-        </div>
-        <div class="l2">
-          <span class="pill ${sev(p)}">${p.clock} wd</span>
-          <span class="m">${esc(t(p.clockOf))}</span>
-        </div>
-        <div class="l2">
-          <span class="pill flat">${esc(stageName(p.stage))}</span>
-          <span class="m">${R(p.value)}</span>
-          <span class="m" style="color:var(--${p.now>=p.base?"ok":"crit"})">
-            ${p.now.toFixed(1)}% vs ${p.base.toFixed(1)}%</span>
-          ${p.risk?`<span class="pill crit">${R(p.risk)}</span>`:""}
-        </div>
-      </div>`).join("")}</div>
-
-    <div class="sec"><span class="lab">${t("Where each one sits")}</span></div>
-    <div class="card" style="padding:12px 13px">
-      ${F.map(p=>`
-        <div style="margin-bottom:13px">
-          <div class="lab" style="margin-bottom:5px">${esc(p.name.replace(/ Ph2$/,""))}</div>
-          ${spine(p.stage)}
-        </div>`).join("").replace(/<div style="margin-bottom:13px">(?![\s\S]*<div style="margin-bottom:13px">)/, '<div style="margin-bottom:0">')}
-    </div>
-
-    <p class="foot-note">${t("Three of these five run on different editions of the contract, so the same milestone gives three different deadlines. The countdowns above are computed per project from the edition it was signed under, which is the only way this column can be trusted.")}</p>`;
+    <p class="foot-note">${esc(t("{0} to {1} is {2} calendar days.", AS_AT, S.pcDate, n))}</p>
+    <div class="card base" style="margin-top:10px">
+      <div class="row"><span>${esc(t("Contract status"))}</span><b>${esc(t(contractLabel()))}</b></div>
+      <div class="row"><span>${esc(t("Programme baseline"))}</span><b>${esc(t(baselineLabel()))}</b></div>
+      <div class="row"><span>${esc(t("Open RFIs"))}</span><b class="mono">${S.openRfi}</b></div>
+      <div class="row"><span>${esc(t("Appointments still open"))}</span><b class="mono">${S.appointmentsOpen}</b></div>
+    </div>`;
+  $("#pane-project").innerHTML = h;
 }
 
-// The header names whatever the current view is about: one project on the site
-// tabs, the whole book of work on the board.
-function setBar(board){
-  const F = S.fleet, value = F.reduce((a,p)=>a+p.value,0);
-  $(".bar-id .proj").textContent = board
-    ? "JC v/d Linde & Venter Projects"
-    : "Menlyn Office Park Ph2";
-  $(".bar-id .chip").textContent = board
-    ? F.length + " projects / " + R(value)
-    : "JBCC PBA May 2018";
-  // On the board the header speaks for the company, so it carries the company's
-  // mark. On the site tabs it speaks for one person, so it carries his initials.
-  const av = $(".avatar");
-  av.classList.toggle("brand", board);
-  av.innerHTML = board ? VV_MARK : "RB";
+function guideButton(g, open){
+  const done = !!S.done[g.flow];
+  const sub = g.flow === "tender" && S.tenderStatus !== "waiting" ? t(chipKey()) : t(g.sub);
+  const pill = done ? `<span class="pill ok">${esc(t("Done"))}</span>` : "";
+  if (!open){
+    const kept = g.flow === "tender" && S.tenderStatus !== "waiting";
+    return `<div class="guide ${kept ? "" : "locked"}" ${kept ? "" : 'data-flow="locked"'}>
+      <span class="num">${esc(g.n)}</span>
+      <span class="t"><b>${esc(t(g.title))}</b><span>${esc(kept ? t(S.tenderStatus === "awarded" ? "Tender Awarded" : "Tender Unsuccessful") : sub)}</span></span>
+      ${kept ? `<span class="pill ok">${esc(t("Kept"))}</span>` : ""}
+    </div>`;
+  }
+  return `<button class="guide" data-flow="${g.flow}">
+    <span class="num">${esc(g.n)}</span>
+    <span class="t"><b>${esc(t(g.title))}</b><span>${esc(t(g.sub))}</span></span>
+    ${pill}<span class="go">${ARROW}</span>
+  </button>`;
 }
 
-const VV_MARK =
-  '<svg viewBox="0 0 100 100" role="img" aria-label="J.C. van der Linde and Venter Projects">' +
-    '<g transform="translate(6,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFCB05"/></g>' +
-    '<g transform="translate(52,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFCB05"/></g>' +
-  '</svg>';
+function renderPath(){
+  $("#pane-path").innerHTML = `
+    <div class="sec"><span class="lab">${esc(t("Sheet order"))}</span></div>
+    <div class="card">${GUIDES.map(g => guideButton(g, g.flow === "tender" ? S.tenderStatus === "waiting" : g.open())).join("")}</div>
+    <p class="foot-note">${esc(t("A step stays closed until the one before it is done."))}</p>`;
+}
 
 function renderAll(){
-  renderToday(); renderGuides(); renderMoney(); renderBoard();
-  setBar(document.querySelector('#tabs [data-tab="board"]').classList.contains("on"));
+  renderProject();
+  renderPath();
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+  const b = $("#lang");
+  b.textContent = LANG === "af" ? "AF" : "EN";
+  b.classList.toggle("af", LANG === "af");
+  $(".bar-id .proj").textContent = FIX.job;
+  $(".bar-id .chip").textContent = t(chipKey());
+  $(".avatar").textContent = "SF";
+  $("#tabdot").style.display = S.tenderStatus === "waiting" ? "" : "none";
 }
 
-/* ================================================================
-   6. CHAT ENGINE - runs a flow, one forced step at a time
-   ================================================================ */
-let F = null, i = 0, st = {}, stages = [], busy = false;
+let F = null, i = 0, st = {}, stages = [], busy = false, gen = 0;
 
 function stageList(f){
   const out = [];
-  f.steps.forEach(s => { if (s.stage && out[out.length-1] !== s.stage) out.push(s.stage); });
+  f.steps.forEach(s => { if (s.stage && out[out.length - 1] !== s.stage) out.push(s.stage); });
   return out;
 }
 function drawSteps(){
   const cur = F.steps[i] && F.steps[i].stage;
   const at = stages.indexOf(cur);
-  $("#steps").innerHTML = stages.map((s,n)=>{
+  $("#steps").innerHTML = stages.map((s, n) => {
     const cls = n < at ? "done" : n === at ? "now" : "lock";
-    return `<i class="${cls}" title="${esc(s)}"></i>`;
+    return `<i class="${cls}" title="${esc(t(s))}"></i>`;
   }).join("");
 }
-
 function bubble(html, who){
   const wrap = document.createElement("div");
-  wrap.className = "msg" + (who==="me" ? " me" : "");
-  wrap.innerHTML = `<div class="who">${who==="me"?"RB":"PL"}</div><div class="bub">${html}</div>`;
+  wrap.className = "msg" + (who === "me" ? " me" : "");
+  wrap.innerHTML = `<div class="who">${who === "me" ? "SF" : "PL"}</div><div class="bub">${html}</div>`;
   $("#log").appendChild(wrap);
   $("#log").scrollTop = $("#log").scrollHeight;
   return wrap.querySelector(".bub");
 }
 function whyBlock(key){
-  const r = RULE[key]; if (!r) return "";
-  return `<details class="why"><summary>${esc(t("Why this matters"))}</summary>
-    <div class="txt">${t(r.txt)}<br><span class="cl">${esc(t(r.cl))}</span></div></details>`;
+  const r = RULE[key];
+  if (!r) return "";
+  return `<details class="why"><summary>${esc(t("Why this matters"))}</summary><div class="txt">${t(r.txt)}<br><span class="cl">${esc(t(r.cl))}</span></div></details>`;
 }
 function typing(ms){
-  return new Promise(res=>{
+  return new Promise(res => {
     const w = document.createElement("div");
     w.className = "msg";
     w.innerHTML = `<div class="who">PL</div><div class="bub"><div class="typing"><i></i><i></i><i></i></div></div>`;
-    $("#log").appendChild(w); $("#log").scrollTop = $("#log").scrollHeight;
-    setTimeout(()=>{ w.remove(); res(); }, ms);
+    $("#log").appendChild(w);
+    $("#log").scrollTop = $("#log").scrollHeight;
+    setTimeout(() => { w.remove(); res(); }, ms);
   });
 }
+function said(v){
+  if (typeof v === "function") return v(st);
+  return v;
+}
 async function botSay(parts, why){
-  const arr = (Array.isArray(parts) ? parts : [parts]).map(p => t(p));
-  for (let n=0; n<arr.length; n++){
-    await typing(n===0?420:560);
+  const raw = Array.isArray(parts) ? parts : [parts];
+  const arr = [];
+  const g = gen;
+  raw.forEach(p => {
+    const v = typeof p === "function" ? p() : p;
+    if (v) arr.push(t(v));
+  });
+  for (let n = 0; n < arr.length; n++){
+    await typing(n === 0 ? 280 : 360);
+    if (g !== gen) return;
     const b = bubble(`<p>${arr[n]}</p>`, "bot");
-    if (why && n===arr.length-1) b.insertAdjacentHTML("beforeend", whyBlock(why));
+    if (why && n === arr.length - 1) b.insertAdjacentHTML("beforeend", whyBlock(why));
   }
 }
-
 function rail(html){ $("#rail").innerHTML = html; }
 function optBtns(opts){
-  return `<div class="opts">` + opts.map((o,n)=>
-    `<button class="opt ${o.cls||""}" data-n="${n}">${esc(t(o.label))}</button>`).join("") + `</div>`;
+  return `<div class="opts">` + opts.map((o, n) =>
+    `<button class="opt ${o.cls || ""}" data-n="${n}">${esc(t(o.label, ...(o.args || [])))}</button>`).join("") + `</div>`;
 }
-
+function calcHtml(rows){
+  return `<div class="calc">` + rows.map(r => {
+    const cls = r[2] === "tot" ? "tot" : r[2] === "bad" ? "bad" : r[2] === "good" ? "good" : "";
+    return `<div class="${cls}"><span>${esc(t(r[0]))}</span><span>${esc(t(String(r[1])))}</span></div>`;
+  }).join("") + `</div>`;
+}
 function openFlow(id){
+  if (id === "tender" && S.tenderStatus !== "waiting"){
+    toast("That tender result is already kept. Reset the demo to try the other one.");
+    return;
+  }
   F = FLOWS[id];
-  if (!F){ toast(t("That guide is mapped but not built in this prototype.")); return; }
+  if (!F){ toast("The step before this one is not done yet."); return; }
   i = 0; st = {}; stages = stageList(F);
   $("#chat-title").textContent = t(F.title);
   $("#chat-clause").textContent = t(F.clause);
-  $("#log").innerHTML = ""; rail("");
+  $("#log").innerHTML = "";
+  rail("");
   $("#chat").hidden = false;
   step();
 }
-function closeFlow(){ $("#chat").hidden = true; F = null; }
+function closeFlow(){
+  gen++;
+  busy = false;
+  $("#chat").hidden = true;
+  F = null;
+  renderAll();
+}
 
 async function step(){
   if (busy) return;
-  while (F.steps[i] && F.steps[i].skipIf && F.steps[i].skipIf(st)) i++;
-  const s = F.steps[i];
+  while (F && F.steps[i] && F.steps[i].skipIf && F.steps[i].skipIf(st)) i++;
+  const s = F && F.steps[i];
   if (!s){ closeFlow(); return; }
-  busy = true; drawSteps(); rail("");
+  const g = gen;
+  busy = true;
+  drawSteps();
+  rail("");
+  const live = () => g === gen;
 
   if (s.kind === "say"){
-    if (i === 0 && LANG === "af" && !F.af){
-      bubble(`<p>${t("Hierdie een is nog net in Engels. Die res van die app is in Afrikaans.")}</p>`, "bot");
-    }
-    await botSay(typeof s.msg === "function" ? s.msg(st) : s.msg, s.why);
-    rail(optBtns(s.opts));
-    bind(()=> next());
-  }
-
-  else if (s.kind === "choice"){
     await botSay(s.msg, s.why);
+    if (!live()) return;
+    rail(optBtns(s.opts));
+    bind(() => next());
+  } else if (s.kind === "choice"){
+    await botSay(said(s.msg), s.why);
+    if (!live()) return;
     rail(`<div class="q">${esc(t(s.q))}</div>` + optBtns(s.opts));
     bind(async n => {
       const o = s.opts[n];
-      bubble(`<p>${esc(t(o.label))}</p>`, "me");
+      bubble(`<p>${esc(t(o.label, ...(o.args || [])))}</p>`, "me");
       if (s.key) st[s.key] = o.v;
       rail("");
-      if (s.after){ busy = true; await botSay(s.after(o.v, st)); busy = false; }
+      if (s.after){
+        busy = true;
+        const line = typeof s.after === "function" ? s.after(o.v, st) : s.after;
+        if (line) await botSay(line);
+        if (!live()) return;
+        busy = false;
+      }
       next();
     });
-  }
-
-  else if (s.kind === "number"){
-    await botSay(s.msg, s.why);
-    rail(`<div class="q">${esc(t(s.q))}</div>
-      <div class="num-in"><span class="pre">${s.pre||""}</span>
-        <input type="text" inputmode="numeric" id="nin" value="${s.def||""}" autocomplete="off"></div>
-      <div class="opts"><button class="opt primary full" data-n="0">Confirm</button></div>`);
-    const inp = $("#nin");
-    inp.addEventListener("keydown", e => { if (e.key === "Enter") $(".opt.primary").click(); });
-    bind(()=>{
-      const v = parseFloat(String(inp.value).replace(/[^0-9.]/g,"")) || 0;
-      st[s.key] = v;
-      bubble(`<p>${s.pre||""}${v.toLocaleString("en-ZA").replace(/,/g," ")}</p>`, "me");
-      next();
-    });
-  }
-
-  else if (s.kind === "compute"){
+  } else if (s.kind === "compute"){
     const r = s.run(st);
-    await typing(700);
-    const b = bubble(`<p>${r.msg}</p>`, "bot");
-    b.insertAdjacentHTML("beforeend",
-      `<div class="calc">` + r.calc.map(([k,v,tot])=>
-        `<div class="${tot?"tot":""}"><span>${esc(t(k))}</span><span>${esc(t(v))}</span></div>`).join("") + `</div>`);
-    if (r.note) b.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${t(r.note)}</p>`);
+    await typing(420);
+    if (!live()) return;
+    const b = bubble(`<p>${t(r.msg, ...(r.msgArgs || []))}</p>`, "bot");
+    b.insertAdjacentHTML("beforeend", calcHtml(r.calc));
+    if (r.note) b.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${t(r.note, ...(r.noteArgs || []))}</p>`);
+    if (s.why) b.insertAdjacentHTML("beforeend", whyBlock(s.why));
     $("#log").scrollTop = $("#log").scrollHeight;
     rail(optBtns(s.opts));
-    bind(()=> next());
-  }
-
-  else if (s.kind === "photo"){
+    bind(() => next());
+  } else if (s.kind === "checks"){
     await botSay(s.msg, s.why);
-    rail(`<div class="opts">
-      <button class="opt sig full" data-n="0">
-        <svg viewBox="0 0 24 24"><path d="M3 8.5A1.5 1.5 0 014.5 7h2L8 5h8l1.5 2h2A1.5 1.5 0 0121 8.5v9A1.5 1.5 0 0119.5 19h-15A1.5 1.5 0 013 17.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg>
-        Take photo</button></div>`);
-    bind(async ()=>{
-      const b = bubble(`<p>${esc(t("Photo attached"))}</p>`, "me");
-      b.insertAdjacentHTML("beforeend",
-        `<div class="shot"><div class="img"></div>
-         <div class="cap"><span>SI-114 / GRID C4</span><span>${iso(TODAY)} 07:41</span><span>-25.7854, 28.2760</span></div></div>`);
-      $("#log").scrollTop = $("#log").scrollHeight;
-      busy = true; await botSay("Geotagged and timestamped against SI-114. It cannot be edited after this point, which is what makes it worth something in a dispute."); busy = false;
-      next();
-    });
-  }
-
-  else if (s.kind === "voice"){
-    await botSay(s.msg, s.why);
-    rail(`<div class="q">${esc(t(s.q))}</div>
-      <button class="mic" id="mic">
-        <span class="dot"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></span>
-        <span class="t"><b>${esc(t("Hold to talk"))}</b><span>${esc(t(s.hint))}</span></span>
-      </button>
-      <div class="opts"><button class="opt" data-n="0">${esc(t("Type it instead"))}</button></div>`);
-    $("#rail").querySelector(".opt").onclick = () => { st.voice = false; next(); };
-    $("#mic").onclick = () => runVoice(s);
-  }
-
-  else if (s.kind === "vision"){
-    await botSay(s.msg, s.why);
-    rail(`<div class="opts">
-      <button class="opt sig full" data-n="0">
-        <svg viewBox="0 0 24 24"><path d="M3 8.5A1.5 1.5 0 014.5 7h2L8 5h8l1.5 2h2A1.5 1.5 0 0121 8.5v9A1.5 1.5 0 0119.5 19h-15A1.5 1.5 0 013 17.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg>
-        ${esc(s.label || "Photograph the work")}</button></div>`);
-    bind(async ()=>{
-      const b = bubble(`<p>${esc(t(s.label || "Photograph the work"))}</p>`, "me");
-      b.insertAdjacentHTML("beforeend",
-        `<div class="shot"><div class="img"></div>
-         <div class="cap"><span>${esc(s.ref)}</span><span>${iso(TODAY)} 07:41</span><span>-25.7854, 28.2760</span></div></div>`);
-      $("#log").scrollTop = $("#log").scrollHeight;
-      busy = true;
-      await typing(900);
-      const r = s.read(st);
-      const rb = bubble(`<p>${r.msg}</p>`, "bot");
-      rb.insertAdjacentHTML("beforeend",
-        `<div class="calc">` + r.rows.map(([k,v,tot])=>
-          `<div class="${tot?"tot":""}"><span>${esc(t(k))}</span><span>${esc(t(v))}</span></div>`).join("") + `</div>`);
-      if (r.note) rb.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${t(r.note)}</p>`);
-      rb.insertAdjacentHTML("beforeend",
-        `<div class="srcnote">${t("Vision output is illustrative in this prototype")}</div>`);
-      $("#log").scrollTop = $("#log").scrollHeight;
-      busy = false;
-      rail(optBtns(s.opts));
-      bind(()=> next());
-    });
-  }
-
-  else if (s.kind === "checks"){
-    await botSay(s.msg, s.why);
-    const state = s.items.map(()=>false);
+    if (!live()) return;
+    const state = s.items.map(() => false);
     const draw = () => {
       const all = state.every(Boolean);
-      rail(`<div class="checks">` + s.items.map((it,n)=>
-        `<button class="chk ${state[n]?"on":""}" data-c="${n}">
+      const nOn = state.filter(Boolean).length;
+      rail(`<div class="checks">` + s.items.map((it, n) =>
+        `<button type="button" class="chk ${state[n] ? "on" : ""}" data-c="${n}">
            <span class="box"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"/></svg></span>
            <span class="t">${esc(t(it.t))}<em>${esc(t(it.e))}</em></span></button>`).join("") + `</div>` +
         (all
-          ? `<div class="opts"><button class="opt sig full" data-n="0">${esc(t("All confirmed, continue"))}</button></div>`
-          : `<div class="gate"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
-             ${t("{0} of {1}. You cannot submit until all are true", state.filter(Boolean).length, s.items.length)}</div>`));
-      $("#rail").querySelectorAll(".chk").forEach(el =>
-        el.onclick = () => { const n = +el.dataset.c; state[n] = !state[n]; draw(); });
-      const go = $("#rail").querySelector(".opt");
-      if (go) go.onclick = () => { bubble(`<p>${esc(t("All {0} confirmed", s.items.length))}</p>`, "me"); next(); };
+          ? `<div class="opts"><button type="button" class="opt sig full" id="chk-go">${esc(t(s.ready || "All confirmed, continue"))}</button></div>`
+          : `<div class="gate"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>${esc(t("{0} of {1}. The next step stays hidden until all are true", nOn, s.items.length))}</div>`));
+      $("#rail").querySelectorAll(".chk").forEach(el => {
+        el.onclick = () => { state[+el.dataset.c] = !state[+el.dataset.c]; draw(); };
+      });
+      const go = $("#chk-go");
+      if (go) go.onclick = () => {
+        go.disabled = true;
+        bubble(`<p>${esc(t("All {0} confirmed", s.items.length))}</p>`, "me");
+        next();
+      };
     };
     draw();
-  }
-
-  else if (s.kind === "doc"){
+  } else if (s.kind === "doc"){
     const d = s.build(st);
-    await typing(760);
-    const b = bubble(`<p>${d.msg}</p>`, "bot");
+    await typing(420);
+    if (!live()) return;
+    const b = bubble(`<p>${t(d.msg, ...(d.msgArgs || []))}</p>`, "bot");
     b.insertAdjacentHTML("beforeend",
-      `<div class="doc"><div class="dh"><b>${esc(t(d.title))}</b><span class="lab">${esc(d.sub)}</span></div>
-       <dl>` + d.rows.map(([k,v])=>`<dt>${esc(t(k))}</dt><dd>${esc(t(v))}</dd>`).join("") + `</dl></div>`);
-    if (d.note) b.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${t(d.note)}</p>`);
+      `<div class="doc"><div class="dh"><b>${esc(t(d.title))}</b><span class="lab">${esc(t(d.sub))}</span></div><dl>` +
+      d.rows.map(([k, v]) => `<dt>${esc(t(k))}</dt><dd>${esc(t(String(v)))}</dd>`).join("") + `</dl></div>`);
+    if (d.note) b.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${t(d.note, ...(d.noteArgs || []))}</p>`);
+    if (s.why) b.insertAdjacentHTML("beforeend", whyBlock(s.why));
     $("#log").scrollTop = $("#log").scrollHeight;
     rail(optBtns(s.opts));
-    bind(()=>{ bubble(`<p>${esc(t(s.opts[0].label))}</p>`, "me"); next(); });
-  }
-
-  else if (s.kind === "finish"){
-    s.apply(st); save();
-    await botSay(typeof s.msg === "function" ? s.msg(st) : s.msg);
-    rail(`<div class="opts"><button class="opt primary full" data-n="0">${esc(t("Back to today"))}</button></div>`);
-    bind(()=>{ renderAll(); closeFlow(); if (s.toast) toast(s.toast); });
+    bind(() => {
+      bubble(`<p>${esc(t(s.opts[0].label, ...(s.opts[0].args || [])))}</p>`, "me");
+      next();
+    });
+  } else if (s.kind === "photo"){
+    await botSay(s.msg, s.why);
+    if (!live()) return;
+    rail(`<div class="opts"><button type="button" class="opt sig full" data-n="0"><svg viewBox="0 0 24 24"><path d="M3 8.5A1.5 1.5 0 014.5 7h2L8 5h8l1.5 2h2A1.5 1.5 0 0121 8.5v9A1.5 1.5 0 0119.5 19h-15A1.5 1.5 0 013 17.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg>${esc(t("Take photo"))}</button></div>`);
+    bind(async () => {
+      rail("");
+      const b = bubble(`<p>${esc(t("Photo attached"))}</p>`, "me");
+      b.insertAdjacentHTML("beforeend",
+        `<div class="shot"><div class="img"></div><div class="cap"><span>${esc(t(s.ref))}</span><span>${AS_AT}</span><span>${esc(t(s.place || "Lakeside"))}</span></div></div>`);
+      $("#log").scrollTop = $("#log").scrollHeight;
+      busy = true;
+      await botSay(s.kept || "Geotagged and timestamped. It cannot be edited after this point.");
+      if (!live()) return;
+      busy = false;
+      next();
+    });
+  } else if (s.kind === "talk"){
+    await botSay(s.msg, s.why);
+    if (!live()) return;
+    rail(`<div class="q">${esc(t(s.q))}</div>
+      <button type="button" class="mic" id="mic">
+        <span class="dot"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></span>
+        <span class="t"><b>${esc(t("Hold to talk"))}</b><span>${esc(t(s.hint))}</span></span>
+      </button>`);
+    $("#mic").onclick = () => runTalk(s);
+  } else if (s.kind === "finish"){
+    s.apply(st);
+    save();
+    await botSay(said(s.msg));
+    if (!live()) return;
+    rail(`<div class="opts"><button type="button" class="opt primary full" data-n="0">${esc(t("Back to the project"))}</button></div>`);
+    bind(() => { closeFlow(); if (s.toast) toast(s.toast); });
     busy = false;
     return;
   }
-
   busy = false;
 }
 
-/* -- Speech ------------------------------------------------------
-   Uses the browser recogniser when the page is allowed a microphone,
-   and a scripted capture when it is not, which is the usual case inside
-   an embedded frame. On a handset this is an on-device model: the point
-   of the design is that whatever produces the words, the words only ever
-   become fields. The arithmetic downstream never sees the audio.
-   ---------------------------------------------------------------- */
-const NUMW = {
-  // Afrikaans
-  een:1,twee:2,drie:3,vier:4,vyf:5,ses:6,sewe:7,agt:8,nege:9,tien:10,elf:11,twaalf:12,
-  dertien:13,veertien:14,vyftien:15,sestien:16,sewentien:17,agtien:18,negentien:19,
-  twintig:20,dertig:30,veertig:40,vyftig:50,sestig:60,sewentig:70,tagtig:80,negentig:90,
-  honderd:100,duisend:1000,miljoen:1000000,
-  // English
-  zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,
-  ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,
-  eighteen:18,nineteen:19,twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,
-  eighty:80,ninety:90,hundred:100,thousand:1000,million:1000000};
-
-function words2num(text){
-  const digits = text.replace(/[,\s]/g,"").match(/\d{3,}/);
-  if (digits) return parseInt(digits[0],10);
-  let total = 0, run = 0, seen = false;
-  for (const w of text.toLowerCase().replace(/[^a-z\s]/g," ").split(/\s+/)){
-    const v = NUMW[w];
-    if (v === undefined) continue;
-    seen = true;
-    if (v === 100){ run = (run||1)*100; }
-    else if (v >= 1000){ total += (run||1)*v; run = 0; }
-    else run += v;
-  }
-  const n = total + run;
-  return seen && n ? n : null;
-}
-
-// Pull one amount per keyword out of a freely spoken sentence. Each key carries
-// its own alternation so "labour", "labor" and "the guys" all land in one field.
-function parseSpoken(text, keys){
-  const low = " " + text.toLowerCase().replace(/\brand\b/g," ") + " ";
-  const marks = [];
-  keys.forEach(k => {
-    const m = low.match(k.re);
-    if (m) marks.push({ key:k.key, start:m.index, after:m.index + m[0].length });
-  });
-  marks.sort((a,b) => a.start - b.start);
-  const out = {};
-  marks.forEach((m, n) => {
-    const end = n+1 < marks.length ? marks[n+1].start : low.length;
-    out[m.key] = words2num(low.slice(m.after, end));
-  });
-  return out;
-}
-
-function listen(ms){
-  return new Promise(resolve => {
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR || !window.isSecureContext) return resolve(null);
-    let r;
-    try { r = new SR(); } catch(e){ return resolve(null); }
-    r.lang = LANG === "af" ? "af-ZA" : "en-ZA"; r.continuous = true; r.interimResults = true; r.maxAlternatives = 1;
-    let text = "", done = false;
-    const finish = v => { if (done) return; done = true; try { r.stop(); } catch(e){} resolve(v); };
-    r.onresult = e => {
-      text = "";
-      for (let i = 0; i < e.results.length; i++) text += e.results[i][0].transcript;
-      const live = $("#heard"); if (live) live.textContent = text;
-    };
-    r.onerror = () => finish(null);
-    r.onend = () => finish(text.trim() || null);
-    try { r.start(); } catch(e){ return resolve(null); }
-    setTimeout(() => finish(text.trim() || null), ms);
-  });
-}
-
-async function runVoice(s){
+async function runTalk(s){
   const mic = $("#mic");
-  if (!mic) return;
+  if (!mic || busy) return;
+  const g = gen;
   busy = true;
   mic.classList.add("rec");
-  mic.querySelector(".t").innerHTML =
-    `<b>${esc(t("Listening"))}</b><span id="heard">${esc(t(s.hint))}</span>`;
+  mic.querySelector(".t").innerHTML = `<b>${esc(t("Listening"))}</b><span id="heard"></span>`;
   mic.insertAdjacentHTML("beforeend", `<span class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>`);
-  $("#rail").querySelector(".opts").remove();
-
   const demo = (LANG === "af" && s.demoAf) ? s.demoAf : s.demo;
-  const keys = (LANG === "af" && s.keysAf) ? s.keysAf : s.keys;
-
-  let heard = await listen(7000);
-  const live = heard !== null;
-  if (!live){
-    // scripted capture, revealed at speaking pace
-    heard = "";
-    const words = demo.split(" ");
-    for (const w of words){
-      heard += (heard ? " " : "") + w;
-      const el = $("#heard"); if (el) el.textContent = heard;
-      await new Promise(r => setTimeout(r, 105));
-    }
-    await new Promise(r => setTimeout(r, 420));
+  let heard = "";
+  const words = demo.split(" ");
+  for (const w of words){
+    heard += (heard ? " " : "") + w;
+    const el = $("#heard");
+    if (el) el.textContent = heard;
+    await new Promise(r => setTimeout(r, 28));
+    if (g !== gen) return;
   }
-
+  await new Promise(r => setTimeout(r, 240));
+  if (g !== gen) return;
   rail("");
-  const b = bubble(`<p>${esc(heard)}</p>`, "me");
-  $("#log").scrollTop = $("#log").scrollHeight;
-
-  const got = parseSpoken(heard, keys);
-  const missing = keys.filter(k => !got[k.key]);
-  if (missing.length){
-    // never guess at a number that was not clearly said
-    const fallback = parseSpoken(demo, keys);
-    missing.forEach(k => got[k.key] = fallback[k.key]);
-  }
-  keys.forEach(k => st[k.key] = got[k.key]);
-  st.voice = true;
-
-  await typing(760);
+  bubble(`<p>${esc(heard)}</p>`, "me");
+  await typing(360);
+  if (g !== gen) return;
   const rb = bubble(`<p>${t(s.back)}</p>`, "bot");
-  rb.insertAdjacentHTML("beforeend",
-    `<div class="calc">` + keys.map(k =>
-      `<div><span>${esc(t(k.label))}</span><span>${R(got[k.key])}</span></div>`).join("") + `</div>`);
-  rb.insertAdjacentHTML("beforeend",
-    `<p style="margin-top:9px">${t("Read that back before I use it. A number heard wrong is a number claimed wrong.")}</p>`);
-  rb.insertAdjacentHTML("beforeend",
-    `<div class="srcnote">${t(live
-      ? "Captured with the browser recogniser"
-      : "Scripted capture: this frame is not allowed a microphone")}</div>`);
+  rb.insertAdjacentHTML("beforeend", calcHtml(s.fields));
+  rb.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${t("Read that back before it is kept.")}</p>`);
+  if (s.flagNote) rb.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${t(s.flagNote)}</p>`);
+  rb.insertAdjacentHTML("beforeend", `<div class="srcnote">${t("Fixed sample note. Confirm the read-back before it is kept.")}</div>`);
   $("#log").scrollTop = $("#log").scrollHeight;
   busy = false;
-
   rail(`<div class="opts">
-    <button class="opt sig full" data-n="0">${esc(t("All three correct"))}</button>
-    <button class="opt full" data-n="1">${esc(t("Say it again"))}</button></div>`);
+    <button type="button" class="opt sig full" data-n="0">${esc(t("Keep it"))}</button>
+    <button type="button" class="opt full" data-n="1">${esc(t("Say it again"))}</button></div>`);
   $("#rail").querySelectorAll(".opt").forEach(el => el.onclick = () => {
-    if (+el.dataset.n === 1){ st.voice = false; step(); }
+    if (busy) return;
+    if (+el.dataset.n === 1) step();
     else next();
   });
 }
 
 function bind(fn){
-  $("#rail").querySelectorAll(".opt").forEach(el =>
-    el.onclick = () => { if (!busy) fn(+el.dataset.n || 0); });
+  $("#rail").querySelectorAll(".opt").forEach(el => {
+    el.onclick = () => { if (!busy) fn(+el.dataset.n || 0); };
+  });
 }
 function next(){ i++; step(); }
 
@@ -2334,24 +2008,25 @@ function toast(txt){
   const el = $("#toast");
   el.innerHTML = `<svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"/></svg><span>${esc(t(txt))}</span>`;
   el.hidden = false;
-  clearTimeout(toastT); toastT = setTimeout(()=> el.hidden = true, 3200);
+  clearTimeout(toastT);
+  toastT = setTimeout(() => { el.hidden = true; }, 3200);
 }
 
-/* ================================================================
-   7. WIRING
-   ================================================================ */
 document.addEventListener("click", e => {
   const hit = e.target.closest("[data-flow]");
-  if (hit){ const f = hit.dataset.flow; if (f === "locked") toast(t("Mapped, not built in this prototype.")); else openFlow(f); }
+  if (hit){
+    const f = hit.dataset.flow;
+    if (f === "locked") toast("The step before this one is not done yet.");
+    else openFlow(f);
+  }
   const tab = e.target.closest("[data-tab]");
   if (tab){
     document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b === tab));
-    document.querySelectorAll(".pane").forEach(p => p.classList.toggle("on", p.id === "pane-"+tab.dataset.tab));
+    document.querySelectorAll(".pane").forEach(p => p.classList.toggle("on", p.id === "pane-" + tab.dataset.tab));
     $(".scroll").scrollTop = 0;
-    setBar(tab.dataset.tab === "board");
   }
 });
-$("#chat-back").onclick = closeFlow;
+$("#chat-back").onclick = () => { busy = false; closeFlow(); };
 
 function flip(){
   const cur = document.documentElement.getAttribute("data-theme");
@@ -2361,30 +2036,26 @@ function flip(){
 $("#theme").onclick = flip;
 $("#theme2").onclick = flip;
 
-// Switching language closes any flow in progress. Half a conversation in one
-// language and half in another is worse than starting the step again.
-function paintLang(){
-  const b = $("#lang");
-  b.textContent = LANG === "af" ? "AF" : "EN";
-  b.classList.toggle("af", LANG === "af");
-  document.querySelectorAll("#tabs button span").forEach(sp => {
-    sp.textContent = t(sp.dataset.en || (sp.dataset.en = sp.textContent));
-  });
-  $("#theme").textContent = t("Flip theme");
-  $("#reset").textContent = t("Reset demo");
-}
 $("#lang").onclick = () => {
   LANG = LANG === "af" ? "en" : "af";
-  try { localStorage.setItem("plumbline.lang", LANG); } catch(e){}
-  closeFlow();
-  paintLang();
+  try { localStorage.setItem("plumbline.lang", LANG); } catch (e) {}
+  gen++;
+  busy = false;
+  $("#chat").hidden = true;
+  F = null;
   renderAll();
-  toast(LANG === "af" ? "Taal gestel op Afrikaans" : "Language set to English");
+  toast(LANG === "af" ? "Language set to Afrikaans" : "Language set to English");
 };
 $("#reset").onclick = () => {
-  S = JSON.parse(JSON.stringify(SEED)); save(); renderAll(); closeFlow(); toast("Demo reset");
+  S = fresh();
+  save();
+  gen++;
+  busy = false;
+  $("#chat").hidden = true;
+  F = null;
+  renderAll();
+  toast("Demo reset");
 };
 
-paintLang();
 renderAll();
 </script>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Head Office</title>
+<title>Company overview</title>
 <meta name="description" content="The head office console: every live project against the price it was won at, organised around the six value areas.">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +18,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SiteOS">
-<meta property="og:title" content="Head Office">
+<meta property="og:title" content="Company overview">
 <meta property="og:description" content="The head office console: every live project against the price it was won at, organised around the six value areas.">
 <meta property="og:url" content="/office">
 <meta name="twitter:card" content="summary">
@@ -79,161 +79,31 @@ body{
 button{font:inherit; color:inherit; background:none; border:0; cursor:pointer}
 
 .mono{font-family:var(--mono); font-variant-numeric:tabular-nums}
-.lab{font-family:var(--mono); font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-3)}
 
-/* -- shell ------------------------------------------------------- */
-.shell{display:grid; grid-template-columns:224px 1fr; min-height:100vh; min-height:100dvh}
-
-.side{
-  border-right:1px solid var(--rule); background:var(--surface);
-  display:flex; flex-direction:column; position:sticky; top:0; height:100dvh;
-}
-.brand{padding:20px 20px 16px; border-bottom:1px solid var(--rule)}
-.brand .w{display:flex; align-items:baseline; gap:8px; font-size:19px; font-weight:700; letter-spacing:.02em}
-.brand .w b{font-weight:700; color:var(--signal-txt)}
-.brand .w i{width:7px; height:7px; border:2px solid var(--signal); border-radius:50%; flex:none; transform:translateY(-1px)}
-.brand .co{margin-top:12px; display:flex; align-items:center; gap:8px}
-.brand .co svg{width:24px; height:24px; flex:none; border-radius:2px}
-.brand .co span{font-size:11.5px; font-weight:700; line-height:1.2}
-
-.nav{padding:10px 10px; display:flex; flex-direction:column; gap:1px; flex:1; overflow-y:auto}
-.nav button{
-  display:flex; align-items:center; gap:10px; padding:9px 11px; border-radius:7px;
-  color:var(--ink-2); text-align:left; width:100%;
-}
-.nav button svg{width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.7; flex:none}
-.nav button:hover{background:var(--surface-2); color:var(--ink)}
-.nav button.on{background:var(--surface-2); color:var(--ink); font-weight:600}
-.nav button.on svg{stroke:var(--signal-txt)}
-.nav button .ct{margin-left:auto; font-family:var(--mono); font-size:10.5px; color:var(--ink-3)}
-.nav .sec{padding:14px 11px 6px}
-
-.side .foot{padding:12px 14px; border-top:1px solid var(--rule); display:flex; gap:10px; align-items:center}
-.side .foot button{font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
-.side .foot button:hover{color:var(--ink)}
-
-.main{min-width:0; display:flex; flex-direction:column}
 .top{
   padding:18px 28px; border-bottom:1px solid var(--rule); background:var(--surface);
-  display:flex; align-items:flex-end; gap:18px; flex-wrap:wrap; position:sticky; top:0; z-index:10;
+  display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+  position:sticky; top:0; z-index:10;
+}
+.mast{display:flex; align-items:center; gap:16px; min-width:0}
+.w{
+  display:flex; align-items:baseline; gap:8px; font-size:22px; font-weight:700;
+  letter-spacing:.02em; padding-right:16px; border-right:1px solid var(--rule); flex:none;
+}
+.w b{font-weight:700; color:var(--signal-txt)}
+.w i{
+  width:8px; height:8px; border:2px solid var(--signal); border-radius:50%;
+  display:inline-block; flex:none; transform:translateY(-1px);
 }
 .top h1{margin:0; font-size:24px; font-weight:700; letter-spacing:-.01em; line-height:1.15}
 .top .sub{margin:3px 0 0; font-size:13px; color:var(--ink-2)}
-.top .sp{flex:1}
-.top .stamp{
+.sp{flex:1}
+.stamp{
   font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
   color:var(--ink-3); border:1px solid var(--rule); padding:5px 9px; border-radius:5px;
+  white-space:nowrap;
 }
-.body{padding:24px 28px 60px; flex:1}
-
-/* -- primitives -------------------------------------------------- */
-.kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(178px,1fr)); gap:1px;
-      background:var(--rule); border:1px solid var(--rule); border-radius:4px; overflow:hidden}
-.kpis > div{background:var(--surface); padding:15px 17px}
-.kpis b{display:block; font-family:var(--mono); font-size:25px; font-weight:700;
-        letter-spacing:-.03em; line-height:1.1; margin-top:5px}
-.kpis .d{display:block; font-size:12px; color:var(--ink-2); margin-top:4px}
-.kpis .up b{color:var(--ok)} .kpis .dn b{color:var(--crit)}
-
-.sec{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin:30px 0 10px}
-.card{background:var(--surface); border:1px solid var(--rule); border-radius:4px; box-shadow:var(--shadow); overflow:hidden}
-
-.tw{overflow-x:auto}
-table{border-collapse:collapse; width:100%; font-size:13.5px; min-width:680px}
-th,td{padding:10px 15px; text-align:left; border-bottom:1px solid var(--rule-2); vertical-align:middle}
-th{font-family:var(--mono); font-size:9.5px; letter-spacing:.15em; text-transform:uppercase;
-   color:var(--ink-3); font-weight:600; background:var(--surface-2);
-   border-bottom:1px solid var(--rule); white-space:nowrap; position:sticky; top:0}
-tbody tr:last-child td{border-bottom:0}
-tbody tr.click{cursor:pointer}
-tbody tr.click:hover{background:var(--surface-2)}
-td.n, th.n{font-family:var(--mono); font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
-td.name{font-weight:600}
-td .sub{display:block; font-size:11.5px; color:var(--ink-3); font-weight:400; margin-top:1px}
-
-.pill{display:inline-flex; align-items:center; gap:5px; padding:2.5px 8px; border-radius:20px;
-      font-family:var(--mono); font-size:10.5px; font-weight:600; font-variant-numeric:tabular-nums; white-space:nowrap}
-.pill.ok{background:var(--ok-wash); color:var(--ok)}
-.pill.warn{background:var(--warn-wash); color:var(--warn)}
-.pill.crit{background:var(--crit-wash); color:var(--crit)}
-.pill.flat{background:var(--surface-2); color:var(--ink-2)}
-.pill.sig{background:var(--signal); color:var(--signal-ink)}
-.ed{font-family:var(--mono); font-size:9.5px; padding:2px 6px; border-radius:3px;
-    background:var(--surface-2); color:var(--ink-2); border:1px solid var(--rule); white-space:nowrap}
-
-/* programme bar: baseline against forecast */
-.prog{position:relative; height:16px; min-width:130px; background:var(--surface-2); border-radius:3px; overflow:hidden}
-.prog .base{position:absolute; left:0; top:0; bottom:8px; background:var(--ink-3); opacity:.4; border-radius:3px 0 0 0}
-.prog .act{position:absolute; left:0; top:8px; bottom:0; border-radius:0 0 0 3px}
-.prog .act.ok{background:var(--ok)} .prog .act.late{background:var(--crit)}
-.prog .now{position:absolute; top:0; bottom:0; width:1.5px; background:var(--signal)}
-
-/* control point meter */
-.cp{display:flex; align-items:center; gap:9px}
-.cp .track{flex:1; min-width:70px; height:6px; background:var(--surface-2); border-radius:3px; overflow:hidden}
-.cp .fill{height:100%; background:var(--signal)}
-.cp span{font-family:var(--mono); font-size:11px; color:var(--ink-2); white-space:nowrap}
-
-/* site cards */
-.sites{display:grid; grid-template-columns:repeat(auto-fill,minmax(268px,1fr)); gap:14px}
-.site{background:var(--surface); border:1px solid var(--rule); border-radius:4px;
-      box-shadow:var(--shadow); padding:15px 16px; text-align:left; width:100%;
-      transition:transform .14s ease, border-color .14s ease}
-.site:hover{transform:translateY(-2px); border-color:var(--ink-3)}
-.site .r1{display:flex; align-items:flex-start; gap:8px; margin-bottom:3px}
-.site .r1 b{font-size:15px; font-weight:600; flex:1; min-width:0; line-height:1.25}
-.site .town{font-size:11.5px; color:var(--ink-3)}
-.site .rows{margin-top:12px; display:flex; flex-direction:column; gap:7px}
-.site .row{display:flex; justify-content:space-between; gap:10px; font-size:12.5px}
-.site .row span:first-child{color:var(--ink-2)}
-.site .row span:last-child{font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600}
-.site .clk{margin-top:12px; padding-top:11px; border-top:1px solid var(--rule-2);
-           display:flex; align-items:center; gap:8px; font-size:12px}
-.site .clk .what{color:var(--ink-2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-
-/* filters */
-.filters{display:flex; gap:7px; flex-wrap:wrap; margin-bottom:12px}
-.filters button{
-  padding:5px 11px; border:1px solid var(--rule); border-radius:20px; background:var(--surface);
-  font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2);
-}
-.filters button:hover{border-color:var(--ink-3); color:var(--ink)}
-.filters button.on{background:var(--ink); color:var(--ground); border-color:var(--ink)}
-
-/* detail */
-.back{display:inline-flex; align-items:center; gap:7px; font-family:var(--mono); font-size:10.5px;
-      letter-spacing:.14em; text-transform:uppercase; color:var(--ink-2); margin-bottom:4px}
-.back:hover{color:var(--ink)}
-.back svg{width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2.2}
-.two{display:grid; grid-template-columns:repeat(auto-fit,minmax(330px,1fr)); gap:16px}
-.panel{background:var(--surface); border:1px solid var(--rule); border-radius:4px; box-shadow:var(--shadow)}
-.panel h3{margin:0; padding:12px 16px; font-size:12px; font-weight:600; border-bottom:1px solid var(--rule);
-          font-family:var(--mono); letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
-.panel .in{padding:14px 16px}
-.kv{display:flex; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px solid var(--rule-2); font-size:13.5px}
-.kv:last-child{border-bottom:0}
-.kv span:first-child{color:var(--ink-2)}
-.kv span:last-child{font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600}
-.kv .up{color:var(--ok)} .kv .dn{color:var(--crit)}
-
-
-/* Their own device: a flat yellow panel with a hard black rule around it.
-   Used wherever the accent has to carry weight rather than whisper. */
-.chip.sig, .pill.sig, .opt.sig, .mini.go, .nav button.on,
-.card.accent .n, .fields .num, .ask .n, .cin button, .filters button.on{
-  border:1px solid #0C0C0C;
-}
-.eyebrow::before{height:4px; width:26px}
-
-.empty{padding:40px 20px; text-align:center; color:var(--ink-2)}
-
-/* toolbar: search, language, copy */
 .tools{display:flex; align-items:center; gap:8px}
-.tools input{
-  width:190px; padding:6px 11px; border:1px solid var(--rule); border-radius:7px;
-  background:var(--surface-2); color:var(--ink); font:inherit; font-size:13px;
-}
-.tools input:focus{outline:none; border-color:var(--signal); background:var(--surface)}
 .tools button{
   font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
   color:var(--ink-2); border:1px solid var(--rule); border-radius:6px; padding:6px 10px;
@@ -242,11 +112,61 @@ td .sub{display:block; font-size:11.5px; color:var(--ink-3); font-weight:400; ma
 .tools .langbtn{min-width:42px; text-align:center}
 .tools .langbtn.af{border-color:var(--signal); color:var(--signal-txt)}
 
+.body{padding:24px 28px 60px}
+
+.card{
+  background:var(--surface); border:1px solid var(--rule); border-radius:4px;
+  box-shadow:var(--shadow); overflow:auto;
+}
+table{border-collapse:collapse; width:max-content; min-width:100%; font-size:13.5px}
+th,td{
+  padding:8px 10px; text-align:left; border-bottom:1px solid var(--rule-2);
+  vertical-align:middle;
+}
+td{white-space:nowrap}
+th{
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--ink-3); font-weight:600; background:var(--surface-2);
+  border-bottom:1px solid var(--rule); white-space:normal; line-height:1.3;
+  vertical-align:bottom; max-width:7.2rem;
+}
+thead tr.bands th{
+  text-align:center; color:var(--ink-2); background:var(--surface);
+  letter-spacing:.16em; padding:8px 12px 6px; border-bottom:0; white-space:nowrap;
+  max-width:none; vertical-align:middle;
+  box-shadow:inset 0 3px 0 var(--signal);
+}
+thead tr.bands th + th, th.g, td.g{border-left:1px solid var(--rule)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:var(--surface-2)}
+td.n, th.n{font-family:var(--mono); font-variant-numeric:tabular-nums; text-align:right}
+td.name{font-weight:600}
+td.neg{color:var(--crit)}
+td.mid, th.mid{text-align:center}
+.muted{color:var(--ink-3)}
+
+.pill{
+  display:inline-flex; align-items:center; gap:5px; padding:2.5px 8px; border-radius:20px;
+  font-family:var(--mono); font-size:10.5px; font-weight:600; font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+}
+.pill.ok{background:var(--ok-wash); color:var(--ok)}
+.pill.warn{background:var(--warn-wash); color:var(--warn)}
+.pill.crit{background:var(--crit-wash); color:var(--crit)}
+.pill.flat{background:var(--surface-3); color:var(--ink-2)}
+
+tfoot td{
+  background:var(--surface-2); font-weight:700;
+  border-top:1px solid var(--rule); border-bottom:0;
+}
+
 th.sortable{cursor:pointer; user-select:none}
 th.sortable:hover{color:var(--ink)}
 th.sorted{color:var(--signal-txt)}
-th.sorted::after{content:" 91"; font-size:11px}
-th.sorted[data-dir="desc"]::after{content:" 93"}
+th.sorted::after{content:" \2191"}
+th.sorted.desc::after{content:" \2193"}
+
+.foot-note{margin-top:18px; font-size:12px; color:var(--ink-3); line-height:1.55; max-width:88ch}
 
 #toast{
   position:fixed; left:50%; bottom:26px; transform:translateX(-50%); z-index:200;
@@ -254,2358 +174,398 @@ th.sorted[data-dir="desc"]::after{content:" 93"}
   font-size:13.5px; box-shadow:0 8px 30px rgba(0,0,0,.35);
 }
 #toast[hidden]{display:none}
-.kbd{font-family:var(--mono); font-size:10px; color:var(--ink-3); padding:0 4px;
-     border:1px solid var(--rule); border-radius:3px}
 
-/* action queue */
-.job{display:flex; gap:14px; align-items:flex-start; padding:13px 16px;
-     border-bottom:1px solid var(--rule-2); border-left:3px solid transparent}
-.job:last-child{border-bottom:0}
-.job.crit{border-left-color:var(--crit)} .job.warn{border-left-color:var(--warn)} .job.ok{border-left-color:var(--ok)}
-.job .jb{flex:1; min-width:0}
-.job .jt{font-size:14.5px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
-.job .jw{font-size:12.5px; color:var(--ink-2); margin-top:4px}
-.job .ja{font-size:12.5px; color:var(--signal-txt); margin-top:5px; font-weight:600}
-.job .jx{display:flex; gap:7px; flex:none}
-.mini{font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase;
-      border:1px solid var(--rule); border-radius:5px; padding:5px 9px; color:var(--ink-2)}
-.mini:hover{border-color:var(--ink); color:var(--ink)}
-.mini.go{background:var(--signal); color:var(--signal-ink); border-color:var(--signal)}
-.mini.pin{margin-top:7px}
-
-/* assistant */
-.chat .log{max-height:290px; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:11px}
-.cm{display:flex; flex-direction:column; align-items:flex-start}
-.cm.me{align-items:flex-end}
-.cm .bub{max-width:76%; padding:9px 13px; border-radius:3px 12px 12px 12px; font-size:14px;
-         background:var(--surface-2); border:1px solid var(--rule); line-height:1.5}
-.cm.me .bub{background:var(--ink); color:var(--ground); border-color:var(--ink); border-radius:4px 3px 12px 12px}
-.sugg{display:flex; gap:7px; flex-wrap:wrap; padding:0 16px 12px}
-.chip{padding:5px 11px; border:1px solid var(--rule); border-radius:20px; font-size:12px; color:var(--ink-2)}
-.chip:hover{border-color:var(--signal); color:var(--signal-txt)}
-.cin{display:flex; gap:8px; padding:12px 16px; border-top:1px solid var(--rule)}
-.cin input{flex:1; padding:9px 12px; border:1px solid var(--rule); border-radius:4px;
-           background:var(--surface-2); color:var(--ink); font:inherit; font-size:14px}
-.cin input:focus{outline:none; border-color:var(--signal); background:var(--surface)}
-
-/* widgets */
-.wgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:14px}
-.widget .wh{display:flex; align-items:center; justify-content:space-between; gap:10px;
-            padding:11px 15px; border-bottom:1px solid var(--rule); font-size:12px; font-weight:600;
-            font-family:var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
-.widget .wb{padding:13px 15px; display:flex; flex-direction:column; gap:9px}
-.brow{display:flex; align-items:center; gap:10px; font-size:12.5px}
-.brow .bl{width:80px; flex:none; color:var(--ink-2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-.brow .bt{flex:1; height:9px; background:var(--surface-2); border-radius:5px; overflow:hidden; display:flex}
-.brow .bt i{height:100%; border-radius:5px}
-.brow .bt i.pos{background:var(--signal)} .brow .bt i.neg{background:var(--crit)}
-.brow .bv{width:58px; text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600}
-.lrow{display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:13px}
-.lrow .ll{min-width:0; overflow:hidden}
-.lrow .ll em{display:block; font-style:normal; font-size:11px; color:var(--ink-3)}
-
-/* knowledge graph */
-.brainwrap{position:relative; display:grid; grid-template-columns:1fr 288px;
-           border:1px solid var(--rule); border-radius:4px; overflow:hidden;
-           background:var(--surface); box-shadow:var(--shadow)}
-#brain{width:100%; height:600px; display:block; cursor:grab;
-  background:radial-gradient(circle at 50% 45%, rgba(255,194,14,.09), transparent 62%)}
-#gtip{position:absolute; z-index:5; pointer-events:none; background:var(--ink); color:var(--ground);
-      padding:7px 10px; border-radius:7px; font-size:12px; max-width:230px; box-shadow:0 6px 22px rgba(0,0,0,.3)}
-#gtip b{display:block; font-weight:600}
-#gtip span{font-family:var(--mono); font-size:10px; opacity:.7}
-#gtip[hidden]{display:none}
-#gpanel{border-left:1px solid var(--rule); padding:16px; overflow-y:auto; max-height:600px; background:var(--surface-2)}
-.gcounts{display:flex; flex-wrap:wrap; gap:5px 10px; margin-top:14px}
-.gcounts span{display:inline-flex; align-items:center; gap:5px; font-family:var(--mono); font-size:10.5px; color:var(--ink-2)}
-.gcounts i{width:7px; height:7px; border-radius:50%; flex:none}
-.gl .gr.risk{color:var(--crit)}
-#gstat{font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3)}
-#gpanel h4{margin:6px 0 12px; font-size:15px; font-weight:600; line-height:1.3}
-#gpanel p{font-size:13px; color:var(--ink-2); margin:8px 0 0}
-.glinks{display:flex; flex-direction:column; gap:8px}
-.gl{display:flex; flex-direction:column; gap:3px}
-.gl .gr{font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3)}
-.gl .gn{font-size:12.5px; border-left:2px solid var(--rule); padding-left:8px}
-.glegend{display:flex; gap:7px; flex-wrap:wrap; margin:12px 0 0}
-.glegend button{display:inline-flex; align-items:center; gap:6px; padding:4px 10px;
-                border:1px solid var(--rule); border-radius:20px; font-size:11.5px; color:var(--ink-2)}
-.glegend button i{width:9px; height:9px; border-radius:50%; flex:none}
-.glegend button.off{opacity:.38}
-.glegend button:hover{border-color:var(--ink)}
-.bq{display:flex; gap:8px; margin:14px 0 0}
-.bq input{flex:1; padding:9px 12px; border:1px solid var(--rule); border-radius:4px;
-          background:var(--surface); color:var(--ink); font:inherit; font-size:14px}
-.bq input:focus{outline:none; border-color:var(--signal)}
-.bans{margin-top:11px; font-size:13.5px; color:var(--ink-2); border-left:3px solid var(--signal);
-      padding:9px 13px; background:var(--surface); border-radius:0 8px 8px 0}
-.bans[hidden]{display:none}
-@media (max-width:900px){
-  .brainwrap{grid-template-columns:1fr}
-  #gpanel{border-left:0; border-top:1px solid var(--rule); max-height:none}
-  #brain{height:460px}
-}
-.foot-note{margin-top:18px; font-size:12px; color:var(--ink-3); line-height:1.55; max-width:80ch}
-
-@media (max-width:900px){
-  .shell{grid-template-columns:1fr}
-  .side{position:static; height:auto; border-right:0; border-bottom:1px solid var(--rule)}
-  .brand{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px}
-  .brand .co{margin-top:0}
-  .nav{flex-direction:row; overflow-x:auto; padding:8px 10px}
-  .nav button{white-space:nowrap}
-  .nav button .ct, .nav .sec{display:none}
-  .side .foot{display:none}
+@media (max-width:720px){
   .top{padding:14px 16px; position:static}
-  .body{padding:18px 16px 50px}
+  .body{padding:16px 16px 48px}
+  .mast{align-items:flex-start}
+  .w{border-right:0; padding-right:0}
 }
 </style>
 
-<div class="shell">
-
-  <aside class="side">
-    <div class="brand">
-      <div class="w"><span>Site<b>OS</b></span><i></i></div>
-      <div class="co">
-        <svg viewBox="0 0 100 100" role="img" aria-label="J.C. van der Linde and Venter Projects">
-          <rect width="100" height="100" fill="#0B0B0B"/>
-          <g transform="translate(6,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFCB05"/></g>
-          <g transform="translate(52,21)"><polygon points="0,0 21,58 42,0 29,0 21,36 13,0" fill="#FFCB05"/></g>
-        </svg>
-        <span>J.C. van der Linde<br>&amp; Venter Projects</span>
-      </div>
+<header class="top">
+  <div class="mast">
+    <div class="w"><span>Site<b>OS</b></span><i></i></div>
+    <div>
+      <h1 id="title">Company overview</h1>
+      <p class="sub" id="sub">One sheet for the contracts director.</p>
     </div>
+  </div>
+  <span class="sp"></span>
+  <div class="tools">
+    <button type="button" id="theme">Theme</button>
+    <button type="button" class="langbtn" id="lang" aria-label="Taal / Language">EN</button>
+  </div>
+  <span class="stamp" id="asof"></span>
+</header>
 
-    <nav class="nav" id="nav">
-      <div class="sec lab">Company</div>
-      <button data-v="portfolio" class="on">
-        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/></svg>
-        Portfolio</button>
-      <button data-v="sites">
-        <svg viewBox="0 0 24 24"><path d="M3 20h18M6 20V9l6-5 6 5v11"/><path d="M10 20v-5h4v5"/></svg>
-        Sites <span class="ct" id="ct-sites"></span></button>
-
-      <button data-v="insights">
-        <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 00-3.5 10.9V17h7v-3.1A6 6 0 0012 3z"/><path d="M9.5 20h5"/></svg>
-        Insights <span class="ct" id="ct-jobs"></span></button>
-
-      <div class="sec lab">Value areas</div>
-      <button data-v="tender">
-        <svg viewBox="0 0 24 24"><path d="M4 19V9l5-4 5 4M14 19V5l6 4v10M3 20h18"/></svg>
-        01 Tender</button>
-      <button data-v="boq">
-        <svg viewBox="0 0 24 24"><path d="M6 2h12v20H6z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>
-        Bills and rates</button>
-      <button data-v="procurement">
-        <svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
-        02 Procurement</button>
-      <button data-v="siteprod">
-        <svg viewBox="0 0 24 24"><path d="M4 21V4l12 3v14M4 21h16"/><path d="M8 9h4M8 13h4M8 17h4"/></svg>
-        03 Site productivity</button>
-      <button data-v="commercial">
-        <svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>
-        04 Commercial</button>
-      <button data-v="programme">
-        <svg viewBox="0 0 24 24"><path d="M4 6h9M4 12h14M4 18h6"/><circle cx="19" cy="6" r="2"/></svg>
-        05 Programme</button>
-      <button data-v="knowledge">
-        <svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4H11v16H5.5A1.5 1.5 0 014 18.5z"/><path d="M20 5.5A1.5 1.5 0 0018.5 4H13v16h5.5a1.5 1.5 0 001.5-1.5z"/></svg>
-        06 Knowledge</button>
-
-      <div class="sec lab">Records</div>
-      <button data-v="outputs">
-        <svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v5h5M9 13h6M9 17h6"/></svg>
-        Outputs <span class="ct" id="ct-outputs"></span></button>
-      <button data-v="clocks">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-        Clocks <span class="ct" id="ct-clocks"></span></button>
-      <button data-v="team">
-        <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0112 0"/><path d="M16 5.5a3.2 3.2 0 010 5M18 20a6 6 0 00-3-5.2"/></svg>
-        Team</button>
-    </nav>
-
-    <div class="foot">
-      <button id="theme">Theme</button>
-      <button id="reset">Reset</button>
-    </div>
-  </aside>
-
-  <main class="main">
-    <header class="top">
-      <div id="head"></div>
-      <span class="sp"></span>
-      <div class="tools">
-        <input id="q" type="search" autocomplete="off" placeholder="Search  /">
-        <button id="copy">Copy table</button>
-        <button class="langbtn" id="lang" aria-label="Taal / Language">EN</button>
-      </div>
-      <span class="stamp" id="asof"></span>
-    </header>
-    <div class="body" id="view"></div>
-  </main>
-  <div id="toast" hidden></div>
-</div>
+<main class="body">
+  <div class="card" id="sheet"></div>
+  <p class="foot-note" id="note"></p>
+</main>
+<div id="toast" hidden></div>
 
 <script>
 "use strict";
 
-/* ================================================================
-   Working days. Head office argues about dates more than site does,
-   so the same calendar has to sit behind both.
-   ================================================================ */
-const TODAY = new Date(2026, 7, 24);   // pinned to match the site app
-const HOLIDAYS = new Set([
-  "2026-01-01","2026-03-23","2026-04-03","2026-04-06","2026-04-27","2026-05-01",
-  "2026-06-16","2026-08-10","2026-09-24","2026-12-16","2026-12-25","2026-12-28",
-  "2027-01-01","2027-03-22","2027-03-26","2027-03-29","2027-04-27","2027-05-01",
-  "2027-06-16","2027-08-09","2027-09-24","2027-12-16","2027-12-27","2027-12-28"
-]);
-const iso = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-// Industry shutdown, carried in the tender qualifications rather than the
-// public holiday table. Any deadline that crosses year end is wrong without it.
-const BREAKS = [["2025-12-12","2026-01-12"], ["2026-12-11","2027-01-11"]];
-const inBreak = d => BREAKS.some(([a,b]) => iso(d) >= a && iso(d) <= b);
-const isWork = d => d.getDay()!==0 && d.getDay()!==6 && !HOLIDAYS.has(iso(d)) && !inBreak(d);
-function workdaysBetween(a,b){
-  const d = new Date(a); let n = 0, dir = b >= a ? 1 : -1;
-  while (dir > 0 ? d < b : d > b){ d.setDate(d.getDate()+dir); if (isWork(d)) n += dir; }
-  return n;
-}
-const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const fmt = d => d.getDate()+" "+MON[d.getMonth()]+" "+d.getFullYear();
-const R = n => "R"+Math.round(n).toLocaleString("en-ZA").replace(/,/g," ");
-const Rm = n => "R"+(n/1e6).toFixed(1)+"m";
-const D = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d); };
+/* Company overview, read as a hand-loaded BuildSmart dump.
+   Money is integer cents. Profit percents are fixtures on the row.
+   The sign-off target is the only date this page derives, and it is
+   ordinary calendar arithmetic, not a contract clause. */
 
-/* ================================================================
-   The book of work, and the six value areas the transformation
-   programme is organised around. Contract editions differ per
-   project on purpose: it is the thing head office cannot hold in
-   its head, and the reason the clock column exists at all.
-   ================================================================ */
-const SEED = {
-  projects:[
-    { id:"lou", name:"Menlyn Office Park Ph2", town:"Pretoria East", client:"Menlyn Property Holdings",
-      ed:"JBCC PBA 05/2018", stage:"On site", value:48240000, baseValue:48240000,
-      baseMargin:7.4, nowMargin:6.9, start:"2026-02-09", pcBase:"2027-03-19", pcNow:"2027-04-08",
-      cp:{done:31,total:48}, agent:"Ruan Bekker", cm:"Danie Marais",
-      certified:18420000, retention:921000, contra:71500,
-      ctc:27960000, capture:9, labourAllow:100, labourAct:106, rework:4, rfiOpen:3 },
-    { id:"tyg", name:"Centurion Retail Centre", town:"Centurion", client:"Highveld Retail Partners",
-      ed:"JBCC PBA 03/2014", stage:"Claims", value:71600000, baseValue:70200000,
-      baseMargin:8.1, nowMargin:8.4, start:"2025-09-01", pcBase:"2027-01-15", pcNow:"2027-01-15",
-      cp:{done:39,total:48}, agent:"Pieter Louw", cm:"Danie Marais",
-      certified:44100000, retention:2205000, contra:0,
-      ctc:25100000, capture:2, labourAllow:100, labourAct:97, rework:1, rfiOpen:1 },
-    { id:"str", name:"Waterkloof Ridge Apartments", town:"Waterkloof", client:"Waterkloof Developments",
-      ed:"JBCC PBA 05/2018", stage:"Completion", value:39900000, baseValue:39900000,
-      baseMargin:6.6, nowMargin:5.2, start:"2025-05-12", pcBase:"2026-08-14", pcNow:"2026-08-14",
-      cp:{done:44,total:48}, agent:"Nadia Fourie", cm:"Willem Steyn",
-      certified:37800000, retention:1890000, contra:184000,
-      ctc:1740000, capture:14, labourAllow:100, labourAct:112, rework:19, rfiOpen:0 },
-    { id:"wor", name:"Mamelodi Clinic Upgrade", town:"Mamelodi", client:"Gauteng Dept of Health",
-      ed:"JBCC Minor Works", stage:"On site", value:12400000, baseValue:12400000,
-      baseMargin:9.2, nowMargin:9.6, start:"2026-05-04", pcBase:"2026-12-11", pcNow:"2026-12-11",
-      cp:{done:22,total:48}, agent:"Sipho Ndlovu", cm:"Willem Steyn",
-      certified:5100000, retention:255000, contra:0,
-      ctc:6900000, capture:21, labourAllow:100, labourAct:94, rework:0, rfiOpen:2 },
-    { id:"ste", name:"Rosslyn Plant Extension", town:"Rosslyn", client:"Rosslyn Industrial",
-      ed:"JBCC PBA 07/2007", stage:"Final account", value:26800000, baseValue:26800000,
-      baseMargin:7.8, nowMargin:4.1, start:"2025-02-03", pcBase:"2026-04-30", pcNow:"2026-05-22",
-      cp:{done:46,total:48}, agent:"Pieter Louw", cm:"Danie Marais",
-      certified:26100000, retention:670000, contra:0,
-      ctc:310000, capture:0, labourAllow:100, labourAct:118, rework:11, rfiOpen:0 }
-  ],
+const AS_AT = "2026-08-24";
 
-  outputs:[
-    { ref:"SI-114 / VO-118", type:"Variation", proj:"lou", date:"2026-08-25", by:"Ruan Bekker", amount:205040, status:"Submitted", due:"2026-09-22" },
-    { ref:"PR-29",           type:"Progress",  proj:"lou", date:"2026-08-25", by:"Ruan Bekker", amount:0,      status:"Issued",    due:"" },
-    { ref:"EOT-07",          type:"Notice",    proj:"lou", date:"2026-08-25", by:"Ruan Bekker", amount:98400,  status:"Submitted", due:"2026-09-22" },
-    { ref:"DN-03 Bekker Plumbing", type:"Default", proj:"lou", date:"2026-08-18", by:"Ruan Bekker", amount:71500, status:"Running", due:"2026-08-26" },
-    { ref:"CL-07",           type:"Claim",     proj:"lou", date:"2026-08-25", by:"Ruan Bekker", amount:4023060, status:"With PQS",  due:"2026-09-01" },
-    { ref:"VO-109",          type:"Variation", proj:"lou", date:"2026-07-28", by:"Ruan Bekker", amount:118600, status:"Overdue",   due:"2026-09-02" },
-    { ref:"CL-14",           type:"Claim",     proj:"tyg", date:"2026-08-20", by:"Pieter Louw", amount:6180000, status:"Certified", due:"" },
-    { ref:"VO-064",          type:"Variation", proj:"tyg", date:"2026-08-11", by:"Pieter Louw", amount:412000,  status:"Certified", due:"" },
-    { ref:"PR-48",           type:"Progress",  proj:"tyg", date:"2026-08-21", by:"Pieter Louw", amount:0,       status:"Issued",    due:"" },
-    { ref:"WCL-01",          type:"Notice",    proj:"str", date:"2026-08-21", by:"Nadia Fourie", amount:0,      status:"Awaiting PA", due:"2026-08-31" },
-    { ref:"VO-091",          type:"Variation", proj:"str", date:"2026-08-06", by:"Nadia Fourie", amount:486000, status:"Overdue",   due:"2026-08-20" },
-    { ref:"PR-67",           type:"Progress",  proj:"str", date:"2026-08-24", by:"Nadia Fourie", amount:0,      status:"Issued",    due:"" },
-    { ref:"CL-04",           type:"Claim",     proj:"wor", date:"2026-08-24", by:"Sipho Ndlovu", amount:1240000, status:"With PQS", due:"2026-08-31" },
-    { ref:"PR-16",           type:"Progress",  proj:"wor", date:"2026-08-24", by:"Sipho Ndlovu", amount:0,      status:"Issued",    due:"" },
-    { ref:"FA-01",           type:"Final account", proj:"ste", date:"2026-07-30", by:"Pieter Louw", amount:1240000, status:"Objection due", due:"2026-08-27" },
-    { ref:"VO-052",          type:"Variation", proj:"ste", date:"2026-06-18", by:"Pieter Louw", amount:96200,  status:"Deemed refused", due:"" }
-  ],
+// SiteOS Rev 4 company overview, "Sign-off target date (90 days after practical or works completion)".
+const SIGN_OFF_AFTER_PRACTICAL = 90;
 
-  clocks:[
-    { proj:"ste", what:"Object to final account",      due:"2026-08-27", basis:"JBCC 07/2007 cl. 34.4, 45 wd", at:1240000 },
-    { proj:"str", what:"Works completion list from PA", due:"2026-08-31", basis:"7 days after PC",             at:486000 },
-    { proj:"lou", what:"Sub-contractor remedy expires", due:"2026-08-26", basis:"5 wd default notice",         at:71500 },
-    { proj:"lou", what:"PA response on VO-109",         due:"2026-09-02", basis:"20 wd or deemed refused",     at:118600 },
-    { proj:"lou", what:"Priced claim on SI-114",        due:"2026-10-15", basis:"40 wd from instruction",      at:205040 },
-    { proj:"wor", what:"Sub retention release",         due:"2026-09-24", basis:"Contract data",               at:0 },
-    { proj:"tyg", what:"Claim 15 cut-off",              due:"2026-09-25", basis:"Monthly cycle",               at:0 }
-  ],
+const MONEY = [
+  ["priceExcl", "Contract price excl. VAT"],
+  ["priceIncl", "Contract price incl. VAT"],
+  ["accruals", "Accruals"],
+  ["thisPeriod", "This period"],
+  ["adjustments", "Adjustments / advance payments"],
+  ["cumulative", "Cumulative"],
+  ["negative", "Negative projects"],
+  ["contractCost", "Contract cost"]
+];
 
-  team:[
-    { name:"Danie Marais",  role:"Contracts director", projects:["lou","tyg","ste"], onTime:0.94, late:2 },
-    { name:"Willem Steyn",  role:"Contracts manager",  projects:["str","wor"],       onTime:0.88, late:4 },
-    { name:"Ruan Bekker",   role:"Site agent",         projects:["lou"],             onTime:0.97, late:1 },
-    { name:"Pieter Louw",   role:"Site agent",         projects:["tyg","ste"],       onTime:0.71, late:9 },
-    { name:"Nadia Fourie",  role:"Site agent",         projects:["str"],             onTime:0.91, late:3 },
-    { name:"Sipho Ndlovu",  role:"Site agent",         projects:["wor"],             onTime:1.00, late:0 }
-  ],
-
-  /* 01 TENDER: bid speed, scope risk, estimating consistency, benchmark reuse */
-  pipeline:[
-    { name:"Midstream Medical Centre",    value:31480000, closes:"2026-08-27", state:"Adjudicating", days:11, quals:6, unpriced:1 },
-    { name:"Garsfontein School Hall", value:18900000, closes:"2026-09-03", state:"Pricing",      days:4,  quals:2, unpriced:3 },
-    { name:"Samrand Warehouse",   value:44200000, closes:"2026-09-11", state:"Pricing",      days:2,  quals:0, unpriced:5 }
-  ],
-  estimating:[
-    { trade:"Earthworks",   tendered:2140000, actual:2486000 },
-    { trade:"Concrete",     tendered:8920000, actual:8710000 },
-    { trade:"Brickwork",    tendered:4310000, actual:4402000 },
-    { trade:"Roofing",      tendered:3180000, actual:3104000 },
-    { trade:"Plumbing",     tendered:2760000, actual:3018000 },
-    { trade:"Electrical",   tendered:3940000, actual:3902000 }
-  ],
-  benchmarks:[
-    { type:"Commercial office", rate:14200, source:3, spread:"11%" },
-    { type:"Retail centre",     rate:11800, source:2, spread:"7%"  },
-    { type:"Residential walk-up", rate:10400, source:4, spread:"14%" },
-    { type:"Clinic / healthcare", rate:17600, source:1, spread:"n/a" }
-  ],
-
-  /* 02 PROCUREMENT: quote comparison, supplier performance, lead time, expediting */
-  adjudications:[
-    { item:"Aluminium windows", proj:"lou", low:1840000, chosen:1912000, high:2240000, why:"Lead time 6 wks shorter" },
-    { item:"Structural steel",  proj:"wor", low:2410000, chosen:2410000, high:2880000, why:"Lowest compliant" },
-    { item:"Lifts",             proj:"lou", low:3120000, chosen:3120000, high:3640000, why:"Lowest compliant" }
-  ],
-  suppliers:[
-    { name:"Pretoria Steel Supplies",  cat:"Steel",     onTime:0.96, defects:1, discount:0.025, lead:5 },
-    { name:"Bekker Plumbing",      cat:"Plumbing",  onTime:0.62, defects:7, discount:0.000, lead:2 },
-    { name:"Highveld Aluminium",     cat:"Windows",   onTime:0.88, defects:2, discount:0.020, lead:9 },
-    { name:"Gauteng Readymix",   cat:"Concrete",  onTime:0.99, defects:0, discount:0.015, lead:1 },
-    { name:"Centurion Electrical",cat:"Electrical",onTime:0.81, defects:3, discount:0.010, lead:4 }
-  ],
-  expedite:[
-    { item:"Lift car and rails", proj:"lou", need:"2026-10-06", lead:14, ordered:true },
-    { item:"Facade glazing",     proj:"lou", need:"2026-11-17", lead:9,  ordered:false },
-    { item:"Theatre doors",      proj:"wor", need:"2026-09-28", lead:8,  ordered:false }
-  ],
-
-  /* 05 PROGRAMME: early warning, critical path, recovery */
-  warnings:[
-    { proj:"lou", signal:"Block C slab pour moved twice",         days:4, cost:98400,  owner:"Ruan Bekker" },
-    { proj:"lou", signal:"RFI-042 open 9 wd against 5 wd turnaround", days:4, cost:98400, owner:"Danie Marais" },
-    { proj:"str", signal:"Snag list growing after PC inspection",  days:0, cost:184000, owner:"Nadia Fourie" },
-    { proj:"ste", signal:"Final account objection window closing", days:0, cost:1240000, owner:"Pieter Louw" }
-  ],
-  critical:[
-    { proj:"lou", act:"Block C first floor slab", float:0,  exposure:98400 },
-    { proj:"lou", act:"Facade glazing delivery",  float:6,  exposure:0 },
-    { proj:"wor", act:"Theatre door frames",      float:3,  exposure:0 },
-    { proj:"str", act:"Defects rectification",    float:-2, exposure:184000 }
-  ],
-  recovery:[
-    { proj:"lou", option:"Second concrete crew, 3 weeks", days:4, cost:142000, net:-43600 },
-    { proj:"lou", option:"Claim the 4 days as EOT",       days:4, cost:0,      net:98400 },
-    { proj:"str", option:"Two extra finishing teams",     days:6, cost:96000,  net:88000 }
-  ],
-
-  /* 06 KNOWLEDGE: close-out, lessons, standards */
-  closed:[
-    { name:"Silverton Depot",   year:2025, value:19400000, tender:7.2, final:8.1, lesson:"P&G measured off drawings, not the bill" },
-    { name:"Bronkhorstspruit Silo",     year:2025, value:33800000, tender:6.9, final:3.4, lesson:"Ground conditions not qualified at tender" },
-    { name:"Hatfield Offices",  year:2024, value:41200000, tender:7.6, final:7.9, lesson:"Weekly progress report caught the slip early" },
-    { name:"Rosslyn Cold Store",    year:2024, value:15600000, tender:8.4, final:5.1, lesson:"Sub default handled two months too late" }
-  ],
-  standards:[
-    { name:"Tender qualification checklist", used:12, gap:"Ground conditions clause added after Bronkhorstspruit" },
-    { name:"Sub-contractor default process", used:5,  gap:"Notice template now pre-filled from the programme" },
-    { name:"Monthly claim reconciliation",   used:63, gap:"Contra charge check made a hard gate" },
-    { name:"Concrete cast register",         used:41, gap:"Cube results still arriving by email" }
-  ]
-};
-
-let S = JSON.parse(JSON.stringify(SEED));
-try { const raw = localStorage.getItem("siteos.office"); if (raw) S = JSON.parse(raw); } catch(e){}
-const save = () => { try { localStorage.setItem("siteos.office", JSON.stringify(S)); } catch(e){} };
-
-/* ================================================================
-   Derived
-   ================================================================ */
-const $ = s => document.querySelector(s);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const proj = id => S.projects.find(p => p.id === id) || {name:"?", ed:"?", town:"?"};
-const wdTo = d => workdaysBetween(TODAY, D(d));
-const sevOf = wd => wd <= 3 ? "crit" : wd <= 15 ? "warn" : "ok";
-const pct = n => Math.round(n*100) + "%";
-
-const totals = () => {
-  const v = S.projects.reduce((a,p)=>a+p.value,0);
-  const wBase = S.projects.reduce((a,p)=>a+p.baseMargin*p.value,0)/v;
-  const wNow  = S.projects.reduce((a,p)=>a+p.nowMargin*p.value,0)/v;
-  const risk  = S.clocks.filter(c => wdTo(c.due) <= 20).reduce((a,c)=>a+c.at,0);
-  const certified = S.projects.reduce((a,p)=>a+p.certified,0);
-  const retention = S.projects.reduce((a,p)=>a+p.retention,0);
-  const overdue = S.outputs.filter(o => o.status === "Overdue").reduce((a,o)=>a+o.amount,0);
-  return { v, wBase, wNow, drift:wNow-wBase, risk, certified, retention, overdue };
-};
-
-/* ================================================================
-   Views
-   ================================================================ */
-let VIEW = "portfolio", SEL = null, FILTER = "All";
-const ARROW = '<svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>';
-
-function progBar(p){
-  const s = D(p.start), b = D(p.pcBase), n = D(p.pcNow);
-  const span = Math.max(n - s, b - s);
-  const w = x => Math.max(2, Math.min(100, ((x - s) / span) * 100));
-  const late = n > b;
-  return `<div class="prog" title="${esc(fmt(b))} baseline, ${esc(fmt(n))} forecast">
-    <div class="base" style="width:${w(b)}%"></div>
-    <div class="act ${late?"late":"ok"}" style="width:${w(n)}%"></div>
-    <div class="now" style="left:${w(TODAY)}%"></div>
-  </div>`;
-}
-function cpMeter(p){
-  const v = Math.round(p.cp.done / p.cp.total * 100);
-  return `<div class="cp"><div class="track"><div class="fill" style="width:${v}%"></div></div>
-    <span>${p.cp.done}/${p.cp.total}</span></div>`;
-}
-function meter(v, sev){
-  return `<div class="cp"><div class="track"><div class="fill" style="width:${Math.min(100,v)}%;background:var(--${sev})"></div></div></div>`;
-}
-function head(title, sub, eyebrow){
-  $("#head").innerHTML =
-    (eyebrow?`<div class="lab" style="margin-bottom:6px">${esc(eyebrow)}</div>`:"") +
-    `<h1>${esc(title)}</h1>${sub?`<p class="sub">${sub}</p>`:""}`;
-}
-function tbl(headers, rows, min){
-  return `<div class="card"><div class="tw"><table${min?` style="min-width:${min}px"`:""}>
-    <thead><tr>${headers.map(h=>`<th${h[1]?' class="'+h[1]+'"':""}>${h[0]}</th>`).join("")}</tr></thead>
-    <tbody>${rows}</tbody></table></div></div>`;
-}
-
-/* ---------------- Company: portfolio ---------------- */
-function vPortfolio(){
-  const t = totals();
-  const soon = S.clocks.slice().sort((a,b)=>wdTo(a.due)-wdTo(b.due)).slice(0,5);
-  head("Portfolio", `${S.projects.length} live projects, ${Rm(t.v)} under contract`, "Company");
-  return `
-    <div class="kpis">
-      <div><span class="lab">Under contract</span><b>${Rm(t.v)}</b><span class="d">${S.projects.length} projects</span></div>
-      <div class="${t.drift<0?"dn":"up"}"><span class="lab">Margin now</span><b>${t.wNow.toFixed(1)}%</b>
-        <span class="d">${t.drift>=0?"+":""}${t.drift.toFixed(1)} pts against ${t.wBase.toFixed(1)}% at tender</span></div>
-      <div class="dn"><span class="lab">At risk in 20 wd</span><b>${R(t.risk)}</b><span class="d">${S.clocks.filter(c=>wdTo(c.due)<=20).length} open clocks</span></div>
-      <div class="dn"><span class="lab">Past its window</span><b>${R(t.overdue)}</b><span class="d">${S.outputs.filter(o=>o.status==="Overdue").length} items overdue</span></div>
-      <div><span class="lab">Certified to date</span><b>${Rm(t.certified)}</b><span class="d">${Rm(t.retention)} retention held</span></div>
-    </div>
-
-    <div class="sec"><span class="lab">Projects</span><span class="lab">Baseline against forecast</span></div>
-    ${tbl([["Project"],["Edition"],["Stage"],["Value","n"],["Margin","n"],["Programme"],["Control points"],["Next clock","n"]],
-      S.projects.map(p=>{
-        const c = S.clocks.filter(c=>c.proj===p.id).sort((a,b)=>wdTo(a.due)-wdTo(b.due))[0];
-        const wd = c ? wdTo(c.due) : null, dm = p.nowMargin - p.baseMargin;
-        return `<tr class="click" data-p="${p.id}">
-          <td class="name">${esc(p.name)}<span class="sub">${esc(p.town)}</span></td>
-          <td><span class="ed">${esc(p.ed)}</span></td>
-          <td><span class="pill flat">${esc(p.stage)}</span></td>
-          <td class="n">${Rm(p.value)}</td>
-          <td class="n"><span style="color:var(--${dm>=0?"ok":"crit"})">${p.nowMargin.toFixed(1)}%</span><span class="sub">${dm>=0?"+":""}${dm.toFixed(1)}</span></td>
-          <td>${progBar(p)}</td><td>${cpMeter(p)}</td>
-          <td class="n">${wd!==null?`<span class="pill ${sevOf(wd)}">${wd} wd</span>`:"&ndash;"}</td>
-        </tr>`;}).join(""))}
-
-    <div class="two" style="margin-top:22px">
-      <div class="panel"><h3>Soonest clocks</h3><div class="tw"><table style="min-width:0"><tbody>
-        ${soon.map(c=>{const wd=wdTo(c.due);return `<tr class="click" data-p="${c.proj}">
-          <td><span class="pill ${sevOf(wd)}">${wd} wd</span></td>
-          <td>${esc(c.what)}<span class="sub">${esc(proj(c.proj).name)} &middot; ${esc(c.basis)}</span></td>
-          <td class="n">${c.at?R(c.at):"&ndash;"}</td></tr>`;}).join("")}
-      </tbody></table></div></div>
-      <div class="panel"><h3>Value areas</h3><div class="in">
-        ${AREAS.map(a=>`<div class="kv"><span><b style="font-weight:600">${a[0]} ${esc(a[1])}</b><br><span class="lab">${esc(a[3])}</span></span>
-          <span><button class="pill sig" data-v="${a[2]}" style="border:0">View</button></span></div>`).join("")}
-      </div></div>
-    </div>
-
-    <p class="foot-note">Every project runs on the contract edition it was signed under, so the same milestone produces a different deadline on each one. The clock column is computed per project from that edition and the South African working-day calendar, which is the only reason it can be compared down the column.</p>`;
-}
-
-/* ---------------- Company: sites ---------------- */
-function vSites(){
-  head("Sites", "Where the work is, and what each one is waiting on", "Company");
-  return `<div class="sites">${S.projects.map(p=>{
-    const c = S.clocks.filter(c=>c.proj===p.id).sort((a,b)=>wdTo(a.due)-wdTo(b.due))[0];
-    const wd = c ? wdTo(c.due) : null, dm = p.nowMargin - p.baseMargin;
-    return `<button class="site" data-p="${p.id}">
-      <div class="r1"><b>${esc(p.name)}</b><span class="ed">${esc(p.ed.replace("JBCC PBA ","").replace("JBCC ",""))}</span></div>
-      <div class="town">${esc(p.town)} &middot; ${esc(p.client)}</div>
-      <div class="rows">
-        <div class="row"><span>Contract</span><span>${Rm(p.value)}</span></div>
-        <div class="row"><span>Margin</span><span style="color:var(--${dm>=0?"ok":"crit"})">${p.nowMargin.toFixed(1)}% (${dm>=0?"+":""}${dm.toFixed(1)})</span></div>
-        <div class="row"><span>Site agent</span><span style="font-family:var(--sans);font-weight:600">${esc(p.agent)}</span></div>
-      </div>
-      <div style="margin-top:12px">${cpMeter(p)}</div>
-      <div class="clk">${wd!==null?`<span class="pill ${sevOf(wd)}">${wd} wd</span>`:""}
-        <span class="what">${c?esc(c.what):"Nothing running out"}</span></div>
-    </button>`;}).join("")}</div>
-  <p class="foot-note">Click a site to open it. The bar under each is control points closed, out of the forty-eight a project carries from tender to final account.</p>`;
-}
-
-/* ---------------- Project detail ---------------- */
-function vProject(){
-  const p = proj(SEL);
-  const outs = S.outputs.filter(o=>o.proj===p.id);
-  const clocks = S.clocks.filter(c=>c.proj===p.id).sort((a,b)=>wdTo(a.due)-wdTo(b.due));
-  const dm = p.nowMargin - p.baseMargin, slip = workdaysBetween(D(p.pcBase), D(p.pcNow));
-  head(p.name, `${esc(p.town)} &middot; ${esc(p.client)} &middot; ${esc(p.ed)}`, "Project");
-  return `
-    <button class="back" id="back">${ARROW} Back to portfolio</button>
-    <div class="kpis" style="margin-top:10px">
-      <div><span class="lab">Contract value</span><b>${Rm(p.value)}</b><span class="d">Baseline ${Rm(p.baseValue)}</span></div>
-      <div class="${dm>=0?"up":"dn"}"><span class="lab">Margin</span><b>${p.nowMargin.toFixed(1)}%</b><span class="d">${dm>=0?"+":""}${dm.toFixed(1)} pts against tender</span></div>
-      <div class="${slip>0?"dn":"up"}"><span class="lab">Programme</span><b>${slip>0?"+"+slip:slip} wd</b><span class="d">PC ${esc(fmt(D(p.pcNow)))}</span></div>
-      <div><span class="lab">Cost to complete</span><b>${Rm(p.ctc)}</b><span class="d">${p.cp.total-p.cp.done} control points open</span></div>
-      <div><span class="lab">Certified</span><b>${Rm(p.certified)}</b><span class="d">${R(p.retention)} retention held</span></div>
-    </div>
-    <div class="two" style="margin-top:22px">
-      <div class="panel"><h3>Open clocks</h3><div class="in">
-        ${clocks.length ? clocks.map(c=>{const wd=wdTo(c.due);
-          return `<div class="kv"><span>${esc(c.what)}<br><span class="lab">${esc(c.basis)}</span></span>
-            <span><span class="pill ${sevOf(wd)}">${wd} wd</span></span></div>`;}).join("")
-          : `<p style="margin:0;color:var(--ink-2)">Nothing is running out on this project.</p>`}
-      </div></div>
-      <div class="panel"><h3>Against the locked baseline</h3><div class="in">
-        <div class="kv"><span>Contract value</span><span>${R(p.value)} <span class="${p.value>=p.baseValue?"up":"dn"}">${p.value>=p.baseValue?"+":""}${R(p.value-p.baseValue)}</span></span></div>
-        <div class="kv"><span>Margin</span><span>${p.nowMargin.toFixed(1)}% <span class="${dm>=0?"up":"dn"}">${dm>=0?"+":""}${dm.toFixed(1)}</span></span></div>
-        <div class="kv"><span>Practical completion</span><span>${esc(fmt(D(p.pcNow)))} <span class="${slip>0?"dn":"up"}">${slip>0?"+"+slip+" wd":"on time"}</span></span></div>
-        <div class="kv"><span>Labour against allowable</span><span class="${p.labourAct>100?"dn":"up"}">${p.labourAct}%</span></div>
-        <div class="kv"><span>Rework items open</span><span class="${p.rework>5?"dn":""}">${p.rework}</span></div>
-        <div class="kv"><span>Site agent</span><span style="font-family:var(--sans)">${esc(p.agent)}</span></div>
-        <div class="kv"><span>Contracts manager</span><span style="font-family:var(--sans)">${esc(p.cm)}</span></div>
-      </div></div>
-    </div>
-    <div class="sec"><span class="lab">Outputs from this site</span><span class="lab">${outs.length} records</span></div>
-    ${outsTable(outs, false)}`;
-}
-
-/* ---------------- 01 Tender ---------------- */
-function vTender(){
-  const pipe = S.pipeline.reduce((a,t)=>a+t.value,0);
-  const avgDays = Math.round(S.pipeline.reduce((a,t)=>a+t.days,0)/S.pipeline.length);
-  const worst = S.estimating.slice().sort((a,b)=>(b.actual/b.tendered)-(a.actual/a.tendered))[0];
-  head("Tender", "Bid speed, scope risk, estimating consistency, benchmark reuse", "01 Value area");
-  return `
-    <div class="kpis">
-      <div><span class="lab">Out to tender</span><b>${Rm(pipe)}</b><span class="d">${S.pipeline.length} live bids</span></div>
-      <div><span class="lab">Bid speed</span><b>${avgDays} d</b><span class="d">Average days spent per bid</span></div>
-      <div class="dn"><span class="lab">Unpriced items</span><b>${S.pipeline.reduce((a,t)=>a+t.unpriced,0)}</b><span class="d">Provisional or missing across live bids</span></div>
-      <div class="dn"><span class="lab">Worst drift</span><b>${worst.trade}</b><span class="d">${(((worst.actual/worst.tendered)-1)*100).toFixed(1)}% over tendered</span></div>
-    </div>
-
-    <div class="sec"><span class="lab">Live bids</span><span class="lab">Scope risk</span></div>
-    ${tbl([["Tender"],["Value","n"],["Closes","n"],["Days on it","n"],["Qualifications","n"],["Unpriced","n"],["State"]],
-      S.pipeline.map(t=>{const wd=wdTo(t.closes);
-        return `<tr>
-          <td class="name">${esc(t.name)}</td>
-          <td class="n">${Rm(t.value)}</td>
-          <td class="n"><span class="pill ${sevOf(wd)}">${wd} wd</span></td>
-          <td class="n">${t.days}</td>
-          <td class="n">${t.quals?t.quals:`<span style="color:var(--crit)">0</span>`}</td>
-          <td class="n"><span style="color:var(--${t.unpriced>2?"crit":t.unpriced?"warn":"ok"})">${t.unpriced}</span></td>
-          <td><span class="pill flat">${esc(t.state)}</span></td></tr>`;}).join(""), 620)}
-    <p class="foot-note">A bid with zero qualifications is not a clean bid, it is unqualified risk carried for the length of the contract. Samrand has been priced for two days and has five provisional items still open.</p>
-
-    <div class="sec"><span class="lab">Estimating consistency</span><span class="lab">Tendered against actual, closed work</span></div>
-    ${tbl([["Trade"],["Tendered","n"],["Actual","n"],["Variance","n"],[""]],
-      S.estimating.map(e=>{const d=(e.actual/e.tendered-1)*100;
-        return `<tr><td class="name">${esc(e.trade)}</td>
-          <td class="n">${R(e.tendered)}</td><td class="n">${R(e.actual)}</td>
-          <td class="n" style="color:var(--${d>2?"crit":d<-2?"ok":"ink-2"})">${d>0?"+":""}${d.toFixed(1)}%</td>
-          <td style="width:150px">${meter(Math.abs(d)*8, d>2?"crit":d<-2?"ok":"ink-3")}</td></tr>`;}).join(""), 560)}
-
-    <div class="sec"><span class="lab">Benchmarks available to reuse</span></div>
-    ${tbl([["Building type"],["Rate","n"],["From","n"],["Spread","n"]],
-      S.benchmarks.map(b=>`<tr><td class="name">${esc(b.type)}</td>
-        <td class="n">${R(b.rate)} / m2</td><td class="n">${b.source} project${b.source>1?"s":""}</td>
-        <td class="n">${esc(b.spread)}</td></tr>`).join(""), 460)}
-    <p class="foot-note">Benchmarks only exist because closed projects were signed off with their outcome recorded. A single-source rate with no spread is a guess wearing a number.</p>`;
-}
-
-/* ---------------- 02 Procurement ---------------- */
-function vProcurement(){
-  const saved = S.adjudications.reduce((a,x)=>a+(x.high-x.chosen),0);
-  const worst = S.suppliers.slice().sort((a,b)=>a.onTime-b.onTime)[0];
-  const late = S.expedite.filter(e=>!e.ordered);
-  head("Procurement", "Quote comparison, supplier performance, lead-time risk, expediting", "02 Value area");
-  return `
-    <div class="kpis">
-      <div class="up"><span class="lab">Against highest quote</span><b>${R(saved)}</b><span class="d">On ${S.adjudications.length} open adjudications</span></div>
-      <div class="dn"><span class="lab">Weakest supplier</span><b>${pct(worst.onTime)}</b><span class="d">${esc(worst.name)} on time</span></div>
-      <div class="dn"><span class="lab">Not yet ordered</span><b>${late.length}</b><span class="d">Long-lead items still open</span></div>
-      <div class="up"><span class="lab">Settlement discount</span><b>${pct(S.suppliers.reduce((a,s)=>a+s.discount,0)/S.suppliers.length)}</b><span class="d">Average available on terms</span></div>
-    </div>
-
-    <div class="sec"><span class="lab">Open adjudications</span><span class="lab">Three quotes, and why</span></div>
-    ${tbl([["Item"],["Project"],["Lowest","n"],["Chosen","n"],["Highest","n"],["Reason"]],
-      S.adjudications.map(a=>`<tr class="click" data-p="${a.proj}">
-        <td class="name">${esc(a.item)}</td><td>${esc(proj(a.proj).town)}</td>
-        <td class="n">${R(a.low)}</td>
-        <td class="n" style="font-weight:700">${R(a.chosen)}${a.chosen>a.low?`<span class="sub" style="color:var(--warn)">+${R(a.chosen-a.low)}</span>`:""}</td>
-        <td class="n" style="color:var(--ink-3)">${R(a.high)}</td>
-        <td style="color:var(--ink-2)">${esc(a.why)}</td></tr>`).join(""), 680)}
-
-    <div class="sec"><span class="lab">Supplier performance</span></div>
-    ${tbl([["Supplier"],["Category"],["On time","n"],["Defects","n"],["Discount","n"],["Lead wks","n"],["Record"]],
-      S.suppliers.slice().sort((a,b)=>b.onTime-a.onTime).map(s=>{
-        const sev = s.onTime>=0.9?"ok":s.onTime>=0.8?"warn":"crit";
-        return `<tr><td class="name">${esc(s.name)}</td><td style="color:var(--ink-2)">${esc(s.cat)}</td>
-          <td class="n"><span class="pill ${sev}">${pct(s.onTime)}</span></td>
-          <td class="n" style="color:var(--${s.defects>4?"crit":s.defects?"warn":"ok"})">${s.defects}</td>
-          <td class="n">${s.discount?pct(s.discount):"&ndash;"}</td><td class="n">${s.lead}</td>
-          <td style="width:140px">${meter(s.onTime*100, sev)}</td></tr>`;}).join(""), 680)}
-    <p class="foot-note">Bekker Plumbing sits at 62% on time with seven defects, and is the sub-contractor currently on a default notice at Menlyn. That is the same fact reaching head office and the site from opposite directions.</p>
-
-    <div class="sec"><span class="lab">Expediting</span><span class="lab">Order-by date derived from lead time</span></div>
-    ${tbl([["Item"],["Project"],["Needed on","n"],["Lead wks","n"],["Order by","n"],["Status"]],
-      S.expedite.map(e=>{
-        const by = new Date(D(e.need)); by.setDate(by.getDate() - e.lead*7);
-        const wd = workdaysBetween(TODAY, by);
-        return `<tr class="click" data-p="${e.proj}">
-          <td class="name">${esc(e.item)}</td><td>${esc(proj(e.proj).town)}</td>
-          <td class="n">${esc(fmt(D(e.need)))}</td><td class="n">${e.lead}</td>
-          <td class="n">${esc(fmt(by))} <span class="sub">${wd<0?Math.abs(wd)+" wd late":wd+" wd"}</span></td>
-          <td>${e.ordered?`<span class="pill ok">Ordered</span>`:`<span class="pill ${wd<0?"crit":"warn"}">${wd<0?"Overdue":"Open"}</span>`}</td>
-        </tr>`;}).join(""), 700)}`;
-}
-
-/* ---------------- 03 Site productivity ---------------- */
-function vSite(){
-  const avgCap = S.projects.reduce((a,p)=>a+(p.capture===0?1:0),0);
-  const totRework = S.projects.reduce((a,p)=>a+p.rework,0);
-  const rfi = S.projects.reduce((a,p)=>a+p.rfiOpen,0);
-  head("Site productivity", "Daily capture, labour and plant signals, progress and rework, access to information", "03 Value area");
-  return `
-    <div class="kpis">
-      <div class="${avgCap===S.projects.length?"up":"dn"}"><span class="lab">Captured today</span><b>${avgCap}/${S.projects.length}</b><span class="d">Sites that logged today</span></div>
-      <div class="dn"><span class="lab">Rework open</span><b>${totRework}</b><span class="d">Items across all sites</span></div>
-      <div class="dn"><span class="lab">RFIs open</span><b>${rfi}</b><span class="d">Waiting on information</span></div>
-      <div class="dn"><span class="lab">Labour over allowable</span><b>${S.projects.filter(p=>p.labourAct>100).length}</b><span class="d">Of ${S.projects.length} sites</span></div>
-    </div>
-
-    <div class="sec"><span class="lab">By site</span><span class="lab">Signals captured on the phone, not chased by the office</span></div>
-    ${tbl([["Project"],["Last capture","n"],["Labour vs allowable","n"],[""],["Rework","n"],["RFIs open","n"],["Control points"]],
-      S.projects.map(p=>{
-        const capSev = p.capture===0?"ok":p.capture<=3?"warn":"crit";
-        const labSev = p.labourAct>105?"crit":p.labourAct>100?"warn":"ok";
-        return `<tr class="click" data-p="${p.id}">
-          <td class="name">${esc(p.name)}<span class="sub">${esc(p.agent)}</span></td>
-          <td class="n"><span class="pill ${capSev}">${p.capture===0?"today":p.capture+" d ago"}</span></td>
-          <td class="n" style="color:var(--${labSev})">${p.labourAct}%</td>
-          <td style="width:130px">${meter(p.labourAct*0.8, labSev)}</td>
-          <td class="n" style="color:var(--${p.rework>5?"crit":p.rework?"warn":"ok"})">${p.rework}</td>
-          <td class="n">${p.rfiOpen}</td>
-          <td>${cpMeter(p)}</td></tr>`;}).join(""), 760)}
-    <p class="foot-note">Rosslyn has not been captured in twenty-one days and is running 18% over allowable labour. Those two numbers are the same problem: the site that stops reporting is the site that has stopped being managed, and the cost only shows up at final account.</p>`;
-}
-
-/* ---------------- 04 Commercial ---------------- */
-function vCommercial(){
-  const t = totals();
-  const ctc = S.projects.reduce((a,p)=>a+p.ctc,0);
-  const atRisk = S.projects.filter(p=>p.nowMargin<p.baseMargin).reduce((a,p)=>a+(p.baseMargin-p.nowMargin)/100*p.value,0);
-  head("Commercial", "Cost-to-complete, variations, claims, cash and margin at risk", "04 Value area");
-  return `
-    <div class="kpis">
-      <div><span class="lab">Cost to complete</span><b>${Rm(ctc)}</b><span class="d">Across ${S.projects.length} projects</span></div>
-      <div class="dn"><span class="lab">Margin at risk</span><b>${R(atRisk)}</b><span class="d">Value of the drift against tender</span></div>
-      <div><span class="lab">Certified</span><b>${Rm(t.certified)}</b><span class="d">${Rm(t.v-t.certified)} still to certify</span></div>
-      <div class="dn"><span class="lab">Overdue value</span><b>${R(t.overdue)}</b><span class="d">Past a contractual window</span></div>
-      <div class="dn"><span class="lab">Contra open</span><b>${R(S.projects.reduce((a,p)=>a+p.contra,0))}</b><span class="d">Deduct before the next certificate</span></div>
-    </div>
-
-    <div class="sec"><span class="lab">Cash and margin by project</span></div>
-    ${tbl([["Project"],["Contract","n"],["Certified","n"],["Outstanding","n"],["Cost to complete","n"],["Retention","n"],["Contra","n"],["Margin","n"]],
-      S.projects.map(p=>{const dm=p.nowMargin-p.baseMargin;
-        return `<tr class="click" data-p="${p.id}">
-          <td class="name">${esc(p.name)}</td>
-          <td class="n">${R(p.value)}</td><td class="n">${R(p.certified)}</td>
-          <td class="n">${R(p.value-p.certified)}</td><td class="n">${R(p.ctc)}</td>
-          <td class="n">${R(p.retention)}</td>
-          <td class="n" style="color:var(--${p.contra?"crit":"ink-3"})">${p.contra?R(p.contra):"&ndash;"}</td>
-          <td class="n" style="color:var(--${dm>=0?"ok":"crit"})">${p.nowMargin.toFixed(1)}%<span class="sub">${dm>=0?"+":""}${dm.toFixed(1)}</span></td>
-        </tr>`;}).join(""), 860)}
-
-    <div class="sec"><span class="lab">Variations and claims</span></div>
-    ${outsTable(S.outputs.filter(o=>["Variation","Claim","Final account"].includes(o.type)), true)}
-    <p class="foot-note">Margin is measured against the price each job was won at, never against a revised internal budget. A budget that moves with the job cannot tell you the job is losing money.</p>`;
-}
-
-/* ---------------- 05 Programme ---------------- */
-function vProgramme(){
-  const slipped = S.projects.filter(p=>D(p.pcNow)>D(p.pcBase));
-  const exposure = S.critical.reduce((a,c)=>a+c.exposure,0);
-  head("Programme", "Early warning, critical-path exposure, recovery scenarios", "05 Value area");
-  return `
-    <div class="kpis">
-      <div class="${slipped.length?"dn":"up"}"><span class="lab">Projects slipped</span><b>${slipped.length}/${S.projects.length}</b><span class="d">Forecast past the baseline date</span></div>
-      <div class="dn"><span class="lab">Critical path exposure</span><b>${R(exposure)}</b><span class="d">${S.critical.filter(c=>c.float<=0).length} activities at or past zero float</span></div>
-      <div class="dn"><span class="lab">Early warnings</span><b>${S.warnings.length}</b><span class="d">Open across the portfolio</span></div>
-      <div class="up"><span class="lab">Recovery options</span><b>${S.recovery.length}</b><span class="d">Priced and ready to choose</span></div>
-    </div>
-
-    <div class="sec"><span class="lab">Early warning</span><span class="lab">Raised from site, not found in a month-end review</span></div>
-    ${tbl([["Signal"],["Project"],["Days","n"],["Cost","n"],["Owner"]],
-      S.warnings.map(w=>`<tr class="click" data-p="${w.proj}">
-        <td class="name">${esc(w.signal)}</td><td>${esc(proj(w.proj).town)}</td>
-        <td class="n">${w.days?`<span class="pill warn">${w.days} wd</span>`:"&ndash;"}</td>
-        <td class="n" style="color:var(--crit)">${R(w.cost)}</td>
-        <td>${esc(w.owner)}</td></tr>`).join(""), 620)}
-
-    <div class="sec"><span class="lab">Critical path</span></div>
-    ${tbl([["Activity"],["Project"],["Float","n"],["Exposure","n"],["Programme"]],
-      S.critical.map(c=>{const p=proj(c.proj);
-        return `<tr class="click" data-p="${c.proj}">
-          <td class="name">${esc(c.act)}</td><td>${esc(p.town)}</td>
-          <td class="n"><span class="pill ${c.float<0?"crit":c.float===0?"warn":"ok"}">${c.float>0?"+":""}${c.float} d</span></td>
-          <td class="n">${c.exposure?R(c.exposure):"&ndash;"}</td>
-          <td style="width:170px">${p.start?progBar(p):""}</td></tr>`;}).join(""), 660)}
-
-    <div class="sec"><span class="lab">Recovery scenarios</span><span class="lab">What each option is actually worth</span></div>
-    ${tbl([["Option"],["Project"],["Days recovered","n"],["Cost","n"],["Net","n"]],
-      S.recovery.map(r=>`<tr class="click" data-p="${r.proj}">
-        <td class="name">${esc(r.option)}</td><td>${esc(proj(r.proj).town)}</td>
-        <td class="n">${r.days}</td><td class="n">${r.cost?R(r.cost):"&ndash;"}</td>
-        <td class="n" style="color:var(--${r.net>=0?"ok":"crit"});font-weight:700">${r.net>=0?"+":""}${R(r.net)}</td>
-      </tr>`).join(""), 620)}
-    <p class="foot-note">The second option at Menlyn recovers nothing on site and is worth more than the first, because four days claimed as an extension carries the time-related preliminaries with it. Recovery is a commercial decision before it is a programme one.</p>`;
-}
-
-/* ---------------- 06 Knowledge ---------------- */
-function vKnowledge(){
-  const avgDrift = S.closed.reduce((a,c)=>a+(c.final-c.tender),0)/S.closed.length;
-  head("Knowledge", "Project close-out, lessons learned, benchmarks and standards", "06 Value area");
-  return `
-    <div class="kpis">
-      <div><span class="lab">Projects closed out</span><b>${S.closed.length}</b><span class="d">With outcome recorded against tender</span></div>
-      <div class="${avgDrift>=0?"up":"dn"}"><span class="lab">Average outcome</span><b>${avgDrift>=0?"+":""}${avgDrift.toFixed(1)} pts</b><span class="d">Final margin against tendered</span></div>
-      <div><span class="lab">Benchmarks held</span><b>${S.benchmarks.length}</b><span class="d">Building types with a rate</span></div>
-      <div><span class="lab">Standards in use</span><b>${S.standards.length}</b><span class="d">Checklists the process enforces</span></div>
-    </div>
-
-    <div class="sec"><span class="lab">Closed projects</span><span class="lab">What the job actually did against what it was sold at</span></div>
-    ${tbl([["Project"],["Year","n"],["Value","n"],["Tendered","n"],["Final","n"],["Swing","n"],["What it taught"]],
-      S.closed.map(c=>{const d=c.final-c.tender;
-        return `<tr><td class="name">${esc(c.name)}</td><td class="n">${c.year}</td>
-          <td class="n">${Rm(c.value)}</td><td class="n">${c.tender.toFixed(1)}%</td>
-          <td class="n" style="color:var(--${d>=0?"ok":"crit"})">${c.final.toFixed(1)}%</td>
-          <td class="n"><span class="pill ${d>=0?"ok":"crit"}">${d>=0?"+":""}${d.toFixed(1)}</span></td>
-          <td style="color:var(--ink-2)">${esc(c.lesson)}</td></tr>`;}).join(""), 800)}
-    <p class="foot-note">Bronkhorstspruit lost 3.5 points because ground conditions were never qualified at tender. That lesson is now a line on the tender qualification checklist, which is the only form a lesson can take that survives the person who learned it.</p>
-
-    <div class="sec"><span class="lab">Standards, and what changed them</span></div>
-    ${tbl([["Standard"],["Times used","n"],["Last change"]],
-      S.standards.map(s=>`<tr><td class="name">${esc(s.name)}</td>
-        <td class="n">${s.used}</td><td style="color:var(--ink-2)">${esc(s.gap)}</td></tr>`).join(""), 520)}
-
-    <div class="sec"><span class="lab">The company brain</span><span class="lab" id="gstat"></span></div>
-    <div class="bq">
-      <input id="bqi" type="text" placeholder="${LANG==='af'?'Vra die grafiek: \'n projek, \'n persoon, \'n verskaffer, \'n trade...':'Ask the graph: a project, a person, a supplier, a trade...'}" autocomplete="off">
-      <button class="mini go" id="bqs">Trace it</button>
-    </div>
-    <div class="bans" id="bqa" ${BRAIN_ANS?"":"hidden"}>${BRAIN_ANS||""}</div>
-    <div class="glegend">${Object.entries(GTYPES).map(([k,v])=>
-      `<button data-gt="${k}" class="${GOFF.has(k)?"off":""}"><i style="background:${v.colour}"></i>${esc(v.label)}</button>`).join("")}</div>
-    <div class="brainwrap" style="margin-top:12px">
-      <div style="position:relative"><canvas id="brain"></canvas><div id="gtip" hidden></div></div>
-      <div id="gpanel"></div>
-    </div>
-    <p class="foot-note">Nothing in this graph was drawn by hand. Projects connect to the contract edition they were signed under, people to the jobs they run, suppliers to the trades they serve and the sites they are on, and every lesson to the standard it changed. The Bronkhorstspruit lesson and the tender qualification checklist sit one hop apart, which is what it looks like when a company actually learns something.</p>`;
-}
-
-/* ---------------- Outputs and clocks ---------------- */
-const STATUS_SEV = { "Overdue":"crit", "Deemed refused":"crit", "Objection due":"crit",
-  "Running":"warn", "Awaiting PA":"warn", "Submitted":"warn", "With PQS":"warn",
-  "Certified":"ok", "Issued":"ok", "Paid":"ok" };
-
-function outsTable(list, showProj){
-  if (!list.length) return `<div class="card"><div class="empty">Nothing here yet.</div></div>`;
-  return `<div class="card"><div class="tw"><table>
-    <thead><tr><th>Reference</th><th>Type</th>${showProj?"<th>Project</th>":""}
-      <th>Raised</th><th>By</th><th class="n">Value</th><th>Status</th><th class="n">Acts by</th></tr></thead>
-    <tbody>${list.map(o=>{const wd = o.due ? wdTo(o.due) : null;
-      return `<tr${showProj?' class="click" data-p="'+o.proj+'"':""}>
-        <td class="name">${esc(o.ref)}</td><td><span class="ed">${esc(o.type)}</span></td>
-        ${showProj?`<td>${esc(proj(o.proj).name)}<span class="sub">${esc(proj(o.proj).ed)}</span></td>`:""}
-        <td class="mono">${esc(o.date)}</td><td>${esc(o.by)}</td>
-        <td class="n">${o.amount?R(o.amount):"&ndash;"}</td>
-        <td><span class="pill ${STATUS_SEV[o.status]||"flat"}">${esc(o.status)}</span></td>
-        <td class="n">${wd!==null?`<span class="pill ${sevOf(wd)}">${wd} wd</span>`:"&ndash;"}</td>
-      </tr>`;}).join("")}</tbody></table></div></div>`;
-}
-
-function vOutputs(){
-  const types = ["All","Variation","Claim","Notice","Progress","Default","Final account"];
-  const list = FILTER === "All" ? S.outputs : S.outputs.filter(o=>o.type===FILTER);
-  head("Outputs", "Every document the sites produced, and who has to act on it next", "Records");
-  return `<div class="filters">${types.map(t=>
-      `<button data-f="${esc(t)}" class="${t===FILTER?"on":""}">${esc(t)}</button>`).join("")}</div>
-    ${outsTable(list, true)}
-    <p class="foot-note">Head office does not chase these. Each was produced on a phone on site, by the person doing the work, at the moment the clock started. This register is the by-product, not the effort.</p>`;
-}
-
-function vClocks(){
-  const list = S.clocks.slice().sort((a,b)=>wdTo(a.due)-wdTo(b.due));
-  head("Clocks", "Every contractual deadline running across the company", "Records");
-  return tbl([["Working days","n"],["What"],["Project"],["Basis"],["Due","n"],["At stake","n"]],
-    list.map(c=>{const wd=wdTo(c.due), p=proj(c.proj);
-      return `<tr class="click" data-p="${c.proj}">
-        <td class="n"><span class="pill ${sevOf(wd)}">${wd} wd</span></td>
-        <td class="name">${esc(c.what)}</td>
-        <td>${esc(p.name)}<span class="sub">${esc(p.ed)}</span></td>
-        <td style="color:var(--ink-2)">${esc(c.basis)}</td>
-        <td class="n">${esc(fmt(D(c.due)))}</td>
-        <td class="n">${c.at?R(c.at):"&ndash;"}</td></tr>`;}).join(""))
-    + `<p class="foot-note">Three editions of the same contract are live here at once. The final account window is 90 working days under the 2007 and 2014 editions and 60 under 2018; a works completion list is 7 days on one and 5 working days plus 5 on another. Nobody is expected to remember which, and nobody should have to.</p>`;
-}
-
-function vTeam(){
-  head("Team", "Who owns what, and whose notices go out inside the window", "Records");
-  return tbl([["Name"],["Role"],["Projects"],["On time","n"],["Late this year","n"],["Record"]],
-    S.team.slice().sort((a,b)=>b.onTime-a.onTime).map(m=>{
-      const v = Math.round(m.onTime*100), sev = v>=90?"ok":v>=80?"warn":"crit";
-      return `<tr><td class="name">${esc(m.name)}</td><td style="color:var(--ink-2)">${esc(m.role)}</td>
-        <td>${m.projects.map(id=>`<span class="ed" style="margin-right:4px">${esc(proj(id).town)}</span>`).join("")}</td>
-        <td class="n"><span class="pill ${sev}">${v}%</span></td><td class="n">${m.late}</td>
-        <td style="width:150px">${meter(v, sev)}</td></tr>`;}).join(""))
-    + `<p class="foot-note">On time means the notice reached the principal agent inside the contractual window. It is the one measure that cannot be gamed in a way that hurts the business: a site agent who games it is a site agent who never misses a claim. Pieter Louw carries two projects and the worst record on this table, which is a workload question before it is a performance one.</p>`;
-}
-
-
-/* ================================================================
-   THE TENDER BUILD-UP
-
-   How a bill of quantities actually becomes a tender: the pack comes
-   in, the commercial team cuts it into packages, sub-contractors
-   price line items, anything nobody will price gets built up from
-   material and labour, the PQS's provisional sums sit on top, and
-   only then can preliminaries be worked out against the whole.
-
-   Figures follow a real submitted tender in shape and proportion.
-   Names are generic.
-   ================================================================ */
-const TENDER = {
-  ref:"M2002", name:"Lanseria Heliport Phase 2", scope:"Main building contract",
-  edition:"JBCC PBA May 2018, Edition 6.2",
-  closesWas:"2025-07-02", closes:"2025-06-25", closesTime:"10h00",
-  addendum:{ no:1, issued:"2025-06-13", effect:"Closing date brought forward", ack:"72 hours" },
-
-  pack:[
-    { dwg:"AR-T-01", title:"Master site plan",              rev:"C", disc:"Architectural", priced:"C" },
-    { dwg:"AR-T-02", title:"Site plan and area schedule",   rev:"C", disc:"Architectural", priced:"C" },
-    { dwg:"AR-T-03", title:"Ground floor, office and hangar", rev:"B", disc:"Architectural", priced:"B" },
-    { dwg:"AR-T-04", title:"First floor, double volume hangar", rev:"B", disc:"Architectural", priced:"B" },
-    { dwg:"AR-T-05", title:"Second floor, airside deck",    rev:"B", disc:"Architectural", priced:"B" },
-    { dwg:"AR-T-06", title:"Elevations, page 1",            rev:"B", disc:"Architectural", priced:"B" },
-    { dwg:"AR-T-08", title:"Sections, page 1",              rev:"B", disc:"Architectural", priced:"B" },
-    { dwg:"SC-FD-01", title:"Foundations",                  rev:"E", disc:"Structural",   priced:"D" },
-    { dwg:"SC-GS-02", title:"General sections",             rev:"B", disc:"Structural",   priced:"B" },
-    { dwg:"SC-LVL1-01", title:"Level 1",                    rev:"D", disc:"Structural",   priced:"D" },
-    { dwg:"SC-LVL3-01", title:"Level 3",                    rev:"E", disc:"Structural",   priced:"D" },
-    { dwg:"SS-BFS-01", title:"Structural steel, hangar",    rev:"A", disc:"Structural",   priced:"A" }
-  ],
-
-  bills:[
-    { no:"1", name:"Preliminaries and General", amount:5064632.40, items:4,  from:"calculated" },
-    { no:"2", name:"Earthworks",                amount:326428.00,  items:11, from:"sub rates" },
-    { no:"3", name:"Concrete, formwork and reinforcing", amount:11179069.34, items:58, from:"sub rates" },
-    { no:"4", name:"Masonry",                   amount:1079286.76, items:14, from:"sub rates" },
-    { no:"5", name:"Waterproofing",             amount:521472.05,  items:9,  from:"sub rates" },
-    { no:"6", name:"Plaster",                   amount:807833.90,  items:12, from:"build-up" },
-    { no:"7", name:"Tiling",                    amount:534306.75,  items:8,  from:"sub rates" },
-    { no:"8", name:"Paint",                     amount:233656.00,  items:7,  from:"build-up" },
-    { no:"9", name:"Provisional amounts",       amount:39230000.00, items:97, from:"PQS allowance" }
-  ],
-
-  // What the PQS allowed for specialists the contractor must appoint
-  provisional:{
-    amount:39230000, sums:33, profitLines:26, attendanceLines:26, profitPriced:0, attendancePriced:0,
-    basis:"Measured and valued under the JBCC agreement, deducted in whole or part if not required, with no compensation for loss of profit"
+/* Four fictional jobs. priceIncl is a dumped figure of its own:
+   it is not priceExcl times a VAT rate. Profit percents are stored
+   fixtures. They are not (price - cost) / price. */
+const ROWS = [
+  {
+    no: "2401",
+    name: "Oakridge School Hall",
+    director: "Thabo Mokoena",
+    priceExcl: 1800000000,
+    priceIncl: 2040000000,
+    accruals: 20000000,
+    thisPeriod: 75000000,
+    adjustments: 0,
+    cumulative: 1100000000,
+    negative: 0,
+    contractCost: 1500000000,
+    actualProfitPct: "11.0",
+    tenderProfitPct: "12.5",
+    practicalCompletion: "2026-04-01",
+    closureMeeting: "2026-07-20"
   },
-
-  packages:[
-    { trade:"Earthworks",   subs:[["Highveld Earthmoving",326428],["Rand Civils",341900],["Tshwane Plant Hire",302150]], took:0, note:"" },
-    { trade:"Concrete and formwork", subs:[["Gauteng Readymix",11179069],["Midrand Concrete",11640200],["Centurion Structures",null]], took:0, note:"" },
-    { trade:"Masonry",      subs:[["Willow Brickwork",1079287],["Pretoria Masonry",1131400],["N4 Building",1042800]], took:0, note:"Lowest was not compliant on programme" },
-    { trade:"Waterproofing",subs:[["Aqua Seal",521472],["Highveld Waterproofing",560300],["Roofguard",null]], took:0, note:"" },
-    { trade:"Plaster",      subs:[[null,null]], took:-1, note:"Nobody would price it" },
-    { trade:"Tiling",       subs:[["Tile Works",534307],["Ceramic Solutions",588900],["Midrand Tiling",551200]], took:0, note:"" },
-    { trade:"Paint",        subs:[[null,null]], took:-1, note:"Nobody would price it" }
-  ],
-
-  // What a rate build-up looks like when no sub-contractor will quote
-  buildup:{ trade:"Plaster", unit:"m2", qty:4310,
-    rows:[
-      ["Cement and sand", "material", 41.20],
-      ["Plasterer, 14 m2 per day at R780", "labour", 55.70],
-      ["Labourer, shared across two plasterers at R430", "labour", 15.40],
-      ["Scaffold and small plant", "plant", 8.90],
-      ["Waste at 6%", "material", 5.80]
-    ], markup:0.10 },
-
-  qualifications:[
-    { n:1, text:"Tendered on the standard JBCC agreement, with the payment clause and material on site to be agreed before contract", risk:"high" },
-    { n:2, text:"Health and safety allowed only as far as the Act requires: part-time safety officer, full-time safety representative", risk:"med" },
-    { n:3, text:"No allowance for establishing water or electrical connections; assumes both available at commencement", risk:"high" },
-    { n:4, text:"Single phase electrical and water consumption only; no bulk connection, sewerage or maximum demand charges", risk:"med" },
-    { n:5, text:"Standard attendance on nominated and selected sub-contractors allowed; no special attendance", risk:"med" },
-    { n:6, text:"Level 2 BBBEE contributor on a private sector project, so no community liaison allowed", risk:"low" },
-    { n:7, text:"Nominated and selected sub-contractors to be paid only once the employer has paid us", risk:"high" },
-    { n:8, text:"Builders break from 12 December to 12 January is excluded from the programme", risk:"high" },
-    { n:9, text:"Smooth finish to concrete allowed; no Degree of Accuracy I", risk:"med" }
-  ],
-
-  // Their own four steps, in their words
-  method:[
-    "Price all tenders and qualify the start date",
-    "Use lowest rates in the adjudicator",
-    "Calculate risks, escalation and the like, and add if necessary",
-    "Price preliminaries and general nett"
-  ],
-
-  // Every preliminaries line is time-related, value-related or fixed. That
-  // classification is the whole reason an extension of time recovers money:
-  // the time-related lines keep running whether or not anyone is building.
-  months:12.5,
-  png:[
-    ["Guarantee",              "time",  46250.63],
-    ["Insurance",              "time",  55435.90],
-    ["Management and site staff","time", 2499907.41],
-    ["Temporary works",        "time",  19092.12],
-    ["Plant and equipment",    "time",  351768.62],
-    ["Site establishment",     "fixed", 486000.00],
-    ["Site cleaning and handover","fixed",178632.40],
-    ["Health and safety",      "time",  168000.00],
-    ["Temporary services",     "value", 296000.00],
-    ["Contract-wide sundries", "value", 963545.32]
-  ]
-};
-
-// Project type drives the contract edition, the payment terms and the
-// guarantee percentage. It is a lookup, not a judgement, and it is the
-// reason three editions run across one company at once.
-const CONTRACT_LOOKUP = [
-  ["Alterations", "JBCC 2000 March 2005",  7,  12.5],
-  ["Offices",     "JBCC 2000 July 2007",   7,  10.0],
-  ["Warehouses",  "JBCC 2000 March 2014", 14,  10.0],
-  ["Schools",     "JBCC PBA May 2018",    14,  10.0],
-  ["Hospitals",   "JBCC Minor Works",      7,  10.0],
-  ["Retail",      "By negotiation",        0,   0.0]
+  {
+    no: "2408",
+    name: "Mill Road Warehouse",
+    director: "Elmarie Botha",
+    priceExcl: 4200000000,
+    priceIncl: 4700000000,
+    accruals: 50000000,
+    thisPeriod: 180000000,
+    adjustments: 40000000,
+    cumulative: 2500000000,
+    negative: 0,
+    contractCost: 4000000000,
+    actualProfitPct: "8.5",
+    tenderProfitPct: "7.0",
+    practicalCompletion: "2026-07-10",
+    closureMeeting: null
+  },
+  {
+    no: "2512",
+    name: "Riverview Clinic Upgrade",
+    director: "Chris Naidoo",
+    priceExcl: 950000000,
+    priceIncl: 1080000000,
+    accruals: 10000000,
+    thisPeriod: 30000000,
+    adjustments: 0,
+    cumulative: 600000000,
+    negative: -25000000,
+    contractCost: 700000000,
+    actualProfitPct: "14.0",
+    tenderProfitPct: "14.0",
+    practicalCompletion: "2026-05-26",
+    closureMeeting: "2026-08-18"
+  },
+  {
+    no: "2603",
+    name: "Station Road Office",
+    director: "Lindiwe Petersen",
+    priceExcl: 600000000,
+    priceIncl: 675000000,
+    accruals: 0,
+    thisPeriod: 15000000,
+    adjustments: 10000000,
+    cumulative: 80000000,
+    negative: 0,
+    contractCost: 550000000,
+    actualProfitPct: "6.0",
+    tenderProfitPct: "9.5",
+    practicalCompletion: "2026-06-02",
+    closureMeeting: null
+  }
 ];
 
-// The pipeline a tender actually moves through
-const TENDER_STATES = [
-  ["1","Upcoming tenders","pre"], ["2","Prequalification","pre"],
-  ["3","Allocation, tender received","live"], ["4","Status","live"],
-  ["5","P&G summary, all projects","live"],
-  ["6","Awaiting result","post"], ["7","Lowest, awaiting appointment","post"],
-  ["8","Appointed","post"], ["9","Unsuccessful","post"], ["0","Declined","post"]
-];
+const THIN = "\u202F";
+const MON_EN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MON_AF = ["Jan","Feb","Mrt","Apr","Mei","Jun","Jul","Aug","Sep","Okt","Nov","Des"];
 
-const tenderTotal = () => TENDER.bills.reduce((a,b)=>a+b.amount,0);
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-/* ================================================================
-   INSIGHTS: the queue, the assistant, and saved widgets.
-
-   The assistant is a deterministic query engine over the same data
-   the rest of the console reads. It resolves an intent, computes the
-   answer, and can pin it to the board as a widget. Nothing here
-   generates a number: a language model would sit on top of this to
-   phrase the question and read the answer back, never to work it out.
-   ================================================================ */
-S.widgets = S.widgets || [];
-S.doneJobs = S.doneJobs || {};
-
-/* ---- the agentic queue, derived rather than authored ---- */
-function jobs(){
-  const out = [];
-  S.clocks.forEach(c => {
-    const wd = wdTo(c.due);
-    if (wd > 20) return;
-    out.push({ id:"clk:"+c.what+c.proj, sev: wd<=3?"crit":wd<=10?"warn":"ok",
-      title:c.what, proj:c.proj, wd, value:c.at,
-      why:c.basis, act: wd<=3 ? tr("Serve it today") : tr("Diarise and draft") });
-  });
-  S.outputs.filter(o => o.status === "Overdue").forEach(o => {
-    out.push({ id:"out:"+o.ref, sev:"crit", title:o.ref+" is past its window", proj:o.proj,
-      wd:o.due?wdTo(o.due):0, value:o.amount,
-      why:"Submitted "+o.date+", no response inside the contractual window",
-      act:tr("Record a deemed refusal and open the dispute file") });
-  });
-  S.projects.filter(p => p.capture >= 7).forEach(p => {
-    out.push({ id:"cap:"+p.id, sev:"warn", title:"No capture from "+p.name+" in "+p.capture+" days",
-      proj:p.id, wd:null, value:0,
-      why:"Labour is running at "+p.labourAct+"% of allowable with nothing logged",
-      act:tr("Call the site agent before the next claim") });
-  });
-  S.projects.filter(p => p.nowMargin < p.baseMargin - 1).forEach(p => {
-    out.push({ id:"mar:"+p.id, sev:"warn", title:p.name+" is "+(p.baseMargin-p.nowMargin).toFixed(1)+" points under tender",
-      proj:p.id, wd:null, value:Math.round((p.baseMargin-p.nowMargin)/100*p.value),
-      why:"Won at "+p.baseMargin.toFixed(1)+"%, forecasting "+p.nowMargin.toFixed(1)+"%",
-      act:tr("Review cost to complete with the contracts manager") });
-  });
-  S.expedite.filter(e => !e.ordered).forEach(e => {
-    const by = new Date(D(e.need)); by.setDate(by.getDate() - e.lead*7);
-    const wd = workdaysBetween(TODAY, by);
-    out.push({ id:"exp:"+e.item, sev: wd<0?"crit":"warn", title:"Order "+e.item, proj:e.proj, wd,
-      value:0, why:e.lead+" week lead time against a "+fmt(D(e.need))+" need date",
-      act: wd<0 ? tr("Already late, order and re-plan") : tr("Place the order") });
-  });
-  S.suppliers.filter(s => s.onTime < 0.75).forEach(s => {
-    out.push({ id:"sup:"+s.name, sev:"warn", title:s.name+" is at "+pct(s.onTime)+" on time",
-      proj:null, wd:null, value:0, why:s.defects+" defects logged this year",
-      act:tr("Take off the approved list at the next adjudication") });
-  });
-  return out.filter(j => !S.doneJobs[j.id])
-    .sort((a,b) => (a.sev==="crit"?0:a.sev==="warn"?1:2) - (b.sev==="crit"?0:b.sev==="warn"?1:2)
-      || (b.value - a.value));
+function formatRand(cents){
+  const n = Math.trunc(cents);
+  const sign = n < 0 ? "-" : "";
+  const rands = Math.trunc(Math.abs(n) / 100);
+  const body = String(rands).replace(/\B(?=(\d{3})+(?!\d))/g, THIN);
+  return sign + "R" + body;
 }
 
-/* ---- the assistant ---- */
-// Answers are written in both languages rather than machine-swapped, because a
-// half-translated assistant reads as broken rather than bilingual.
-const L = (en, af) => LANG === "af" ? af : en;
-const SUGGEST_EN = [
-  "Which projects are losing money?",
-  "What is due in the next 10 working days?",
-  "Who is late with notices?",
-  "Show variations over R100 000",
-  "Which suppliers are letting us down?",
-  "How much cash is outstanding?",
-  "What did we learn from closed projects?"
-];
-const SUGGEST_AF = [
-  "Watter projekte verloor geld?",
-  "Wat is oor die volgende 10 werksdae due?",
-  "Wie is laat met notices?",
-  "Wys VOs oor R100 000",
-  "Watter verskaffers laat ons in die steek?",
-  "Hoeveel kontant is uitstaande?",
-  "Wat het ons by klaar projekte geleer?"
-];
-const suggest = () => LANG === "af" ? SUGGEST_AF : SUGGEST_EN;
-
-function ask(q){
-  const s = q.toLowerCase();
-  const has = (...w) => w.some(x => s.includes(x));
-
-  if (has("lose","losing","under tender","margin","drift","verloor","wegloop","onder tender")){
-    const bad = S.projects.filter(p => p.nowMargin < p.baseMargin)
-      .sort((a,b)=>(a.nowMargin-a.baseMargin)-(b.nowMargin-b.baseMargin));
-    const lost = bad.reduce((a,p)=>a+(p.baseMargin-p.nowMargin)/100*p.value,0);
-    return { text:L(`${bad.length} of ${S.projects.length} projects are running under the margin they were won at, worth ${R(lost)} between them. ${bad[0].name} is the worst at ${(bad[0].baseMargin-bad[0].nowMargin).toFixed(1)} points down.`,
-      `${bad.length} van ${S.projects.length} projekte loop onder die margin waarteen hulle gewen is, ${R(lost)} tussen hulle. ${bad[0].name} is die ergste, ${(bad[0].baseMargin-bad[0].nowMargin).toFixed(1)} punte af.`),
-      widget:{ kind:"bar", title:"Margin against tender",
-        rows: S.projects.map(p=>({label:p.town, value:+(p.nowMargin-p.baseMargin).toFixed(1), suffix:" pts"})) } };
-  }
-  if (has("due","deadline","clock","next","week","expire","klok","sperdatum","werksdae","volgende")){
-    const m = s.match(/(\d+)/); const win = m ? +m[1] : 10;
-    const list = S.clocks.filter(c=>wdTo(c.due)<=win).sort((a,b)=>wdTo(a.due)-wdTo(b.due));
-    const val = list.reduce((a,c)=>a+c.at,0);
-    return { text:L(`${list.length} contractual clocks run out inside ${win} working days, with ${R(val)} attached. The first is "${list[0].what}" on ${proj(list[0].proj).name} in ${wdTo(list[0].due)} working days.`,
-      `${list.length} kontrak klokke loop binne ${win} werksdae uit, met ${R(val)} daaraan. Die eerste is "${list[0].what}" op ${proj(list[0].proj).name} oor ${wdTo(list[0].due)} werksdae.`),
-      widget:{ kind:"list", title:`Clocks inside ${win} working days`,
-        rows:list.map(c=>({label:c.what, meta:proj(c.proj).town, value:wdTo(c.due)+" wd",
-          sev:sevOf(wdTo(c.due))})) } };
-  }
-  if (has("who","late","on time","team","performance","agent","wie","laat","betyds","span","notices")){
-    const t = S.team.slice().sort((a,b)=>a.onTime-b.onTime);
-    return { text:L(`${t[0].name} is at ${pct(t[0].onTime)} on time with ${t[0].late} late notices this year, the weakest record on the team. ${t[0].projects.length > 1 ? "He carries " + t[0].projects.length + " projects, so it is worth asking whether that is a workload problem before it is a performance one." : ""}`,
-      `${t[0].name} is op ${pct(t[0].onTime)} betyds met ${t[0].late} laat notices vanjaar, die swakste rekord in die span. ${t[0].projects.length > 1 ? "Hy dra " + t[0].projects.length + " projekte, so vra eers of dit 'n werklas probleem is voor dit 'n prestasie probleem is." : ""}`),
-      widget:{ kind:"bar", title:"Notices served on time",
-        rows:S.team.map(m=>({label:m.name.split(" ")[0], value:Math.round(m.onTime*100), suffix:"%"})) } };
-  }
-  if (has("variation","vo ","vos","claims","claim","wys vo")){
-    const m = s.match(/([\d\s]{4,})/); const min = m ? +m[1].replace(/\s/g,"") : 0;
-    const list = S.outputs.filter(o=>["Variation","Claim"].includes(o.type) && o.amount >= min)
-      .sort((a,b)=>b.amount-a.amount);
-    return { text:L(`${list.length} variations and claims${min?" over "+R(min):""}, worth ${R(list.reduce((a,o)=>a+o.amount,0))} in total. ${list.filter(o=>o.status==="Overdue").length} are past the window they had to be answered in.`,
-      `${list.length} VOs en claims${min?" oor "+R(min):""}, ${R(list.reduce((a,o)=>a+o.amount,0))} in totaal. ${list.filter(o=>o.status==="Overdue").length} is verby die venster waarin hulle beantwoord moes word.`),
-      widget:{ kind:"list", title:min?`Variations over ${R(min)}`:"Variations and claims",
-        rows:list.slice(0,8).map(o=>({label:o.ref, meta:proj(o.proj).town, value:R(o.amount),
-          sev:STATUS_SEV[o.status]||"flat"})) } };
-  }
-  if (has("supplier","sub-contractor","subbie","subs","letting","verskaffer","steek")){
-    const bad = S.suppliers.slice().sort((a,b)=>a.onTime-b.onTime);
-    return { text:L(`${bad[0].name} is the weakest at ${pct(bad[0].onTime)} on time with ${bad[0].defects} defects. They are also the sub-contractor currently running a default notice at Menlyn, so the office record and the site position agree for once.`,
-      `${bad[0].name} is die swakste op ${pct(bad[0].onTime)} betyds met ${bad[0].defects} foute. Hulle is ook die sub wat nou op 'n default notice by Menlyn is, so die kantoor se rekord en die erf se posisie stem vir een keer saam.`),
-      widget:{ kind:"bar", title:"Supplier on-time record",
-        rows:S.suppliers.map(x=>({label:x.name.split(" ")[0], value:Math.round(x.onTime*100), suffix:"%"})) } };
-  }
-  if (has("cash","outstanding","certified","money","retention","paid","kontant","uitstaande","gesertifiseer")){
-    const t = totals();
-    return { text:L(`${Rm(t.certified)} has been certified of ${Rm(t.v)} under contract, leaving ${Rm(t.v-t.certified)} still to certify. ${R(t.retention)} is held as retention and ${R(t.overdue)} sits past a contractual window.`,
-      `${Rm(t.certified)} is gesertifiseer van ${Rm(t.v)} onder kontrak, wat ${Rm(t.v-t.certified)} laat om nog te sertifiseer. ${R(t.retention)} word as retention gehou en ${R(t.overdue)} sit verby 'n kontrak venster.`),
-      widget:{ kind:"bar", title:"Outstanding by project",
-        rows:S.projects.map(p=>({label:p.town, value:Math.round((p.value-p.certified)/1e6*10)/10, suffix:"m"})) } };
-  }
-  if (has("learn","lesson","closed","history","benchmark","past","geleer","les","klaar projekte")){
-    const worst = S.closed.slice().sort((a,b)=>(a.final-a.tender)-(b.final-b.tender))[0];
-    return { text:L(`Four projects are closed out with their outcome recorded. ${worst.name} is the cautionary one: tendered at ${worst.tender.toFixed(1)}% and finished at ${worst.final.toFixed(1)}%, because ${worst.lesson.toLowerCase()}.`,
-      `Vier projekte is afgesluit met hulle uitkoms aangeteken. ${worst.name} is die waarskuwing: getender op ${worst.tender.toFixed(1)}% en klaar op ${worst.final.toFixed(1)}%, want ${worst.lesson.toLowerCase()}.`),
-      widget:{ kind:"bar", title:"Closed projects, final against tender",
-        rows:S.closed.map(c=>({label:c.name.split(" ")[0], value:+(c.final-c.tender).toFixed(1), suffix:" pts"})) } };
-  }
-  if (has("tender","pipeline","bid","winning","tenders")){
-    const v = S.pipeline.reduce((a,t)=>a+t.value,0);
-    return { text:L(`${Rm(v)} is out to tender across ${S.pipeline.length} bids. ${S.pipeline[0].name} closes in ${wdTo(S.pipeline[0].closes)} working days and still carries ${S.pipeline[0].unpriced} provisional item${S.pipeline[0].unpriced===1?"":"s"}.`,
-      `${Rm(v)} is uit op tender oor ${S.pipeline.length} bids. ${S.pipeline[0].name} sluit oor ${wdTo(S.pipeline[0].closes)} werksdae en dra nog ${S.pipeline[0].unpriced} provisional item${S.pipeline[0].unpriced===1?"":"s"}.`),
-      widget:{ kind:"list", title:"Tender pipeline",
-        rows:S.pipeline.map(t=>({label:t.name, meta:t.state, value:Rm(t.value), sev:sevOf(wdTo(t.closes))})) } };
-  }
-  if (has("rework","capture","productivity","labour","site","oordoen","invoer","arbeid","erf")){
-    const worst = S.projects.slice().sort((a,b)=>b.capture-a.capture)[0];
-    return { text:L(`${worst.name} has not been captured in ${worst.capture} days and is running at ${worst.labourAct}% of allowable labour. A site that stops reporting is a site that has stopped being managed, and the cost only surfaces at final account.`,
-      `${worst.name} is ${worst.capture} dae laas ingevoer en loop op ${worst.labourAct}% van allowable arbeid. 'n Erf wat ophou rapporteer is 'n erf wat ophou bestuur word, en die koste wys eers by final account.`),
-      widget:{ kind:"bar", title:"Labour against allowable",
-        rows:S.projects.map(p=>({label:p.town, value:p.labourAct, suffix:"%"})) } };
-  }
-  return { text:L(`I answer from the project data rather than guessing, so I need something I can compute. Try one of the questions below, or ask about margin, clocks, notices, variations, suppliers, cash, tenders or closed projects.`,
-    `Ek antwoord uit die projek data, nie uit 'n raaiskoot nie, so ek het iets nodig wat ek kan uitwerk. Probeer een van die vrae hieronder, of vra oor margin, klokke, notices, VOs, verskaffers, kontant, tenders of klaar projekte.`) };
+function formatDate(iso){
+  if (!iso) return "";
+  const [y, m, d] = iso.split("-").map(Number);
+  const mon = (LANG === "af" ? MON_AF : MON_EN)[m - 1];
+  return d + " " + mon + " " + y;
 }
 
-let CHAT = [];
-
-function vInsights(){
-  const q = jobs();
-  const crit = q.filter(j=>j.sev==="crit").length;
-  const val = q.reduce((a,j)=>a+j.value,0);
-  head("Insights", "What the data is asking you to do, and anything you want to ask it", "Agentic");
-  return `
-    <div class="kpis">
-      <div class="dn"><span class="lab">Needs action</span><b>${q.length}</b><span class="d">${crit} cannot wait</span></div>
-      <div class="dn"><span class="lab">Value in the queue</span><b>${R(val)}</b><span class="d">Attached to open items</span></div>
-      <div><span class="lab">Saved widgets</span><b>${S.widgets.length}</b><span class="d">Pinned to this board</span></div>
-      <div><span class="lab">Cleared</span><b>${Object.keys(S.doneJobs).length}</b><span class="d">This session</span></div>
-    </div>
-
-    <div class="sec"><span class="lab">Action queue</span><span class="lab">Ranked by what it costs to ignore</span></div>
-    <div class="card">${q.length ? q.map(j=>`
-      <div class="job ${j.sev}">
-        <div class="jb">
-          <div class="jt">${esc(j.title)}
-            ${j.wd!==null?`<span class="pill ${sevOf(j.wd)}">${j.wd<0?Math.abs(j.wd)+" wd late":j.wd+" wd"}</span>`:""}
-            ${j.value?`<span class="pill flat">${R(j.value)}</span>`:""}</div>
-          <div class="jw">${esc(j.why)}</div>
-          <div class="ja">${esc(j.act)}</div>
-        </div>
-        <div class="jx">
-          ${j.proj?`<button class="mini" data-p="${j.proj}">View</button>`:""}
-          <button class="mini go" data-job="${esc(j.id)}">Done</button>
-        </div>
-      </div>`).join("") : `<div class="empty">Nothing in the queue. Everything with a clock on it is inside its window.</div>`}</div>
-
-    <div class="sec"><span class="lab">Ask the data</span><span class="lab">Deterministic, computed live</span></div>
-    <div class="card chat">
-      <div class="log" id="chatlog">${CHAT.length ? CHAT.map(m=>`
-        <div class="cm ${m.who}"><div class="bub">${m.html}</div>
-        ${m.widget?`<button class="mini pin" data-pin="${esc(JSON.stringify(m.widget))}">Pin as widget</button>`:""}</div>`).join("")
-        : `<div class="cm bot"><div class="bub">Ask me about the book of work. I compute the answer from the same data these screens read, so I can show my working.</div></div>`}</div>
-      <div class="sugg">${suggest().map(x=>`<button class="chip" data-say="${esc(x)}">${esc(x)}</button>`).join("")}</div>
-      <div class="cin">
-        <input id="cq" type="text" placeholder="Ask about margin, clocks, notices, suppliers, cash..." autocomplete="off">
-        <button class="mini go" id="csend">Ask</button>
-      </div>
-    </div>
-
-    <div class="sec"><span class="lab">Saved widgets</span><span class="lab">${S.widgets.length} pinned</span></div>
-    <div class="wgrid">${S.widgets.length ? S.widgets.map((w,i)=>widgetHTML(w,i)).join("")
-      : `<div class="card"><div class="empty">Nothing pinned yet. Ask a question, then pin the answer.</div></div>`}</div>
-
-    <p class="foot-note">The queue is derived, not written: every item comes from a rule reading the contract dates, the cost report and the supplier record. The assistant works the same way. A language model belongs on top of this, to understand a question phrased loosely and read the answer back out loud, never to work the number out.</p>`;
+function addCalendarDays(iso, days){
+  const [y, m, d] = iso.split("-").map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d + days));
+  const mm = String(dt.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(dt.getUTCDate()).padStart(2, "0");
+  return dt.getUTCFullYear() + "-" + mm + "-" + dd;
 }
 
-function widgetHTML(w, i){
-  const max = w.kind === "bar" ? Math.max(...w.rows.map(r=>Math.abs(r.value)), 1) : 1;
-  return `<div class="card widget">
-    <div class="wh"><span>${esc(w.title)}</span><button class="mini" data-del="${i}">Remove</button></div>
-    <div class="wb">${
-      w.kind === "bar" ? w.rows.map(r=>`
-        <div class="brow"><span class="bl">${esc(r.label)}</span>
-          <span class="bt"><i class="${r.value<0?"neg":"pos"}" style="width:${Math.abs(r.value)/max*100}%"></i></span>
-          <span class="bv">${r.value}${esc(r.suffix||"")}</span></div>`).join("")
-      : w.rows.map(r=>`
-        <div class="lrow"><span class="ll">${esc(r.label)}<em>${esc(r.meta||"")}</em></span>
-          <span class="pill ${r.sev||"flat"}">${esc(r.value)}</span></div>`).join("")
-    }</div></div>`;
+function signOffTarget(practicalIso){
+  return addCalendarDays(practicalIso, SIGN_OFF_AFTER_PRACTICAL);
 }
 
-function pushChat(who, html, widget){
-  CHAT.push({ who, html, widget });
-  if (CHAT.length > 12) CHAT = CHAT.slice(-12);
+/* Whole calendar days from the sign-off target to AS_AT.
+   Sheet column: days delay between sign-off and current date.
+   The closure meeting is shown on the row and is not this end date.
+   Does not call new Date(). */
+function dayNumber(iso){
+  const [y, m, d] = iso.split("-").map(Number);
+  return Math.round(Date.UTC(y, m - 1, d) / 86400000);
 }
-function sendChat(text){
-  if (!text.trim()) return;
-  pushChat("me", esc(text));
-  const a = ask(text);
-  pushChat("bot", esc(a.text), a.widget);
-  render();
-  const log = $("#chatlog"); if (log) log.scrollTop = log.scrollHeight;
-}
-
-/* ================================================================
-   KNOWLEDGE GRAPH
-   The company brain, drawn. Nodes are the things the business talks
-   about; edges are how they actually relate. It is built from the
-   same records as everything else, which is the point: the graph is
-   not a diagram somebody drew, it is the data seen sideways.
-   ================================================================ */
-const GTYPES = {
-  project:  { label:"Projects",   colour:"#FFCB05" },
-  output:   { label:"Documents",  colour:"#E8A33D" },
-  clock:    { label:"Clocks",     colour:"#E4695C" },
-  clause:   { label:"Clauses",    colour:"#C0564F" },
-  edition:  { label:"Editions",   colour:"#9A4A46" },
-  person:   { label:"People",     colour:"#7FA8D8" },
-  supplier: { label:"Suppliers",  colour:"#D2691E" },
-  trade:    { label:"Trades",     colour:"#9C8AC7" },
-  variance: { label:"Variance",   colour:"#B98AC7" },
-  material: { label:"Materials",  colour:"#C79A5B" },
-  activity: { label:"Activities", colour:"#6FA3B8" },
-  warning:  { label:"Warnings",   colour:"#E07B39" },
-  recovery: { label:"Recovery",   colour:"#5AA46C" },
-  tender:   { label:"Tenders",    colour:"#D4B44A" },
-  closed:   { label:"Closed",     colour:"#8FA07C" },
-  lesson:   { label:"Lessons",    colour:"#5AA46C" },
-  benchmark:{ label:"Benchmarks", colour:"#7EA88F" },
-  standard: { label:"Standards",  colour:"#8C8C87" },
-  client:   { label:"Clients",    colour:"#A0A09B" },
-  place:    { label:"Places",     colour:"#74746F" }
-};
-
-function buildGraph(){
-  const N = [], E = [];
-  const seen = new Set();
-  const add = (id, type, label, meta, w) => {
-    if (seen.has(id)) return id;
-    seen.add(id); N.push({ id, type, label, meta, w:w||1 }); return id;
-  };
-  const link = (a, b, rel, kind) => E.push({ a, b, rel:tr(rel), kind:kind||"" });
-
-  /* contract editions and the clauses that hang off them */
-  const EDS = ["05/2018","03/2014","07/2007","Minor Works"];
-  EDS.forEach(e => add("ed:"+e, "edition", e, "JBCC " + e, 2.4));
-  [["cl:26.10","Final account","Principal agent issues the final account"],
-   ["cl:26.11","Objection window","Contractor accepts or objects"],
-   ["cl:19","Practical completion","Inspection and the list"],
-   ["cl:21","Defects liability","Defects during the liability period"],
-   ["cl:expense","Recovery of expense","Notice within 20 working days"],
-   ["cl:revision","Revision of PC date","Extension of time"]
-  ].forEach(([id,l,m]) => add(id, "clause", tr(l), tr(m), 1.8));
-  link("cl:26.10","ed:05/2018","60 wd under"); link("cl:26.10","ed:03/2014","90 wd under");
-  link("cl:26.10","ed:07/2007","90 wd under");
-  link("cl:26.11","ed:05/2018","30 wd under"); link("cl:26.11","ed:03/2014","45 wd under");
-  link("cl:19","ed:05/2018","cl. 19"); link("cl:19","ed:03/2014","cl. 19"); link("cl:19","ed:07/2007","cl. 24");
-  link("cl:21","ed:05/2018","cl. 21"); link("cl:21","ed:07/2007","cl. 26");
-  link("cl:expense","cl:revision","runs with");
-
-  /* people */
-  S.team.forEach(m => add("pe:"+m.name, "person", m.name.split(" ")[0],
-    m.name + " / " + tr(m.role) + " / " + pct(m.onTime) + " " + tr("on time"), 1.6 + m.onTime));
-
-  /* live projects, their towns, and everything attached */
-  S.projects.forEach(p => {
-    add("pr:"+p.id, "project", p.town, p.name + " / " + Rm(p.value) + " / " + tr(p.stage), 3.2);
-    add("tw:"+p.town, "place", p.town, p.town + ", Gauteng", 1.3);
-    add("cli:"+p.client, "client", p.client.split(" ")[0], p.client, 1.5);
-    link("pr:"+p.id, "tw:"+p.town, "built at");
-    link("pr:"+p.id, "cli:"+p.client, "for");
-    link("pr:"+p.id, "ed:"+p.ed.replace("JBCC PBA ","").replace("JBCC ",""), "signed under", "contract");
-    link("pe:"+p.agent, "pr:"+p.id, "runs", "people");
-    link("pe:"+p.cm, "pr:"+p.id, "manages", "people");
-  });
-
-  /* trades */
-  ["Earthworks","Concrete","Brickwork","Roofing","Plumbing","Electrical","Steel","Windows","Glazing","Finishes"]
-    .forEach(c => add("tr:"+c, "trade", c, c + " / " + tr("trade"), 1.4));
-  S.estimating.forEach(e => {
-    add("tr:"+e.trade, "trade", e.trade, e.trade + " / " + tr("trade"), 1.4);
-    const d = (e.actual/e.tendered - 1) * 100;
-    add("va:"+e.trade, "variance", (d>0?"+":"") + d.toFixed(1) + "%",
-      e.trade + " / tendered " + R(e.tendered) + ", actual " + R(e.actual), 1.2);
-    link("va:"+e.trade, "tr:"+e.trade, d > 2 ? "over tendered" : "on tender", d > 2 ? "risk" : "");
-  });
-
-  /* suppliers */
-  S.suppliers.forEach(x => {
-    add("su:"+x.name, "supplier", x.name.split(" ")[0],
-      x.name + " / " + pct(x.onTime) + " " + tr("on time") + ", " + x.defects + " " + tr("defects"), 1.9);
-    link("su:"+x.name, "tr:"+x.cat, "supplies");
-  });
-  [["su:Bekker Plumbing","pr:lou","in default on","risk"],
-   ["su:Highveld Aluminium","pr:lou","supplying"],
-   ["su:Pretoria Steel Supplies","pr:wor","supplying"],
-   ["su:Gauteng Readymix","pr:lou","supplying"],
-   ["su:Gauteng Readymix","pr:tyg","supplying"],
-   ["su:Centurion Electrical","pr:str","supplying"],
-   ["su:Centurion Electrical","pr:tyg","supplying"]].forEach(a => link(a[0],a[1],a[2],a[3]));
-
-  /* every document the sites produced */
-  S.outputs.forEach(o => {
-    add("op:"+o.ref, "output", o.ref.split(" ")[0], o.ref + " / " + tr(o.type) + " / " + tr(o.status) +
-      (o.amount ? " / " + R(o.amount) : ""), o.amount > 200000 ? 2.1 : 1.4);
-    link("op:"+o.ref, "pr:"+o.proj, "raised on", o.status === "Overdue" ? "risk" : "");
-    link("pe:"+o.by, "op:"+o.ref, "wrote", "people");
-    if (o.type === "Variation" || o.type === "Notice") link("op:"+o.ref, "cl:expense", "under");
-    if (o.type === "Final account") link("op:"+o.ref, "cl:26.10", "under");
-  });
-
-  /* the clocks themselves */
-  S.clocks.forEach((c,i) => {
-    const wd = wdTo(c.due);
-    add("ck:"+i, "clock", wd + " wd", c.what + " / " + fmt(D(c.due)) + (c.at ? " / " + R(c.at) : ""),
-      wd <= 5 ? 2.2 : 1.5);
-    link("ck:"+i, "pr:"+c.proj, "runs on", wd <= 5 ? "risk" : "");
-    if (/final account/i.test(c.what)) link("ck:"+i, "cl:26.11", "counted under", "contract");
-    if (/completion/i.test(c.what)) link("ck:"+i, "cl:19", "counted under", "contract");
-    if (/remedy|default/i.test(c.what)) link("ck:"+i, "su:Bekker Plumbing", "against", "risk");
-  });
-
-  /* long lead items */
-  S.expedite.forEach(e => {
-    add("ex:"+e.item, "material", e.item.split(" ").slice(0,2).join(" "),
-      e.item + " / " + e.lead + " " + tr("week lead"), 1.5);
-    link("ex:"+e.item, "pr:"+e.proj, e.ordered ? "ordered for" : "still open for", e.ordered ? "" : "risk");
-  });
-
-  /* programme */
-  S.critical.forEach((c,i) => {
-    add("ca:"+i, "activity", c.act.split(" ").slice(0,2).join(" "),
-      c.act + " / " + tr("float") + " " + c.float + " d", c.float <= 0 ? 1.9 : 1.4);
-    link("ca:"+i, "pr:"+c.proj, "on the critical path of", c.float <= 0 ? "risk" : "");
-  });
-  S.warnings.forEach((w,i) => {
-    add("wa:"+i, "warning", "EW-" + (i+1), w.signal + (w.cost ? " / " + R(w.cost) : ""), 1.6);
-    link("wa:"+i, "pr:"+w.proj, "warned on", "risk");
-    link("pe:"+w.owner, "wa:"+i, "owns", "people");
-  });
-  S.recovery.forEach((r,i) => {
-    add("rc:"+i, "recovery", r.days + " d back", r.option + " / " + tr("net") + " " + R(r.net), 1.5);
-    link("rc:"+i, "pr:"+r.proj, "recovers");
-  });
-
-  /* tenders in the pipeline */
-  S.pipeline.forEach(t => {
-    add("td:"+t.name, "tender", t.name.split(" ")[0], t.name + " / " + Rm(t.value) + " / " + tr(t.state), 2);
-    link("td:"+t.name, "cl:expense", "will inherit");
-  });
-
-  /* closed projects, what they taught, and the standards that changed */
-  S.closed.forEach(c => {
-    add("cp:"+c.name, "closed", c.name.split(" ")[0],
-      c.name + " / " + tr("closed") + " " + c.year + " / " + c.tender.toFixed(1) + "% - " + c.final.toFixed(1) + "%", 2);
-    add("le:"+c.name, "lesson", c.lesson.split(",")[0].slice(0,24), c.lesson, 1.7);
-    link("le:"+c.name, "cp:"+c.name, "learned on", "lesson");
-  });
-  S.benchmarks.forEach(b => {
-    add("bm:"+b.type, "benchmark", R(b.rate) + "/m2", b.type + " / " + tr("from") + " " + b.source + " " + tr("project(s)"), 1.5);
-    link("bm:"+b.type, "td:"+S.pipeline[0].name, "priced into");
-  });
-  S.standards.forEach(st => {
-    add("st:"+st.name, "standard", st.name.split(" ").slice(0,2).join(" "),
-      st.name + " / " + tr("used") + " " + st.used + " " + tr("times"), 1.8);
-    S.projects.forEach((p,i) => { if ((st.used + i) % 3 === 0) link("st:"+st.name, "pr:"+p.id, "enforced on"); });
-  });
-  link("le:Bronkhorstspruit Silo","st:Tender qualification checklist","changed","lesson");
-  link("le:Rosslyn Cold Store","st:Sub-contractor default process","changed","lesson");
-  link("le:Silverton Depot","st:Tender qualification checklist","changed","lesson");
-  link("le:Hatfield Offices","st:Monthly claim reconciliation","changed","lesson");
-  link("st:Sub-contractor default process","su:Bekker Plumbing","triggered by","risk");
-  link("st:Tender qualification checklist","td:Midstream Medical Centre","applied to");
-  link("cp:Bronkhorstspruit Silo","tr:Earthworks","lost money on","risk");
-
-  const ids = new Set(N.map(n => n.id));
-  return { nodes:N, edges:E.filter(e => ids.has(e.a) && ids.has(e.b)) };
+function daysOfDelay(targetIso){
+  return dayNumber(AS_AT) - dayNumber(targetIso);
 }
 
-let G = null, GSEL = null, GHOVER = null, GOFF = new Set(), GRAF = 0;
-let GVIEW = { k:1, x:0, y:0 }, GALPHA = 1, GT = 0;
-
-function initGraph(){
-  const cv = document.getElementById("brain");
-  if (!cv) return;
-  cancelAnimationFrame(GRAF);
-  const g = buildGraph();
-  const w = cv.clientWidth || 800, h = cv.clientHeight || 520;
-  const types = Object.keys(GTYPES);
-  g.nodes.forEach((n,i) => {
-    // seed each type in its own arc so neighbourhoods form quickly
-    const ti = Math.max(0, types.indexOf(n.type));
-    const a = (ti / types.length) * Math.PI*2 + (i % 9) * 0.11;
-    const rad = Math.min(w,h) * (0.16 + (i % 5) * 0.045);
-    n.x = w/2 + Math.cos(a)*rad; n.y = h/2 + Math.sin(a)*rad*0.86;
-    n.vx = 0; n.vy = 0; n.seed = Math.random()*6.28;
-  });
-  const byId = {}; g.nodes.forEach(n => byId[n.id] = n);
-  g.byId = byId;
-  g.adj = {};
-  g.edges.forEach(e => {
-    (g.adj[e.a] = g.adj[e.a] || new Set()).add(e.b);
-    (g.adj[e.b] = g.adj[e.b] || new Set()).add(e.a);
-  });
-  g.nodes.forEach(n => n.deg = (g.adj[n.id] || new Set()).size);
-  G = g; GALPHA = 1; GVIEW = { k:1, x:0, y:0 };
-  const st = document.getElementById("gstat");
-  if (st) st.textContent = g.nodes.length + " " + tr("nodes") + ", " + g.edges.length + " " + tr("links");
-  for (let i = 0; i < 320; i++) stepForces(cv);   // settle before the first paint
-  bindGraph(cv);
-  drawGraph(cv);
-  cancelAnimationFrame(GRAF);
-  tickGraph(cv);
+function sumCents(key){
+  return ROWS.reduce((a, row) => a + row[key], 0);
 }
 
-function stepForces(cv){
-  const w = cv.clientWidth, h = cv.clientHeight, N = G.nodes, E = G.edges;
-  const a = GALPHA;
-  for (let i = 0; i < N.length; i++){
-    const p = N[i];
-    for (let j = i+1; j < N.length; j++){
-      const q = N[j];
-      let dx = q.x-p.x, dy = q.y-p.y, d2 = dx*dx+dy*dy || 1;
-      if (d2 > 62500) continue;
-      const f = 1850 / d2, d = Math.sqrt(d2), ux = dx/d, uy = dy/d;
-      p.vx -= ux*f*a; p.vy -= uy*f*a; q.vx += ux*f*a; q.vy += uy*f*a;
-    }
-  }
-  E.forEach(e => {
-    const p = G.byId[e.a], q = G.byId[e.b];
-    const dx = q.x-p.x, dy = q.y-p.y, d = Math.sqrt(dx*dx+dy*dy) || 1;
-    const f = (d - 74) * 0.016 * a, ux = dx/d, uy = dy/d;
-    p.vx += ux*f; p.vy += uy*f; q.vx -= ux*f; q.vy -= uy*f;
-  });
-  N.forEach(n => {
-    n.vx += (w/2 - n.x) * 0.0022 * a;
-    n.vy += (h/2 - n.y) * 0.0030 * a;
-    n.x += n.vx; n.y += n.vy;
-    n.vx *= 0.80; n.vy *= 0.80;
-    const r = 9 + n.w*3;
-    n.x = Math.max(r+8, Math.min(w-r-8, n.x));
-    n.y = Math.max(r+8, Math.min(h-r-8, n.y));
-  });
-  if (GALPHA > 0.03) GALPHA *= 0.976;
-}
-
-function tickGraph(cv){
-  GT += 0.016;
-  stepForces(cv);
-  drawGraph(cv);
-  GRAF = requestAnimationFrame(() => tickGraph(cv));
-}
-
-function nodeR(n){ return 4.5 + n.w*2.3 + Math.min(n.deg,10)*0.62; }
-
-function drawGraph(cv){
-  if (!G) return;
-  const dpr = Math.min(devicePixelRatio || 1, 2);
-  const w = cv.clientWidth, h = cv.clientHeight;
-  if (cv.width !== w*dpr || cv.height !== h*dpr){ cv.width = w*dpr; cv.height = h*dpr; }
-  const c = cv.getContext("2d");
-  c.setTransform(dpr,0,0,dpr,0,0);
-  c.clearRect(0,0,w,h);
-  c.save();
-  c.translate(GVIEW.x, GVIEW.y); c.scale(GVIEW.k, GVIEW.k);
-
-  const css = getComputedStyle(document.documentElement);
-  const ink = css.getPropertyValue("--ink").trim() || "#111";
-  const dim = css.getPropertyValue("--ink-3").trim() || "#888";
-  const surf = css.getPropertyValue("--surface").trim() || "#fff";
-  const focus = GSEL || GHOVER;
-  const near = focus ? (G.adj[focus] || new Set()) : null;
-  const vis = n => !GOFF.has(n.type);
-  const lit = id => !focus || id === focus || (near && near.has(id));
-
-  /* edges */
-  G.edges.forEach(e => {
-    const p = G.byId[e.a], q = G.byId[e.b];
-    if (!vis(p) || !vis(q)) return;
-    const on = lit(p.id) && lit(q.id);
-    const risk = e.kind === "risk";
-    const mx = (p.x+q.x)/2, my = (p.y+q.y)/2 - Math.abs(q.x-p.x)*0.10;
-    if (on && focus){
-      const grad = c.createLinearGradient(p.x,p.y,q.x,q.y);
-      grad.addColorStop(0, GTYPES[p.type].colour);
-      grad.addColorStop(1, GTYPES[q.type].colour);
-      c.strokeStyle = grad; c.globalAlpha = 0.9; c.lineWidth = 2;
-    } else {
-      c.strokeStyle = risk ? "#C0392B" : dim;
-      c.globalAlpha = on ? (risk ? 0.42 : 0.22) : 0.05;
-      c.lineWidth = risk ? 1.3 : 0.9;
-    }
-    c.beginPath(); c.moveTo(p.x,p.y); c.quadraticCurveTo(mx,my,q.x,q.y); c.stroke();
-
-    /* a spark travelling the lit edges, so the graph reads as live */
-    if (on && focus){
-      const t = (GT*0.42 + (p.x+q.y)*0.004) % 1;
-      const it = 1-t;
-      const sx = it*it*p.x + 2*it*t*mx + t*t*q.x;
-      const sy = it*it*p.y + 2*it*t*my + t*t*q.y;
-      c.globalAlpha = 0.95; c.fillStyle = GTYPES[q.type].colour;
-      c.beginPath(); c.arc(sx, sy, 2.3, 0, 7); c.fill();
-    }
-  });
-
-  /* nodes */
-  G.nodes.forEach(n => {
-    if (!vis(n)) return;
-    const on = lit(n.id), r = nodeR(n), col = GTYPES[n.type].colour;
-    const pulse = (n.type === "clock" || n.type === "warning") && n.w >= 1.9
-      ? 1 + Math.sin(GT*2.6 + n.seed)*0.14 : 1;
-
-    c.globalAlpha = on ? 0.30 : 0.05;
-    const g = c.createRadialGradient(n.x, n.y, 0, n.x, n.y, r*3.1*pulse);
-    g.addColorStop(0, col); g.addColorStop(1, "rgba(0,0,0,0)");
-    c.fillStyle = g;
-    c.beginPath(); c.arc(n.x, n.y, r*3.1*pulse, 0, 7); c.fill();
-
-    c.globalAlpha = on ? 1 : 0.14;
-    c.fillStyle = col;
-    c.beginPath(); c.arc(n.x, n.y, r*pulse, 0, 7); c.fill();
-    c.strokeStyle = surf; c.lineWidth = 1.4; c.stroke();
-
-    if (n.id === focus){
-      c.globalAlpha = 0.85; c.strokeStyle = col; c.lineWidth = 2;
-      c.beginPath(); c.arc(n.x, n.y, r + 7 + Math.sin(GT*3)*1.6, 0, 7); c.stroke();
-    }
-    n.r = r;
-  });
-
-  /* labels last, with a halo so they stay readable over edges */
-  c.font = "600 10px ui-monospace, SFMono-Regular, Consolas, monospace";
-  c.textAlign = "center";
-  G.nodes.forEach(n => {
-    if (!vis(n)) return;
-    const on = lit(n.id);
-    const show = focus ? on : (n.deg >= 4 || n.w >= 2.4);
-    if (!show) return;
-    const y = n.y + n.r + 11;
-    c.globalAlpha = on ? 0.9 : 0.2;
-    c.lineWidth = 3; c.strokeStyle = surf;
-    c.strokeText(n.label, n.x, y);
-    c.fillStyle = ink;
-    c.fillText(n.label, n.x, y);
-  });
-
-  c.restore();
-  c.globalAlpha = 1;
-}
-
-function graphHit(cv, ev){
-  const b = cv.getBoundingClientRect();
-  const x = (ev.clientX - b.left - GVIEW.x) / GVIEW.k;
-  const y = (ev.clientY - b.top  - GVIEW.y) / GVIEW.k;
-  let best = null, bd = 1e9;
-  G.nodes.forEach(n => {
-    if (GOFF.has(n.type)) return;
-    const d = (n.x-x)**2 + (n.y-y)**2;
-    if (d < (n.r+9)**2 && d < bd){ bd = d; best = n; }
-  });
-  return { node:best, x:ev.clientX - b.left, y:ev.clientY - b.top, gx:x, gy:y };
-}
-
-function bindGraph(cv){
-  let drag = null, pan = null;
-  cv.onmousemove = ev => {
-    if (drag){ const p = graphHit(cv, ev); drag.x = p.gx; drag.y = p.gy; GALPHA = Math.max(GALPHA, 0.18); drawGraph(cv); return; }
-    if (pan){ GVIEW.x = pan.ox + (ev.clientX - pan.sx); GVIEW.y = pan.oy + (ev.clientY - pan.sy); drawGraph(cv); return; }
-    const { node, x, y } = graphHit(cv, ev);
-    cv.style.cursor = node ? "pointer" : "grab";
-    const tip = document.getElementById("gtip");
-    if (node && tip){
-      tip.hidden = false;
-      tip.style.left = Math.min(x+14, cv.clientWidth-240) + "px";
-      tip.style.top = (y+14) + "px";
-      tip.innerHTML = "<b>" + esc(node.meta) + "</b><span>" + esc(tr(GTYPES[node.type].label)) +
-        " &middot; " + node.deg + " link" + (node.deg===1?"":"s") + "</span>";
-    } else if (tip) tip.hidden = true;
-    if (GHOVER !== (node ? node.id : null)){ GHOVER = node ? node.id : null; drawGraph(cv); }
-  };
-  cv.onmouseleave = () => { GHOVER = null; const t = document.getElementById("gtip"); if (t) t.hidden = true; drawGraph(cv); };
-  cv.onmousedown = ev => {
-    const { node } = graphHit(cv, ev);
-    if (node) drag = node;
-    else pan = { sx:ev.clientX, sy:ev.clientY, ox:GVIEW.x, oy:GVIEW.y };
-  };
-  window.addEventListener("mouseup", () => { drag = null; pan = null; });
-  cv.onwheel = ev => {
-    ev.preventDefault();
-    const b = cv.getBoundingClientRect();
-    const mx = ev.clientX - b.left, my = ev.clientY - b.top;
-    const k = Math.max(0.45, Math.min(2.6, GVIEW.k * (ev.deltaY < 0 ? 1.12 : 0.89)));
-    GVIEW.x = mx - (mx - GVIEW.x) * (k / GVIEW.k);
-    GVIEW.y = my - (my - GVIEW.y) * (k / GVIEW.k);
-    GVIEW.k = k;
-    drawGraph(cv);
-  };
-  cv.onclick = ev => {
-    const { node } = graphHit(cv, ev);
-    GSEL = node && node.id !== GSEL ? node.id : null;
-    drawGraph(cv);
-    paintBrainPanel();
-  };
-  cv.ondblclick = () => { GVIEW = { k:1, x:0, y:0 }; GALPHA = 0.6; drawGraph(cv); };
-}
-
-function paintBrainPanel(){
-  const el = document.getElementById("gpanel");
-  if (!el || !G) return;
-  if (!GSEL){
-    const counts = {};
-    G.nodes.forEach(n => counts[n.type] = (counts[n.type]||0)+1);
-    el.innerHTML = '<div class="lab">' + tr("The company brain") + '</div>' +
-      "<p>" + L(G.nodes.length + " things the business talks about and " + G.edges.length +
-        " relationships between them, built from the same records as every other screen. " +
-        "Drag a node, scroll to zoom, double click to reset. Click anything to trace what it touches.",
-        G.nodes.length + " goed waaroor die besigheid praat en " + G.edges.length +
-        " verbande tussen hulle, gebou uit dieselfde rekords as elke ander skerm. " +
-        "Sleep 'n node, rol om te zoom, dubbelklik om terug te stel. Klik enigiets om te sien wat dit raak.") + "</p>" +
-      '<div class="gcounts">' + Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([k,v]) =>
-        '<span><i style="background:' + GTYPES[k].colour + '"></i>' + v + " " + esc(tr(GTYPES[k].label)) + "</span>").join("") +
-      "</div>";
-    return;
-  }
-  const n = G.byId[GSEL];
-  const links = G.edges.filter(e => e.a===GSEL || e.b===GSEL)
-    .map(e => ({ other:G.byId[e.a===GSEL ? e.b : e.a], rel:e.rel, risk:e.kind==="risk" }));
-  el.innerHTML = '<div class="lab">' + esc(tr(GTYPES[n.type].label)) + '</div>' +
-    "<h4>" + esc(n.meta) + "</h4>" +
-    '<div class="glinks">' + links.map(l =>
-      '<div class="gl"><span class="gr' + (l.risk?" risk":"") + '">' + esc(l.rel) + "</span>" +
-      '<span class="gn" style="border-color:' + GTYPES[l.other.type].colour + '">' + esc(l.other.meta) + "</span></div>").join("") +
-    "</div>";
-}
-
-/* Natural-language query straight onto the graph. */
-function brainQuery(q){
-  if (!G) return null;
-  const s = q.trim().toLowerCase();
-  if (!s) return null;
-  const hit = G.nodes.find(n => (n.meta+" "+n.label).toLowerCase().includes(s));
-  if (!hit) return { text:L(`Nothing in the graph matches "${esc(q)}". Try a project, a person, a supplier or a trade.`,
-      `Niks in die grafiek pas by "${esc(q)}" nie. Probeer 'n projek, 'n persoon, 'n verskaffer of 'n trade.`) };
-  GSEL = hit.id;
-  const links = G.edges.filter(e => e.a===hit.id || e.b===hit.id)
-    .map(e => { const o = G.byId[e.a===hit.id ? e.b : e.a]; return e.rel + " " + o.meta; });
-  const cv = document.getElementById("brain");
-  if (cv){ drawGraph(cv); paintBrainPanel(); }
-  return { text:L(`<b>${esc(hit.meta)}</b> is connected to ${links.length} thing${links.length===1?"":"s"}: ${esc(links.slice(0,6).join("; "))}${links.length>6?" and more":""}.`,
-    `<b>${esc(hit.meta)}</b> is aan ${links.length} ding${links.length===1?"":"e"} gekoppel: ${esc(links.slice(0,6).join("; "))}${links.length>6?" en meer":""}.`) };
-}
-
-let BRAIN_ANS = "";
-
-function vBoq(){
-  const T = TENDER, tot = tenderTotal();
-  const prov = T.provisional;
-  const provShare = prov.amount / tot * 100;
-  const stale = T.pack.filter(p => p.rev !== p.priced);
-  const unpriced = T.packages.filter(p => p.took === -1);
-  head("Tender build-up", T.name + " / " + T.ref + " / " + T.scope, "01 Value area");
-
-  const missed = prov.amount * 0.05 + prov.amount * 0.025;
-
-  return `
-    <div class="kpis">
-      <div><span class="lab">Tender sum</span><b>${Rm(tot)}</b><span class="d">${T.bills.length} bills, ${T.bills.reduce((a,b)=>a+b.items,0)} priced items</span></div>
-      <div class="dn"><span class="lab">Provisional amounts</span><b>${provShare.toFixed(0)}%</b><span class="d">${Rm(prov.amount)} the PQS allowed for specialists</span></div>
-      <div><span class="lab">Measured work</span><b>${Rm(tot - prov.amount - T.bills[0].amount)}</b><span class="d">What we actually priced</span></div>
-      <div class="${stale.length?"dn":"up"}"><span class="lab">Superseded drawings</span><b>${stale.length}</b><span class="d">Priced against an older revision</span></div>
-      <div class="dn"><span class="lab">Closes</span><b>${wdTo(T.closes)<0?Math.abs(wdTo(T.closes))+" wd ago":wdTo(T.closes)+" wd"}</b><span class="d">${esc(fmt(D(T.closes)))} at ${esc(T.closesTime)}</span></div>
-    </div>
-
-    <div class="note crit" style="margin-top:22px">
-      <span class="lab">The question this tender should have been asked</span>
-      <p>Two thirds to four fifths of a tender sitting in provisional amounts is normal here, not an anomaly: the contractor is largely
-      managing specialists the PQS has allowed for. That makes what sits on top of those sums the whole commercial question.</p>
-      <p style="margin-top:9px"><b>${prov.profitLines} profit lines and ${prov.attendanceLines} attendance lines sit against ${Rm(prov.amount)}, and every one is priced at zero.</b>
-      At five percent profit and two and a half percent attendance that would be <b>${R(missed)}</b>, around ${(missed/tot*100).toFixed(0)}% of the tender sum.
-      It may be deliberate, recovered inside preliminaries, or given away to stay keen. It should still be a decision somebody made on purpose,
-      and today nothing puts the number in front of them.</p>
-    </div>
-
-    <div class="sec"><span class="lab">Bills</span><span class="lab">Where each rate came from</span></div>
-    ${tbl([["Bill"],["Description"],["Items","n"],["Source"],["Amount","n"],["Share","n"],[""]],
-      T.bills.map(b=>{
-        const share = b.amount/tot*100;
-        const sev = b.from==="PQS allowance" ? "warn" : b.from==="build-up" ? "crit" : "ok";
-        return `<tr><td class="name">${esc(b.no)}</td><td>${esc(b.name)}</td>
-          <td class="n">${b.items}</td>
-          <td><span class="pill ${sev}">${esc(tr(b.from))}</span></td>
-          <td class="n">${R(b.amount)}</td>
-          <td class="n">${share.toFixed(1)}%</td>
-          <td style="width:150px">${meter(share*1.6, sev)}</td></tr>`;}).join("")
-      + `<tr><td></td><td class="name">Tender sum</td><td class="n"></td><td></td>
-         <td class="n" style="font-weight:700">${R(tot)}</td><td class="n">100%</td><td></td></tr>`, 760)}
-
-    <div class="sec"><span class="lab">Packages out to sub-contractors</span><span class="lab">Rates come back per line item</span></div>
-    ${tbl([["Trade"],["Quotes"],["Lowest","n"],["Taken","n"],["Spread","n"],["Note"]],
-      T.packages.map(p=>{
-        const priced = p.subs.filter(x=>x[1]);
-        if (!priced.length) return `<tr><td class="name">${esc(p.trade)}</td>
-          <td><span class="pill crit">${tr("No quote")}</span></td><td class="n">&ndash;</td>
-          <td class="n">${tr("Built up")}</td><td class="n">&ndash;</td>
-          <td style="color:var(--ink-2)">${esc(tr(p.note))}</td></tr>`;
-        const vals = priced.map(x=>x[1]);
-        const lo = Math.min(...vals), hi = Math.max(...vals);
-        const took = p.subs[p.took];
-        return `<tr><td class="name">${esc(p.trade)}</td>
-          <td class="n">${priced.length} ${tr("of")} ${p.subs.length}</td>
-          <td class="n">${R(lo)}</td>
-          <td class="n" style="font-weight:700">${R(took[1])}${took[1]>lo?`<span class="sub" style="color:var(--warn)">+${R(took[1]-lo)}</span>`:""}</td>
-          <td class="n">${((hi-lo)/lo*100).toFixed(0)}%</td>
-          <td style="color:var(--ink-2)">${esc(tr(p.note))}</td></tr>`;}).join(""), 720)}
-    <p class="foot-note">${unpriced.length} trade${unpriced.length===1?"":"s"} came back with no quote at all. That is not a gap in the tender, it is the point at which somebody has to build the rate up from material and labour, and the number they arrive at is the one nobody else can check later unless it was written down.</p>
-
-    <div class="sec"><span class="lab">Rate build-up</span><span class="lab">${esc(TENDER.buildup.trade)}, when nobody will price it</span></div>
-    <div class="two">
-      <div class="panel"><h3>${esc(TENDER.buildup.trade)} per ${esc(TENDER.buildup.unit)}</h3><div class="in">
-        ${TENDER.buildup.rows.map(r=>`<div class="kv"><span>${esc(r[0])}<br><span class="lab">${esc(tr(r[1]))}</span></span><span>${R(r[2])}</span></div>`).join("")}
-        ${(()=>{const net = TENDER.buildup.rows.reduce((a,r)=>a+r[2],0);
-          return `<div class="kv"><span>Net rate</span><span>${R(net)}</span></div>
-                  <div class="kv"><span>Markup ${(TENDER.buildup.markup*100).toFixed(0)}%</span><span>${R(net*TENDER.buildup.markup)}</span></div>
-                  <div class="kv"><span style="font-weight:700">Rate used</span><span style="font-weight:700">${R(net*(1+TENDER.buildup.markup))}</span></div>
-                  <div class="kv"><span>Against ${TENDER.buildup.qty} ${esc(TENDER.buildup.unit)}</span><span>${R(net*(1+TENDER.buildup.markup)*TENDER.buildup.qty)}</span></div>`;})()}
-      </div></div>
-      <div class="panel"><h3>Why it matters</h3><div class="in">
-        <p style="margin:0 0 12px;font-size:13.5px;color:var(--ink-2)">A built-up rate is the only number in the bill with no third party behind it. If it is wrong, nobody finds out until the trade is on site and the cost report starts drifting.</p>
-        <p style="margin:0 0 12px;font-size:13.5px;color:var(--ink-2)">Held as its components rather than a single figure, it can be re-costed when steel or labour moves, checked against what the trade actually cost on the last three projects, and defended in a variation.</p>
-        <p style="margin:0;font-size:13.5px;color:var(--ink-2)">Typed into the estimating system as one number, all of that is gone.</p>
-      </div></div>
-    </div>
-
-    <div class="sec"><span class="lab">Preliminaries and General</span><span class="lab">Time, value or fixed, and why it decides every delay claim</span></div>
-    ${(()=>{
-      const byKind = k => T.png.filter(l=>l[1]===k).reduce((a,l)=>a+l[2],0);
-      const time = byKind("time"), value = byKind("value"), fixed = byKind("fixed");
-      const total = time+value+fixed, perMonth = time / T.months;
-      return `<div class="kpis" style="margin-bottom:14px">
-        <div class="dn"><span class="lab">${tr("Time related")}</span><b>${R(time)}</b><span class="d">${R(perMonth)} ${tr("per month, recoverable on an extension")}</span></div>
-        <div><span class="lab">${tr("Value related")}</span><b>${R(value)}</b><span class="d">${tr("Moves with the contract sum")}</span></div>
-        <div><span class="lab">${tr("Fixed")}</span><b>${R(fixed)}</b><span class="d">${tr("Spent once, whatever happens")}</span></div>
-        <div><span class="lab">${tr("Contract period")}</span><b>${T.months} ${tr("months")}</b><span class="d">${tr("The divisor for everything time related")}</span></div>
-      </div>` +
-      tbl([["Item"],["Allocation"],["Amount","n"],["Per month","n"],["Share","n"]],
-        T.png.slice().sort((a,b)=>b[2]-a[2]).map(l=>{
-          const sev = l[1]==="time" ? "crit" : l[1]==="value" ? "warn" : "flat";
-          return `<tr><td class="name">${esc(l[0])}</td>
-            <td><span class="pill ${sev}">${esc(tr(l[1]==="time"?"Time":l[1]==="value"?"Value":"Fixed"))}</span></td>
-            <td class="n">${R(l[2])}</td>
-            <td class="n">${l[1]==="time"?R(l[2]/T.months):"&ndash;"}</td>
-            <td class="n">${(l[2]/total*100).toFixed(1)}%</td></tr>`;}).join("")
-        + `<tr><td class="name" style="font-weight:700">${tr("Total P&G")}</td><td></td>
-           <td class="n" style="font-weight:700">${R(total)}</td>
-           <td class="n">${R(perMonth)}</td>
-           <td class="n">${(total/tot*100).toFixed(1)}% ${tr("of tender")}</td></tr>`, 640);
-    })()}
-    <p class="foot-note">This split is the reason an extension of time is worth money. The time-related lines keep running whether or not anybody is building, so a month of delay costs the contractor a month of them, and a granted extension recovers exactly that. Held as one lump sum, as it usually is, the claim cannot be built at all.</p>
-
-    <div class="sec"><span class="lab">How the tender was priced</span><span class="lab">Their own method, in order</span></div>
-    <div class="card"><div class="in" style="padding:6px 0">
-      ${T.method.map((m,i)=>`<div class="job ok"><div class="jb"><div class="jt"><span class="pill flat">${i+1}</span> ${esc(m)}</div></div></div>`).join("")}
-    </div></div>
-
-    <div class="sec"><span class="lab">Contract terms follow the project type</span><span class="lab">A lookup, not a judgement</span></div>
-    ${tbl([["Project type"],["Agreement"],["Payment days","n"],["Guarantee","n"]],
-      CONTRACT_LOOKUP.map(r=>`<tr><td class="name">${esc(r[0])}</td><td><span class="ed">${esc(r[1])}</span></td>
-        <td class="n">${r[2]||"&ndash;"}</td><td class="n">${r[3]?r[3].toFixed(1)+"%":"&ndash;"}</td></tr>`).join(""), 520)}
-    <p class="foot-note">This single table is why three editions of the same contract run across one company at once, and why a deadline can never be a number somebody remembers. It is a property of what is being built.</p>
-
-    <div class="sec"><span class="lab">Tender pack</span><span class="lab">What each rate was priced against</span></div>
-    ${tbl([["Drawing"],["Title"],["Discipline"],["Issued rev","n"],["Priced against","n"],["Status"]],
-      T.pack.map(p=>{
-        const ok = p.rev === p.priced;
-        return `<tr><td class="name">${esc(p.dwg)}</td><td>${esc(p.title)}</td>
-          <td style="color:var(--ink-2)">${esc(tr(p.disc))}</td>
-          <td class="n">${esc(p.rev)}</td><td class="n">${esc(p.priced)}</td>
-          <td>${ok?`<span class="pill ok">${tr("Current")}</span>`:`<span class="pill crit">${tr("Superseded")}</span>`}</td></tr>`;}).join(""), 700)}
-    <p class="foot-note">Two structural drawings were reissued after the packages went out. Every rate priced against the older revision is a rate priced against a building that no longer exists, and the only way to know which is to record the revision at the moment the rate was committed.</p>
-
-    <div class="sec"><span class="lab">Qualifications</span><span class="lab">What the tender does not cover</span></div>
-    ${tbl([["No","n"],["Qualification"],["Carries"]],
-      T.qualifications.map(q=>`<tr><td class="n">${q.n}</td><td>${esc(q.text)}</td>
-        <td><span class="pill ${q.risk==="high"?"crit":q.risk==="med"?"warn":"ok"}">${esc(tr(q.risk==="high"?"High":q.risk==="med"?"Medium":"Low"))}</span></td></tr>`).join(""), 640)}
-    <p class="foot-note">Qualification 8 is the one the rest of the system has to know about: the builders break from 12 December to 12 January is not a public holiday, it is a contractual shutdown, and every working-day deadline that crosses it is wrong unless the calendar carries it. This console's does.</p>`;
-}
-
-/* ================================================================
-   Router
-   ================================================================ */
-const AREAS = [
-  ["01","Tender","tender","Bid speed, scope risk, estimating"],
-  ["02","Procurement","procurement","Quotes, suppliers, lead time"],
-  ["03","Site productivity","siteprod","Capture, labour, rework, RFIs"],
-  ["04","Commercial","commercial","Cost to complete, variations, cash"],
-  ["05","Programme","programme","Early warning, critical path"],
-  ["06","Knowledge","knowledge","Close-out, lessons, benchmarks"]
-];
-
-const VIEWS = { portfolio:vPortfolio, sites:vSites, project:vProject, insights:vInsights, boq:vBoq,
-                tender:vTender, procurement:vProcurement, siteprod:vSite,
-                commercial:vCommercial, programme:vProgramme, knowledge:vKnowledge,
-                outputs:vOutputs, clocks:vClocks, team:vTeam };
-
-let render = function(){
-  $("#view").innerHTML = VIEWS[VIEW]();
-  $("#asof").textContent = "As at " + fmt(TODAY);
-  document.querySelectorAll("#nav button").forEach(b =>
-    b.classList.toggle("on", b.dataset.v === VIEW || (VIEW === "project" && b.dataset.v === "sites")));
-  $("#ct-sites").textContent = S.projects.length;
-  $("#ct-outputs").textContent = S.outputs.length;
-  $("#ct-clocks").textContent = S.clocks.filter(c => wdTo(c.due) <= 20).length;
-  window.scrollTo(0, 0);
-}
-
-document.addEventListener("click", e => {
-  const nav = e.target.closest("[data-v]");
-  if (nav){ VIEW = nav.dataset.v; SEL = null; FILTER = "All"; render(); return; }
-  const f = e.target.closest("[data-f]");
-  if (f){ FILTER = f.dataset.f; render(); return; }
-  if (e.target.closest("#back")){ VIEW = "portfolio"; SEL = null; render(); return; }
-  const row = e.target.closest("[data-p]");
-  if (row){ SEL = row.dataset.p; VIEW = "project"; render(); return; }
-});
-
-$("#theme").onclick = () => {
-  const cur = document.documentElement.getAttribute("data-theme");
-  const dark = cur ? cur === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-  document.documentElement.setAttribute("data-theme", dark ? "light" : "dark");
-};
-$("#reset").onclick = () => {
-  S = JSON.parse(JSON.stringify(SEED)); save(); VIEW = "portfolio"; SEL = null; FILTER = "All"; render();
-};
-
-
-/* ================================================================
-   Afrikaans, and the working tools a console needs.
-
-   The console is generated as HTML strings, so rather than wrapping
-   several hundred literals the translation runs over the rendered
-   text nodes. Exact matches come from the table; anything carrying a
-   number goes through the patterns. A string with no entry falls
-   through to English rather than breaking, which is the right failure.
-   ================================================================ */
 let LANG = "en";
-try { LANG = localStorage.getItem("siteos.lang") || "en"; } catch(e){}
+try {
+  const stored = localStorage.getItem("siteos.lang");
+  if (stored === "af" || stored === "en") LANG = stored;
+} catch (e) {}
 
 const AF = {
-  /* nav and chrome */
-  "Company":"Maatskappy", "Portfolio":"Portefeulje", "Sites":"Erwe",
-  "Value areas":"Waarde areas", "Records":"Rekords",
-  "01 Tender":"01 Tender", "02 Procurement":"02 Aankope",
-  "03 Site productivity":"03 Erf produktiwiteit", "04 Commercial":"04 Kommersieel",
-  "05 Programme":"05 Program", "06 Knowledge":"06 Kennis",
-  "Outputs":"Uitsette", "Clocks":"Klokke", "Team":"Span",
-  "Theme":"Tema", "Reset":"Herstel", "Search":"Soek", "Copy table":"Kopieer tabel",
-
-  /* view titles */
-  "Tender":"Tender", "Procurement":"Aankope", "Site productivity":"Erf produktiwiteit",
-  "Commercial":"Kommersieel", "Programme":"Program", "Knowledge":"Kennis", "Project":"Projek",
-
-  /* subheads */
-  "Where the work is, and what each one is waiting on":"Waar die werk is, en waarvoor elkeen wag",
-  "Bid speed, scope risk, estimating consistency, benchmark reuse":"Bid spoed, scope risiko, konsekwente beraming, benchmarks hergebruik",
-  "Quote comparison, supplier performance, lead-time risk, expediting":"Kwotes vergelyk, verskaffers se rekord, lead time risiko, expediting",
-  "Daily capture, labour and plant signals, progress and rework, access to information":"Daaglikse invoer, arbeid en plant, vordering en oordoen, toegang tot inligting",
-  "Cost-to-complete, variations, claims, cash and margin at risk":"Koste om klaar te maak, VOs, claims, kontant en margin op die spel",
-  "Early warning, critical-path exposure, recovery scenarios":"Vroeë waarskuwing, critical path blootstelling, inhaal opsies",
-  "Project close-out, lessons learned, benchmarks and standards":"Projek afsluiting, wat ons geleer het, benchmarks en standaarde",
-  "Every document the sites produced, and who has to act on it next":"Elke dokument wat die erwe gemaak het, en wie volgende moet optree",
-  "Every contractual deadline running across the company":"Elke kontrak sperdatum wat oor die maatskappy loop",
-  "Who owns what, and whose notices go out inside the window":"Wie besit wat, en wie se notices betyds uitgaan",
-
-  /* kpi labels */
-  "Under contract":"Onder kontrak", "Margin now":"Margin nou", "At risk in 20 wd":"Risiko binne 20 wd",
-  "Past its window":"Verby sy tyd", "Certified to date":"Gesertifiseer tot datum",
-  "Contract value":"Kontrakwaarde", "Margin":"Margin", "Cost to complete":"Koste om klaar te maak",
-  "Certified":"Gesertifiseer", "Out to tender":"Uit op tender", "Bid speed":"Bid spoed",
-  "Unpriced items":"Ongeprysde items", "Worst drift":"Ergste wegloop",
-  "Against highest quote":"Teen die hoogste kwote", "Weakest supplier":"Swakste verskaffer",
-  "Not yet ordered":"Nog nie bestel nie", "Settlement discount":"Settlement discount",
-  "Captured today":"Vandag ingevoer", "Rework open":"Oordoen oop", "RFIs open":"RFIs oop",
-  "Labour over allowable":"Arbeid oor allowable", "Margin at risk":"Margin op die spel",
-  "Overdue value":"Agterstallige waarde", "Contra open":"Contra oop",
-  "Still to certify":"Nog te sertifiseer", "Retention held":"Retention gehou",
-  "Projects slipped":"Projekte agter", "Critical path exposure":"Critical path blootstelling",
-  "Early warnings":"Vroeë waarskuwings", "Recovery options":"Inhaal opsies",
-  "Projects closed out":"Projekte afgesluit", "Average outcome":"Gemiddelde uitkoms",
-  "Benchmarks held":"Benchmarks gehou", "Standards in use":"Standaarde in gebruik",
-  "Control points":"Kontrolepunte", "Programme":"Program",
-
-  /* section labels */
-  "Projects":"Projekte", "Baseline against forecast":"Baseline teen forecast",
-  "Soonest clocks":"Kortste klokke", "Live bids":"Lopende bids", "Scope risk":"Scope risiko",
-  "Estimating consistency":"Konsekwente beraming",
-  "Tendered against actual, closed work":"Getender teen werklik, klaar werk",
-  "Benchmarks available to reuse":"Benchmarks om te hergebruik",
-  "Open adjudications":"Oop adjudications", "Three quotes, and why":"Drie kwotes, en hoekom",
-  "Supplier performance":"Verskaffers se rekord", "Expediting":"Expediting",
-  "Order-by date derived from lead time":"Bestel-teen datum uit die lead time",
-  "By site":"Per erf",
-  "Signals captured on the phone, not chased by the office":"Op die foon ingevoer, nie deur die kantoor gejaag nie",
-  "Cash and margin by project":"Kontant en margin per projek",
-  "Variations and claims":"VOs en claims", "Early warning":"Vroeë waarskuwing",
-  "Raised from site, not found in a month-end review":"Van die erf af, nie by maandeinde ontdek nie",
-  "Critical path":"Critical path", "Recovery scenarios":"Inhaal opsies",
-  "What each option is actually worth":"Wat elke opsie regtig werd is",
-  "Closed projects":"Klaar projekte",
-  "What the job actually did against what it was sold at":"Wat die job gedoen het teen waarvoor dit verkoop is",
-  "Standards, and what changed them":"Standaarde, en wat hulle verander het",
-  "Outputs from this site":"Uitsette van hierdie erf", "Open clocks":"Oop klokke",
-  "Against the locked baseline":"Teen die vaste baseline",
-
-  /* table headers */
-  "Project":"Projek", "Edition":"Edition", "Stage":"Stadium", "Value":"Waarde",
-  "Next clock":"Volgende klok", "Reference":"Verwysing", "Type":"Tipe", "Raised":"Opgestel",
-  "By":"Deur", "Status":"Status", "Acts by":"Optree teen", "Working days":"Werksdae",
-  "What":"Wat", "Basis":"Basis", "Due":"Teen", "At stake":"Op die spel",
-  "Name":"Naam", "Role":"Rol", "On time":"Betyds", "Late this year":"Laat vanjaar",
-  "Record":"Rekord", "Contract":"Kontrak", "Outstanding":"Uitstaande", "Retention":"Retention",
-  "Contra":"Contra", "Trade":"Trade", "Tendered":"Getender", "Actual":"Werklik",
-  "Variance":"Verskil", "Building type":"Tipe gebou", "Rate":"Rate", "From":"Uit",
-  "Spread":"Spreiding", "Item":"Item", "Lowest":"Laagste", "Chosen":"Gekies",
-  "Highest":"Hoogste", "Reason":"Rede", "Supplier":"Verskaffer", "Category":"Kategorie",
-  "Defects":"Foute", "Discount":"Afslag", "Lead wks":"Lead wke", "Needed on":"Nodig op",
-  "Order by":"Bestel teen", "Last capture":"Laas ingevoer",
-  "Labour vs allowable":"Arbeid teen allowable", "Rework":"Oordoen",
-  "Signal":"Sein", "Days":"Dae", "Cost":"Koste", "Owner":"Eienaar",
-  "Activity":"Aktiwiteit", "Float":"Float", "Exposure":"Blootstelling",
-  "Option":"Opsie", "Days recovered":"Dae ingehaal", "Net":"Netto",
-  "Year":"Jaar", "Final":"Finaal", "Swing":"Swaai", "What it taught":"Wat dit geleer het",
-  "Standard":"Standaard", "Times used":"Kere gebruik", "Last change":"Laaste verandering",
-  "Closes":"Sluit", "Days on it":"Dae daaraan", "Qualifications":"Qualifications",
-  "Unpriced":"Ongeprys", "State":"Stand", "Tender":"Tender",
-
-  /* stages and statuses */
-  "On site":"Op erf", "Claims":"Claims", "Completion":"Voltooiing", "Final account":"Final account",
-  "Submitted":"Ingestuur", "Issued":"Uitgereik", "Running":"Loop", "With PQS":"By die PQS",
-  "Overdue":"Agterstallig", "Awaiting PA":"Wag vir PA", "Objection due":"Beswaar teen",
-  "Deemed refused":"Geag geweier", "Adjudicating":"Adjudicating", "Pricing":"Prys dit",
-  "Ordered":"Bestel", "Open":"Oop", "Variation":"VO", "Claim":"Claim", "Notice":"Notice",
-  "Progress":"Vordering", "Default":"Default", "All":"Alles",
-
-  /* graph relations */
-  "signed under":"geteken onder", "built at":"gebou by", "for":"vir",
-  "runs":"bestuur", "manages":"hou dop", "supplies":"verskaf",
-  "in default on":"in default op", "supplying":"verskaf aan",
-  "raised on":"opgestel op", "wrote":"het geskryf", "under":"onder",
-  "runs on":"loop op", "counted under":"getel onder", "against":"teen",
-  "ordered for":"bestel vir", "still open for":"nog oop vir",
-  "on the critical path of":"op die critical path van", "warned on":"gewaarsku op",
-  "owns":"besit", "recovers":"haal in", "will inherit":"gaan erf",
-  "learned on":"geleer op", "priced into":"ingeprys in", "enforced on":"afgedwing op",
-  "changed":"het verander", "triggered by":"veroorsaak deur", "applied to":"toegepas op",
-  "over tendered":"oor getender", "on tender":"op tender", "lost money on":"geld verloor op",
-  "60 wd under":"60 wd onder", "90 wd under":"90 wd onder",
-  "30 wd under":"30 wd onder", "45 wd under":"45 wd onder", "runs with":"loop saam met",
-
-  /* graph node types */
-  "Documents":"Dokumente", "Clocks":"Klokke", "Clauses":"Klousules", "Editions":"Editions",
-  "Variance":"Verskil", "Materials":"Materiaal", "Activities":"Aktiwiteite",
-  "Warnings":"Waarskuwings", "Recovery":"Inhaal", "Tenders":"Tenders", "Closed":"Klaar",
-  "Benchmarks":"Benchmarks", "Clients":"Kliënte", "Places":"Plekke",
-
-  /* fragments the node detail is built from */
-  "trade":"trade", "on time":"betyds", "defects":"foute", "closed":"klaar",
-  "week lead":"weke lead", "float":"float", "net":"netto", "used":"gebruik",
-  "times":"keer", "from":"uit", "project(s)":"projek(te)",
-  "Final account":"Final account", "Objection window":"Beswaar venster",
-  "Practical completion":"Practical completion", "Defects liability":"Defects liability",
-  "Recovery of expense":"Verhaal van koste", "Revision of PC date":"Hersiening van PC datum",
-  "Principal agent issues the final account":"Die PA reik die final account uit",
-  "Contractor accepts or objects":"Kontrakteur aanvaar of maak beswaar",
-  "Inspection and the list":"Inspeksie en die lys",
-  "Defects during the liability period":"Foute in die liability tydperk",
-  "Notice within 20 working days":"Notice binne 20 werksdae",
-  "Extension of time":"Tydsverlenging",
-
-  /* tender build-up */
-  "Tender build-up":"Tender opbou", "Bills and rates":"Bills en rates",
-  "Tender sum":"Tender bedrag", "Provisional amounts":"Provisional bedrae",
-  "Measured work":"Gemete werk", "Superseded drawings":"Verouderde tekeninge",
-  "Closes":"Sluit", "Bills":"Bills", "Where each rate came from":"Waar elke rate vandaan kom",
-  "Description":"Beskrywing", "Items":"Items", "Source":"Bron", "Amount":"Bedrag",
-  "Share":"Deel", "sub rates":"sub rates", "build-up":"opbou", "PQS allowance":"PQS toelae",
-  "calculated":"uitgewerk",
-  "Packages out to sub-contractors":"Pakkette uit na subs",
-  "Rates come back per line item":"Rates kom terug per lyn item",
-  "Trade":"Trade", "Quotes":"Kwotes", "Lowest":"Laagste", "Taken":"Gevat", "Spread":"Spreiding",
-  "Note":"Nota", "No quote":"Geen kwote", "Built up":"Opgebou", "of":"van",
-  "Rate build-up":"Rate opbou", "material":"materiaal", "labour":"arbeid", "plant":"plant",
-  "Net rate":"Netto rate", "Rate used":"Rate gebruik", "Why it matters":"Hoekom dit saak maak",
-  "Preliminaries and General":"Preliminaries en General", "Total P&amp;G":"Totale P&amp;G",
-  "of tender":"van tender", "Share of P&G":"Deel van P&G",
-  "Tender pack":"Tender pak", "What each rate was priced against":"Waarteen elke rate geprys is",
-  "Drawing":"Tekening", "Title":"Titel", "Discipline":"Dissipline", "Issued rev":"Uitgereikte rev",
-  "Priced against":"Geprys teen", "Current":"Huidig", "Superseded":"Verouderd",
-  "Architectural":"Argitektonies", "Structural":"Struktureel",
-  "Qualifications":"Qualifications", "What the tender does not cover":"Wat die tender nie dek nie",
-  "Carries":"Dra", "High":"Hoog", "Medium":"Middel", "Low":"Laag",
-
-  /* preliminaries model */
-  "Time related":"Tydverwant", "Value related":"Waardeverwant", "Fixed":"Vas",
-  "Time":"Tyd", "Value":"Waarde",
-  "per month, recoverable on an extension":"per maand, verhaalbaar op \'n EOT",
-  "Moves with the contract sum":"Beweeg saam met die kontrakbedrag",
-  "Spent once, whatever happens":"Een keer bestee, wat ook al gebeur",
-  "Contract period":"Kontrak tydperk", "months":"maande",
-  "The divisor for everything time related":"Die deler vir alles wat tydverwant is",
-  "Allocation":"Toewysing", "Per month":"Per maand", "Total P&G":"Totale P&G",
-  "How the tender was priced":"Hoe die tender geprys is", "Their own method, in order":"Hulle eie metode, in volgorde",
-  "Contract terms follow the project type":"Kontrak terme volg die tipe projek",
-  "A lookup, not a judgement":"\'n Opsoek, nie \'n oordeel nie",
-  "Project type":"Tipe projek", "Agreement":"Ooreenkoms", "Payment days":"Betaaldae", "Guarantee":"Waarborg",
-
-  /* queue actions */
-  "Serve it today":"Stuur dit vandag", "Diarise and draft":"Diariseer en stel op",
-  "Record a deemed refusal and open the dispute file":"Teken geag geweier aan en maak die dispuut lêer oop",
-  "Call the site agent before the next claim":"Bel die site agent voor die volgende claim",
-  "Review cost to complete with the contracts manager":"Gaan koste om klaar te maak na met die kontrakte bestuurder",
-  "Already late, order and re-plan":"Reeds laat, bestel en beplan oor", "Place the order":"Plaas die bestelling",
-  "Take off the approved list at the next adjudication":"Haal van die goedgekeurde lys af by die volgende adjudication",
-
-  /* insights and the assistant */
-  "Insights":"Insigte", "Agentic":"Agenties",
-  "What the data is asking you to do, and anything you want to ask it":"Wat die data vra jy moet doen, en enigiets wat jy wil vra",
-  "Needs action":"Vra aksie", "Value in the queue":"Waarde in die ry",
-  "Saved widgets":"Gestoorde widgets", "Cleared":"Afgehandel",
-  "Action queue":"Aksie ry", "Ranked by what it costs to ignore":"Gerangskik volgens wat dit kos om te ignoreer",
-  "Ask the data":"Vra die data", "Deterministic, computed live":"Deterministies, lewendig uitgewerk",
-  "View":"Bekyk", "Done":"Klaar", "Pin as widget":"Steek vas as widget", "Remove":"Verwyder",
-  "Nothing pinned yet. Ask a question, then pin the answer.":"Nog niks vasgesteek nie. Vra 'n vraag, steek dan die antwoord vas.",
-  "Nothing in the queue. Everything with a clock on it is inside its window.":"Niks in die ry nie. Alles met 'n klok op is binne sy tyd.",
-  "Ask me about the book of work. I compute the answer from the same data these screens read, so I can show my working.":"Vra my oor die werk. Ek werk die antwoord uit uit dieselfde data wat hierdie skerms lees, so ek kan my somme wys.",
-  "The company brain":"Die maatskappy se brein",
-  "Every record, seen sideways":"Elke rekord, van die kant af gesien",
-  "Trace it":"Volg dit", "nodes":"nodes", "links":"verbande",
-  "Projects":"Projekte", "People":"Mense", "Suppliers":"Verskaffers", "Trades":"Trades",
-  "Contract":"Kontrak", "Lessons":"Lesse", "Standards":"Standaarde",
-
-  /* roles */
-  "Contracts director":"Kontrakte direkteur", "Contracts manager":"Kontrakte bestuurder",
-  "Site agent":"Site agent",
-
-  /* misc */
-  "Back to portfolio":"Terug na portefeulje", "Site agent ":"Site agent ",
-  "Practical completion":"Practical completion", "Rework items open":"Oordoen items oop",
-  "Labour against allowable":"Arbeid teen allowable",
-  "Nothing is running out on this project.":"Niks loop op hierdie projek uit nie.",
-  "Nothing running out":"Niks loop uit nie", "Nothing here yet.":"Nog niks hier nie.",
-  "today":"vandag",
-
-  /* foot notes */
-  "Every project runs on the contract edition it was signed under, so the same milestone produces a different deadline on each one. The clock column is computed per project from that edition and the South African working-day calendar, which is the only reason it can be compared down the column.":
-    "Elke projek loop op die edition waaronder dit geteken is, so dieselfde milestone gee 'n ander datum op elkeen. Die klok kolom word per projek uitgewerk uit daardie edition en die SA werksdag kalender. Dis die enigste rede hoekom jy dit in een kolom kan vergelyk.",
-  "Click a site to open it. The bar under each is control points closed, out of the forty-eight a project carries from tender to final account.":
-    "Klik op 'n erf om dit oop te maak. Die balkie onder elkeen is kontrolepunte klaar, uit die agt en veertig wat 'n projek dra van tender tot final account.",
-  "A bid with zero qualifications is not a clean bid, it is unqualified risk carried for the length of the contract. Samrand has been priced for two days and has five provisional items still open.":
-    "'n Bid met nul qualifications is nie 'n skoon bid nie, dis risiko wat jy vir die hele kontrak dra. Samrand is twee dae lank geprys en het nog vyf provisional items oop.",
-  "Benchmarks only exist because closed projects were signed off with their outcome recorded. A single-source rate with no spread is a guess wearing a number.":
-    "Benchmarks bestaan net omdat klaar projekte afgeteken is met hulle uitkoms aangeteken. 'n Rate uit een projek met geen spreiding is 'n raaiskoot met 'n syfer aan.",
-  "Bekker Plumbing sits at 62% on time with seven defects, and is the sub-contractor currently on a default notice at Menlyn. That is the same fact reaching head office and the site from opposite directions.":
-    "Bekker Plumbing sit op 62% betyds met sewe foute, en is die sub wat nou op 'n default notice by Menlyn is. Dis dieselfde feit wat die kantoor en die erf van twee kante af bereik.",
-  "Rosslyn has not been captured in twenty-one days and is running 18% over allowable labour. Those two numbers are the same problem: the site that stops reporting is the site that has stopped being managed, and the cost only shows up at final account.":
-    "Rosslyn is een en twintig dae laas ingevoer en loop 18% oor allowable arbeid. Daai twee syfers is dieselfde probleem: die erf wat ophou rapporteer is die erf wat ophou bestuur word, en die koste wys eers by final account.",
-  "Margin is measured against the price each job was won at, never against a revised internal budget. A budget that moves with the job cannot tell you the job is losing money.":
-    "Margin word gemeet teen die prys waarteen elke job gewen is, nooit teen 'n begroting wat aangepas is nie. 'n Begroting wat saam met die job skuif kan jou nie sê die job verloor geld nie.",
-  "The second option at Menlyn recovers nothing on site and is worth more than the first, because four days claimed as an extension carries the time-related preliminaries with it. Recovery is a commercial decision before it is a programme one.":
-    "Die tweede opsie by Menlyn haal niks op die erf in nie en is meer werd as die eerste, want vier dae wat as EOT geclaim word dra die time-related P&G saam. Inhaal is eers 'n kommersiële besluit voor dit 'n program besluit is.",
-  "Bronkhorstspruit lost 3.5 points because ground conditions were never qualified at tender. That lesson is now a line on the tender qualification checklist, which is the only form a lesson can take that survives the person who learned it.":
-    "Bronkhorstspruit het 3,5 punte verloor omdat grondtoestande nooit by tender qualify is nie. Daai les is nou 'n lyn op die tender qualification lys, wat die enigste vorm is waarin 'n les die persoon oorleef wat dit geleer het.",
-  "Head office does not chase these. Each was produced on a phone on site, by the person doing the work, at the moment the clock started. This register is the by-product, not the effort.":
-    "Die kantoor jaag nie hierdie goed nie. Elkeen is op 'n foon op die erf gemaak, deur die ou wat die werk doen, op die oomblik wat die klok begin loop het. Hierdie register is die byproduk, nie die werk nie.",
-  "Three editions of the same contract are live here at once. The final account window is 90 working days under the 2007 and 2014 editions and 60 under 2018; a works completion list is 7 days on one and 5 working days plus 5 on another. Nobody is expected to remember which, and nobody should have to.":
-    "Drie editions van dieselfde kontrak loop hier gelyk. Die final account venster is 90 werksdae onder die 2007 en 2014 editions en 60 onder 2018; 'n works completion lys is 7 dae op een en 5 werksdae plus 5 op 'n ander. Niemand word verwag om te onthou watter een nie, en niemand behoort te hoef nie.",
-  "On time means the notice reached the principal agent inside the contractual window. It is the one measure that cannot be gamed in a way that hurts the business: a site agent who games it is a site agent who never misses a claim. Pieter Louw carries two projects and the worst record on this table, which is a workload question before it is a performance one.":
-    "Betyds beteken die notice het die PA binne die kontrak se venster bereik. Dis die een maatstaf wat jy nie kan game op 'n manier wat die besigheid seermaak nie: 'n site agent wat dit game is 'n site agent wat nooit 'n claim mis nie. Pieter Louw dra twee projekte en die swakste rekord op hierdie tabel, wat eers 'n werklas vraag is voor dit 'n prestasie vraag is."
+  "Company overview": "Maatskappy oorsig",
+  "One sheet for the contracts director.": "Een blad vir die kontrakte direkteur.",
+  "Theme": "Tema",
+  "As at": "Soos op",
+  "Project profitability": "Projek profit",
+  "Project sign-off": "Projek sign-off",
+  "Project no.": "Projek no.",
+  "Project": "Projek",
+  "Contracts director": "Kontrakte direkteur",
+  "Contract price excl. VAT": "Kontrak prys excl. VAT",
+  "Contract price incl. VAT": "Kontrak prys incl. VAT",
+  "This period": "Hierdie periode",
+  "Cumulative": "Kumulatief",
+  "Negative projects": "Negatiewe projekte",
+  "Contract cost": "Kontrak koste",
+  "Actual profit %": "Werklike profit %",
+  "Below target": "Onder target",
+  "Above target": "Bo target",
+  "Days of delay": "Dae vertraging",
+  "Total": "Totaal",
+  "Yes": "Ja",
+  "This view is a BuildSmart dump loaded by hand. The sample rows are not a live link. The sign-off target is 90 calendar days after practical completion. Days of delay are whole days from that target to the as-at date.":
+    "Hierdie aansig is 'n BuildSmart dump wat met die hand gelaai is. Die voorbeeldrye is nie 'n live skakel nie. Die sign-off target is 90 kalenderdae na practical completion. Dae vertraging is volle dae van daardie target tot die as-at datum."
 };
-
-/* Anything carrying a number cannot be matched exactly. */
-const AF_PAT = [
-  [/^(\d+) live projects, (.+) under contract$/, "$1 lopende projekte, $2 onder kontrak"],
-  [/^(\d+) projects$/, "$1 projekte"],
-  [/^(\d+) open clocks$/, "$1 oop klokke"],
-  [/^(\d+) items overdue$/, "$1 items agterstallig"],
-  [/^(.+) retention held$/, "$1 retention gehou"],
-  [/^([-+\d.]+) pts against (.+) at tender$/, "$1 pte teen $2 by tender"],
-  [/^([-+\d.]+) pts against tender$/, "$1 pte teen tender"],
-  [/^(\d+) records$/, "$1 rekords"],
-  [/^(\d+) d ago$/, "$1 d gelede"],
-  [/^(\d+) live bids$/, "$1 lopende bids"],
-  [/^Average days spent per bid$/, "Gemiddelde dae per bid"],
-  [/^Provisional or missing across live bids$/, "Provisional of weg oor lopende bids"],
-  [/^([\d.]+)% over tendered$/, "$1% oor getender"],
-  [/^On (\d+) open adjudications$/, "Op $1 oop adjudications"],
-  [/^(.+) on time$/, "$1 betyds"],
-  [/^Long-lead items still open$/, "Lang lead items nog oop"],
-  [/^Average available on terms$/, "Gemiddeld beskikbaar op terme"],
-  [/^Sites that logged today$/, "Erwe wat vandag ingevoer het"],
-  [/^Items across all sites$/, "Items oor al die erwe"],
-  [/^Waiting on information$/, "Wag vir inligting"],
-  [/^Of (\d+) sites$/, "Van $1 erwe"],
-  [/^Across (\d+) projects$/, "Oor $1 projekte"],
-  [/^Value of the drift against tender$/, "Waarde van die wegloop teen tender"],
-  [/^(.+) still to certify$/, "$1 nog te sertifiseer"],
-  [/^Past a contractual window$/, "Verby 'n kontrak venster"],
-  [/^Deduct before the next certificate$/, "Trek af voor die volgende certificate"],
-  [/^Forecast past the baseline date$/, "Forecast verby die baseline datum"],
-  [/^(\d+) activities at or past zero float$/, "$1 aktiwiteite op of verby nul float"],
-  [/^Open across the portfolio$/, "Oop oor die portefeulje"],
-  [/^Priced and ready to choose$/, "Geprys en reg om te kies"],
-  [/^With outcome recorded against tender$/, "Met uitkoms aangeteken teen tender"],
-  [/^Final margin against tendered$/, "Finale margin teen getender"],
-  [/^Building types with a rate$/, "Tipes gebou met 'n rate"],
-  [/^Checklists the process enforces$/, "Lyste wat die proses afdwing"],
-  [/^Baseline (.+)$/, "Baseline $1"],
-  [/^PC (.+)$/, "PC $1"],
-  [/^(\d+) control points open$/, "$1 kontrolepunte oop"],
-  [/^(\d+) still open$/, "$1 nog oop"],
-  [/^(\d+) project(s?)$/, "$1 projek$2"],
-  [/^(\d+) wd late$/, "$1 wd laat"],
-  [/^on time$/, "betyds"],
-  [/^As at (.+)$/, "Soos op $1"],
-  [/^(\d+) of (\d+) subs in$/, "$1 van $2 subs in"]
-];
 
 function tr(s){
   if (LANG !== "af") return s;
-  if (AF[s]) return AF[s];
-  for (const [re, out] of AF_PAT){ if (re.test(s)) return s.replace(re, out); }
-  return s;
+  return AF[s] || s;
 }
 
-// Walk the rendered text nodes rather than wrapping several hundred literals.
 function translateDOM(root){
-  if (LANG !== "af") return;
-  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  if (!root || LANG !== "af") return;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   const nodes = [];
-  while (w.nextNode()) nodes.push(w.currentNode);
+  while (walker.nextNode()) nodes.push(walker.currentNode);
   for (const n of nodes){
-    const raw = n.nodeValue, k = raw.trim();
+    const raw = n.nodeValue;
+    const k = raw.trim();
     if (!k || /^[\d\s.,%+\-/]*$/.test(k)) continue;
     const out = tr(k);
     if (out !== k) n.nodeValue = raw.replace(k, out);
   }
 }
 
-/* ================================================================
-   Console tools: search, sort, copy, deep links, keyboard
-   ================================================================ */
-let QUERY = "";
+const NOTE = "This view is a BuildSmart dump loaded by hand. The sample rows are not a live link. The sign-off target is 90 calendar days after practical completion. Days of delay are whole days from that target to the as-at date.";
 
-function applyFilter(){
-  const q = QUERY.trim().toLowerCase();
-  document.querySelectorAll("#view table").forEach(tb => {
-    let shown = 0;
-    tb.querySelectorAll("tbody tr").forEach(tr => {
-      const hit = !q || tr.textContent.toLowerCase().includes(q);
-      tr.style.display = hit ? "" : "none";
-      if (hit) shown++;
-    });
-    const wrap = tb.closest(".card") || tb.closest(".panel");
-    if (wrap) wrap.style.display = (q && !shown) ? "none" : "";
-  });
-  document.querySelectorAll("#view .site").forEach(el => {
-    el.style.display = (!q || el.textContent.toLowerCase().includes(q)) ? "" : "none";
-  });
+function flag(on, kind){
+  if (!on) return `<span class="muted">\u2014</span>`;
+  return `<span class="pill ${kind}">Yes</span>`;
 }
 
-// Numeric-aware, so "R1 240 000" and "12 wd" sort as numbers rather than text.
-function cellVal(td){
-  const s = td.textContent.trim();
-  const n = s.replace(/[^\d.\-]/g, "");
-  return (n && /\d/.test(s)) ? parseFloat(n) : s.toLowerCase();
+function delayPill(n){
+  const kind = n > 0 ? "crit" : n === 0 ? "warn" : "flat";
+  return `<span class="pill ${kind}">${n}</span>`;
 }
-function makeSortable(){
-  document.querySelectorAll("#view table").forEach(tb => {
-    const head = tb.tHead; if (!head) return;
-    [...head.rows[0].cells].forEach((th, i) => {
-      if (!th.textContent.trim()) return;
-      th.classList.add("sortable");
-      th.onclick = () => {
-        const body = tb.tBodies[0];
-        const rows = [...body.rows];
-        const dir = th.dataset.dir === "asc" ? -1 : 1;
-        [...head.rows[0].cells].forEach(c => { delete c.dataset.dir; c.classList.remove("sorted"); });
-        th.dataset.dir = dir === 1 ? "asc" : "desc";
-        th.classList.add("sorted");
-        rows.sort((a,b) => {
-          const x = cellVal(a.cells[i]), y = cellVal(b.cells[i]);
-          return (x > y ? 1 : x < y ? -1 : 0) * dir;
-        });
-        rows.forEach(r => body.appendChild(r));
-      };
-    });
+
+function moneyCell(cents){
+  const neg = cents < 0 ? " neg" : "";
+  return `<td class="n${neg}" data-sort="${cents}">${formatRand(cents)}</td>`;
+}
+
+function sheet(){
+  const band = `<tr class="bands">
+      <th class="dump" colspan="${3 + MONEY.length}">BuildSmart dump</th>
+      <th class="profit" colspan="4">Project profitability</th>
+      <th class="sign" colspan="4">Project sign-off</th>
+    </tr>`;
+  const cols = `<tr class="cols">
+      <th>Project no.</th>
+      <th>Project</th>
+      <th>Contracts director</th>
+      ${MONEY.map(([, label]) => `<th class="n">${esc(label)}</th>`).join("")}
+      <th class="n g">Actual profit %</th>
+      <th class="n">Tender target profit %</th>
+      <th class="mid">Below target</th>
+      <th class="mid">Above target</th>
+      <th class="g">Practical completion</th>
+      <th>Sign-off target</th>
+      <th>Closure meeting</th>
+      <th class="n">Days of delay</th>
+    </tr>`;
+
+  const body = ROWS.map((row) => {
+    const target = signOffTarget(row.practicalCompletion);
+    const delay = daysOfDelay(target);
+    const actual = Number(row.actualProfitPct);
+    const tender = Number(row.tenderProfitPct);
+    const below = actual < tender;
+    const above = actual > tender;
+    const money = MONEY.map(([key]) => moneyCell(row[key])).join("");
+    const meeting = row.closureMeeting
+      ? `<td data-sort="${esc(row.closureMeeting)}">${esc(formatDate(row.closureMeeting))}</td>`
+      : `<td data-sort=""><span class="muted">\u2014</span></td>`;
+    return `<tr>
+      <td class="mono" data-sort="${esc(row.no)}">${esc(row.no)}</td>
+      <td class="name" data-sort="${esc(row.name)}">${esc(row.name)}</td>
+      <td data-sort="${esc(row.director)}">${esc(row.director)}</td>
+      ${money}
+      <td class="n g" data-sort="${esc(row.actualProfitPct)}">${esc(row.actualProfitPct)}%</td>
+      <td class="n" data-sort="${esc(row.tenderProfitPct)}">${esc(row.tenderProfitPct)}%</td>
+      <td class="mid" data-sort="${below ? 1 : 0}">${flag(below, "warn")}</td>
+      <td class="mid" data-sort="${above ? 1 : 0}">${flag(above, "ok")}</td>
+      <td class="g" data-sort="${esc(row.practicalCompletion)}">${esc(formatDate(row.practicalCompletion))}</td>
+      <td data-sort="${esc(target)}">${esc(formatDate(target))}</td>
+      ${meeting}
+      <td class="n" data-sort="${delay}">${delayPill(delay)}</td>
+    </tr>`;
+  }).join("");
+
+  const totals = MONEY.map(([key]) => {
+    const cents = sumCents(key);
+    const neg = cents < 0 ? " neg" : "";
+    return `<td class="n${neg}">${formatRand(cents)}</td>`;
+  }).join("");
+
+  return `<table>
+    <thead>${band}${cols}</thead>
+    <tbody>${body}</tbody>
+    <tfoot><tr>
+      <td colspan="3">Total</td>
+      ${totals}
+      <td class="g"></td><td></td><td></td><td></td>
+      <td class="g"></td><td></td><td></td><td></td>
+    </tr></tfoot>
+  </table>`;
+}
+
+function cellKey(td){
+  const raw = td.getAttribute("data-sort");
+  if (raw === null || raw === "") return {kind:"s", v:""};
+  if (/^-?\d+(\.\d+)?$/.test(raw)) return {kind:"n", v:Number(raw)};
+  return {kind:"s", v:raw.toLowerCase()};
+}
+
+function makeSortable(table){
+  const head = table.tHead;
+  if (!head || head.rows.length < 2) return;
+  [...head.rows[1].cells].forEach((th, i) => {
+    th.classList.add("sortable");
+    th.onclick = () => {
+      const body = table.tBodies[0];
+      const rows = [...body.rows];
+      const dir = th.classList.contains("sorted") && !th.classList.contains("desc") ? -1 : 1;
+      [...head.rows[1].cells].forEach((c) => {
+        c.classList.remove("sorted", "desc");
+        c.removeAttribute("aria-sort");
+      });
+      th.classList.add("sorted");
+      if (dir < 0) th.classList.add("desc");
+      th.setAttribute("aria-sort", dir < 0 ? "descending" : "ascending");
+      rows.sort((a, b) => {
+        const x = cellKey(a.cells[i]);
+        const y = cellKey(b.cells[i]);
+        let cmp;
+        if (x.kind === "n" && y.kind === "n") cmp = x.v - y.v;
+        else cmp = x.v < y.v ? -1 : x.v > y.v ? 1 : 0;
+        return cmp * dir;
+      });
+      rows.forEach((r) => body.appendChild(r));
+    };
   });
 }
 
-// Downloads are inert inside an embedded frame, so this puts the table on the
-// clipboard as tab-separated text, which pastes straight into a spreadsheet.
-function copyTable(){
-  const tb = document.querySelector("#view table");
-  if (!tb) return toast(tr("Nothing here yet."));
-  const rows = [];
-  if (tb.tHead) rows.push([...tb.tHead.rows[0].cells].map(c => c.textContent.trim()).join("\t"));
-  [...tb.tBodies[0].rows].filter(r => r.style.display !== "none")
-    .forEach(r => rows.push([...r.cells].map(c => c.textContent.trim().replace(/\s+/g," ")).join("\t")));
-  const text = rows.join("\n");
-  const done = () => toast(LANG==="af" ? rows.length-1 + " rye gekopieer" : (rows.length-1) + " rows copied");
-  if (navigator.clipboard && window.isSecureContext){
-    navigator.clipboard.writeText(text).then(done, () => legacyCopy(text, done));
-  } else legacyCopy(text, done);
-}
-function legacyCopy(text, done){
-  const ta = document.createElement("textarea");
-  ta.value = text; ta.style.cssText = "position:fixed;left:-9999px";
-  document.body.appendChild(ta); ta.select();
-  try { document.execCommand("copy"); done(); } catch(e){ toast("Copy blocked"); }
-  ta.remove();
+function render(){
+  document.documentElement.lang = LANG === "af" ? "af" : "en";
+  $("#title").textContent = tr("Company overview");
+  $("#sub").textContent = tr("One sheet for the contracts director.");
+  $("#theme").textContent = tr("Theme");
+  $("#note").textContent = tr(NOTE);
+  $("#asof").textContent = tr("As at") + " " + formatDate(AS_AT);
+  $("#lang").textContent = LANG === "af" ? "AF" : "EN";
+  $("#lang").classList.toggle("af", LANG === "af");
+  $("#sheet").innerHTML = sheet();
+  translateDOM($("#sheet"));
+  makeSortable($("#sheet").querySelector("table"));
 }
 
 let toastT;
 function toast(msg){
   const el = $("#toast");
-  el.textContent = msg; el.hidden = false;
-  clearTimeout(toastT); toastT = setTimeout(() => el.hidden = true, 2600);
+  el.textContent = msg;
+  el.hidden = false;
+  clearTimeout(toastT);
+  toastT = setTimeout(() => { el.hidden = true; }, 2600);
 }
 
-/* deep links: #tender, #p/lou */
-function readHash(){
-  const h = (location.hash || "").replace(/^#/, "");
-  if (!h) return;
-  if (h.startsWith("p/")){ const id = h.slice(2); if (S.projects.some(p=>p.id===id)){ SEL = id; VIEW = "project"; } return; }
-  if (VIEWS[h]) VIEW = h;
-}
-function writeHash(){
-  const h = VIEW === "project" && SEL ? "p/" + SEL : VIEW;
-  try { if (location.hash !== "#" + h) history.replaceState(null, "", "#" + h); } catch(e){}
-}
-
-/* ================================================================
-   Wiring
-   ================================================================ */
-const baseRender = render;
-render = function(){
-  baseRender();
-  translateDOM($("#view"));
-  translateDOM($("#head"));
-  translateDOM(document.querySelector("#nav"));
-  $("#asof").textContent = tr("As at " + fmt(TODAY));
-  $("#theme").textContent = tr("Theme");
-  $("#reset").textContent = tr("Reset");
-  $("#copy").textContent = tr("Copy table");
-  $("#q").placeholder = tr("Search") + "  /";
-  $("#lang").textContent = LANG === "af" ? "AF" : "EN";
-  $("#lang").classList.toggle("af", LANG === "af");
-  const jb = $("#ct-jobs"); if (jb) jb.textContent = jobs().length;
-  makeSortable();
-  applyFilter();
-  writeHash();
-  if (VIEW === "knowledge"){
-    const boot = (tries) => {
-      const cv = document.getElementById("brain");
-      if (!cv) return;
-      if (!cv.clientWidth){ if ((tries||0) < 20) setTimeout(() => boot((tries||0)+1), 30); return; }
-      try { initGraph(); paintBrainPanel(); } catch(err){ console.error("graph:", err); }
-    };
-    boot(0);
-  }
-  if (VIEW === "insights"){
-    const log = $("#chatlog"); if (log) log.scrollTop = log.scrollHeight;
-  }
+$("#theme").onclick = () => {
+  const cur = document.documentElement.getAttribute("data-theme");
+  const dark = cur ? cur === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.setAttribute("data-theme", dark ? "light" : "dark");
 };
 
 $("#lang").onclick = () => {
   LANG = LANG === "af" ? "en" : "af";
-  try { localStorage.setItem("siteos.lang", LANG); } catch(e){}
+  try { localStorage.setItem("siteos.lang", LANG); } catch (e) {}
   render();
   toast(LANG === "af" ? "Taal gestel op Afrikaans" : "Language set to English");
 };
-$("#copy").onclick = copyTable;
-$("#q").addEventListener("input", e => { QUERY = e.target.value; applyFilter(); });
 
-addEventListener("keydown", e => {
-  const typing = /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName);
-  if (e.key === "/" && !typing){ e.preventDefault(); $("#q").focus(); return; }
-  if (e.key === "Escape"){
-    if (typing){ $("#q").value = ""; QUERY = ""; applyFilter(); $("#q").blur(); }
-    else if (VIEW === "project"){ VIEW = "portfolio"; SEL = null; render(); }
-    return;
-  }
+addEventListener("keydown", (e) => {
+  const typing = /^(INPUT|TEXTAREA)$/.test(document.activeElement && document.activeElement.tagName);
   if (typing) return;
-  if (e.key >= "1" && e.key <= "6"){ VIEW = AREAS[+e.key - 1][2]; SEL = null; render(); return; }
-  if (e.key.toLowerCase() === "p"){ VIEW = "portfolio"; SEL = null; render(); }
-  if (e.key.toLowerCase() === "s"){ VIEW = "sites"; SEL = null; render(); }
-  if (e.key.toLowerCase() === "l"){ $("#lang").click(); }
+  if (e.key.toLowerCase() === "l") $("#lang").click();
 });
 
-/* insights and graph interactions */
-document.addEventListener("click", e => {
-  const done = e.target.closest("[data-job]");
-  if (done){ S.doneJobs[done.dataset.job] = 1; save(); render();
-    toast(LANG==="af" ? "Afgehandel" : "Cleared"); return; }
-
-  const pin = e.target.closest("[data-pin]");
-  if (pin){
-    try { S.widgets.push(JSON.parse(pin.dataset.pin)); save(); render();
-      toast(LANG==="af" ? "Widget vasgesteek" : "Widget pinned"); } catch(err){}
-    return;
-  }
-
-  const del = e.target.closest("[data-del]");
-  if (del){ S.widgets.splice(+del.dataset.del, 1); save(); render(); return; }
-
-  const say = e.target.closest("[data-say]");
-  if (say){ sendChat(say.dataset.say); return; }
-
-  if (e.target.closest("#csend")){ const i = $("#cq"); if (i){ sendChat(i.value); i.value = ""; } return; }
-
-  if (e.target.closest("#bqs")){
-    const i = $("#bqi");
-    if (i){ const r = brainQuery(i.value); if (r){ BRAIN_ANS = r.text;
-      const a = $("#bqa"); if (a){ a.innerHTML = r.text; a.hidden = false; } } }
-    return;
-  }
-
-  const gt = e.target.closest("[data-gt]");
-  if (gt){
-    const k = gt.dataset.gt;
-    if (GOFF.has(k)) GOFF.delete(k); else GOFF.add(k);
-    gt.classList.toggle("off", GOFF.has(k));
-    const cv = document.getElementById("brain"); if (cv) drawGraph(cv);
-    return;
-  }
-}, true);
-
-document.addEventListener("keydown", e => {
-  if (e.key !== "Enter") return;
-  if (e.target.id === "cq"){ sendChat(e.target.value); e.target.value = ""; }
-  if (e.target.id === "bqi"){ const b = $("#bqs"); if (b) b.click(); }
-});
-
-addEventListener("resize", () => {
-  if (VIEW === "knowledge"){ const cv = document.getElementById("brain");
-    if (cv && G){ GALPHA = Math.max(GALPHA, 0.35); drawGraph(cv); } }
-});
-
-addEventListener("hashchange", () => { readHash(); render(); });
-
-readHash();
 render();
-
 </script>
 </body>
 </html>
