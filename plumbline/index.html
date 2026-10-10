@@ -820,8 +820,9 @@ function emptyDiary(){
 }
 function emptyClaims(){
   return {
-    lineMissing: null, variation: "", subClaim: "", valuation: "", payment: "",
-    recoveryBefore: "", recoveryAfter: "", discountBefore: "", discountAfter: "", retention: ""
+    lineMissing: null, variation: "", variationClaimed: "", subClaim: "", subInMain: "",
+    valuation: "", payment: "", recoveryBefore: "", recoveryAfter: "",
+    discountBefore: "", discountAfter: "", retention: ""
   };
 }
 function emptyQuality(){
@@ -998,7 +999,18 @@ const AF = {
   "Missing": "Weg",
   "On the claim": "Op die claim",
   "Variation": "Variation",
+  "Variation on the claim": "Variation op die claim",
+  "Not claimed": "Nie geclaim nie",
+  "{0} minus {1} is {2}. The variation is not claimed.": "{0} minus {1} is {2}. Die variation is nie geclaim nie.",
+  "{0} minus {1} is {2}. The variation is on the claim.": "{0} minus {1} is {2}. Die variation is op die claim.",
   "Subcontractor claim": "Sub se claim",
+  "In the main claim": "In die main claim",
+  "Not in the main claim": "Nie in die main claim nie",
+  "Sub claim": "Sub claim",
+  "{0} minus {1} is {2}. The sub claim is not in the main claim.": "{0} minus {1} is {2}. Die sub claim is nie in die main claim nie.",
+  "{0} minus {1} is {2}. The sub claim is in the main claim.": "{0} minus {1} is {2}. Die sub claim is in die main claim.",
+  "No programme uploaded": "Geen programme gelaai nie",
+  "No programme was uploaded, so there is no baseline yet.": "Geen programme is gelaai nie, so daar is nog geen baseline nie.",
   "Valuation": "Valuation",
   "The amount we approved": "Die bedrag wat ons goedgekeur het",
   "Recovery before": "Recovery voor",
@@ -1021,7 +1033,7 @@ const AF = {
   "Flagged. Retention is not 10%.": "Gemerk. Retention is nie 10% nie.",
   "Retention matches the check.": "Retention pas by die check.",
   "SiteOS Rev 4 section 2.5": "SiteOS Rev 4 section 2.5",
-  "Check the figures you entered. The amount we approved is compared with the valuation. A reduced recovery or settlement discount is flagged. Retention that is not 10% is flagged. That 10% is this sheet's check, not a contract clause.": "Kyk die syfers wat jy ingesit het. Die bedrag wat ons goedgekeur het word teen die valuation vergelyk. 'n Recovery of settlement discount wat verminder is, word gemerk. Retention wat nie 10% is nie, word gemerk. Daai 10% is hierdie blad se check, nie 'n kontrakklousule nie.",
+  "Check the figures you entered. A missing cost line is flagged. A variation that is not claimed is flagged. A sub claim that is not in the main claim is flagged. The amount we approved is compared with the valuation. A reduced recovery or settlement discount is flagged. Retention that is not 10% is flagged. That 10% is this sheet's check, not a contract clause.": "Kyk die syfers wat jy ingesit het. 'n Cost line wat weg is, word gemerk. 'n Variation wat nie geclaim is nie, word gemerk. 'n Sub claim wat nie in die main claim is nie, word gemerk. Die bedrag wat ons goedgekeur het word teen die valuation vergelyk. 'n Recovery of settlement discount wat verminder is, word gemerk. Retention wat nie 10% is nie, word gemerk. Daai 10% is hierdie blad se check, nie 'n kontrakklousule nie.",
   "Photo": "Foto",
   "Area": "Area",
   "Description": "Beskrywing",
@@ -1165,6 +1177,7 @@ function hydrate(p){
   if (!p.contract.dates) p.contract.dates = emptyDates();
   DATE_KEYS.forEach(([k]) => { if (typeof p.contract.dates[k] !== "string") p.contract.dates[k] = ""; });
   if (!p.claims) p.claims = emptyClaims();
+  else p.claims = Object.assign(emptyClaims(), p.claims);
   if (!p.diaryDraft) p.diaryDraft = emptyDiary();
   if (!p.diaryDraft.fields) p.diaryDraft.fields = emptyDiary().fields;
   if (!p.noteDraft) p.noteDraft = { text: "", phase: "edit" };
@@ -1217,13 +1230,22 @@ function pcOf(p){
   if (p.contract.dates.completionAfter && isoOk(p.contract.dates.completionAfter)) return p.contract.dates.completionAfter;
   return "";
 }
+function programmeChoice(p){
+  if (p.contract.signedProgramme && p.contract.signedProgramme.name) return "signed";
+  if (p.rules && p.rules.programme && p.rules.programme.name) return "tender";
+  return "none";
+}
 function baselineKey(p){
-  return p.contract.signedProgramme ? "Signed contract programme" : "Tender programme";
+  const which = programmeChoice(p);
+  if (which === "signed") return "Signed contract programme";
+  if (which === "tender") return "Tender programme";
+  return "No programme uploaded";
 }
 function baselineSentence(p){
-  return p.contract.signedProgramme
-    ? "The signed contract has a programme, so that programme is the baseline."
-    : "There is no signed programme, so the tender programme is the baseline.";
+  const which = programmeChoice(p);
+  if (which === "signed") return "The signed contract has a programme, so that programme is the baseline.";
+  if (which === "tender") return "There is no signed programme, so the tender programme is the baseline.";
+  return "No programme was uploaded, so there is no baseline yet.";
 }
 function chipOf(p){
   if (p.contract.signed) return "Signed loaded";
@@ -1274,9 +1296,41 @@ function claimHtml(c){
   if (c.lineMissing === true) rows.push(["Cost-report line", "Missing", "bad"]);
   if (c.lineMissing === false) rows.push(["Cost-report line", "On the claim", "good"]);
   const variation = randsToCents(c.variation);
+  const variationClaimed = randsToCents(c.variationClaimed);
+  const hasVar = variation != null && String(c.variation).trim();
+  const hasVarClaimed = variationClaimed != null && String(c.variationClaimed).trim();
+  if (hasVar && hasVarClaimed){
+    const gap = variation - variationClaimed;
+    const short = gap > 0;
+    rows.push(["Variation", money(variation), "", "raw"]);
+    rows.push(["Variation on the claim", money(variationClaimed), short ? "bad" : "good", "raw"]);
+    rows.push(["Variation", short ? "Not claimed" : "On the claim", short ? "bad" : "good"]);
+    notes.push(t(short
+      ? "{0} minus {1} is {2}. The variation is not claimed."
+      : "{0} minus {1} is {2}. The variation is on the claim.",
+      money(variation), money(variationClaimed), money(Math.abs(gap))));
+  } else {
+    if (hasVar) rows.push(["Variation", money(variation), "", "raw"]);
+    if (hasVarClaimed) rows.push(["Variation on the claim", money(variationClaimed), "", "raw"]);
+  }
   const subClaim = randsToCents(c.subClaim);
-  if (variation != null && String(c.variation).trim()) rows.push(["Variation", money(variation), "", "raw"]);
-  if (subClaim != null && String(c.subClaim).trim()) rows.push(["Subcontractor claim", money(subClaim), "", "raw"]);
+  const subInMain = randsToCents(c.subInMain);
+  const hasSub = subClaim != null && String(c.subClaim).trim();
+  const hasSubIn = subInMain != null && String(c.subInMain).trim();
+  if (hasSub && hasSubIn){
+    const gap = subClaim - subInMain;
+    const missing = gap > 0;
+    rows.push(["Subcontractor claim", money(subClaim), "", "raw"]);
+    rows.push(["In the main claim", money(subInMain), missing ? "bad" : "good", "raw"]);
+    rows.push(["Sub claim", missing ? "Not in the main claim" : "In the main claim", missing ? "bad" : "good"]);
+    notes.push(t(missing
+      ? "{0} minus {1} is {2}. The sub claim is not in the main claim."
+      : "{0} minus {1} is {2}. The sub claim is in the main claim.",
+      money(subClaim), money(subInMain), money(Math.abs(gap))));
+  } else {
+    if (hasSub) rows.push(["Subcontractor claim", money(subClaim), "", "raw"]);
+    if (hasSubIn) rows.push(["In the main claim", money(subInMain), "", "raw"]);
+  }
   const valuation = randsToCents(c.valuation);
   const payment = randsToCents(c.payment);
   if (valuation != null && payment != null && String(c.valuation).trim() && String(c.payment).trim()){
@@ -1316,7 +1370,7 @@ function claimHtml(c){
   }
   if (!rows.length) return "";
   return calcHtml(rows) + notes.map((n) => `<p style="margin-top:9px">${esc(n)}</p>`).join("") + whyHtml(
-    "Check the figures you entered. The amount we approved is compared with the valuation. A reduced recovery or settlement discount is flagged. Retention that is not 10% is flagged. That 10% is this sheet's check, not a contract clause.",
+    "Check the figures you entered. A missing cost line is flagged. A variation that is not claimed is flagged. A sub claim that is not in the main claim is flagged. The amount we approved is compared with the valuation. A reduced recovery or settlement discount is flagged. Retention that is not 10% is flagged. That 10% is this sheet's check, not a contract clause.",
     "SiteOS Rev 4 section 2.5"
   );
 }
@@ -1866,7 +1920,9 @@ function renderClaims(p){
     `<p>${esc(t("Enter the figures from the documents you loaded. This page only subtracts or compares those figures."))}</p>` +
     field("Cost-report line", line) +
     moneyField("variation", "Variation", c.variation) +
+    moneyField("variationClaimed", "Variation on the claim", c.variationClaimed) +
     moneyField("subClaim", "Subcontractor claim", c.subClaim) +
+    moneyField("subInMain", "In the main claim", c.subInMain) +
     moneyField("valuation", "Valuation", c.valuation) +
     moneyField("payment", "The amount we approved", c.payment) +
     moneyField("recoveryBefore", "Recovery before", c.recoveryBefore) +
@@ -1877,7 +1933,7 @@ function renderClaims(p){
     `<div id="claim-out">${claimHtml(c)}</div>`;
   $("#rail").innerHTML = "";
   const refresh = () => {
-    ["variation", "subClaim", "valuation", "payment", "recoveryBefore", "recoveryAfter", "discountBefore", "discountAfter", "retention"].forEach((k) => {
+    ["variation", "variationClaimed", "subClaim", "subInMain", "valuation", "payment", "recoveryBefore", "recoveryAfter", "discountBefore", "discountAfter", "retention"].forEach((k) => {
       const el = document.getElementById("m-" + k);
       if (el) p.claims[k] = el.value;
     });
