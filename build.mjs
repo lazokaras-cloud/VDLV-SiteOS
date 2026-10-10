@@ -24,19 +24,19 @@ const PAGES = [
     src: "src/index.html",
     out: "index.html",
     desc:
-      "The project app and the company overview. One job from the tender onto the site, and one sheet for the company.",
+      "The project app and the company overview. Load a job from the tender onto the site, and load the company sheet beside it.",
   },
   {
     src: "src/plumbline.html",
     out: "plumbline/index.html",
     desc:
-      "The project app. One question at a time, from the tender result through the job.",
+      "The project app. Load a tender, keep the documents, and run the job.",
   },
   {
     src: "src/office.html",
     out: "office/index.html",
     desc:
-      "The company overview. Four fictional jobs on one sheet, grouped for a contracts director.",
+      "The company overview. Load a cost dump. Money, profit and sign-off sit in their own column groups.",
   },
   {
     src: "src/brief.html",

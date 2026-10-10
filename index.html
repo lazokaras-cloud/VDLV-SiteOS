@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SiteOS</title>
-<meta name="description" content="The project app and the company overview. One job from the tender onto the site, and one sheet for the company.">
+<meta name="description" content="The project app and the company overview. Load a job from the tender onto the site, and load the company sheet beside it.">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SiteOS">
 <meta property="og:title" content="SiteOS">
-<meta property="og:description" content="The project app and the company overview. One job from the tender onto the site, and one sheet for the company.">
+<meta property="og:description" content="The project app and the company overview. Load a job from the tender onto the site, and load the company sheet beside it.">
 <meta property="og:url" content="/">
 <meta name="twitter:card" content="summary">
 <meta name="robots" content="noindex">
@@ -154,7 +154,7 @@ footer a{color:var(--stamp); text-decoration:underline; text-underline-offset:3p
 
 <header>
   <div class="mark"><h1>Site<b>OS</b></h1><i></i></div>
-  <p id="lede">Two pages. The project app walks one job from the tender onto the site. The company overview is the sheet beside it.</p>
+  <p id="lede">Two pages. The project app is where you load a job, from the tender onto the site. The company overview is the sheet you load beside it.</p>
   <div class="tools">
     <button type="button" id="lang" class="langbtn">EN</button>
   </div>
@@ -165,14 +165,14 @@ footer a{color:var(--stamp); text-decoration:underline; text-underline-offset:3p
   <a class="card" href="/plumbline">
     <div class="top"><span class="chip sig" data-k="chip-project">Project</span><span class="lab" data-k="phone">Phone</span></div>
     <h2 data-k="project-app">Project app</h2>
-    <p data-k="project-blurb">One question at a time. The tender is a short list: Waiting for Results, Tender Awarded, or Tender Unsuccessful. Awarded opens Harbour School Hall and names the loaded files as the Contract Rules.</p>
+    <p data-k="project-blurb">Add a tender and attach the documents. Set Waiting for Results, Tender Awarded, or Tender Unsuccessful. Awarded opens the project and keeps those files as the Contract Rules.</p>
     <div class="go"><span data-k="open-project">Open the project app</span> <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
   </a>
 
   <a class="card" href="/office">
     <div class="top"><span class="chip sig" data-k="chip-company">Company</span><span class="lab" data-k="desk">Desk</span></div>
     <h2 data-k="company">Company overview</h2>
-    <p data-k="company-blurb">One sheet for the contracts director. Four fictional jobs. Money, profit and sign-off sit in their own column groups.</p>
+    <p data-k="company-blurb">Load a cost dump for the contracts director. Money, profit and sign-off sit in their own column groups. The sheet starts empty.</p>
     <div class="go"><span data-k="open-company">Open the company overview</span> <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
   </a>
 
@@ -180,7 +180,7 @@ footer a{color:var(--stamp); text-decoration:underline; text-underline-offset:3p
 
 <div class="note">
   <span class="lab" data-k="on-docs">On the documents</span>
-  <p data-k="docs-note">Dates and amounts are the ones on the loaded documents. The phone shows them. It does not price a bill and it does not invent a deadline. Harbour School Hall, in Lakeside, is a fictional job.</p>
+  <p data-k="docs-note">Dates and amounts are the ones on the documents you load. The pages show them and compare the figures you enter. They do not price a bill and they do not invent a deadline.</p>
 </div>
 
 <footer>
@@ -193,35 +193,35 @@ footer a{color:var(--stamp); text-decoration:underline; text-underline-offset:3p
 "use strict";
 const COPY = {
   en: {
-    lede: "Two pages. The project app walks one job from the tender onto the site. The company overview is the sheet beside it.",
+    lede: "Two pages. The project app is where you load a job, from the tender onto the site. The company overview is the sheet you load beside it.",
     "chip-project": "Project",
     phone: "Phone",
     "project-app": "Project app",
-    "project-blurb": "One question at a time. The tender is a short list: Waiting for Results, Tender Awarded, or Tender Unsuccessful. Awarded opens Harbour School Hall and names the loaded files as the Contract Rules.",
+    "project-blurb": "Add a tender and attach the documents. Set Waiting for Results, Tender Awarded, or Tender Unsuccessful. Awarded opens the project and keeps those files as the Contract Rules.",
     "open-project": "Open the project app",
     "chip-company": "Company",
     desk: "Desk",
     company: "Company overview",
-    "company-blurb": "One sheet for the contracts director. Four fictional jobs. Money, profit and sign-off sit in their own column groups.",
+    "company-blurb": "Load a cost dump for the contracts director. Money, profit and sign-off sit in their own column groups. The sheet starts empty.",
     "open-company": "Open the company overview",
     "on-docs": "On the documents",
-    "docs-note": "Dates and amounts are the ones on the loaded documents. The phone shows them. It does not price a bill and it does not invent a deadline. Harbour School Hall, in Lakeside, is a fictional job.",
+    "docs-note": "Dates and amounts are the ones on the documents you load. The pages show them and compare the figures you enter. They do not price a bill and they do not invent a deadline.",
     source: "Source on"
   },
   af: {
-    lede: "Twee bladsye. Die projek-app loop een job van die tender af tot op die erf. Die maatskappy oorsig is die blad langsaan.",
+    lede: "Twee bladsye. Die projek-app is waar jy 'n job laai, van die tender af tot op die erf. Die maatskappy oorsig is die blad wat jy langsaan laai.",
     "chip-project": "Projek",
     phone: "Foon",
     "project-app": "Projek-app",
-    "project-blurb": "Een vraag op 'n slag. Die tender is 'n kort lys: Wag vir resultate, Tender toegeken, of Tender onsuksesvol. Toegeken maak Harbour School Hall oop en noem die gelaaide lêers die Contract Rules.",
+    "project-blurb": "Sit 'n tender by en heg die dokumente aan. Kies Wag vir resultate, Tender toegeken, of Tender onsuksesvol. Toegeken maak die projek oop en hou daai lêers as die Contract Rules.",
     "open-project": "Maak die projek-app oop",
     "chip-company": "Maatskappy",
     desk: "Lessenaar",
     company: "Maatskappy oorsig",
-    "company-blurb": "Een blad vir die kontrakte direkteur. Vier fiktiewe jobs. Geld, profit en sign-off sit in hul eie kolomgroepe.",
+    "company-blurb": "Laai 'n cost dump vir die kontrakte direkteur. Geld, profit en sign-off sit in hul eie kolomgroepe. Die blad begin leeg.",
     "open-company": "Maak die maatskappy oorsig oop",
     "on-docs": "Op die dokumente",
-    "docs-note": "Datums en bedrae is die wat op die gelaaide dokumente staan. Die foon wys hulle. Dit prys nie 'n bill nie en dit verbeel nie 'n deadline nie. Harbour School Hall, in Lakeside, is 'n fiktiewe job.",
+    "docs-note": "Datums en bedrae is die wat op die dokumente staan wat jy laai. Die bladsye wys hulle en vergelyk die syfers wat jy insit. Hulle prys nie 'n bill nie en hulle verbeel nie 'n deadline nie.",
     source: "Bron op"
   }
 };

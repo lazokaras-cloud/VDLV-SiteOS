@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Plumbline</title>
-<meta name="description" content="The project app. One question at a time, from the tender result through the job.">
+<meta name="description" content="The project app. Load a tender, keep the documents, and run the job.">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SiteOS">
 <meta property="og:title" content="Plumbline">
-<meta property="og:description" content="The project app. One question at a time, from the tender result through the job.">
+<meta property="og:description" content="The project app. Load a tender, keep the documents, and run the job.">
 <meta property="og:url" content="/plumbline">
 <meta name="twitter:card" content="summary">
 <meta name="robots" content="noindex">
@@ -135,8 +135,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .tb-rows div:nth-child(2n){border-right:0}
 .tb-rows b{display:block; font-family:var(--mono); font-size:12.5px; font-weight:600; margin-top:3px}
 
-/* The customer's own mark, deliberately not in our palette: it is their brand
-   sitting on their demo project, not part of the product's identity. */
 .tb-rows .client{grid-column:1 / -1}
 .lockup{display:flex; align-items:center; gap:9px; margin-top:5px}
 .lockup .vv{width:26px; height:26px; flex:none; border-radius:2px}
@@ -626,6 +624,33 @@ button.opt.dash-go{display:flex; width:100%; margin-top:12px; border-radius:4px;
 .card.accent .n, .fields .num, .ask .n, .cin button, .filters button.on{
   border:1px solid #0C0C0C;
 }
+.field{display:flex; flex-direction:column; gap:4px; margin:0 0 10px}
+.field .k{
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-3);
+}
+.field input[type="text"], .field input[type="date"], .field textarea, .field select{
+  width:100%; border:1px solid var(--rule); border-radius:4px; padding:10px 12px;
+  font:inherit; background:var(--surface); color:var(--ink); min-height:44px;
+}
+.field textarea{min-height:64px; resize:vertical}
+.field input:focus, .field textarea:focus, .field select:focus{
+  outline:none; border-color:var(--stamp); box-shadow:0 0 0 3px var(--stamp-wash);
+}
+.fileline{font-family:var(--mono); font-size:12px; color:var(--ink); margin-top:4px; line-height:1.4}
+.fileline.empty{color:var(--ink-3)}
+.block{margin-top:14px}
+.opt.pick.on{background:var(--ink); color:var(--ground); border-color:var(--ink)}
+.opt.pick.on.sig{background:var(--signal); color:var(--signal-ink); border-color:#0C0C0C}
+.minirow{
+  display:flex; gap:8px; align-items:flex-start; justify-content:space-between;
+  padding:10px 12px; border-bottom:1px solid var(--rule-2); text-align:left; width:100%;
+}
+.minirow:last-child{border-bottom:0}
+.warnline{font-size:13px; color:var(--warn); margin:6px 0 0}
+.empty-note{padding:14px; color:var(--ink-2); font-size:14px}
+.rail:empty{display:none}
+.switcher{margin-top:12px}
 .eyebrow::before{height:4px; width:26px}
 
 .foot-note{
@@ -642,21 +667,19 @@ button.opt.dash-go{display:flex; width:100%; margin-top:12px; border-radius:4px;
       <p class="tb-sub" data-i18n="The simple site app. One question at a time, from the tender to the job.">The simple site app. One question at a time, from the tender to the job.</p>
     </div>
     <div class="tb-rows">
-      <div><span class="lab" data-i18n="Job">Job</span><b>Harbour School Hall</b></div>
-      <div><span class="lab" data-i18n="Town">Town</span><b>Lakeside</b></div>
+      <div><span class="lab" data-i18n="Job">Job</span><b id="tb-job">—</b></div>
+      <div><span class="lab" data-i18n="Tenders">Tenders</span><b id="tb-count">0</b></div>
       <div><span class="lab" data-i18n="As at">As at</span><b>2026-08-24</b></div>
       <div><span class="lab" data-i18n="Scope">Scope</span><b data-i18n="Tender to the site">Tender to the site</b></div>
     </div>
     <div class="tb-note">
-      <span class="stamp" data-i18n="Working prototype">Working prototype</span>
-      <p data-i18n="Plumbline walks one job from the tender result onto the site.">Plumbline walks one job from the tender result onto the site.</p>
-      <p data-i18n="Dates and amounts are the ones on the loaded documents.">Dates and amounts are the ones on the loaded documents.</p>
-      <p><strong data-i18n="Try">Try</strong> <span data-i18n="Start on Tender, while it is Waiting for Results.">Start on Tender, while it is Waiting for Results.</span></p>
+      <span class="stamp" data-i18n="Your jobs">Your jobs</span>
+      <p data-i18n="Load a tender. Awarded opens the project. The files you attach are the Contract Rules.">Load a tender. Awarded opens the project. The files you attach are the Contract Rules.</p>
+      <p data-i18n="Dates and amounts are the ones you record from the documents.">Dates and amounts are the ones you record from the documents.</p>
     </div>
     <div class="tb-foot">
       <a href="/office" data-i18n="Company overview">Company overview</a>
       <button id="theme" data-i18n="Flip theme">Flip theme</button>
-      <button id="reset" data-i18n="Reset demo">Reset demo</button>
     </div>
   </aside>
 
@@ -666,10 +689,10 @@ button.opt.dash-go{display:flex; width:100%; margin-top:12px; border-radius:4px;
     <div class="app">
 
       <header class="bar">
-        <div class="avatar">SF</div>
+        <div class="avatar">PL</div>
         <div class="bar-id">
-          <div class="proj">Harbour School Hall</div>
-          <span class="chip">Waiting for Results</span>
+          <div class="proj" id="bar-proj">Workspace</div>
+          <span class="chip" id="bar-chip">No project open</span>
         </div>
         <button class="langbtn" id="lang" aria-label="Taal / Language">EN</button>
         <button class="iconbtn" id="theme2" aria-label="Flip theme">
@@ -718,75 +741,97 @@ button.opt.dash-go{display:flex; width:100%; margin-top:12px; border-radius:4px;
 <script>
 "use strict";
 
-/* Harbour School Hall, Lakeside. Fictional.
-   As at 2026-08-24. Every date below is a label on a loaded document
-   for this demo, or a date the user confirms. Nothing here reads the clock.
-   Money is integer cents.
+/* As at 2026-08-24 is the fixed reporting date. Nothing here reads the clock.
+   Money a person types is stored as integer cents.
+   SiteOS Rev 4 section 2.3: appointments and bulk orders are both to be
+   closed within 7 days of award. The page does not add 7 to any date.
+   SiteOS Rev 4 section 2.5: retention that is not 10% is flagged.
+   That 10% is the sheet's check. It is not a contract clause. */
 
-   SiteOS Rev 4 section 2.3: appointments and bulk orders are both closed
-   out within 7 days after award. Operating rule for this demo only.
-   Not a packages/rules constant. The app does not add 7 to the award date.
-
-   SiteOS Rev 4 section 2.5: the remittance check flags retention that is
-   not 10%. That 10% is the sheet's check. It is not a contract clause and
-   not a packages/rules constant.
-*/
 const AS_AT = "2026-08-24";
+const KEY = "plumbline.work";
 
-const FIX = {
-  job: "Harbour School Hall",
-  town: "Lakeside",
-  tenderPc: "2027-06-18",
-  signedPc: "2027-07-02",
-  /* The approved practical-completion date is the date already on the
-     extension document. The app does not add days to produce it. */
-  eotPc: "2027-07-16",
-  dates: {
-    insurances: "2026-09-15",
-    guarantees: "2026-09-18",
-    execution: "2026-09-07",
-    payment: "2026-10-07",
-    suspension: "2026-09-07",
-    dispute: "2026-10-20"
-  },
-  prelim: 12400000,
-  brick: 86250000,
-  ceiling: 24000000,
-  electrical: 31750000,
-  variation: 6400000,
-  subClaim: 18600000,
-  certified: 118000000,
-  paid: 124500000,
-  approved: 118000000,
-  recoveryLoaded: 4200000,
-  recoveryRemit: 2800000,
-  discountLoaded: 1500000,
-  discountRemit: 900000,
-  retentionRemit: "5%",
-  retentionCheck: "10%",
-  qComplete: "2026-08-18",
-  qFinished: "2026-08-24",
-  rfiWindow: "2026-09-11",
-  psSeating: "2026-09-18",
-  psLighting: "2026-10-02"
-};
+const TENDER_SLOTS = [
+  ["contractBasis", "Contract basis"],
+  ["bill", "Bill of quantities"],
+  ["drawings", "Drawings"],
+  ["health", "Health and safety specification"],
+  ["preliminaries", "Preliminaries"],
+  ["pricedBill", "Priced bill"],
+  ["qualifications", "Qualifications"],
+  ["programme", "Programme"]
+];
 
-/* Subtract two ISO dates. No clock read. */
-function daysBetween(a, b){
-  const utc = s => {
-    const p = s.split("-");
-    return Date.UTC(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
-  };
-  return Math.round((utc(b) - utc(a)) / 86400000);
+const DATE_KEYS = [
+  ["completionBefore", "Completion before signature"],
+  ["completionAfter", "Completion after signature"],
+  ["insurances", "Insurances"],
+  ["guarantees", "Guarantees"],
+  ["execution", "Execution"],
+  ["payment", "Payment"],
+  ["suspension", "Suspension and termination"],
+  ["dispute", "Dispute resolution"]
+];
+
+const DIARY_KEYS = [
+  ["work", "Work done"],
+  ["labour", "Labour and subcontractors"],
+  ["materials", "Materials"],
+  ["delays", "Delays"],
+  ["rfis", "Requests for information"],
+  ["drawings", "Outstanding drawings"],
+  ["instructions", "Instructions"],
+  ["snags", "Snags"],
+  ["plant", "Plant"],
+  ["weather", "Weather"],
+  ["move", "Anything that can move programme or cost"]
+];
+
+const GUIDES = [
+  { n: "1", id: "tender", title: "Tender", sub: "Add a tender, attach the documents, set the result" },
+  { n: "2.1", id: "contract", title: "Contract", sub: "Contract — before signature, then the signed copy" },
+  { n: "2.2", id: "rfi", title: "RFI and appointment schedule", sub: "Add rows. A row with no date is where an extension of time would start." },
+  { n: "2.3", id: "orders", title: "Appointments and bulk orders", sub: "Both are to be closed within 7 days of award" },
+  { n: "2.4", id: "progress", title: "Progress and extension of time", sub: "Diary, then the approved completion date" },
+  { n: "2.5", id: "claims", title: "Claims, valuations, recoveries, payments", sub: "Enter the figures from the documents" },
+  { n: "2.6", id: "quality", title: "Quality and safety", sub: "Photo, then days late" },
+  { n: "2.7", id: "default", title: "Subcontractor default", sub: "From a note you already kept" }
+];
+
+const SECTIONS = ["contract", "rfi", "orders", "progress", "claims", "quality", "default"];
+
+const DEFAULT_STEPS = [
+  "Tell the subcontractor, in writing.",
+  "Give them the chance to catch up.",
+  "If the work is still behind, the work can be taken away.",
+  "Recoveries are deducted under claims."
+];
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function emptyDates(){
+  return { completionBefore: "", completionAfter: "", insurances: "", guarantees: "", execution: "", payment: "", suspension: "", dispute: "" };
 }
-
-function money(cents){
-  const sign = cents < 0 ? "-" : "";
-  const abs = Math.trunc(Math.abs(cents));
-  const rands = Math.trunc(abs / 100);
-  const frac = abs % 100;
-  const body = String(rands).replace(/\B(?=(\d{3})+(?!\d))/g, "\u202F");
-  return sign + "R" + body + (frac ? "," + String(frac).padStart(2, "0") : "");
+function emptyDiary(){
+  const fields = {};
+  DIARY_KEYS.forEach(([k]) => { fields[k] = ""; });
+  return { fields: fields, rfiLine: "", phase: "edit" };
+}
+function emptyClaims(){
+  return {
+    lineMissing: null, variation: "", subClaim: "", valuation: "", payment: "",
+    recoveryBefore: "", recoveryAfter: "", discountBefore: "", discountAfter: "", retention: ""
+  };
+}
+function emptyQuality(){
+  return { photo: null, area: "", description: "", person: "", completion: "", finished: "", status: "" };
+}
+function emptyDef(){
+  return { source: "", sub: "", ticks: [false, false, false, false] };
+}
+function emptyDb(){
+  return { v: 1, seq: 1, focus: "list", screen: "list", openId: null, returnTo: "list", draft: null, tenders: [], projects: [] };
 }
 
 let LANG = "en";
@@ -795,6 +840,7 @@ try {
   const own = localStorage.getItem("plumbline.lang");
   LANG = shared === "af" || shared === "en" ? shared : (own === "af" || own === "en" ? own : "en");
 } catch (e) {}
+
 function writeLang(lang){
   try {
     localStorage.setItem("siteos.lang", lang);
@@ -802,156 +848,40 @@ function writeLang(lang){
   } catch (e) {}
 }
 
-function t(s, ...args){
-  let out = (LANG === "af" && AF[s]) ? AF[s] : s;
-  args.forEach((v, i) => { out = out.split("{" + i + "}").join(String(v)); });
-  return out;
-}
-
 const AF = {
   "Project": "Projek",
   "Path": "Pad",
   "Flip theme": "Wissel tema",
-  "Reset demo": "Herstel demo",
   "Job": "Job",
-  "Town": "Dorp",
+  "Tenders": "Tenders",
   "As at": "Soos op",
   "Scope": "Omvang",
   "Tender to the site": "Tender tot op die erf",
-  "Working prototype": "Werkende prototipe",
-  "The simple site app. One question at a time, from the tender to the job.":
-    "Die eenvoudige erf-app. Een vraag op 'n slag, van die tender tot die job.",
-  "Plumbline walks one job from the tender result onto the site.":
-    "Plumbline loop een job van die tender-resultaat af tot op die erf.",
-  "Dates and amounts are the ones on the loaded documents.":
-    "Datums en bedrae is die wat op die gelaaide dokumente staan.",
-  "Try": "Probeer",
-  "Start on Tender, while it is Waiting for Results.":
-    "Begin by Tender, terwyl dit Wag vir resultate is.",
+  "Your jobs": "Jou jobs",
+  "The simple site app. One question at a time, from the tender to the job.": "Die eenvoudige erf-app. Een vraag op 'n slag, van die tender tot die job.",
+  "Load a tender. Awarded opens the project. The files you attach are the Contract Rules.": "Laai 'n tender. Toegeken maak die projek oop. Die lêers wat jy aanheg is die Contract Rules.",
+  "Dates and amounts are the ones you record from the documents.": "Datums en bedrae is die wat jy van die dokumente af skryf.",
+  "Company overview": "Maatskappy oorsig",
+  "Workspace": "Werkspasie",
+  "No project open": "Geen projek oop nie",
+  "Back": "Terug",
+  "Back to the project": "Terug na die projek",
+  "Add a tender": "Sit 'n tender by",
+  "Projects": "Projekte",
+  "No tenders yet.": "Nog geen tenders nie.",
+  "No projects yet. A tender that is awarded opens one.": "Nog geen projekte nie. 'n Tender wat toegeken is maak een oop.",
+  "Open the project": "Maak die projek oop",
+  "Open the tender": "Maak die tender oop",
   "Waiting for Results": "Wag vir resultate",
   "Tender Awarded": "Tender toegeken",
   "Tender Unsuccessful": "Tender onsuksesvol",
-  "Not loaded": "Nog nie gelaai nie",
-  "Draft loaded": "Draft gelaai",
-  "Signed loaded": "Getekende kontrak gelaai",
-  "Tender programme": "Tender programme",
-  "Signed contract programme": "Getekende kontrak se programme",
-  "Days until practical completion": "Dae tot practical completion",
-  "Practical completion": "Practical completion",
-  "As at {0}": "Soos op {0}",
-  "{0} to {1} is {2} calendar days.": "{0} tot {1} is {2} kalenderdae.",
-  "Contract status": "Kontrakstatus",
-  "Programme baseline": "Programme baseline",
-  "Open RFIs": "Oop RFIs",
-  "Appointments still open": "Appointments nog oop",
-  "No project yet.": "Nog geen projek nie.",
-  "The tender is kept. No project was opened.": "Die tender bly. Geen projek is oopgemaak nie.",
-  "Open the tender": "Maak die tender oop",
-  "Sheet order": "Blad-volgorde",
-  "A step stays closed until the one before it is done.":
-    "'n Stap bly toe tot die een voor hom klaar is.",
-  "Done": "Klaar",
-  "Kept": "Gehou",
-  "The step before this one is not done yet.": "Die stap voor hierdie een is nog nie klaar nie.",
-  "That tender result is already kept. Reset the demo to try the other one.":
-    "Daai tender-resultaat is al gehou. Herstel die demo om die ander een te probeer.",
-  "Why this matters": "Hoekom dit saak maak",
-  "Back to the project": "Terug na die projek",
-  "Continue": "Gaan voort",
-  "Keep it": "Hou dit",
-  "Say it again": "Sê dit weer",
-  "Hold to talk": "Hou in om te praat",
-  "Listening": "Luister",
-  "The sample note": "Die voorbeeld-nota",
-  "Take photo": "Neem foto",
-  "Photo attached": "Foto aangeheg",
-  "All confirmed, continue": "Alles reg, gaan aan",
-  "{0} of {1}. The next step stays hidden until all are true":
-    "{0} van {1}. Die volgende stap bly weg tot almal reg is",
-  "All {0} confirmed": "Al {0} bevestig",
-  "Demo reset": "Demo herstel",
-  "Language set to Afrikaans": "Taal gestel op Afrikaans",
-  "Language set to English": "Language set to English",
-  "Tender": "Tender",
-  "Contract": "Kontrak",
-  "RFI": "RFI",
-  "Appointments": "Appointments",
-  "Programme": "Programme",
-  "Claim": "Claim",
-  "Quality": "Gehalte",
-  "Default": "Default",
-  "Files": "Lêers",
-  "Result": "Resultaat",
-  "Rules": "Rules",
-  "Before": "Voor",
-  "Change": "Verandering",
-  "Signed": "Geteken",
-  "Schedule": "Schedule",
-  "Tick": "Merk",
-  "Diary": "Dagboek",
-  "Update": "Opdateer",
-  "Extension": "EOT",
-  "Load": "Laai",
-  "Compare": "Vergelyk",
-  "Remit": "Remittance",
-  "Photo": "Foto",
-  "Note": "Nota",
-  "Late": "Laat",
-  "Steps": "Stappe",
-  "Lakeside": "Lakeside",
-  "Hall store": "Store by die hall",
-  "Geotagged and timestamped. It cannot be edited after this point.":
-    "GPS en tyd is op. Niemand kan dit hierna verander nie.",
-  "Read that back before it is kept.": "Lees dit terug voor dit gehou word.",
-  "Fixed sample note. Confirm the read-back before it is kept.":
-    "Vaste voorbeeld-nota. Bevestig die teruglees voor dit gehou word.",
-  "Here is the diary, read back.": "Hier is die dagboek, teruggelees.",
-  "Here is the photo note, read back.": "Hier is die foto-nota, teruggelees.",
-  "The ceiling and electrical layout line is an outstanding RFI.":
-    "Die ceiling en electrical layout lyn is 'n outstanding RFI.",
-  "Work completed": "Werk klaar",
-  "West wall of the hall, up to window height": "Wes-muur van die hall, tot by vensterhoogte",
-  "Labour and subcontractors": "Arbeid en subcontractors",
-  "Twelve of our own, and the ceiling sub": "Twaalf van ons eie, en die ceiling sub",
-  "Materials": "Materiaal",
-  "Brick and mortar delivered": "Bakstene en mortar afgelewer",
-  "Delays": "Vertragings",
-  "Rain held the east wall this morning": "Reën het die oos-muur vanoggend gehou",
-  "RFIs": "RFIs",
-  "Ceiling and electrical layout, still outstanding": "Ceiling en electrical layout, nog outstanding",
-  "Outstanding drawings": "Outstanding tekeninge",
-  "Window drawings not back": "Window-tekeninge nie terug nie",
-  "Instructions": "Instructions",
-  "None today": "Geen vandag nie",
-  "Snags": "Snags",
-  "Store door frame": "Deurraam by die store",
-  "Plant": "Plant",
-  "Scaffold on the west wall": "Scaffold op die wes-muur",
-  "Weather": "Weer",
-  "Rain in the morning, clear after lunch": "Reën in die oggend, skoon na middagete",
-  "Programme or cost effect": "Programme of koste-effek",
-  "Ceiling sub is behind on the hall ceiling. The outstanding RFI is where the programme moves.":
-    "Ceiling sub is agter op die hall se ceiling. Die outstanding RFI is waar die programme skuif.",
-  "Area": "Area",
-  "Description": "Beskrywing",
-  "Door frame out of square": "Deurraam is skeef",
-  "Responsible person": "Verantwoordelike persoon",
-  "Site foreman": "Voorman",
-  "Completion date": "Completion date",
-  "Date finished": "Datum klaar",
-  "Status": "Status",
-  "Finished": "Klaar",
-  "Days late": "Dae laat",
-  "Days late, from the two dates you confirmed.": "Dae laat, van die twee datums wat jy bevestig het.",
-  "{0} minus {1} is {2} calendar days.": "{0} minus {1} is {2} kalenderdae.",
-  "From the tender": "Van die tender af",
-  "Contract Rules": "Contract Rules",
-  "Loaded contract": "Gelaaide kontrak",
-  "Loaded contract / Harbour School Hall": "Gelaaide kontrak / Harbour School Hall",
-  "SiteOS Rev 4 section 2.3": "SiteOS Rev 4 section 2.3",
-  "SiteOS Rev 4 section 2.5": "SiteOS Rev 4 section 2.5",
-  "Already with this tender": "Al by hierdie tender",
-  "Priced in Candy. Not priced in this app": "In Candy geprys. Nie hier geprys nie",
+  "Selected": "Gekies",
+  "Project name": "Projeknaam",
+  "Keep the tender": "Hou die tender",
+  "The tender needs a name.": "Die tender het 'n naam nodig.",
+  "Project opened": "Projek oop",
+  "Tender kept": "Tender gehou",
+  "Choose a file": "Kies 'n lêer",
   "Contract basis": "Contract basis",
   "Bill of quantities": "BoQ",
   "Drawings": "Tekeninge",
@@ -959,1315 +889,1183 @@ const AF = {
   "Preliminaries": "Preliminaries",
   "Priced bill": "Priced bill",
   "Qualifications": "Qualifications",
-  "Open the project": "Maak die projek oop",
-  "Noted": "Reg so",
-  "Update the programme": "Dateer die programme op",
-  "Record the ceiling sub behind": "Skryf die ceiling sub agter",
-  "Loaded before signature": "Gelaai voor julle teken",
-  "Confirm the signed contract is loaded": "Bevestig die getekende kontrak is gelaai",
-  "Documents confirmed": "Dokumente bevestig",
-  "Documents loaded": "Dokumente gelaai",
-  "All loaded, continue": "Alles gelaai, gaan aan",
-  "Approve {0}": "Keur {0} goed",
-  "Confirm {0}": "Bevestig {0}",
-  "Project opened": "Projek oop",
-  "Tender kept": "Tender gehou",
-  "Extension approved": "EOT goedgekeur",
-  "Diary kept": "Dagboek gehou",
-  "Schedule kept": "Schedule gehou",
-  "Orders loaded": "Orders gelaai",
-  "Claim compared": "Claim vergelyk",
-  "Photo kept": "Foto gehou",
-  "Default recorded": "Default aangeteken",
-  "Contract kept": "Kontrak gehou",
+  "Programme": "Programme",
+  "Contract Rules": "Contract Rules",
+  "Days until practical completion": "Dae tot practical completion",
+  "Practical completion": "Practical completion",
+  "As at {0}": "Soos op {0}",
+  "{0} to {1} is {2} calendar days.": "{0} tot {1} is {2} kalenderdae.",
+  "No practical completion date yet.": "Nog geen practical completion datum nie.",
+  "Record the completion date from the signed contract, or an approved extension.": "Skryf die completion date van die getekende kontrak af, of 'n goedgekeurde EOT.",
+  "Contract status": "Kontrakstatus",
+  "Not loaded": "Nog nie gelaai nie",
+  "Draft loaded": "Draft gelaai",
+  "Signed loaded": "Getekende kontrak gelaai",
+  "Programme baseline": "Programme baseline",
+  "Signed contract programme": "Getekende kontrak se programme",
+  "Tender programme": "Tender programme",
+  "Open RFIs": "Oop RFIs",
+  "Appointments still open": "Appointments nog oop",
+  "The signed contract has a programme, so that programme is the baseline.": "Die getekende kontrak het 'n programme, so daai programme is die baseline.",
+  "There is no signed programme, so the tender programme is the baseline.": "Daar is geen getekende programme nie, so die tender programme is die baseline.",
+  "Sheet order": "Blad-volgorde",
+  "Open a project to use this list.": "Maak 'n projek oop om hierdie lys te gebruik.",
+  "Tender": "Tender",
+  "Contract": "Kontrak",
+  "RFI and appointment schedule": "RFI en appointment schedule",
+  "Appointments and bulk orders": "Appointments en bulk orders",
+  "Progress and extension of time": "Progress en extension of time",
+  "Claims, valuations, recoveries, payments": "Claims, valuations, recoveries, payments",
+  "Quality and safety": "Gehalte en safety",
+  "Subcontractor default": "Subcontractor default",
+  "Add a tender, attach the documents, set the result": "Sit 'n tender by, heg die dokumente aan, kies die resultaat",
+  "Contract — before signature, then the signed copy": "Kontrak — voor ondertekening, dan die getekende kopie",
+  "Add rows. A row with no date is where an extension of time would start.": "Sit rye by. 'n Ry sonder 'n datum is waar 'n EOT sou begin.",
+  "Both are to be closed within 7 days of award": "Albei moet binne 7 dae ná award toe wees",
+  "Diary, then the approved completion date": "Dagboek, dan die goedgekeurde completion datum",
+  "Enter the figures from the documents": "Sit die syfers van die dokumente af in",
+  "Photo, then days late": "Foto, dan dae laat",
+  "From a note you already kept": "Van 'n nota wat jy al gehou het",
+  "Contract before signature": "Kontrak voor ondertekening",
+  "The next step stays hidden until this file is here.": "Die volgende stap bly weg tot hierdie lêer hier is.",
+  "Completion before signature": "Completion voor ondertekening",
+  "Completion after signature": "Completion ná ondertekening",
   "Insurances": "Insurances",
   "Guarantees": "Guarantees",
   "Execution": "Execution",
-  "Completion": "Completion",
   "Payment": "Payment",
   "Suspension and termination": "Suspension en termination",
   "Dispute resolution": "Dispute resolution",
-  "Completion on the Contract Rules": "Completion op die Contract Rules",
-  "Completion on the draft": "Completion op die draft",
-  "Completion on the signed contract": "Completion op die getekende kontrak",
-  "These dates are the ones printed on the contract loaded for this job.":
-    "Hierdie datums is die wat op die kontrak staan wat vir hierdie job gelaai is.",
-  "Appointments and bulk orders are both closed out within 7 days after award. On this sheet that is the reminder for the demo. It is not a contract clause.":
-    "Appointments en bulk orders word albei binne 7 dae ná award klaar gemaak. Op hierdie blad is dit die herinnering vir die demo. Dit is nie 'n kontrakklousule nie.",
-  "Check the remittance against the figures already on the documents. The amount we approved is at or below the certified amount. Flag a recovery or a settlement discount that was reduced. Flag retention that is not 10%. That 10% is this sheet's check, not a contract clause.":
-    "Kyk die remittance teen die syfers wat al op die dokumente staan. Die bedrag wat ons goedgekeur het is op of onder die certified bedrag. Merk 'n recovery of 'n settlement discount wat verminder is. Merk retention wat nie 10% is nie. Daai 10% is hierdie blad se check, nie 'n kontrakklousule nie.",
-  "These steps are the contract rules loaded for this job.":
-    "Hierdie stappe is die contract rules wat vir hierdie job gelaai is.",
-  "Harbour School Hall is in Lakeside. The tender is Waiting for Results. Candy has already priced the bill. This app receives the result. It does not price anything.":
-    "Harbour School Hall is in Lakeside. Die tender is Wag vir resultate. Candy het die bill al geprys. Hierdie app kry die resultaat. Dit prys niks.",
-  "Confirm the files already with this tender. The result stays hidden until every file is confirmed.":
-    "Bevestig die lêers wat al by hierdie tender is. Die resultaat bly weg tot elke lêer bevestig is.",
-  "What is the result?": "Wat is die resultaat?",
-  "The tender is awarded. These documents are now the Contract Rules.":
-    "Die tender is toegeken. Hierdie dokumente is nou die Contract Rules.",
-  "Nothing was priced in this app. The priced bill came from Candy.":
-    "Niks is hier geprys nie. Die priced bill kom van Candy af.",
-  "Project opened. Harbour School Hall carries the tender documents as the Contract Rules.":
-    "Projek oop. Harbour School Hall dra die tender-dokumente as die Contract Rules.",
-  "Tender Unsuccessful. The tender is kept. No project was opened.":
-    "Tender onsuksesvol. Die tender bly. Geen projek is oopgemaak nie.",
-  "The contracts manager confirms the contract was loaded before anyone signs. The next screen stays hidden until that is confirmed.":
-    "Die contracts manager bevestig die kontrak is gelaai voor iemand teken. Die volgende skerm bly weg tot dit bevestig is.",
-  "Has the contract been loaded before signature?": "Is die kontrak gelaai voor ondertekening?",
-  "Contract status is Draft loaded. One change stands out against the Contract Rules.":
-    "Kontrakstatus is Draft gelaai. Een verandering staan uit teen die Contract Rules.",
-  "One change against the Contract Rules.": "Een verandering teen die Contract Rules.",
-  "Before signature": "Voor ondertekening",
-  "The draft moves completion from {0} to {1}.": "Die draft skuif completion van {0} na {1}.",
-  "Keep the change in view": "Hou die verandering in sig",
-  "Is the signed contract loaded?": "Is die getekende kontrak gelaai?",
-  "Contract status is Signed loaded. The rules are revised. The change stays on screen.":
-    "Kontrakstatus is Getekende kontrak gelaai. Die rules is hersien. Die verandering bly op die skerm.",
   "Signed contract": "Getekende kontrak",
-  "The signed contract includes a programme, so the signed contract programme is the baseline. If the signed contract had no programme, the tender programme would have stayed.":
-    "Die getekende kontrak het 'n programme, so die getekende kontrak se programme is die baseline. As die getekende kontrak geen programme gehad het nie, sou die tender programme gebly het.",
-  "Both dates stay on screen.": "Albei datums bly op die skerm.",
-  "The contract is loaded. Completion on the signed contract is the practical completion date until an extension is approved.":
-    "Die kontrak is gelaai. Completion op die getekende kontrak is die practical completion datum tot 'n EOT goedgekeur word.",
-  "A draft request for information, and an appointment schedule for the provisional sums. Both come off the loaded programme and the bill.":
-    "'n Draft request for information, en 'n appointment schedule vir die provisional sums. Albei kom van die gelaaide programme en die bill af.",
-  "Confirm the date": "Bevestig die datum",
-  "Window schedule. The programme has {0}. Confirm that date.":
-    "Window schedule. Die programme het {0}. Bevestig daai datum.",
-  "Date kept.": "Datum gehou.",
-  "Hall seating is a provisional sum. The programme has {0}. Confirm that date.":
-    "Hall-sitplekke is 'n provisional sum. Die programme het {0}. Bevestig daai datum.",
-  "Stage lighting is a provisional sum. The programme has {0}. Confirm that date.":
-    "Stage lighting is 'n provisional sum. Die programme het {0}. Bevestig daai datum.",
-  "Ceiling and electrical layout": "Ceiling en electrical layout",
-  "Ceiling and electrical layout has no date on the programme. A missing date is the point where an extension of time would start.":
-    "Ceiling en electrical layout het geen datum op die programme nie. 'n Datum wat weg is, is waar 'n EOT sou begin.",
-  "One RFI is still open, because it has no date.": "Een RFI is nog oop, want dit het geen datum nie.",
-  "The list is the Candy resource list and the adjudication packages for this job. Nothing is priced here.":
-    "Die lys is die Candy resource list en die adjudication packages vir hierdie job. Niks word hier geprys nie.",
-  "Appointments and bulk orders are both closed out within 7 days after award. This job was awarded on {0}.":
-    "Appointments en bulk orders word albei binne 7 dae ná award klaar gemaak. Hierdie job is op {0} toegeken.",
-  "Tick the appointments": "Merk die appointments",
-  "Tick each appointment. The next list stays hidden until these are loaded.":
-    "Merk elke appointment. Die volgende lys bly weg tot hierdie gelaai is.",
-  "Electrical installation, hall and stage": "Electrical installation, hall en stage",
-  "Ceilings and partitions": "Ceilings en partitions",
-  "Aluminium windows and doors": "Aluminium windows en deure",
-  "The appointment is loaded. That document is now the subcontractor's rules.":
-    "Die appointment is gelaai. Daai dokument is nou die sub se rules.",
-  "Those appointments are loaded. Each document is now that subcontractor's rules.":
-    "Daai appointments is gelaai. Elke dokument is nou daai sub se rules.",
-  "Tick the bulk orders": "Merk die bulk orders",
-  "Face brick": "Face brick",
-  "Structural steel": "Structural steel",
-  "Reinforcing": "Reinforcing",
-  "The purchase order is loaded. That document is now the subcontractor's rules.":
-    "Die purchase order is gelaai. Daai dokument is nou die sub se rules.",
-  "Those purchase orders are loaded. Each document is now that subcontractor's rules.":
-    "Daai purchase orders is gelaai. Elke dokument is nou daai sub se rules.",
-  "Appointments and bulk orders are both loaded.": "Appointments en bulk orders is albei gelaai.",
-  "Foreman's daily diary. One note. I will read it back before it is kept.":
-    "Voorman se daaglikse dagboek. Een nota. Ek lees dit terug voor dit gehou word.",
-  "Hold to play the sample note": "Hou in om die voorbeeld-nota te speel",
-  "The diary is kept. The ceiling and electrical layout line stays an outstanding RFI.":
-    "Die dagboek is gehou. Die ceiling en electrical layout lyn bly 'n outstanding RFI.",
-  "Question off the programme": "'n Vraag van die programme af",
-  "The programme has west-wall brickwork to window height this week. The diary says that work is done. Update the programme?":
-    "Die programme het wes-muur brickwork tot vensterhoogte hierdie week. Die dagboek sê daai werk is klaar. Dateer die programme op?",
-  "Updated. West-wall brickwork to window height is done.":
-    "Opgedateer. Wes-muur brickwork tot vensterhoogte is klaar.",
-  "The programme has the ceiling sub on the hall ceiling this week. The diary has them behind. Record that on the programme?":
-    "Die programme het die ceiling sub op die hall se ceiling hierdie week. Die dagboek het hulle agter. Skryf dit op die programme?",
-  "Recorded. The ceiling sub is behind on the hall ceiling.":
-    "Aangeteken. Die ceiling sub is agter op die hall se ceiling.",
-  "Approve the extension": "Keur die EOT goed",
-  "RFI-01, ceiling and electrical layout, has no date. A missing date is the point where an extension of time starts. The extension on file moves practical completion to {0}.":
-    "RFI-01, ceiling en electrical layout, het geen datum nie. 'n Datum wat weg is, is waar 'n EOT begin. Die EOT op lêer skuif practical completion na {0}.",
-  "Practical completion was {0}. It is now {1}. The new baseline must be submitted.":
-    "Practical completion was {0}. Dit is nou {1}. Die nuwe baseline moet ingestuur word.",
-  "Practical completion is {0}. The new baseline must be submitted.":
-    "Practical completion is {0}. Die nuwe baseline moet ingestuur word.",
-  "Load the cost report, the monthly claim, the subcontractor claim, the PQS valuation and the remittance. The figures are already on those documents. This app does not price them.":
-    "Laai die cost report, die monthly claim, die subcontractor claim, die PQS valuation en die remittance. Die syfers staan al op daai dokumente. Hierdie app prys hulle nie.",
-  "Confirm the five documents are the ones already on file.":
-    "Bevestig die vyf dokumente is die wat al op lêer is.",
-  "Cost report": "Cost report",
-  "Monthly claim": "Monthly claim",
-  "Subcontractor claim": "Subcontractor claim",
-  "PQS valuation": "PQS valuation",
-  "Remittance": "Remittance",
-  "On file": "Op lêer",
-  "The monthly claim set against the cost report.": "Die monthly claim teen die cost report.",
-  "Cost report, preliminaries": "Cost report, preliminaries",
-  "Monthly claim, preliminaries": "Monthly claim, preliminaries",
-  "Cost report, brickwork": "Cost report, brickwork",
-  "Monthly claim, brickwork": "Monthly claim, brickwork",
-  "Cost report, ceiling": "Cost report, ceiling",
-  "Monthly claim, ceiling": "Monthly claim, ceiling",
-  "Cost report, electrical": "Cost report, electrical",
-  "Monthly claim, electrical": "Monthly claim, electrical",
+  "Signed programme": "Getekende programme",
+  "Both completion dates": "Albei completion datums",
+  "These dates are the ones you recorded from the documents.": "Hierdie datums is die wat jy van die dokumente af geskryf het.",
+  "Item": "Item",
+  "Date": "Datum",
+  "Responsible person": "Verantwoordelike persoon",
+  "Add the row": "Sit die ry by",
+  "The row needs an item.": "Die ry het 'n item nodig.",
+  "Notified": "Notified",
+  "Mark notified": "Merk notified",
+  "No date. This is where an extension of time would start.": "Geen datum nie. Hier sou 'n EOT begin.",
+  "No rows yet.": "Nog geen rye nie.",
+  "Name": "Naam",
+  "Appointment": "Appointment",
+  "Bulk order": "Bulk order",
+  "Add": "Sit by",
+  "The row needs a name.": "Die ry het 'n naam nodig.",
+  "Upload the file": "Laai die lêer",
+  "That file is this subcontractor's rules.": "Daai lêer is nou hierdie sub se rules.",
+  "No rows yet. Add the appointment or the bulk order.": "Nog geen rye nie. Sit die appointment of die bulk order by.",
+  "Appointments and bulk orders are both to be closed within 7 days of award.": "Appointments en bulk orders moet albei binne 7 dae ná award toe wees.",
+  "SiteOS Rev 4 section 2.3": "SiteOS Rev 4 section 2.3",
+  "This is not a contract clause.": "Dit is nie 'n kontrakklousule nie.",
+  "Why this matters": "Hoekom dit saak maak",
+  "Work done": "Werk gedoen",
+  "Labour and subcontractors": "Arbeid en subcontractors",
+  "Materials": "Materiaal",
+  "Delays": "Vertragings",
+  "Requests for information": "RFIs",
+  "Outstanding drawings": "Outstanding tekeninge",
+  "Instructions": "Instructions",
+  "Snags": "Snags",
+  "Plant": "Plant",
+  "Weather": "Weer",
+  "Anything that can move programme or cost": "Enigiets wat programme of koste kan skuif",
+  "Flag one line as an outstanding RFI": "Merk een lyn as 'n outstanding RFI",
+  "None": "Geen",
+  "Read it back": "Lees dit terug",
+  "Here is the diary, read back.": "Hier is die dagboek, teruggelees.",
+  "Read that back before it is kept.": "Lees dit terug voor dit gehou word.",
+  "Outstanding RFI": "Outstanding RFI",
+  "Keep it": "Hou dit",
+  "Change it": "Verander dit",
+  "Type the day first.": "Tik eers die dag.",
+  "Diary kept": "Dagboek gehou",
+  "Say it": "Sê dit",
+  "Listening": "Luister",
+  "Progress note": "Progress note",
+  "Here is the note, read back.": "Hier is die nota, teruggelees.",
+  "Type the note first.": "Tik eers die nota.",
+  "Note kept": "Nota gehou",
+  "Approved practical completion": "Goedgekeurde practical completion",
+  "Keep the date": "Hou die datum",
+  "The new baseline must be submitted.": "Die nuwe baseline moet ingestuur word.",
+  "The date has to be the one on the approval.": "Die datum moet die een op die goedkeuring wees.",
+  "Extension kept": "EOT gehou",
+  "Kept": "Gehou",
+  "Cost-report line": "Cost-report lyn",
   "Missing": "Weg",
-  "The ceiling line is on the cost report and missing from the monthly claim.":
-    "Die ceiling lyn is op die cost report en weg van die monthly claim af.",
-  "Variation on file": "Variation op lêer",
-  "On the monthly claim": "Op die monthly claim",
-  "Not yet": "Nog nie",
-  "The variation is not on the monthly claim yet.": "Die variation is nog nie op die monthly claim nie.",
-  "In the main claim": "In die hoof claim",
-  "No": "Nee",
-  "Ceiling sub": "Ceiling sub",
-  "The subcontractor claim is not in the main claim.": "Die sub se claim is nie in die hoof claim nie.",
-  "The payment set against the PQS valuation.": "Die betaling teen die PQS valuation.",
-  "Payment on the remittance": "Betaling op die remittance",
-  "Payment minus valuation": "Betaling minus valuation",
-  "{0} minus {1} is {2}. The payment is above the valuation.":
-    "{0} minus {1} is {2}. Die betaling is bo die valuation.",
-  "{0} minus {1} is {2}. The payment is at or below the valuation.":
-    "{0} minus {1} is {2}. Die betaling is op of onder die valuation.",
-  "The remittance checks.": "Die remittance checks.",
+  "On the claim": "Op die claim",
+  "Variation": "Variation",
+  "Subcontractor claim": "Sub se claim",
+  "Valuation": "Valuation",
   "The amount we approved": "Die bedrag wat ons goedgekeur het",
-  "Certified amount": "Certified bedrag",
-  "Approved against certified": "Goedgekeur teen certified",
-  "At or below": "Op of onder",
-  "Above": "Bo",
-  "Recovery loaded": "Recovery gelaai",
-  "Recovery on the remittance": "Recovery op die remittance",
+  "Recovery before": "Recovery voor",
+  "Recovery after": "Recovery ná",
+  "Settlement discount before": "Settlement discount voor",
+  "Settlement discount after": "Settlement discount ná",
+  "Retention percent": "Retention persent",
+  "Enter the figures from the documents you loaded. This page only subtracts or compares those figures.": "Sit die syfers van die dokumente wat jy gelaai het. Hierdie bladsy trek net af of vergelyk daai syfers.",
+  "Payment minus valuation": "Betaling minus valuation",
+  "{0} minus {1} is {2}. The payment is above the valuation.": "{0} minus {1} is {2}. Die betaling is bo die valuation.",
+  "{0} minus {1} is {2}. The payment is at or below the valuation.": "{0} minus {1} is {2}. Die betaling is op of onder die valuation.",
   "Recovery": "Recovery",
   "Reduced": "Verminder",
-  "Unchanged": "Onveranderd",
-  "Settlement discount loaded": "Settlement discount gelaai",
-  "Settlement discount on the remittance": "Settlement discount op die remittance",
+  "Not reduced": "Nie verminder nie",
   "Settlement discount": "Settlement discount",
-  "Retention on the remittance": "Retention op die remittance",
   "The check looks for": "Die check soek",
   "Retention": "Retention",
   "Flagged": "Gemerk",
   "In line": "In lyn",
-  "Flagged. Retention on this remittance is not 10%.":
-    "Gemerk. Retention op hierdie remittance is nie 10% nie.",
+  "Flagged. Retention is not 10%.": "Gemerk. Retention is nie 10% nie.",
   "Retention matches the check.": "Retention pas by die check.",
-  "The comparisons are kept. Nothing here was priced in the app.":
-    "Die vergelykings is gehou. Niks is hier in die app geprys nie.",
-  "Photograph the snag. Then say the area, what it is, who is responsible, the completion date, the date finished, and the status.":
-    "Neem 'n foto van die snag. Sê dan die area, wat dit is, wie verantwoordelik is, die completion date, die datum klaar, en die status.",
-  "Photograph the snag": "Neem 'n foto van die snag",
-  "The photo is kept.": "Die foto is gehou.",
-  "The progress update shows the ceiling sub behind on the hall ceiling. The steps that follow are the contract rules for this job.":
-    "Die progress update wys die ceiling sub is agter op die hall se ceiling. Die stappe wat volg is die contract rules vir hierdie job.",
-  "Start": "Begin",
-  "Tell the subcontractor, in writing, that the hall ceiling is behind.":
-    "Sê die sub op skrif die hall ceiling is agter.",
-  "Give them the chance to catch up, the way the contract rules for this job set out.":
-    "Gee hulle kans om in te haal, soos die contract rules vir hierdie job dit stel.",
-  "If the work is still behind, the contract rules for this job allow the work to be taken away.":
-    "As die werk nog agter is, laat die contract rules vir hierdie job toe dat die werk weggeneem word.",
+  "SiteOS Rev 4 section 2.5": "SiteOS Rev 4 section 2.5",
+  "Check the figures you entered. The amount we approved is compared with the valuation. A reduced recovery or settlement discount is flagged. Retention that is not 10% is flagged. That 10% is this sheet's check, not a contract clause.": "Kyk die syfers wat jy ingesit het. Die bedrag wat ons goedgekeur het word teen die valuation vergelyk. 'n Recovery of settlement discount wat verminder is, word gemerk. Retention wat nie 10% is nie, word gemerk. Daai 10% is hierdie blad se check, nie 'n kontrakklousule nie.",
+  "Photo": "Foto",
+  "Area": "Area",
+  "Description": "Beskrywing",
+  "Completion date": "Completion date",
+  "Date finished": "Datum klaar",
+  "Status": "Status",
+  "Days late": "Dae laat",
+  "Days late, from the two dates you entered.": "Dae laat, van die twee datums wat jy ingesit het.",
+  "{0} minus {1} is {2} calendar days.": "{0} minus {1} is {2} kalenderdae.",
+  "No photo, so there is no days-late figure.": "Geen foto nie, so daar is geen dae-laat syfer nie.",
+  "Both dates are needed before there is a figure.": "Albei datums moet hier wees voor daar 'n syfer is.",
+  "Keep a diary entry or a progress note first, and name the subcontractor in it.": "Hou eers 'n dagboek-inskrywing of 'n progress note, en noem die sub daarin.",
+  "Note": "Nota",
+  "Subcontractor": "Sub",
+  "That name is not in the note you kept.": "Daai naam is nie in die nota wat jy gehou het nie.",
+  "Name the subcontractor from the note.": "Noem die sub uit die nota.",
+  "Tell the subcontractor, in writing.": "Sê die sub op skrif.",
+  "Give them the chance to catch up.": "Gee hulle kans om in te haal.",
+  "If the work is still behind, the work can be taken away.": "As die werk nog agter is, kan die werk weggeneem word.",
   "Recoveries are deducted under claims.": "Recoveries word onder claims afgetrek.",
-  "The ceiling sub is in default on this job. Recoveries are deducted under claims.":
-    "Die ceiling sub is in default op hierdie job. Recoveries word onder claims afgetrek.",
-  "Tender — load the documents, then the result": "Tender — laai die dokumente, dan die resultaat",
-  "Contract — before signature, then the signed copy": "Kontrak — voor ondertekening, dan die getekende kopie",
-  "RFI and appointment schedule": "RFI en appointment schedule",
-  "Dates off the programme and the bill": "Datums van die programme en die bill af",
-  "Appointments and bulk orders": "Appointments en bulk orders",
-  "Tick them in within 7 days of award": "Merk hulle binne 7 dae van award",
-  "Progress and extension of time": "Progress en extension of time",
-  "Diary, then the approved completion date": "Dagboek, dan die goedgekeurde completion datum",
-  "Claims, valuations, recoveries, payments": "Claims, valuations, recoveries, payments",
-  "Compare the figures already on the documents": "Vergelyk die syfers wat al op die dokumente staan",
-  "Quality and safety": "Gehalte en safety",
-  "Photo, then days late": "Foto, dan dae laat",
-  "Subcontractor default": "Subcontractor default",
-  "The contract rules for this job": "Die contract rules vir hierdie job",
-  "Company overview": "Maatskappy oorsig",
-  "Project app": "Projek-app",
-  "Back": "Terug",
-  "Previous step": "Vorige stap",
-  "Carry on": "Gaan voort van hier",
-  "Open again": "Maak weer oop",
-  "Open the contract": "Maak die kontrak oop",
-  "Open the schedule": "Maak die schedule oop",
-  "Open the appointments": "Maak die appointments oop",
-  "Open the diary": "Maak die dagboek oop",
-  "Open the claim": "Maak die claim oop",
-  "Open the quality photo": "Maak die quality foto oop",
-  "Open the default": "Maak die default oop",
-  "Change the tender result": "Verander die tender-resultaat",
-  "Keep the diary": "Hou die dagboek",
-  "Keep the note": "Hou die nota",
-  "The tender stays Waiting for Results. No project was opened.":
-    "Die tender bly Wag vir resultate. Geen projek is oopgemaak nie.",
-  "Approved practical completion": "Goedgekeurde practical completion",
-  "The result is chosen in the tender, after the files are confirmed.":
-    "Die resultaat word in die tender gekies, nadat die lêers bevestig is.",
-  "The sheet for this job is complete.": "Die blad vir hierdie job is klaar.",
-  "Tender Unsuccessful. The project is closed. The tender is kept.":
-    "Tender onsuksesvol. Die projek is toe. Die tender bly."
+  "Default recorded": "Default aangeteken",
+  "Diary": "Dagboek",
+  "Language set to Afrikaans": "Taal gestel op Afrikaans",
+  "Language set to English": "Language set to English",
+  "Result": "Resultaat",
+  "Rules": "Rules",
+  "Before signature": "Voor ondertekening",
+  "Schedule": "Schedule",
+  "Orders": "Orders",
+  "Extension": "EOT",
+  "Claim": "Claim",
+  "Quality": "Gehalte",
+  "Default": "Default",
+  "Open": "Oop"
 };
 
-const SEED = {
-  tenderStatus: "waiting",
-  project: false,
-  contractStatus: "none",
-  baselineSource: "none",
-  pcDate: null,
-  openRfi: 0,
-  appointmentsOpen: 6,
-  eotApproved: false,
-  subBehind: false,
-  done: {},
-  place: null
-};
+function t(s, ...args){
+  let out = (LANG === "af" && AF[s]) ? AF[s] : s;
+  args.forEach((v, i) => { out = out.split("{" + i + "}").join(String(v)); });
+  return out;
+}
 
-function fresh(){ return JSON.parse(JSON.stringify(SEED)); }
-let S = fresh();
+function daysBetween(a, b){
+  const utc = (s) => {
+    const p = s.split("-");
+    return Date.UTC(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+  };
+  return Math.round((utc(b) - utc(a)) / 86400000);
+}
+function isoOk(s){
+  return /^\d{4}-\d{2}-\d{2}$/.test(s || "");
+}
+function money(cents){
+  const sign = cents < 0 ? "-" : "";
+  const abs = Math.trunc(Math.abs(cents));
+  const rands = Math.trunc(abs / 100);
+  const frac = abs % 100;
+  const body = String(rands).replace(/\B(?=(\d{3})+(?!\d))/g, "\u202F");
+  return sign + "R" + body + (frac ? "." + String(frac).padStart(2, "0") : "");
+}
+function randsToCents(raw){
+  let s = String(raw == null ? "" : raw).trim().replace(/[\u00a0\u202f\s]/g, "").replace(/^R/i, "");
+  if (!s) return null;
+  let neg = false;
+  if (s[0] === "-"){ neg = true; s = s.slice(1); }
+  const lastComma = s.lastIndexOf(",");
+  const lastDot = s.lastIndexOf(".");
+  let whole = s;
+  let dec = "";
+  if (lastComma >= 0 && lastDot >= 0){
+    const cut = Math.max(lastComma, lastDot);
+    whole = s.slice(0, cut).replace(/[.,]/g, "");
+    dec = s.slice(cut + 1);
+  } else if (lastComma >= 0 || lastDot >= 0){
+    const cut = lastComma >= 0 ? lastComma : lastDot;
+    const after = s.slice(cut + 1);
+    if (after.length <= 2 && /^\d+$/.test(after) && s.indexOf(s[cut]) === cut){
+      whole = s.slice(0, cut).replace(/[.,]/g, "");
+      dec = after;
+    } else whole = s.replace(/[.,]/g, "");
+  }
+  if (!/^\d+$/.test(whole) || (dec && !/^\d+$/.test(dec))) return null;
+  const cents = Number(whole) * 100 + Number((dec + "00").slice(0, 2));
+  if (!Number.isSafeInteger(cents)) return null;
+  return neg ? -cents : cents;
+}
+function parsePercent(raw){
+  const s = String(raw == null ? "" : raw).trim().replace("%", "").replace(",", ".");
+  if (!/^\d+(\.\d+)?$/.test(s)) return null;
+  const bits = s.split(".");
+  return { whole: Number(bits[0]), frac: bits[1] || "", text: s + "%" };
+}
+function isTen(p){
+  return !!p && p.whole === 10 && /^0*$/.test(p.frac);
+}
+function formatSize(n){
+  const b = Math.max(0, Math.trunc(Number(n) || 0));
+  if (b < 1024) return b + " B";
+  if (b < 1048576) return (Math.round(b / 102.4) / 10) + " kB";
+  return (Math.round(b / 104857.6) / 10) + " MB";
+}
+function takeFile(input){
+  const f = input.files && input.files[0];
+  if (!f) return null;
+  return { name: f.name, size: f.size };
+}
+function fileText(meta){
+  if (!meta || !meta.name) return "";
+  return meta.name + " · " + formatSize(meta.size);
+}
+function fileLine(meta){
+  const text = fileText(meta);
+  if (!text) return `<div class="fileline empty">${esc(t("Choose a file"))}</div>`;
+  return `<div class="fileline">${esc(text)}</div>`;
+}
+function speechOk(){
+  return !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+}
+
+let DB = emptyDb();
 try {
-  const raw = localStorage.getItem("plumbline.rev4");
+  const raw = localStorage.getItem(KEY);
   if (raw){
     const p = JSON.parse(raw);
-    if (p && typeof p.tenderStatus === "string" && p.done) S = Object.assign(fresh(), p);
-    if (!S.place || typeof S.place.flow !== "string" || typeof S.place.i !== "number" || !S.place.st) S.place = null;
+    if (p && Array.isArray(p.tenders) && Array.isArray(p.projects)) DB = Object.assign(emptyDb(), p);
   }
 } catch (e) {}
-function save(){ try { localStorage.setItem("plumbline.rev4", JSON.stringify(S)); } catch (e) {} }
 
-const RULE = {
-  loadedDates: {
-    txt: "These dates are the ones printed on the contract loaded for this job.",
-    cl: "Loaded contract / Harbour School Hall"
-  },
-  /* SiteOS Rev 4 section 2.3. Not a packages/rules constant. */
-  ordersWindow: {
-    txt: "Appointments and bulk orders are both closed out within 7 days after award. On this sheet that is the reminder for the demo. It is not a contract clause.",
-    cl: "SiteOS Rev 4 section 2.3"
-  },
-  /* SiteOS Rev 4 section 2.5. The 10% is the sheet's check, not a contract clause. */
-  remitCheck: {
-    txt: "Check the remittance against the figures already on the documents. The amount we approved is at or below the certified amount. Flag a recovery or a settlement discount that was reduced. Flag retention that is not 10%. That 10% is this sheet's check, not a contract clause.",
-    cl: "SiteOS Rev 4 section 2.5"
-  },
-  jobRules: {
-    txt: "These steps are the contract rules loaded for this job.",
-    cl: "Loaded contract / Harbour School Hall"
-  }
-};
-
-const TENDER_FILES = [
-  ["Contract basis", "Already with this tender"],
-  ["Bill of quantities", "Already with this tender"],
-  ["Drawings", "Already with this tender"],
-  ["Health and safety specification", "Already with this tender"],
-  ["Preliminaries", "Already with this tender"],
-  ["Priced bill", "Priced in Candy. Not priced in this app"],
-  ["Qualifications", "Already with this tender"],
-  ["Programme", "Already with this tender"]
-];
-
-const APPOINTMENTS = [
-  ["Electrical installation, hall and stage", "The appointment is loaded. That document is now the subcontractor's rules."],
-  ["Ceilings and partitions", "The appointment is loaded. That document is now the subcontractor's rules."],
-  ["Aluminium windows and doors", "The appointment is loaded. That document is now the subcontractor's rules."]
-];
-
-const BULK = [
-  ["Face brick", "The purchase order is loaded. That document is now the subcontractor's rules."],
-  ["Structural steel", "The purchase order is loaded. That document is now the subcontractor's rules."],
-  ["Reinforcing", "The purchase order is loaded. That document is now the subcontractor's rules."]
-];
-
-const CLAIM_DOCS = ["Cost report", "Monthly claim", "Subcontractor claim", "PQS valuation", "Remittance"];
-
-const DIARY_DEMO = "West wall of the hall is up to window height. Twelve of our own and the ceiling sub on site. Brick and mortar delivered. Rain held the east wall this morning. Ceiling and electrical layout RFI still outstanding. Window drawings not back. No new instruction. Snag on the store door frame. Scaffold up on the west wall. Rain this morning, clear after lunch. Ceiling sub is behind on the hall ceiling. The outstanding RFI is where the programme moves.";
-const DIARY_DEMO_AF = "Wes-muur van die hall is tot by vensterhoogte. Twaalf van ons eie en die ceiling sub op die erf. Bakstene en mortar afgelewer. Reën het die oos-muur vanoggend gehou. Ceiling en electrical layout RFI nog outstanding. Window-tekeninge nie terug nie. Geen nuwe instruction nie. Snag op die store se deurraam. Scaffold op die wes-muur. Reën vanoggend, skoon na middagete. Ceiling sub is agter op die hall se ceiling. Die outstanding RFI is waar die programme skuif.";
-
-const DIARY_FIELDS = [
-  ["Work completed", "West wall of the hall, up to window height"],
-  ["Labour and subcontractors", "Twelve of our own, and the ceiling sub"],
-  ["Materials", "Brick and mortar delivered"],
-  ["Delays", "Rain held the east wall this morning"],
-  ["RFIs", "Ceiling and electrical layout, still outstanding", "bad"],
-  ["Outstanding drawings", "Window drawings not back"],
-  ["Instructions", "None today"],
-  ["Snags", "Store door frame"],
-  ["Plant", "Scaffold on the west wall"],
-  ["Weather", "Rain in the morning, clear after lunch"],
-  ["Programme or cost effect", "Ceiling sub is behind on the hall ceiling. The outstanding RFI is where the programme moves."]
-];
-
-const FLOWS = {
-  tender: {
-    title: "Tender",
-    clause: "Result",
-    steps: [
-      { kind: "say", stage: "Files",
-        msg: "Harbour School Hall is in Lakeside. The tender is Waiting for Results. Candy has already priced the bill. This app receives the result. It does not price anything.",
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "checks", stage: "Files",
-        msg: "Confirm the files already with this tender. The result stays hidden until every file is confirmed.",
-        ready: "Documents confirmed",
-        items: TENDER_FILES.map(([name, em]) => ({ t: name, e: em })) },
-      { kind: "choice", stage: "Result", q: "What is the result?",
-        msg: "What is the result?",
-        key: "result",
-        opts: [
-          { label: "Waiting for Results", v: "waiting", cls: "full" },
-          { label: "Tender Awarded", v: "awarded", cls: "sig full" },
-          { label: "Tender Unsuccessful", v: "unsuccessful", cls: "full" }
-        ] },
-      { kind: "doc", stage: "Rules",
-        skipIf: st => st.result !== "awarded",
-        build(){
-          return {
-            msg: "The tender is awarded. These documents are now the Contract Rules.",
-            title: "Contract Rules",
-            sub: "From the tender",
-            rows: TENDER_FILES.map(([name]) => [name, "Contract Rules"]),
-            note: "Nothing was priced in this app. The priced bill came from Candy."
-          };
-        },
-        opts: [{ label: "Open the project", cls: "sig full" }] },
-      { kind: "finish", stage: "Rules",
-        skipIf: st => st.result !== "awarded",
-        apply(){
-          S.tenderStatus = "awarded";
-          S.project = true;
-          S.done.tender = true;
-          if (S.contractStatus === "none" && !S.eotApproved){
-            S.pcDate = FIX.tenderPc;
-            S.baselineSource = "tender";
-            S.appointmentsOpen = 6;
-            S.openRfi = 0;
-            S.subBehind = false;
-          }
-        },
-        msg: "Project opened. Harbour School Hall carries the tender documents as the Contract Rules.",
-        toast: "Project opened" },
-      { kind: "finish", stage: "Result",
-        skipIf: st => st.result !== "unsuccessful",
-        apply(){
-          st.hadProject = !!S.project;
-          S.tenderStatus = "unsuccessful";
-          S.project = false;
-          S.pcDate = null;
-          S.contractStatus = "none";
-          S.baselineSource = "none";
-          S.eotApproved = false;
-          S.subBehind = false;
-          S.openRfi = 0;
-          S.appointmentsOpen = 6;
-          S.done = { tender: true };
-          S.place = null;
-        },
-        msg: () => st.hadProject
-          ? "Tender Unsuccessful. The project is closed. The tender is kept."
-          : "Tender Unsuccessful. The tender is kept. No project was opened.",
-        toast: "Tender kept" },
-      { kind: "finish", stage: "Result",
-        skipIf: st => st.result !== "waiting",
-        apply(){
-          S.tenderStatus = "waiting";
-          S.project = false;
-          S.pcDate = null;
-          S.contractStatus = "none";
-          S.baselineSource = "none";
-          S.eotApproved = false;
-          S.subBehind = false;
-          S.openRfi = 0;
-          S.appointmentsOpen = 6;
-          S.done = {};
-          S.place = null;
-        },
-        msg: "The tender stays Waiting for Results. No project was opened.",
-        toast: "Tender kept" }
-    ]
-  },
-
-  contract: {
-    title: "Contract",
-    clause: "Contract",
-    steps: [
-      { kind: "say", stage: "Before",
-        msg: "The contracts manager confirms the contract was loaded before anyone signs. The next screen stays hidden until that is confirmed.",
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "choice", stage: "Before", q: "Has the contract been loaded before signature?",
-        msg: "Has the contract been loaded before signature?",
-        opts: [{ label: "Loaded before signature", v: "yes", cls: "sig full" }],
-        after(){
-          if (S.contractStatus !== "signed"){
-            S.contractStatus = "draft";
-            save();
-          }
-          return "Contract status is Draft loaded. One change stands out against the Contract Rules.";
-        } },
-      { kind: "doc", stage: "Change",
-        build(){
-          return {
-            msg: "One change against the Contract Rules.",
-            title: "Contract Rules",
-            sub: "Before signature",
-            rows: [
-              ["Completion on the Contract Rules", FIX.tenderPc],
-              ["Completion on the draft", FIX.signedPc]
-            ],
-            note: "The draft moves completion from {0} to {1}.",
-            noteArgs: [FIX.tenderPc, FIX.signedPc]
-          };
-        },
-        opts: [{ label: "Keep the change in view", cls: "primary full" }] },
-      { kind: "choice", stage: "Signed", q: "Is the signed contract loaded?",
-        msg: "Is the signed contract loaded?",
-        opts: [{ label: "Confirm the signed contract is loaded", v: "yes", cls: "sig full" }],
-        after(){
-          S.contractStatus = "signed";
-          S.baselineSource = "signed";
-          if (!S.eotApproved) S.pcDate = FIX.signedPc;
-          save();
-          return "Contract status is Signed loaded. The rules are revised. The change stays on screen.";
-        } },
-      { kind: "doc", stage: "Signed", why: "loadedDates",
-        build(){
-          return {
-            msg: "Both dates stay on screen.",
-            title: "Signed contract",
-            sub: "Loaded contract",
-            rows: [
-              ["Completion on the Contract Rules", FIX.tenderPc],
-              ["Completion on the signed contract", FIX.signedPc],
-              ["Programme baseline", "Signed contract programme"],
-              ["Tender programme", FIX.tenderPc],
-              ["Signed contract programme", FIX.signedPc],
-              ["Insurances", FIX.dates.insurances],
-              ["Guarantees", FIX.dates.guarantees],
-              ["Execution", FIX.dates.execution],
-              ["Completion", FIX.signedPc],
-              ["Payment", FIX.dates.payment],
-              ["Suspension and termination", FIX.dates.suspension],
-              ["Dispute resolution", FIX.dates.dispute]
-            ],
-            note: "The signed contract includes a programme, so the signed contract programme is the baseline. If the signed contract had no programme, the tender programme would have stayed."
-          };
-        },
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "finish", stage: "Signed",
-        apply(){ S.done.contract = true; },
-        msg: "The contract is loaded. Completion on the signed contract is the practical completion date until an extension is approved.",
-        toast: "Contract kept" }
-    ]
-  },
-
-  rfi: {
-    title: "RFI and appointment schedule",
-    clause: "RFI",
-    steps: [
-      { kind: "say", stage: "Schedule",
-        msg: "A draft request for information, and an appointment schedule for the provisional sums. Both come off the loaded programme and the bill.",
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "choice", stage: "Schedule", q: "Confirm the date",
-        msg: () => t("Window schedule. The programme has {0}. Confirm that date.", FIX.rfiWindow),
-        opts: [{ label: "Confirm {0}", args: [FIX.rfiWindow], v: FIX.rfiWindow, cls: "sig full" }],
-        after: "Date kept." },
-      { kind: "choice", stage: "Schedule", q: "Confirm the date",
-        msg: () => t("Hall seating is a provisional sum. The programme has {0}. Confirm that date.", FIX.psSeating),
-        opts: [{ label: "Confirm {0}", args: [FIX.psSeating], v: FIX.psSeating, cls: "sig full" }],
-        after: "Date kept." },
-      { kind: "choice", stage: "Schedule", q: "Confirm the date",
-        msg: () => t("Stage lighting is a provisional sum. The programme has {0}. Confirm that date.", FIX.psLighting),
-        opts: [{ label: "Confirm {0}", args: [FIX.psLighting], v: FIX.psLighting, cls: "sig full" }],
-        after: "Date kept." },
-      { kind: "choice", stage: "Schedule", q: "Ceiling and electrical layout",
-        msg: "Ceiling and electrical layout has no date on the programme. A missing date is the point where an extension of time would start.",
-        opts: [{ label: "Noted", v: "missing", cls: "primary full" }],
-        after(){
-          S.openRfi = 1;
-          save();
-          return "One RFI is still open, because it has no date.";
-        } },
-      { kind: "finish", stage: "Schedule",
-        apply(){ S.openRfi = 1; S.done.rfi = true; },
-        msg: "One RFI is still open, because it has no date.",
-        toast: "Schedule kept" }
-    ]
-  },
-
-  orders: {
-    title: "Appointments and bulk orders",
-    clause: "Appointments",
-    steps: [
-      { kind: "say", stage: "Tick", why: "ordersWindow",
-        msg: [
-          "The list is the Candy resource list and the adjudication packages for this job. Nothing is priced here.",
-          () => t("Appointments and bulk orders are both closed out within 7 days after award. This job was awarded on {0}.", AS_AT)
-        ],
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "checks", stage: "Tick", q: "Tick the appointments",
-        msg: "Tick each appointment. The next list stays hidden until these are loaded.",
-        ready: "All loaded, continue",
-        items: APPOINTMENTS.map(([name, em]) => ({ t: name, e: em })) },
-      { kind: "say", stage: "Tick",
-        msg: "Those appointments are loaded. Each document is now that subcontractor's rules.",
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "checks", stage: "Tick",
-        msg: "Tick the bulk orders",
-        ready: "All loaded, continue",
-        items: BULK.map(([name, em]) => ({ t: name, e: em })) },
-      { kind: "say", stage: "Tick",
-        msg: "Those purchase orders are loaded. Each document is now that subcontractor's rules.",
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "finish", stage: "Tick",
-        apply(){ S.appointmentsOpen = 0; S.done.orders = true; },
-        msg: "Appointments and bulk orders are both loaded.",
-        toast: "Orders loaded" }
-    ]
-  },
-
-  progress: {
-    title: "Progress and extension of time",
-    clause: "Programme",
-    steps: [
-      { kind: "say", stage: "Diary",
-        msg: "Foreman's daily diary. One note. I will read it back before it is kept.",
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "talk", stage: "Diary", q: "Hold to play the sample note",
-        msg: "Hold to play the sample note",
-        hint: "The sample note",
-        keep: "Keep the diary",
-        demo: DIARY_DEMO,
-        demoAf: DIARY_DEMO_AF,
-        back: "Here is the diary, read back.",
-        fields: DIARY_FIELDS,
-        flagNote: "The ceiling and electrical layout line is an outstanding RFI." },
-      { kind: "say", stage: "Update",
-        msg: "The diary is kept. The ceiling and electrical layout line stays an outstanding RFI.",
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "choice", stage: "Update", q: "Question off the programme",
-        msg: "The programme has west-wall brickwork to window height this week. The diary says that work is done. Update the programme?",
-        opts: [{ label: "Update the programme", v: "yes", cls: "sig full" }],
-        after: "Updated. West-wall brickwork to window height is done." },
-      { kind: "choice", stage: "Update", q: "Question off the programme",
-        msg: "The programme has the ceiling sub on the hall ceiling this week. The diary has them behind. Record that on the programme?",
-        opts: [{ label: "Record the ceiling sub behind", v: "behind", cls: "sig full" }],
-        after(){
-          S.subBehind = true;
-          save();
-          return "Recorded. The ceiling sub is behind on the hall ceiling.";
-        } },
-      { kind: "choice", stage: "Extension", q: "Approve the extension",
-        msg: () => t("RFI-01, ceiling and electrical layout, has no date. A missing date is the point where an extension of time starts. The extension on file moves practical completion to {0}.", FIX.eotPc),
-        opts: [{ label: "Approve {0}", args: [FIX.eotPc], v: "yes", cls: "sig full" }],
-        after(){
-          const was = S.pcDate;
-          S.pcDate = FIX.eotPc;
-          S.eotApproved = true;
-          S.subBehind = true;
-          save();
-          return t("Practical completion was {0}. It is now {1}. The new baseline must be submitted.", was, FIX.eotPc)
-            + " " + t("{0} to {1} is {2} calendar days.", AS_AT, FIX.eotPc, daysBetween(AS_AT, FIX.eotPc));
-        } },
-      { kind: "finish", stage: "Extension",
-        apply(){ S.done.progress = true; S.subBehind = true; },
-        msg: () => t("Practical completion is {0}. The new baseline must be submitted.", S.pcDate),
-        toast: "Extension approved" }
-    ]
-  },
-
-  claims: {
-    title: "Claims, valuations, recoveries, payments",
-    clause: "Claim",
-    steps: [
-      { kind: "say", stage: "Load",
-        msg: "Load the cost report, the monthly claim, the subcontractor claim, the PQS valuation and the remittance. The figures are already on those documents. This app does not price them.",
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "checks", stage: "Load",
-        msg: "Confirm the five documents are the ones already on file.",
-        ready: "Documents loaded",
-        items: CLAIM_DOCS.map(name => ({ t: name, e: "On file" })) },
-      { kind: "compute", stage: "Compare",
-        run(){
-          return {
-            msg: "The monthly claim set against the cost report.",
-            calc: [
-              ["Cost report, preliminaries", money(FIX.prelim)],
-              ["Monthly claim, preliminaries", money(FIX.prelim)],
-              ["Cost report, brickwork", money(FIX.brick)],
-              ["Monthly claim, brickwork", money(FIX.brick)],
-              ["Cost report, ceiling", money(FIX.ceiling), "bad"],
-              ["Monthly claim, ceiling", "Missing", "bad"],
-              ["Cost report, electrical", money(FIX.electrical)],
-              ["Monthly claim, electrical", money(FIX.electrical)]
-            ],
-            note: "The ceiling line is on the cost report and missing from the monthly claim."
-          };
-        },
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "compute", stage: "Compare",
-        run(){
-          return {
-            msg: "The variation is not on the monthly claim yet.",
-            calc: [
-              ["Variation on file", money(FIX.variation), "bad"],
-              ["Store door frame", "Store door frame"],
-              ["On the monthly claim", "Not yet", "bad"]
-            ],
-            note: "The variation is not on the monthly claim yet."
-          };
-        },
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "compute", stage: "Compare",
-        run(){
-          return {
-            msg: "The subcontractor claim is not in the main claim.",
-            calc: [
-              ["Subcontractor claim", money(FIX.subClaim), "bad"],
-              ["Ceiling sub", "Ceiling sub"],
-              ["In the main claim", "No", "bad"]
-            ],
-            note: "The subcontractor claim is not in the main claim."
-          };
-        },
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "compute", stage: "Compare",
-        run(){
-          const gap = FIX.paid - FIX.certified;
-          const above = gap > 0;
-          return {
-            msg: "The payment set against the PQS valuation.",
-            calc: [
-              ["Payment on the remittance", money(FIX.paid), above ? "bad" : "good"],
-              ["PQS valuation", money(FIX.certified)],
-              ["Payment minus valuation", money(gap), above ? "bad" : "good"]
-            ],
-            note: above
-              ? "{0} minus {1} is {2}. The payment is above the valuation."
-              : "{0} minus {1} is {2}. The payment is at or below the valuation.",
-            noteArgs: [money(FIX.paid), money(FIX.certified), money(Math.abs(gap))]
-          };
-        },
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "compute", stage: "Remit", why: "remitCheck",
-        run(){
-          const approvedOk = FIX.approved <= FIX.certified;
-          const recoveryDown = FIX.recoveryRemit < FIX.recoveryLoaded;
-          const discountDown = FIX.discountRemit < FIX.discountLoaded;
-          const retentionFlag = FIX.retentionRemit !== FIX.retentionCheck;
-          return {
-            msg: "The remittance checks.",
-            calc: [
-              ["The amount we approved", money(FIX.approved), approvedOk ? "good" : "bad"],
-              ["Certified amount", money(FIX.certified)],
-              ["Approved against certified", approvedOk ? "At or below" : "Above", approvedOk ? "good" : "bad"],
-              ["Recovery loaded", money(FIX.recoveryLoaded)],
-              ["Recovery on the remittance", money(FIX.recoveryRemit), recoveryDown ? "bad" : ""],
-              ["Recovery", recoveryDown ? "Reduced" : "Unchanged", recoveryDown ? "bad" : "good"],
-              ["Settlement discount loaded", money(FIX.discountLoaded)],
-              ["Settlement discount on the remittance", money(FIX.discountRemit), discountDown ? "bad" : ""],
-              ["Settlement discount", discountDown ? "Reduced" : "Unchanged", discountDown ? "bad" : "good"],
-              ["Retention on the remittance", FIX.retentionRemit, retentionFlag ? "bad" : "good"],
-              ["The check looks for", FIX.retentionCheck],
-              ["Retention", retentionFlag ? "Flagged" : "In line", retentionFlag ? "bad" : "good"]
-            ],
-            note: retentionFlag
-              ? "Flagged. Retention on this remittance is not 10%."
-              : "Retention matches the check."
-          };
-        },
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "finish", stage: "Remit",
-        apply(){ S.done.claims = true; },
-        msg: "The comparisons are kept. Nothing here was priced in the app.",
-        toast: "Claim compared" }
-    ]
-  },
-
-  quality: {
-    title: "Quality and safety",
-    clause: "Quality",
-    steps: [
-      { kind: "photo", stage: "Photo",
-        ref: "Hall store",
-        place: "Lakeside",
-        msg: "Photograph the snag. Then say the area, what it is, who is responsible, the completion date, the date finished, and the status.",
-        kept: "Geotagged and timestamped. It cannot be edited after this point." },
-      { kind: "talk", stage: "Note", q: "Hold to play the sample note",
-        msg: "Hold to play the sample note",
-        hint: "The sample note",
-        keep: "Keep the note",
-        demo: "Hall store. Door frame out of square. Site foreman. Completion date " + FIX.qComplete + ". Finished " + FIX.qFinished + ". Status finished.",
-        demoAf: "Store by die hall. Deurraam is skeef. Voorman. Completion date " + FIX.qComplete + ". Klaar " + FIX.qFinished + ". Status klaar.",
-        back: "Here is the photo note, read back.",
-        fields: [
-          ["Area", "Hall store"],
-          ["Description", "Door frame out of square"],
-          ["Responsible person", "Site foreman"],
-          ["Completion date", FIX.qComplete],
-          ["Date finished", FIX.qFinished],
-          ["Status", "Finished"]
-        ] },
-      { kind: "compute", stage: "Late",
-        run(){
-          const n = daysBetween(FIX.qComplete, FIX.qFinished);
-          return {
-            msg: "Days late, from the two dates you confirmed.",
-            calc: [
-              ["Completion date", FIX.qComplete],
-              ["Date finished", FIX.qFinished],
-              ["Days late", String(n), n > 0 ? "bad" : "good"]
-            ],
-            note: "{0} minus {1} is {2} calendar days.",
-            noteArgs: [FIX.qFinished, FIX.qComplete, n]
-          };
-        },
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "finish", stage: "Late",
-        apply(){ S.done.quality = true; },
-        msg: "The photo is kept.",
-        toast: "Photo kept" }
-    ]
-  },
-
-  subdefault: {
-    title: "Subcontractor default",
-    clause: "Default",
-    steps: [
-      { kind: "say", stage: "Steps", why: "jobRules",
-        msg: "The progress update shows the ceiling sub behind on the hall ceiling. The steps that follow are the contract rules for this job.",
-        opts: [{ label: "Start", cls: "primary full" }] },
-      { kind: "say", stage: "Steps",
-        msg: "Tell the subcontractor, in writing, that the hall ceiling is behind.",
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "say", stage: "Steps",
-        msg: "Give them the chance to catch up, the way the contract rules for this job set out.",
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "say", stage: "Steps",
-        msg: "If the work is still behind, the contract rules for this job allow the work to be taken away.",
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "say", stage: "Steps",
-        msg: "Recoveries are deducted under claims.",
-        opts: [{ label: "Continue", cls: "primary full" }] },
-      { kind: "finish", stage: "Steps",
-        apply(){ S.done.subdefault = true; },
-        msg: "The ceiling sub is in default on this job. Recoveries are deducted under claims.",
-        toast: "Default recorded" }
-    ]
-  }
-};
-
-const GUIDES = [
-  { n: "1", flow: "tender", title: "Tender", sub: "Tender — load the documents, then the result", open: () => S.tenderStatus === "waiting" },
-  { n: "2.1", flow: "contract", title: "Contract", sub: "Contract — before signature, then the signed copy", open: () => S.project },
-  { n: "2.2", flow: "rfi", title: "RFI and appointment schedule", sub: "Dates off the programme and the bill", open: () => S.contractStatus === "signed" },
-  { n: "2.3", flow: "orders", title: "Appointments and bulk orders", sub: "Tick them in within 7 days of award", open: () => !!S.done.rfi },
-  { n: "2.4", flow: "progress", title: "Progress and extension of time", sub: "Diary, then the approved completion date", open: () => !!S.done.orders },
-  { n: "2.5", flow: "claims", title: "Claims, valuations, recoveries, payments", sub: "Compare the figures already on the documents", open: () => !!S.done.progress },
-  { n: "2.6", flow: "quality", title: "Quality and safety", sub: "Photo, then days late", open: () => !!S.done.claims },
-  { n: "2.7", flow: "subdefault", title: "Subcontractor default", sub: "The contract rules for this job", open: () => !!S.done.quality && !!S.subBehind }
-];
-
-const $ = s => document.querySelector(s);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const ARROW = '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
-
-function chipKey(){
-  if (S.tenderStatus === "waiting") return "Waiting for Results";
-  if (S.tenderStatus === "unsuccessful") return "Tender Unsuccessful";
-  if (S.contractStatus === "signed") return "Signed loaded";
-  if (S.contractStatus === "draft") return "Draft loaded";
-  if (S.project) return "Tender Awarded";
-  return "Waiting for Results";
+function save(){
+  try { localStorage.setItem(KEY, JSON.stringify(DB)); } catch (e) {}
 }
-function contractLabel(){
-  if (S.contractStatus === "signed") return "Signed loaded";
-  if (S.contractStatus === "draft") return "Draft loaded";
-  return "Not loaded";
+function nid(){
+  DB.seq = (DB.seq || 1) + 1;
+  return "w" + DB.seq;
 }
-function baselineLabel(){
-  if (S.baselineSource === "signed") return "Signed contract programme";
-  if (S.baselineSource === "tender") return "Tender programme";
-  return "Not loaded";
+function tenderById(id){
+  return DB.tenders.find((t) => t.id === id) || null;
 }
-
-const OPEN_LABEL = {
-  tender: "Open the tender",
-  contract: "Open the contract",
-  rfi: "Open the schedule",
-  orders: "Open the appointments",
-  progress: "Open the diary",
-  claims: "Open the claim",
-  quality: "Open the quality photo",
-  subdefault: "Open the default"
-};
-
-function goLabel(flow){
-  if (S.done[flow]) return "Open again";
-  if (S.place && S.place.flow === flow) return "Carry on";
-  return OPEN_LABEL[flow] || "Continue";
+function hydrate(p){
+  if (!p.contract) p.contract = { before: null, signed: null, signedProgramme: null, dates: emptyDates() };
+  if (!p.contract.dates) p.contract.dates = emptyDates();
+  DATE_KEYS.forEach(([k]) => { if (typeof p.contract.dates[k] !== "string") p.contract.dates[k] = ""; });
+  if (!p.claims) p.claims = emptyClaims();
+  if (!p.diaryDraft) p.diaryDraft = emptyDiary();
+  if (!p.diaryDraft.fields) p.diaryDraft.fields = emptyDiary().fields;
+  if (!p.noteDraft) p.noteDraft = { text: "", phase: "edit" };
+  if (!p.quality) p.quality = emptyQuality();
+  if (!p.def) p.def = emptyDef();
+  if (!Array.isArray(p.def.ticks) || p.def.ticks.length !== 4) p.def.ticks = [false, false, false, false];
+  ["rfis", "orders", "diary", "notes"].forEach((k) => { if (!Array.isArray(p[k])) p[k] = []; });
+  if (!p.rules) p.rules = {};
+  return p;
 }
-
-function guideVisible(g){
-  if (g.flow === "tender") return S.tenderStatus === "waiting" || !!S.done.tender;
-  return !!S.done[g.flow] || g.open();
+function project(){
+  const p = DB.projects.find((x) => x.id === DB.openId);
+  return p ? hydrate(p) : null;
 }
-
-function nextGuide(){
-  return GUIDES.find(g => {
-    if (S.done[g.flow]) return false;
-    if (g.flow === "tender") return S.tenderStatus === "waiting";
-    return g.open();
+function blankProject(tender){
+  return hydrate({
+    id: nid(),
+    tenderId: tender.id,
+    name: tender.name,
+    rules: Object.assign({}, tender.files || {}),
+    contract: { before: null, signed: null, signedProgramme: null, dates: emptyDates() },
+    extensionDate: "",
+    rfis: [],
+    orders: [],
+    diary: [],
+    notes: [],
+    diaryDraft: emptyDiary(),
+    noteDraft: { text: "", phase: "edit" },
+    claims: emptyClaims(),
+    quality: emptyQuality(),
+    def: emptyDef()
   });
 }
+function ensureProject(tender){
+  if (tender.status !== "awarded") return DB.projects.find((x) => x.tenderId === tender.id) || null;
+  let p = DB.projects.find((x) => x.tenderId === tender.id);
+  if (!p){
+    p = blankProject(tender);
+    DB.projects.push(p);
+  }
+  p.name = tender.name;
+  Object.keys(tender.files || {}).forEach((k) => {
+    if (tender.files[k]) p.rules[k] = tender.files[k];
+  });
+  return hydrate(p);
+}
 
-function tenderList(){
-  const rows = [
-    ["waiting", "Waiting for Results"],
-    ["awarded", "Tender Awarded"],
-    ["unsuccessful", "Tender Unsuccessful"]
-  ];
-  return `<div class="card tenderlist">` + rows.map(([id, label]) => {
-    const on = S.tenderStatus === id;
-    if (on && id === "waiting"){
-      return `<button type="button" class="trow on" data-flow="tender"><span class="pill info">${esc(t(label))}</span><span class="go">${esc(t(goLabel("tender")))} ${ARROW}</span></button>`;
-    }
-    if (on){
-      return `<div class="trow on"><span class="pill ${id === "unsuccessful" ? "warn" : "ok"}">${esc(t(label))}</span><span class="pill ok">${esc(t("Kept"))}</span></div>`;
-    }
-    return `<div class="trow"><span class="pill flat">${esc(t(label))}</span></div>`;
+function pcOf(p){
+  if (p.extensionDate && isoOk(p.extensionDate)) return p.extensionDate;
+  if (p.contract.dates.completionAfter && isoOk(p.contract.dates.completionAfter)) return p.contract.dates.completionAfter;
+  return "";
+}
+function baselineKey(p){
+  return p.contract.signedProgramme ? "Signed contract programme" : "Tender programme";
+}
+function baselineSentence(p){
+  return p.contract.signedProgramme
+    ? "The signed contract has a programme, so that programme is the baseline."
+    : "There is no signed programme, so the tender programme is the baseline.";
+}
+function chipOf(p){
+  if (p.contract.signed) return "Signed loaded";
+  if (p.contract.before) return "Draft loaded";
+  return "Tender Awarded";
+}
+function statusLabel(status){
+  if (status === "awarded") return "Tender Awarded";
+  if (status === "unsuccessful") return "Tender Unsuccessful";
+  return "Waiting for Results";
+}
+function initials(name){
+  const parts = String(name || "").trim().split(/\s+/).filter(Boolean);
+  const letters = parts.map((w) => w[0]).join("").replace(/[^A-Za-z0-9]/g, "").slice(0, 2);
+  return (letters || "PL").toUpperCase();
+}
+function openRfiCount(p){
+  return p.rfis.filter((r) => !r.date).length;
+}
+function ordersOpen(p){
+  return p.orders.filter((r) => !r.file).length;
+}
+
+function clockBlock(p){
+  const pc = pcOf(p);
+  if (!pc){
+    return `<div class="clock"><div class="lab">${esc(t("Days until practical completion"))}</div><p>${esc(t("No practical completion date yet."))}</p><p class="foot-note">${esc(t("Record the completion date from the signed contract, or an approved extension."))}</p></div>`;
+  }
+  const n = daysBetween(AS_AT, pc);
+  return `<div class="clock"><div class="row"><div><div class="lab">${esc(t("Days until practical completion"))}</div><div class="big" id="days">${n}</div></div><div class="meta"><span class="lab">${esc(t("Practical completion"))}</span><b id="pc-date">${esc(pc)}</b>${esc(t("As at {0}", AS_AT))}</div></div></div><p class="foot-note" id="day-work">${esc(t("{0} to {1} is {2} calendar days.", AS_AT, pc, n))}</p>`;
+}
+
+function whyHtml(text, clause){
+  return `<details class="why"><summary>${esc(t("Why this matters"))}</summary><div class="txt">${esc(t(text))}<br><span class="cl">${esc(t(clause))}</span><br>${esc(t("This is not a contract clause."))}</div></details>`;
+}
+
+function calcHtml(rows){
+  return `<div class="calc">` + rows.map((r) => {
+    const cls = r[2] === "bad" ? "bad" : r[2] === "good" ? "good" : "";
+    const val = r[3] === "raw" ? String(r[1]) : t(String(r[1]));
+    return `<div class="${cls}"><span>${esc(t(r[0]))}</span><span>${esc(val)}</span></div>`;
   }).join("") + `</div>`;
 }
 
-function renderProject(){
-  if (!S.project){
-    const waiting = S.tenderStatus === "waiting";
-    const change = waiting ? "" : `<button type="button" class="opt full dash-go" data-flow="tender" data-mode="change">${esc(t("Change the tender result"))}</button>`;
-    const line = waiting
-      ? esc(FIX.job) + ", " + esc(FIX.town) + ". " + esc(t("No project yet.")) + " " + esc(t("The result is chosen in the tender, after the files are confirmed."))
-      : esc(FIX.job) + ", " + esc(FIX.town) + ". " + esc(t("The tender is kept. No project was opened."));
-    $("#pane-project").innerHTML = `
-      <div class="sec"><span class="lab">${esc(t("Tender"))}</span></div>
-      ${tenderList()}
-      <p class="foot-note">${line}</p>
-      ${change}`;
-    return;
+function claimHtml(c){
+  const rows = [];
+  const notes = [];
+  if (c.lineMissing === true) rows.push(["Cost-report line", "Missing", "bad"]);
+  if (c.lineMissing === false) rows.push(["Cost-report line", "On the claim", "good"]);
+  const variation = randsToCents(c.variation);
+  const subClaim = randsToCents(c.subClaim);
+  if (variation != null && String(c.variation).trim()) rows.push(["Variation", money(variation), "", "raw"]);
+  if (subClaim != null && String(c.subClaim).trim()) rows.push(["Subcontractor claim", money(subClaim), "", "raw"]);
+  const valuation = randsToCents(c.valuation);
+  const payment = randsToCents(c.payment);
+  if (valuation != null && payment != null && String(c.valuation).trim() && String(c.payment).trim()){
+    const gap = payment - valuation;
+    const above = gap > 0;
+    rows.push(["The amount we approved", money(payment), above ? "bad" : "good", "raw"]);
+    rows.push(["Valuation", money(valuation), "", "raw"]);
+    rows.push(["Payment minus valuation", money(gap), above ? "bad" : "good", "raw"]);
+    notes.push(t(above
+      ? "{0} minus {1} is {2}. The payment is above the valuation."
+      : "{0} minus {1} is {2}. The payment is at or below the valuation.",
+      money(payment), money(valuation), money(Math.abs(gap))));
   }
+  const recB = randsToCents(c.recoveryBefore);
+  const recA = randsToCents(c.recoveryAfter);
+  if (recB != null && recA != null && String(c.recoveryBefore).trim() && String(c.recoveryAfter).trim()){
+    const reduced = recA < recB;
+    rows.push(["Recovery before", money(recB), "", "raw"]);
+    rows.push(["Recovery after", money(recA), reduced ? "bad" : "good", "raw"]);
+    rows.push(["Recovery", reduced ? "Reduced" : "Not reduced", reduced ? "bad" : "good"]);
+  }
+  const disB = randsToCents(c.discountBefore);
+  const disA = randsToCents(c.discountAfter);
+  if (disB != null && disA != null && String(c.discountBefore).trim() && String(c.discountAfter).trim()){
+    const reduced = disA < disB;
+    rows.push(["Settlement discount before", money(disB), "", "raw"]);
+    rows.push(["Settlement discount after", money(disA), reduced ? "bad" : "good", "raw"]);
+    rows.push(["Settlement discount", reduced ? "Reduced" : "Not reduced", reduced ? "bad" : "good"]);
+  }
+  const pct = parsePercent(c.retention);
+  if (pct && String(c.retention).trim()){
+    const flag = !isTen(pct);
+    rows.push(["Retention", pct.text, flag ? "bad" : "good", "raw"]);
+    rows.push(["The check looks for", "10%", "", "raw"]);
+    rows.push(["Retention", flag ? "Flagged" : "In line", flag ? "bad" : "good"]);
+    notes.push(t(flag ? "Flagged. Retention is not 10%." : "Retention matches the check."));
+  }
+  if (!rows.length) return "";
+  return calcHtml(rows) + notes.map((n) => `<p style="margin-top:9px">${esc(n)}</p>`).join("") + whyHtml(
+    "Check the figures you entered. The amount we approved is compared with the valuation. A reduced recovery or settlement discount is flagged. Retention that is not 10% is flagged. That 10% is this sheet's check, not a contract clause.",
+    "SiteOS Rev 4 section 2.5"
+  );
+}
 
-  const pc = S.pcDate || FIX.tenderPc;
-  const n = daysBetween(AS_AT, pc);
-  const next = nextGuide();
-  const nextCard = next
-    ? `<button class="card task info dash-go" data-flow="${next.flow}"><i class="sev"></i><div class="body"><div class="top"><span class="pill info">${esc(t(next.n))}</span></div><h3>${esc(t(next.title))}</h3><p>${esc(t(next.sub))}</p><div class="foot"><span class="go">${esc(t(goLabel(next.flow)))} ${ARROW}</span></div></div></button>`
-    : `<p class="foot-note">${esc(t("The sheet for this job is complete."))}</p>`;
+function lateHtml(q){
+  if (!q.photo) return `<p class="warnline">${esc(t("No photo, so there is no days-late figure."))}</p>`;
+  if (!isoOk(q.completion) || !isoOk(q.finished)) return `<p class="foot-note">${esc(t("Both dates are needed before there is a figure."))}</p>`;
+  const n = daysBetween(q.completion, q.finished);
+  return `<p>${esc(t("Days late, from the two dates you entered."))}</p>` + calcHtml([
+    ["Completion date", q.completion, "", "raw"],
+    ["Date finished", q.finished, "", "raw"],
+    ["Days late", String(n), n > 0 ? "bad" : "good", "raw"]
+  ]) + `<p style="margin-top:9px">${esc(t("{0} minus {1} is {2} calendar days.", q.finished, q.completion, n))}</p>`;
+}
+
+function sourceText(p, source){
+  if (!source) return "";
+  const cut = source.indexOf(":");
+  if (cut < 0) return "";
+  const kind = source.slice(0, cut);
+  const id = source.slice(cut + 1);
+  if (kind === "d"){
+    const row = p.diary.find((x) => x.id === id);
+    if (!row) return "";
+    return DIARY_KEYS.map(([k]) => row.fields[k] || "").join("\n");
+  }
+  const row = p.notes.find((x) => x.id === id);
+  return row ? row.text : "";
+}
+function namedIn(text, sub){
+  const n = sub.trim().toLowerCase();
+  if (n.length < 2) return false;
+  return text.toLowerCase().indexOf(n) !== -1;
+}
+
+function field(label, inner){
+  return `<label class="field"><span class="k">${esc(t(label))}</span>${inner}</label>`;
+}
+function textInput(id, value, attrs){
+  return `<input id="${id}" type="text" autocomplete="off" value="${esc(value || "")}" ${attrs || ""}>`;
+}
+
+function renderList(){
+  const tenderRows = DB.tenders.map((tender) => {
+    const files = Object.keys(tender.files || {}).map((k) => tender.files[k]).filter((f) => f && f.name);
+    const proj = DB.projects.find((p) => p.tenderId === tender.id);
+    const pill = tender.status === "awarded" ? "ok" : tender.status === "unsuccessful" ? "warn" : "info";
+    const open = tender.status === "awarded" && proj
+      ? `<button type="button" class="opt sig full" data-open-project="${esc(proj.id)}">${esc(t("Open the project"))}</button>`
+      : "";
+    const selected = proj && proj.id === DB.openId ? `<span class="pill info">${esc(t("Selected"))}</span>` : "";
+    const names = files.map((f) => `<div class="fileline">${esc(f.name)} · ${esc(formatSize(f.size))}</div>`).join("");
+    return `<div class="minirow"><div style="flex:1;min-width:0"><b>${esc(tender.name)}</b>${names}<div class="l2" style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap"><span class="pill ${pill}">${esc(t(statusLabel(tender.status)))}</span>${selected}</div></div></div><div class="opts" style="padding:0 12px 12px">${open}<button type="button" class="opt full" data-open-tender="${esc(tender.id)}">${esc(t("Open the tender"))}</button></div>`;
+  }).join("");
+  const projectRows = DB.projects.map((p) => {
+    const on = p.id === DB.openId ? `<span class="pill info">${esc(t("Selected"))}</span>` : "";
+    return `<button type="button" class="minirow" data-open-project="${esc(p.id)}"><span><b>${esc(p.name)}</b></span>${on}</button>`;
+  }).join("");
+  $("#pane-project").innerHTML = `
+    <div class="sec"><span class="lab">${esc(t("Tenders"))}</span></div>
+    <button type="button" class="opt sig full" id="add-tender">${esc(t("Add a tender"))}</button>
+    <div class="card" style="margin-top:10px">${tenderRows || `<div class="empty-note">${esc(t("No tenders yet."))}</div>`}</div>
+    <div class="sec"><span class="lab">${esc(t("Projects"))}</span></div>
+    <div class="card">${projectRows || `<div class="empty-note">${esc(t("No projects yet. A tender that is awarded opens one."))}</div>`}</div>`;
+  $("#add-tender").onclick = startAdd;
+  $("#pane-project").querySelectorAll("[data-open-project]").forEach((el) => {
+    el.onclick = () => openProject(el.getAttribute("data-open-project"));
+  });
+  $("#pane-project").querySelectorAll("[data-open-tender]").forEach((el) => {
+    el.onclick = () => startEdit(el.getAttribute("data-open-tender"), "list");
+  });
+}
+
+function renderDash(p, withClock){
+  const files = TENDER_SLOTS.map(([k, label]) => {
+    const meta = p.rules[k];
+    if (!meta || !meta.name) return "";
+    return `<div class="minirow"><span>${esc(t(label))}</span><span class="fileline">${esc(meta.name)} · ${esc(formatSize(meta.size))}</span></div>`;
+  }).join("");
   let dates = "";
-  if (S.contractStatus === "draft" || S.contractStatus === "signed"){
-    dates += `<div class="row"><span>${esc(t("Completion on the Contract Rules"))}</span><b class="mono">${esc(FIX.tenderPc)}</b></div>`;
+  if (p.contract.signed){
+    dates += `<div class="row"><span>${esc(t("Completion before signature"))}</span><b class="mono">${esc(p.contract.dates.completionBefore || t("Not loaded"))}</b></div>`;
+    dates += `<div class="row"><span>${esc(t("Completion after signature"))}</span><b class="mono">${esc(p.contract.dates.completionAfter || t("Not loaded"))}</b></div>`;
+    dates += `<div class="row"><span>${esc(t("Programme baseline"))}</span><b>${esc(t(baselineKey(p)))}</b></div>`;
+    const prog = p.contract.signedProgramme || p.rules.programme;
+    if (prog && prog.name) dates += `<div class="row"><span>${esc(t(baselineKey(p)))}</span><b>${esc(prog.name)}</b></div>`;
+    dates += `<div class="row"><span></span><span>${esc(t(baselineSentence(p)))}</span></div>`;
   }
-  if (S.contractStatus === "draft"){
-    dates += `<div class="row"><span>${esc(t("Completion on the draft"))}</span><b class="mono">${esc(FIX.signedPc)}</b></div>`;
+  if (p.extensionDate){
+    dates += `<div class="row"><span>${esc(t("Approved practical completion"))}</span><b class="mono">${esc(p.extensionDate)}</b></div>`;
   }
-  if (S.contractStatus === "signed"){
-    dates += `<div class="row"><span>${esc(t("Completion on the signed contract"))}</span><b class="mono">${esc(FIX.signedPc)}</b></div>`;
-  }
-  if (S.eotApproved){
-    dates += `<div class="row"><span>${esc(t("Approved practical completion"))}</span><b class="mono">${esc(FIX.eotPc)}</b></div>`;
-  }
-  $("#pane-project").innerHTML = `<div class="clock">
-      <div class="row">
-        <div>
-          <div class="lab">${esc(t("Days until practical completion"))}</div>
-          <div class="big" id="days">${n}</div>
-        </div>
-        <div class="meta">
-          <span class="lab">${esc(t("Practical completion"))}</span>
-          <b id="pc-date">${esc(pc)}</b>
-          ${esc(t("As at {0}", AS_AT))}
-        </div>
-      </div>
-    </div>
-    <p class="foot-note">${esc(t("{0} to {1} is {2} calendar days.", AS_AT, pc, n))}</p>
-    ${nextCard}
+  $("#pane-project").innerHTML = `
+    ${withClock ? clockBlock(p) : ""}
+    <div class="sec"><span class="lab">${esc(t("Contract Rules"))}</span></div>
+    <div class="card">${files || `<div class="empty-note">${esc(t("Not loaded"))}</div>`}</div>
     <div class="card base" style="margin-top:10px">
       ${dates}
-      <div class="row"><span>${esc(t("Contract status"))}</span><b>${esc(t(contractLabel()))}</b></div>
-      <div class="row"><span>${esc(t("Programme baseline"))}</span><b>${esc(t(baselineLabel()))}</b></div>
-      <div class="row"><span>${esc(t("Open RFIs"))}</span><b class="mono">${S.openRfi}</b></div>
-      <div class="row"><span>${esc(t("Appointments still open"))}</span><b class="mono">${S.appointmentsOpen}</b></div>
-    </div>`;
+      <div class="row"><span>${esc(t("Contract status"))}</span><b>${esc(t(p.contract.before || p.contract.signed ? chipOf(p) : "Not loaded"))}</b></div>
+      <div class="row"><span>${esc(t("Open RFIs"))}</span><b class="mono">${openRfiCount(p)}</b></div>
+      <div class="row"><span>${esc(t("Appointments still open"))}</span><b class="mono">${ordersOpen(p)}</b></div>
+    </div>
+    <button type="button" class="opt full switcher" id="to-list">${esc(t("Workspace"))}</button>`;
+  $("#to-list").onclick = workspace;
 }
 
-function guideButton(g){
-  const done = !!S.done[g.flow];
-  const detail = g.flow === "tender" && S.tenderStatus !== "waiting"
-    ? t(S.tenderStatus === "awarded" ? "Tender Awarded" : "Tender Unsuccessful")
-    : t(g.sub);
-  const pill = done ? `<span class="pill ok">${esc(t("Done"))}</span>` : "";
-  return `<button class="guide" data-flow="${g.flow}">
-    <span class="num">${esc(g.n)}</span>
-    <span class="t"><b>${esc(t(g.title))}</b><span>${esc(detail)}</span></span>
-    ${pill}<span class="go">${esc(t(goLabel(g.flow)))} ${ARROW}</span>
-  </button>`;
+function renderPath(active){
+  const rows = GUIDES.map((g) => {
+    if (!active){
+      return `<div class="guide locked"><span class="num">${esc(g.n)}</span><span class="t"><b>${esc(t(g.title))}</b><span>${esc(t(g.sub))}</span></span></div>`;
+    }
+    return `<button type="button" class="guide" data-path="${esc(g.id)}"><span class="num">${esc(g.n)}</span><span class="t"><b>${esc(t(g.title))}</b><span>${esc(t(g.sub))}</span></span><span class="go">${esc(t("Open"))}</span></button>`;
+  }).join("");
+  const note = active ? "" : `<p class="foot-note">${esc(t("Open a project to use this list."))}</p>`;
+  $("#pane-path").innerHTML = `<div class="sec"><span class="lab">${esc(t("Sheet order"))}</span></div><div class="card">${rows}</div>${note}`;
+  if (!active) return;
+  $("#pane-path").querySelectorAll("[data-path]").forEach((btn) => {
+    btn.onclick = () => {
+      const id = btn.getAttribute("data-path");
+      if (id === "tender") workspace();
+      else go(id);
+    };
+  });
 }
 
-function renderPath(){
-  const rows = GUIDES.filter(guideVisible).map(g => guideButton(g)).join("");
-  $("#pane-path").innerHTML = `
-    <div class="sec"><span class="lab">${esc(t("Sheet order"))}</span></div>
-    <div class="card">${rows}</div>
-    <p class="foot-note">${esc(t("A step stays closed until the one before it is done."))}</p>`;
+function formScreen(){
+  if (DB.screen === "add" || DB.screen === "tender") return DB.screen;
+  if (SECTIONS.indexOf(DB.screen) !== -1 && project()) return DB.screen;
+  return "";
 }
 
-function renderAll(){
-  renderProject();
-  renderPath();
-  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
-  const b = $("#lang");
-  b.textContent = LANG === "af" ? "AF" : "EN";
-  b.classList.toggle("af", LANG === "af");
-  $(".bar-id .proj").textContent = S.project ? FIX.job : t("Tender");
-  $(".bar-id .chip").textContent = t(chipKey());
-  $(".avatar").textContent = "SF";
-  $("#tabdot").style.display = S.tenderStatus === "waiting" ? "" : "none";
+function paint(){
+  document.documentElement.lang = LANG === "af" ? "af" : "en";
+  document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = t(el.getAttribute("data-i18n")); });
+  const langBtn = $("#lang");
+  langBtn.textContent = LANG === "af" ? "AF" : "EN";
+  langBtn.classList.toggle("af", LANG === "af");
+  const p = project();
+  const onProject = !!(p && DB.focus === "project");
+  $("#tb-job").textContent = onProject ? p.name : t("Workspace");
+  $("#tb-count").textContent = String(DB.tenders.length);
+  $("#bar-proj").textContent = onProject ? p.name : t("Workspace");
+  $("#bar-chip").textContent = onProject ? t(chipOf(p)) : t("No project open");
+  $(".avatar").textContent = onProject ? initials(p.name) : "PL";
+  const waiting = DB.tenders.some((tender) => tender.status === "waiting");
+  $("#tabdot").style.display = waiting ? "" : "none";
+  const form = formScreen();
+  if (onProject){
+    renderDash(p, !form);
+    renderPath(true);
+  } else {
+    renderList();
+    renderPath(false);
+  }
+  if (form){
+    $("#chat").hidden = false;
+    renderForm(form, p);
+  } else {
+    $("#chat").hidden = true;
+    $("#log").innerHTML = "";
+    $("#rail").innerHTML = "";
+    $("#steps").innerHTML = "";
+  }
   const back = $("#chat-back");
   if (back) back.setAttribute("aria-label", t("Back to the project"));
 }
 
-let F = null, flowId = null, i = 0, st = {}, stages = [], busy = false, reviewing = false, gen = 0;
-
-function stageList(f){
-  const out = [];
-  f.steps.forEach(s => { if (s.stage && out[out.length - 1] !== s.stage) out.push(s.stage); });
-  return out;
+function setChat(title, clause){
+  $("#chat-title").textContent = t(title);
+  $("#chat-clause").textContent = t(clause);
 }
-function drawSteps(){
-  const cur = F.steps[i] && F.steps[i].stage;
-  const at = stages.indexOf(cur);
-  $("#steps").innerHTML = stages.map((s, n) => {
-    const cls = n < at ? "done" : n === at ? "now" : "lock";
-    return `<i class="${cls}" title="${esc(t(s))}"></i>`;
+
+function renderForm(screen, p){
+  if (screen === "add" || screen === "tender") renderTenderForm();
+  else if (screen === "contract") renderContract(p);
+  else if (screen === "rfi") renderRfi(p);
+  else if (screen === "orders") renderOrders(p);
+  else if (screen === "progress") renderProgress(p);
+  else if (screen === "claims") renderClaims(p);
+  else if (screen === "quality") renderQuality(p);
+  else if (screen === "default") renderDefault(p);
+}
+
+function renderTenderForm(){
+  if (!DB.draft) DB.draft = { tenderId: null, name: "", status: "waiting", files: {} };
+  const d = DB.draft;
+  setChat("Tender", "Result");
+  $("#steps").innerHTML = `<i class="now"></i><i class="lock"></i>`;
+  const files = TENDER_SLOTS.map(([k, label]) => {
+    return field(label, `<input type="file" data-slot="${esc(k)}" aria-label="${esc(t(label))}">${fileLine(d.files && d.files[k])}`);
   }).join("");
-}
-function bubble(html, who){
-  const wrap = document.createElement("div");
-  wrap.className = "msg" + (who === "me" ? " me" : "");
-  wrap.innerHTML = `<div class="who">${who === "me" ? "SF" : "PL"}</div><div class="bub">${html}</div>`;
-  $("#log").appendChild(wrap);
-  $("#log").scrollTop = $("#log").scrollHeight;
-  return wrap.querySelector(".bub");
-}
-function whyBlock(key){
-  const r = RULE[key];
-  if (!r) return "";
-  return `<details class="why"><summary>${esc(t("Why this matters"))}</summary><div class="txt">${t(r.txt)}<br><span class="cl">${esc(t(r.cl))}</span></div></details>`;
-}
-function typing(ms){
-  return new Promise(res => {
-    const w = document.createElement("div");
-    w.className = "msg";
-    w.innerHTML = `<div class="who">PL</div><div class="bub"><div class="typing"><i></i><i></i><i></i></div></div>`;
-    $("#log").appendChild(w);
-    $("#log").scrollTop = $("#log").scrollHeight;
-    setTimeout(() => { w.remove(); res(); }, ms);
-  });
-}
-function said(v){
-  if (typeof v === "function") return v(st);
-  return v;
-}
-async function botSay(parts, why){
-  const raw = Array.isArray(parts) ? parts : [parts];
-  const arr = [];
-  const g = gen;
-  raw.forEach(p => {
-    const v = typeof p === "function" ? p() : p;
-    if (v) arr.push(t(v));
-  });
-  for (let n = 0; n < arr.length; n++){
-    await typing(n === 0 ? 280 : 360);
-    if (g !== gen) return;
-    const b = bubble(`<p>${arr[n]}</p>`, "bot");
-    if (why && n === arr.length - 1) b.insertAdjacentHTML("beforeend", whyBlock(why));
-  }
-}
-function rail(html){
-  const showPrev = i > 0 && !(reviewing && flowId === "tender");
-  const back = showPrev
-    ? `<button type="button" class="textback" id="step-back">${esc(t("Previous step"))}</button>`
-    : "";
-  $("#rail").innerHTML = html + back;
-  const prev = $("#step-back");
-  if (prev) prev.onclick = () => { if (!busy) goBack(); };
-}
-function optBtns(opts){
-  return `<div class="opts">` + opts.map((o, n) =>
-    `<button class="opt ${o.cls || ""}" data-n="${n}">${esc(t(o.label, ...(o.args || [])))}</button>`).join("") + `</div>`;
-}
-function calcHtml(rows){
-  return `<div class="calc">` + rows.map(r => {
-    const cls = r[2] === "tot" ? "tot" : r[2] === "bad" ? "bad" : r[2] === "good" ? "good" : "";
-    return `<div class="${cls}"><span>${esc(t(r[0]))}</span><span>${esc(t(String(r[1])))}</span></div>`;
-  }).join("") + `</div>`;
-}
-function rememberPlace(){
-  if (!F || !flowId || reviewing || S.done[flowId]) return;
-  const cur = F.steps[i];
-  if (cur && cur.kind === "finish") return;
-  S.place = { flow: flowId, i: i, st: JSON.parse(JSON.stringify(st || {})) };
-  save();
-}
-function openFlow(id, mode){
-  const guide = GUIDES.find(g => g.flow === id);
-  if (!FLOWS[id]){ toast("The step before this one is not done yet."); return; }
-  const allowed = id === "tender" || !!(guide && (guide.open() || S.done[id]));
-  if (!allowed){ toast("The step before this one is not done yet."); return; }
-  F = FLOWS[id];
-  flowId = id;
-  reviewing = false;
-  stages = stageList(F);
-  if (mode === "change" && id === "tender"){
-    st = {};
-    i = Math.max(0, F.steps.findIndex(s => s.kind === "choice"));
-  } else if (mode !== "review" && S.place && S.place.flow === id && !S.done[id]){
-    st = JSON.parse(JSON.stringify(S.place.st));
-    i = S.place.i;
-    if (i < 0 || i >= F.steps.length) i = 0;
-  } else if (S.done[id]){
-    reviewing = true;
-    st = {};
-    i = 0;
-    if (id === "tender"){
-      st.result = S.tenderStatus === "unsuccessful" ? "unsuccessful" : "awarded";
-      const at = st.result === "awarded"
-        ? F.steps.findIndex(s => s.kind === "doc")
-        : F.steps.findIndex(s => s.kind === "finish" && s.stage === "Result");
-      if (at >= 0) i = at;
-    }
-  } else {
-    st = {};
-    i = 0;
-  }
-  $("#chat-title").textContent = t(F.title);
-  $("#chat-clause").textContent = t(F.clause);
-  $("#log").innerHTML = "";
-  rail("");
-  $("#chat").hidden = false;
-  step();
-}
-function changeTenderResult(){
-  if (flowId !== "tender" || !F) return;
-  reviewing = false;
-  st = {};
-  i = Math.max(0, F.steps.findIndex(s => s.kind === "choice"));
-  gen++;
-  busy = false;
-  $("#log").innerHTML = "";
-  step();
-}
-function closeFlow(){
-  if (F && flowId && !reviewing && !S.done[flowId]){
-    const cur = F.steps[i];
-    if (!cur || cur.kind !== "finish"){
-      S.place = { flow: flowId, i: i, st: JSON.parse(JSON.stringify(st || {})) };
-    }
-  } else if (S.place && S.place.flow === flowId){
-    S.place = null;
-  }
-  save();
-  gen++;
-  busy = false;
-  reviewing = false;
-  $("#chat").hidden = true;
-  F = null;
-  flowId = null;
-  renderAll();
-}
-function goBack(){
-  if (busy || !F || i <= 0) return;
-  if (reviewing && flowId === "tender") return;
-  gen++;
-  busy = false;
-  i--;
-  while (i > 0 && F.steps[i].skipIf && F.steps[i].skipIf(st)) i--;
-  $("#log").innerHTML = "";
-  step();
-}
-
-async function step(){
-  if (busy) return;
-  while (F && F.steps[i] && F.steps[i].skipIf && F.steps[i].skipIf(st)) i++;
-  const s = F && F.steps[i];
-  if (!s){ closeFlow(); return; }
-  rememberPlace();
-  const g = gen;
-  busy = true;
-  drawSteps();
-  rail("");
-  const live = () => g === gen;
-
-  if (s.kind === "say"){
-    await botSay(s.msg, s.why);
-    if (!live()) return;
-    rail(optBtns(s.opts));
-    bind(() => next());
-  } else if (s.kind === "choice"){
-    await botSay(said(s.msg), s.why);
-    if (!live()) return;
-    rail(`<div class="q">${esc(t(s.q))}</div>` + optBtns(s.opts));
-    bind(async n => {
-      const o = s.opts[n];
-      bubble(`<p>${esc(t(o.label, ...(o.args || [])))}</p>`, "me");
-      if (s.key) st[s.key] = o.v;
-      rail("");
-      if (s.after){
-        busy = true;
-        const line = typeof s.after === "function" ? s.after(o.v, st) : s.after;
-        if (line) await botSay(line);
-        if (!live()) return;
-        busy = false;
-      }
-      next();
+  const statuses = ["waiting", "awarded", "unsuccessful"].map((id) => {
+    const cls = id === "awarded" ? "sig" : "";
+    const on = d.status === id ? " on" : "";
+    return `<button type="button" class="opt pick full ${cls}${on}" data-status="${id}">${esc(t(statusLabel(id)))}</button>`;
+  }).join("");
+  $("#log").innerHTML = field("Project name", textInput("t-name", d.name)) + files + `<div class="opts">${statuses}</div>`;
+  const keepLabel = d.status === "awarded" ? "Open the project" : "Keep the tender";
+  $("#rail").innerHTML = `<div class="opts"><button type="button" class="opt sig full" id="keep-tender">${esc(t(keepLabel))}</button></div>`;
+  $("#t-name").addEventListener("input", () => { if (DB.draft) DB.draft.name = $("#t-name").value; save(); });
+  $("#log").querySelectorAll("[data-slot]").forEach((el) => {
+    el.addEventListener("change", () => {
+      const meta = takeFile(el);
+      if (!meta || !DB.draft) return;
+      if (!DB.draft.files) DB.draft.files = {};
+      DB.draft.files[el.getAttribute("data-slot")] = meta;
+      save();
+      const line = el.parentElement.querySelector(".fileline");
+      if (line){ line.className = "fileline"; line.textContent = fileText(meta); }
     });
-  } else if (s.kind === "compute"){
-    const r = s.run(st);
-    await typing(420);
-    if (!live()) return;
-    const b = bubble(`<p>${t(r.msg, ...(r.msgArgs || []))}</p>`, "bot");
-    b.insertAdjacentHTML("beforeend", calcHtml(r.calc));
-    if (r.note) b.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${t(r.note, ...(r.noteArgs || []))}</p>`);
-    if (s.why) b.insertAdjacentHTML("beforeend", whyBlock(s.why));
-    $("#log").scrollTop = $("#log").scrollHeight;
-    rail(optBtns(s.opts));
-    bind(() => next());
-  } else if (s.kind === "checks"){
-    await botSay(s.msg, s.why);
-    if (!live()) return;
-    const state = s.items.map(() => false);
-    const draw = () => {
-      const all = state.every(Boolean);
-      const nOn = state.filter(Boolean).length;
-      rail(`<div class="checks">` + s.items.map((it, n) =>
-        `<button type="button" class="chk ${state[n] ? "on" : ""}" data-c="${n}">
-           <span class="box"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"/></svg></span>
-           <span class="t">${esc(t(it.t))}<em>${esc(t(it.e))}</em></span></button>`).join("") + `</div>` +
-        (all
-          ? `<div class="opts"><button type="button" class="opt sig full" id="chk-go">${esc(t(s.ready || "All confirmed, continue"))}</button></div>`
-          : `<div class="gate"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>${esc(t("{0} of {1}. The next step stays hidden until all are true", nOn, s.items.length))}</div>`));
-      $("#rail").querySelectorAll(".chk").forEach(el => {
-        el.onclick = () => { state[+el.dataset.c] = !state[+el.dataset.c]; draw(); };
-      });
-      const go = $("#chk-go");
-      if (go) go.onclick = () => {
-        go.disabled = true;
-        bubble(`<p>${esc(t("All {0} confirmed", s.items.length))}</p>`, "me");
-        next();
-      };
+  });
+  $("#log").querySelectorAll("[data-status]").forEach((el) => {
+    el.onclick = () => {
+      if (!DB.draft) return;
+      DB.draft.name = $("#t-name").value;
+      DB.draft.status = el.getAttribute("data-status");
+      save();
+      paint();
     };
-    draw();
-  } else if (s.kind === "doc"){
-    const d = s.build(st);
-    await typing(420);
-    if (!live()) return;
-    const b = bubble(`<p>${t(d.msg, ...(d.msgArgs || []))}</p>`, "bot");
-    b.insertAdjacentHTML("beforeend",
-      `<div class="doc"><div class="dh"><b>${esc(t(d.title))}</b><span class="lab">${esc(t(d.sub))}</span></div><dl>` +
-      d.rows.map(([k, v]) => `<dt>${esc(t(k))}</dt><dd>${esc(t(String(v)))}</dd>`).join("") + `</dl></div>`);
-    if (d.note) b.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${t(d.note, ...(d.noteArgs || []))}</p>`);
-    if (s.why) b.insertAdjacentHTML("beforeend", whyBlock(s.why));
-    $("#log").scrollTop = $("#log").scrollHeight;
-    rail(optBtns(s.opts));
-    bind(() => {
-      bubble(`<p>${esc(t(s.opts[0].label, ...(s.opts[0].args || [])))}</p>`, "me");
-      next();
-    });
-  } else if (s.kind === "photo"){
-    await botSay(s.msg, s.why);
-    if (!live()) return;
-    rail(`<div class="opts"><button type="button" class="opt sig full" data-n="0"><svg viewBox="0 0 24 24"><path d="M3 8.5A1.5 1.5 0 014.5 7h2L8 5h8l1.5 2h2A1.5 1.5 0 0121 8.5v9A1.5 1.5 0 0119.5 19h-15A1.5 1.5 0 013 17.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg>${esc(t("Take photo"))}</button></div>`);
-    bind(async () => {
-      rail("");
-      const b = bubble(`<p>${esc(t("Photo attached"))}</p>`, "me");
-      b.insertAdjacentHTML("beforeend",
-        `<div class="shot"><div class="img"></div><div class="cap"><span>${esc(t(s.ref))}</span><span>${AS_AT}</span><span>${esc(t(s.place || "Lakeside"))}</span></div></div>`);
-      $("#log").scrollTop = $("#log").scrollHeight;
-      busy = true;
-      await botSay(s.kept || "Geotagged and timestamped. It cannot be edited after this point.");
-      if (!live()) return;
-      busy = false;
-      next();
-    });
-  } else if (s.kind === "talk"){
-    await botSay(s.msg, s.why);
-    if (!live()) return;
-    rail(`<div class="q">${esc(t(s.q))}</div>
-      <button type="button" class="mic" id="mic">
-        <span class="dot"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></span>
-        <span class="t"><b>${esc(t("Hold to talk"))}</b><span>${esc(t(s.hint))}</span></span>
-      </button>`);
-    $("#mic").onclick = () => runTalk(s);
-  } else if (s.kind === "finish"){
-    if (!reviewing){
-      s.apply(st);
-      if (S.place && S.place.flow === flowId) S.place = null;
-    }
+  });
+  $("#keep-tender").onclick = keepTender;
+}
+
+function keepTender(){
+  if (!DB.draft) return;
+  const name = ($("#t-name") ? $("#t-name").value : DB.draft.name).trim();
+  if (!name){ toast("The tender needs a name."); return; }
+  DB.draft.name = name;
+  let tender = DB.draft.tenderId ? tenderById(DB.draft.tenderId) : null;
+  if (!tender){
+    tender = { id: nid(), name: name, status: DB.draft.status || "waiting", files: DB.draft.files || {} };
+    DB.tenders.push(tender);
+  } else {
+    tender.name = name;
+    tender.status = DB.draft.status || "waiting";
+    tender.files = DB.draft.files || {};
+  }
+  const opened = ensureProject(tender);
+  DB.draft = null;
+  if (tender.status === "awarded" && opened){
+    DB.openId = opened.id;
+    DB.focus = "project";
+    DB.screen = "dash";
     save();
-    await botSay(said(s.msg));
-    if (!live()) return;
-    const extra = flowId === "tender"
-      ? `<button type="button" class="opt full" data-act="change">${esc(t("Change the tender result"))}</button>`
-      : "";
-    rail(`<div class="opts"><button type="button" class="opt primary full" data-n="0">${esc(t("Back to the project"))}</button>${extra}</div>`);
-    bind(() => { closeFlow(); if (!reviewing && s.toast) toast(s.toast); });
-    busy = false;
+    paint();
+    toast("Project opened");
     return;
   }
-  busy = false;
+  DB.focus = "list";
+  DB.screen = "list";
+  save();
+  paint();
+  toast("Tender kept");
 }
 
-async function runTalk(s){
-  const mic = $("#mic");
-  if (!mic || busy) return;
-  const g = gen;
-  busy = true;
-  mic.classList.add("rec");
-  mic.querySelector(".t").innerHTML = `<b>${esc(t("Listening"))}</b><span id="heard"></span>`;
-  mic.insertAdjacentHTML("beforeend", `<span class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>`);
-  const demo = (LANG === "af" && s.demoAf) ? s.demoAf : s.demo;
-  let heard = "";
-  const words = demo.split(" ");
-  for (const w of words){
-    heard += (heard ? " " : "") + w;
-    const el = $("#heard");
-    if (el) el.textContent = heard;
-    await new Promise(r => setTimeout(r, 28));
-    if (g !== gen) return;
+function dateSummary(p){
+  if (!p.contract.signed) return "";
+  const rows = [
+    ["Completion before signature", p.contract.dates.completionBefore || t("Not loaded")],
+    ["Completion after signature", p.contract.dates.completionAfter || t("Not loaded")],
+    ["Programme baseline", t(baselineKey(p))]
+  ];
+  DATE_KEYS.forEach(([k, label]) => {
+    if (k === "completionBefore" || k === "completionAfter") return;
+    if (p.contract.dates[k]) rows.push([label, p.contract.dates[k]]);
+  });
+  const prog = p.contract.signedProgramme || p.rules.programme;
+  if (prog && prog.name) rows.push([baselineKey(p), prog.name]);
+  return `<div class="sec"><span class="lab">${esc(t("Both completion dates"))}</span></div><div class="card">` +
+    rows.map(([k, v]) => `<div class="minirow"><span>${esc(t(k))}</span><b class="mono">${esc(v)}</b></div>`).join("") +
+    `</div><p class="foot-note">${esc(t(baselineSentence(p)))}</p><p class="foot-note">${esc(t("These dates are the ones you recorded from the documents."))}</p>`;
+}
+
+function renderContract(p){
+  setChat("Contract", "Before signature");
+  const before = !!p.contract.before;
+  const signed = !!p.contract.signed;
+  $("#steps").innerHTML = `<i class="${before ? "done" : "now"}"></i><i class="${!before ? "lock" : signed ? "done" : "now"}"></i>`;
+  let html = `<div id="ext-clock">${clockBlock(p)}</div>` +
+    field("Contract before signature", `<input type="file" id="c-before" aria-label="${esc(t("Contract before signature"))}">${fileLine(p.contract.before)}`);
+  if (!before){
+    html += `<p class="warnline">${esc(t("The next step stays hidden until this file is here."))}</p>`;
+  } else {
+    html += DATE_KEYS.map(([k, label]) => field(label, `<input id="c-${k}" type="date" aria-label="${esc(t(label))}" value="${esc(p.contract.dates[k] || "")}">`)).join("");
+    html += field("Signed contract", `<input type="file" id="c-signed" aria-label="${esc(t("Signed contract"))}">${fileLine(p.contract.signed)}`);
+    if (!signed){
+      html += `<p class="warnline">${esc(t("The next step stays hidden until this file is here."))}</p>`;
+    } else {
+      html += field("Signed programme", `<input type="file" id="c-prog" aria-label="${esc(t("Signed programme"))}">${fileLine(p.contract.signedProgramme)}`);
+      html += `<div id="date-sum">${dateSummary(p)}</div>`;
+    }
   }
-  await new Promise(r => setTimeout(r, 240));
-  if (g !== gen) return;
-  rail("");
-  bubble(`<p>${esc(heard)}</p>`, "me");
-  await typing(360);
-  if (g !== gen) return;
-  const rb = bubble(`<p>${t(s.back)}</p>`, "bot");
-  rb.insertAdjacentHTML("beforeend", calcHtml(s.fields));
-  rb.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${t("Read that back before it is kept.")}</p>`);
-  if (s.flagNote) rb.insertAdjacentHTML("beforeend", `<p style="margin-top:9px">${t(s.flagNote)}</p>`);
-  rb.insertAdjacentHTML("beforeend", `<div class="srcnote">${t("Fixed sample note. Confirm the read-back before it is kept.")}</div>`);
-  $("#log").scrollTop = $("#log").scrollHeight;
-  busy = false;
-  rail(`<div class="opts">
-    <button type="button" class="opt sig full" data-n="0">${esc(t(s.keep || "Keep it"))}</button>
-    <button type="button" class="opt full" data-n="1">${esc(t("Say it again"))}</button></div>`);
-  $("#rail").querySelectorAll(".opt").forEach(el => el.onclick = () => {
-    if (busy) return;
-    if (+el.dataset.n === 1) step();
-    else next();
+  $("#log").innerHTML = html;
+  $("#rail").innerHTML = "";
+  const beforeInput = $("#c-before");
+  if (beforeInput) beforeInput.addEventListener("change", () => {
+    const meta = takeFile(beforeInput);
+    if (!meta) return;
+    p.contract.before = meta;
+    save();
+    paint();
+  });
+  DATE_KEYS.forEach(([k]) => {
+    const el = document.getElementById("c-" + k);
+    if (!el) return;
+    const keepDate = () => {
+      p.contract.dates[k] = isoOk(el.value) ? el.value : "";
+      save();
+      const host = $("#ext-clock");
+      if (host) host.innerHTML = clockBlock(p);
+      const sum = $("#date-sum");
+      if (sum) sum.innerHTML = dateSummary(p);
+    };
+    el.addEventListener("change", keepDate);
+    el.addEventListener("input", keepDate);
+  });
+  const signedInput = $("#c-signed");
+  if (signedInput) signedInput.addEventListener("change", () => {
+    const meta = takeFile(signedInput);
+    if (!meta) return;
+    p.contract.signed = meta;
+    save();
+    paint();
+  });
+  const progInput = $("#c-prog");
+  if (progInput) progInput.addEventListener("change", () => {
+    const meta = takeFile(progInput);
+    if (!meta) return;
+    p.contract.signedProgramme = meta;
+    save();
+    paint();
   });
 }
 
-function bind(fn){
-  $("#rail").querySelectorAll(".opt").forEach(el => {
+function renderRfi(p){
+  setChat("RFI and appointment schedule", "Schedule");
+  $("#steps").innerHTML = "";
+  const rows = p.rfis.map((r) => {
+    const late = r.date ? "" : `<p class="warnline">${esc(t("No date. This is where an extension of time would start."))}</p>`;
+    const who = r.person ? `<div class="fileline">${esc(r.person)}</div>` : "";
+    const when = r.date ? `<div class="fileline">${esc(r.date)}</div>` : "";
+    const mark = r.notified ? `<span class="pill ok">${esc(t("Notified"))}</span>` : `<button type="button" class="opt" data-notify="${esc(r.id)}">${esc(t("Mark notified"))}</button>`;
+    return `<div class="minirow"><div style="flex:1"><b>${esc(r.item)}</b>${when}${who}${late}</div>${mark}</div>`;
+  }).join("");
+  $("#log").innerHTML =
+    field("Item", textInput("rfi-item", "")) +
+    field("Date", `<input id="rfi-date" type="date" aria-label="${esc(t("Date"))}">`) +
+    field("Responsible person", textInput("rfi-person", "")) +
+    `<div class="card" style="margin-top:8px">${rows || `<div class="empty-note">${esc(t("No rows yet."))}</div>`}</div>`;
+  $("#rail").innerHTML = `<div class="opts"><button type="button" class="opt sig full" id="rfi-add">${esc(t("Add the row"))}</button></div>`;
+  $("#rfi-add").onclick = () => {
+    const item = $("#rfi-item").value.trim();
+    if (!item){ toast("The row needs an item."); return; }
+    p.rfis.push({ id: nid(), item: item, date: $("#rfi-date").value || "", person: $("#rfi-person").value.trim(), notified: false });
+    save();
+    paint();
+  };
+  $("#log").querySelectorAll("[data-notify]").forEach((el) => {
     el.onclick = () => {
-      if (busy) return;
-      if (el.dataset.act === "change"){ changeTenderResult(); return; }
-      fn(+el.dataset.n || 0);
+      const row = p.rfis.find((r) => r.id === el.getAttribute("data-notify"));
+      if (!row) return;
+      row.notified = true;
+      save();
+      paint();
     };
   });
 }
-function next(){ i++; step(); }
+
+function renderOrders(p){
+  setChat("Appointments and bulk orders", "Orders");
+  $("#steps").innerHTML = "";
+  const rows = p.orders.map((r) => {
+    const kind = r.kind === "bulk" ? "Bulk order" : "Appointment";
+    const file = r.file
+      ? `<div class="fileline">${esc(fileText(r.file))}</div><p>${esc(t("That file is this subcontractor's rules."))}</p>`
+      : `<label class="field"><span class="k">${esc(t("Upload the file"))}</span><input type="file" data-order="${esc(r.id)}" aria-label="${esc(t("Upload the file"))}"></label>`;
+    const box = r.file ? "on" : "";
+    return `<div class="minirow"><span class="box" style="margin-top:2px"><span class="chk ${box}" style="pointer-events:none"><span class="box"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"/></svg></span></span></span><div style="flex:1"><b>${esc(r.name)}</b><div class="fileline">${esc(t(kind))}</div>${file}</div></div>`;
+  }).join("");
+  $("#log").innerHTML =
+    whyHtml("Appointments and bulk orders are both to be closed within 7 days of award.", "SiteOS Rev 4 section 2.3") +
+    field("Name", textInput("ord-name", "")) +
+    field("Appointment", `<select id="ord-kind" aria-label="${esc(t("Appointment"))}"><option value="appointment">${esc(t("Appointment"))}</option><option value="bulk">${esc(t("Bulk order"))}</option></select>`) +
+    `<div class="card">${rows || `<div class="empty-note">${esc(t("No rows yet. Add the appointment or the bulk order."))}</div>`}</div>`;
+  $("#rail").innerHTML = `<div class="opts"><button type="button" class="opt sig full" id="ord-add">${esc(t("Add"))}</button></div>`;
+  $("#ord-add").onclick = () => {
+    const name = $("#ord-name").value.trim();
+    if (!name){ toast("The row needs a name."); return; }
+    p.orders.push({ id: nid(), name: name, kind: $("#ord-kind").value === "bulk" ? "bulk" : "appointment", file: null });
+    save();
+    paint();
+  };
+  $("#log").querySelectorAll("[data-order]").forEach((el) => {
+    el.addEventListener("change", () => {
+      const meta = takeFile(el);
+      if (!meta) return;
+      const row = p.orders.find((r) => r.id === el.getAttribute("data-order"));
+      if (!row) return;
+      row.file = meta;
+      save();
+      paint();
+    });
+  });
+}
+
+function diaryReadHtml(d){
+  const rows = DIARY_KEYS.map(([k, label]) => [label, d.fields[k] || "—", d.rfiLine === k ? "bad" : "", "raw"]);
+  let extra = "";
+  if (d.rfiLine){
+    const hit = DIARY_KEYS.find(([k]) => k === d.rfiLine);
+    extra = `<p style="margin-top:9px">${esc(t("Outstanding RFI"))}: ${esc(t(hit ? hit[1] : d.rfiLine))}</p>`;
+  }
+  return `<p>${esc(t("Here is the diary, read back."))}</p>${calcHtml(rows)}${extra}<p style="margin-top:9px">${esc(t("Read that back before it is kept."))}</p>`;
+}
+
+function renderProgress(p){
+  setChat("Progress and extension of time", "Extension");
+  $("#steps").innerHTML = "";
+  const d = p.diaryDraft;
+  let diary;
+  if (d.phase === "read") diary = diaryReadHtml(d);
+  else {
+    const opts = `<option value="">${esc(t("None"))}</option>` + DIARY_KEYS.map(([k, label]) => `<option value="${esc(k)}"${d.rfiLine === k ? " selected" : ""}>${esc(t(label))}</option>`).join("");
+    diary = DIARY_KEYS.map(([k, label]) => field(label, `<textarea id="d-${k}" aria-label="${esc(t(label))}">${esc(d.fields[k] || "")}</textarea>`)).join("") +
+      field("Flag one line as an outstanding RFI", `<select id="d-rfi" aria-label="${esc(t("Flag one line as an outstanding RFI"))}">${opts}</select>`);
+  }
+  const kept = p.diary.map((row) => `<div class="minirow"><div><b>${esc(t("Diary"))}</b><div class="fileline">${esc(row.fields.work || row.fields.move || t("Kept"))}</div></div><span class="pill ok">${esc(t("Kept"))}</span></div>`).join("");
+  const note = p.noteDraft.phase === "read"
+    ? `<p>${esc(t("Here is the note, read back."))}</p><div class="heard">${esc(p.noteDraft.text)}</div><p style="margin-top:9px">${esc(t("Read that back before it is kept."))}</p><div class="opts"><button type="button" class="opt sig full" id="note-keep">${esc(t("Keep it"))}</button><button type="button" class="opt full" id="note-change">${esc(t("Change it"))}</button></div>`
+    : field("Progress note", `<textarea id="note-text" aria-label="${esc(t("Progress note"))}">${esc(p.noteDraft.text || "")}</textarea>`) + `<div class="opts"><button type="button" class="opt full" id="note-read">${esc(t("Read it back"))}</button></div>`;
+  const notes = p.notes.map((row) => `<div class="minirow"><div><b>${esc(t("Progress note"))}</b><div class="fileline">${esc(row.text)}</div></div><span class="pill ok">${esc(t("Kept"))}</span></div>`).join("");
+  $("#log").innerHTML = `<div id="ext-clock">${clockBlock(p)}</div>` +
+    `<div class="sec"><span class="lab">${esc(t("Diary"))}</span></div>${diary}` +
+    (kept ? `<div class="card">${kept}</div>` : "") +
+    `<div class="block">${note}</div>` +
+    (notes ? `<div class="card">${notes}</div>` : "") +
+    `<div class="block">${field("Approved practical completion", `<input id="ext" type="date" aria-label="${esc(t("Approved practical completion"))}" value="${esc(p.extensionDate || "")}">`)}</div>` +
+    `<p>${esc(t("The new baseline must be submitted."))}</p>`;
+  if (d.phase === "read"){
+    $("#rail").innerHTML = `<div class="opts"><button type="button" class="opt sig full" id="diary-keep">${esc(t("Keep it"))}</button><button type="button" class="opt full" id="diary-change">${esc(t("Change it"))}</button></div>`;
+    $("#diary-keep").onclick = keepDiary;
+    $("#diary-change").onclick = () => { p.diaryDraft.phase = "edit"; save(); paint(); };
+  } else {
+    const say = speechOk() ? `<button type="button" class="opt full" id="diary-say">${esc(t("Say it"))}</button>` : "";
+    $("#rail").innerHTML = `<div class="opts"><button type="button" class="opt sig full" id="diary-read">${esc(t("Read it back"))}</button>${say}</div>`;
+    $("#diary-read").onclick = () => {
+      DIARY_KEYS.forEach(([k]) => {
+        const el = document.getElementById("d-" + k);
+        if (el) p.diaryDraft.fields[k] = el.value;
+      });
+      const sel = $("#d-rfi");
+      p.diaryDraft.rfiLine = sel ? sel.value : "";
+      const any = DIARY_KEYS.some(([k]) => (p.diaryDraft.fields[k] || "").trim());
+      if (!any){ toast("Type the day first."); return; }
+      p.diaryDraft.phase = "read";
+      save();
+      paint();
+    };
+    const sayBtn = $("#diary-say");
+    if (sayBtn) sayBtn.onclick = () => {
+      const active = document.activeElement;
+      const target = active && active.id && active.id.indexOf("d-") === 0 ? active : document.getElementById("d-work");
+      if (target) listenInto(target);
+    };
+  }
+  const noteKeep = $("#note-keep");
+  const noteChange = $("#note-change");
+  const noteRead = $("#note-read");
+  if (noteRead) noteRead.onclick = () => {
+    p.noteDraft.text = $("#note-text").value;
+    if (!p.noteDraft.text.trim()){ toast("Type the note first."); return; }
+    p.noteDraft.phase = "read";
+    save();
+    paint();
+  };
+  if (noteChange) noteChange.onclick = () => { p.noteDraft.phase = "edit"; save(); paint(); };
+  if (noteKeep) noteKeep.onclick = () => {
+    const text = (p.noteDraft.text || "").trim();
+    if (!text) return;
+    p.notes.push({ id: nid(), text: text });
+    p.noteDraft = { text: "", phase: "edit" };
+    save();
+    toast("Note kept");
+    paint();
+  };
+  const ext = $("#ext");
+  if (ext){
+    const keepExt = () => {
+      if (!isoOk(ext.value)){
+        if (ext.value) toast("The date has to be the one on the approval.");
+        return;
+      }
+      const prev = p.extensionDate;
+      p.extensionDate = ext.value;
+      save();
+      const host = $("#ext-clock");
+      if (host) host.innerHTML = clockBlock(p);
+      if (prev !== ext.value) toast("Extension kept");
+    };
+    ext.addEventListener("change", keepExt);
+    ext.addEventListener("input", keepExt);
+  }
+}
+
+function keepDiary(){
+  const p = project();
+  if (!p) return;
+  const any = DIARY_KEYS.some(([k]) => (p.diaryDraft.fields[k] || "").trim());
+  if (!any){ toast("Type the day first."); return; }
+  p.diary.push({ id: nid(), fields: Object.assign({}, p.diaryDraft.fields), rfiLine: p.diaryDraft.rfiLine || "" });
+  p.diaryDraft = emptyDiary();
+  save();
+  toast("Diary kept");
+  paint();
+}
+
+function listenInto(input){
+  const Ctor = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!Ctor) return;
+  const rec = new Ctor();
+  rec.lang = LANG === "af" ? "af-ZA" : "en-ZA";
+  const say = $("#diary-say");
+  if (say) say.textContent = t("Listening");
+  rec.onresult = (ev) => {
+    let text = "";
+    for (let i = ev.resultIndex; i < ev.results.length; i++) text += ev.results[i][0].transcript;
+    text = text.trim();
+    if (!text) return;
+    input.value = input.value ? input.value + " " + text : text;
+  };
+  rec.onend = () => { if (say) say.textContent = t("Say it"); };
+  try { rec.start(); } catch (e) { if (say) say.textContent = t("Say it"); }
+}
+
+function moneyField(key, label, value){
+  return field(label, `<input id="m-${key}" type="text" inputmode="decimal" autocomplete="off" aria-label="${esc(t(label))}" value="${esc(value || "")}">`);
+}
+
+function renderClaims(p){
+  setChat("Claims, valuations, recoveries, payments", "Claim");
+  $("#steps").innerHTML = "";
+  const c = p.claims;
+  const line = `<div class="opts">
+      <button type="button" class="opt pick full${c.lineMissing === true ? " on" : ""}" data-line="missing">${esc(t("Missing"))}</button>
+      <button type="button" class="opt pick full${c.lineMissing === false ? " on" : ""}" data-line="on">${esc(t("On the claim"))}</button>
+    </div>`;
+  $("#log").innerHTML =
+    `<p>${esc(t("Enter the figures from the documents you loaded. This page only subtracts or compares those figures."))}</p>` +
+    field("Cost-report line", line) +
+    moneyField("variation", "Variation", c.variation) +
+    moneyField("subClaim", "Subcontractor claim", c.subClaim) +
+    moneyField("valuation", "Valuation", c.valuation) +
+    moneyField("payment", "The amount we approved", c.payment) +
+    moneyField("recoveryBefore", "Recovery before", c.recoveryBefore) +
+    moneyField("recoveryAfter", "Recovery after", c.recoveryAfter) +
+    moneyField("discountBefore", "Settlement discount before", c.discountBefore) +
+    moneyField("discountAfter", "Settlement discount after", c.discountAfter) +
+    moneyField("retention", "Retention percent", c.retention) +
+    `<div id="claim-out">${claimHtml(c)}</div>`;
+  $("#rail").innerHTML = "";
+  const refresh = () => {
+    ["variation", "subClaim", "valuation", "payment", "recoveryBefore", "recoveryAfter", "discountBefore", "discountAfter", "retention"].forEach((k) => {
+      const el = document.getElementById("m-" + k);
+      if (el) p.claims[k] = el.value;
+    });
+    save();
+    const out = $("#claim-out");
+    if (out) out.innerHTML = claimHtml(p.claims);
+  };
+  $("#log").querySelectorAll("input[id^='m-']").forEach((el) => el.addEventListener("input", refresh));
+  $("#log").querySelectorAll("[data-line]").forEach((el) => {
+    el.onclick = () => {
+      refresh();
+      p.claims.lineMissing = el.getAttribute("data-line") === "missing";
+      save();
+      paint();
+    };
+  });
+}
+
+function readQuality(p){
+  const map = { area: "q-area", description: "q-desc", person: "q-person", completion: "q-comp", finished: "q-fin", status: "q-status" };
+  Object.keys(map).forEach((k) => {
+    const el = document.getElementById(map[k]);
+    if (el) p.quality[k] = el.value;
+  });
+}
+
+function renderQuality(p){
+  setChat("Quality and safety", "Quality");
+  $("#steps").innerHTML = "";
+  const q = p.quality;
+  $("#log").innerHTML =
+    field("Photo", `<input id="q-photo" type="file" accept="image/*,.pdf,.png,.jpg,.jpeg,.webp" aria-label="${esc(t("Photo"))}">${fileLine(q.photo)}`) +
+    field("Area", textInput("q-area", q.area)) +
+    field("Description", textInput("q-desc", q.description)) +
+    field("Responsible person", textInput("q-person", q.person)) +
+    field("Completion date", `<input id="q-comp" type="date" aria-label="${esc(t("Completion date"))}" value="${esc(q.completion || "")}">`) +
+    field("Date finished", `<input id="q-fin" type="date" aria-label="${esc(t("Date finished"))}" value="${esc(q.finished || "")}">`) +
+    field("Status", textInput("q-status", q.status)) +
+    `<div id="late-out">${lateHtml(q)}</div>`;
+  $("#rail").innerHTML = "";
+  const photo = $("#q-photo");
+  if (photo) photo.addEventListener("change", () => {
+    const meta = takeFile(photo);
+    if (!meta) return;
+    readQuality(p);
+    p.quality.photo = meta;
+    save();
+    paint();
+  });
+  ["q-area", "q-desc", "q-person", "q-comp", "q-fin", "q-status"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("input", () => {
+      readQuality(p);
+      save();
+      const out = $("#late-out");
+      if (out) out.innerHTML = lateHtml(p.quality);
+    });
+    el.addEventListener("change", () => {
+      readQuality(p);
+      save();
+      const out = $("#late-out");
+      if (out) out.innerHTML = lateHtml(p.quality);
+    });
+  });
+}
+
+function renderDefault(p){
+  setChat("Subcontractor default", "Default");
+  $("#steps").innerHTML = "";
+  const options = p.diary.map((row) => {
+    const label = (row.fields.work || row.fields.labour || t("Diary")).slice(0, 80);
+    return `<option value="d:${esc(row.id)}"${p.def.source === "d:" + row.id ? " selected" : ""}>${esc(t("Diary"))}: ${esc(label)}</option>`;
+  }).concat(p.notes.map((row) => {
+    return `<option value="n:${esc(row.id)}"${p.def.source === "n:" + row.id ? " selected" : ""}>${esc(t("Progress note"))}: ${esc(row.text.slice(0, 80))}</option>`;
+  })).join("");
+  if (!p.diary.length && !p.notes.length){
+    $("#log").innerHTML = `<p>${esc(t("Keep a diary entry or a progress note first, and name the subcontractor in it."))}</p>`;
+    $("#rail").innerHTML = "";
+    return;
+  }
+  const text = sourceText(p, p.def.source);
+  const named = namedIn(text, p.def.sub || "");
+  let gate = "";
+  if (!p.def.source) gate = "";
+  else if (!(p.def.sub || "").trim()) gate = `<p class="foot-note">${esc(t("Name the subcontractor from the note."))}</p>`;
+  else if (!named) gate = `<p class="warnline">${esc(t("That name is not in the note you kept."))}</p>`;
+  else {
+    gate = `<div class="checks">` + DEFAULT_STEPS.map((step, i) => {
+      const on = p.def.ticks[i] ? " on" : "";
+      return `<button type="button" class="chk${on}" data-tick="${i}"><span class="box"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="t">${esc(t(step))}</span></button>`;
+    }).join("") + `</div>`;
+  }
+  $("#log").innerHTML =
+    field("Note", `<select id="def-src" aria-label="${esc(t("Note"))}"><option value="">${esc(t("None"))}</option>${options}</select>`) +
+    field("Subcontractor", textInput("def-sub", p.def.sub || "")) +
+    `<div id="def-out">${gate}</div>` +
+    `<p class="foot-note">${esc(t("Recoveries are deducted under claims."))}</p>`;
+  $("#rail").innerHTML = "";
+  $("#def-src").addEventListener("change", () => {
+    p.def.source = $("#def-src").value;
+    p.def.sub = $("#def-sub").value;
+    save();
+    paint();
+  });
+  $("#def-sub").addEventListener("input", () => {
+    p.def.sub = $("#def-sub").value;
+    save();
+    const out = $("#def-out");
+    if (!out) return;
+    const body = sourceText(p, p.def.source);
+    const ok = namedIn(body, p.def.sub || "");
+    if (!p.def.source) out.innerHTML = "";
+    else if (!(p.def.sub || "").trim()) out.innerHTML = `<p class="foot-note">${esc(t("Name the subcontractor from the note."))}</p>`;
+    else if (!ok) out.innerHTML = `<p class="warnline">${esc(t("That name is not in the note you kept."))}</p>`;
+    else out.innerHTML = `<div class="checks">` + DEFAULT_STEPS.map((step, i) => {
+      const on = p.def.ticks[i] ? " on" : "";
+      return `<button type="button" class="chk${on}" data-tick="${i}"><span class="box"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"/></svg></span><span class="t">${esc(t(step))}</span></button>`;
+    }).join("") + `</div>`;
+    bindTicks(p);
+  });
+  bindTicks(p);
+}
+
+function bindTicks(p){
+  document.querySelectorAll("#def-out [data-tick]").forEach((el) => {
+    el.onclick = () => {
+      const i = Number(el.getAttribute("data-tick"));
+      p.def.ticks[i] = !p.def.ticks[i];
+      el.classList.toggle("on", p.def.ticks[i]);
+      save();
+      if (p.def.ticks.every(Boolean)) toast("Default recorded");
+    };
+  });
+}
+
+function startAdd(){
+  DB.draft = { tenderId: null, name: "", status: "waiting", files: {} };
+  DB.returnTo = "list";
+  go("add");
+}
+function startEdit(id, ret){
+  const tender = tenderById(id);
+  if (!tender) return;
+  DB.draft = { tenderId: tender.id, name: tender.name, status: tender.status, files: Object.assign({}, tender.files || {}) };
+  DB.returnTo = ret || "list";
+  go("tender");
+}
+function openProject(id){
+  if (!DB.projects.some((p) => p.id === id)) return;
+  DB.openId = id;
+  DB.focus = "project";
+  DB.screen = "dash";
+  DB.draft = null;
+  save();
+  paint();
+}
+function workspace(){
+  DB.focus = "list";
+  DB.screen = "list";
+  DB.draft = null;
+  save();
+  paint();
+}
+function go(screen){
+  DB.screen = screen;
+  if (screen === "list" || screen === "add" || screen === "tender") DB.focus = "list";
+  else DB.focus = "project";
+  save();
+  paint();
+}
+function back(){
+  if (DB.screen === "add" || DB.screen === "tender"){
+    if (DB.returnTo === "dash" && project()){
+      DB.screen = "dash";
+      DB.focus = "project";
+    } else {
+      DB.screen = "list";
+      DB.focus = "list";
+    }
+    DB.draft = null;
+  } else {
+    DB.screen = "dash";
+    DB.focus = "project";
+  }
+  save();
+  paint();
+}
 
 let toastT;
 function toast(txt){
@@ -2278,20 +2076,14 @@ function toast(txt){
   toastT = setTimeout(() => { el.hidden = true; }, 3200);
 }
 
-document.addEventListener("click", e => {
-  const hit = e.target.closest("[data-flow]");
-  if (hit){
-    const f = hit.dataset.flow;
-    if (f === "locked") toast("The step before this one is not done yet.");
-    else openFlow(f, hit.dataset.mode || "");
-  }
+document.addEventListener("click", (e) => {
   const tab = e.target.closest("[data-tab]");
-  if (tab){
-    document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b === tab));
-    document.querySelectorAll(".pane").forEach(p => p.classList.toggle("on", p.id === "pane-" + tab.dataset.tab));
-    $(".scroll").scrollTop = 0;
-  }
+  if (!tab || $("#chat").hidden === false) return;
+  document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("on", b === tab));
+  document.querySelectorAll(".pane").forEach((pane) => pane.classList.toggle("on", pane.id === "pane-" + tab.getAttribute("data-tab")));
+  $(".scroll").scrollTop = 0;
 });
+
 function flip(){
   const cur = document.documentElement.getAttribute("data-theme");
   const dark = cur ? cur === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
@@ -2299,30 +2091,16 @@ function flip(){
 }
 $("#theme").onclick = flip;
 $("#theme2").onclick = flip;
-
-$("#chat-back").onclick = () => { if (F) closeFlow(); };
-
+$("#chat-back").onclick = () => back();
 $("#lang").onclick = () => {
   LANG = LANG === "af" ? "en" : "af";
   writeLang(LANG);
-  if (F) closeFlow();
-  else renderAll();
+  paint();
   toast(LANG === "af" ? "Language set to Afrikaans" : "Language set to English");
 };
-$("#reset").onclick = () => {
-  gen++;
-  busy = false;
-  reviewing = false;
-  $("#chat").hidden = true;
-  F = null;
-  flowId = null;
-  S = fresh();
-  save();
-  renderAll();
-  toast("Demo reset");
-};
 
-renderAll();
+paint();
+
 </script>
 </body>
 </html>

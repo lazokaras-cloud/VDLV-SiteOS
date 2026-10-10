@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Company overview</title>
-<meta name="description" content="The company overview. Four fictional jobs on one sheet, grouped for a contracts director.">
+<meta name="description" content="The company overview. Load a cost dump. Money, profit and sign-off sit in their own column groups.">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SiteOS">
 <meta property="og:title" content="Company overview">
-<meta property="og:description" content="The company overview. Four fictional jobs on one sheet, grouped for a contracts director.">
+<meta property="og:description" content="The company overview. Load a cost dump. Money, profit and sign-off sit in their own column groups.">
 <meta property="og:url" content="/office">
 <meta name="twitter:card" content="summary">
 <meta name="robots" content="noindex">
@@ -192,6 +192,10 @@ th.sorted::after{content:" \2191"}
 th.sorted.desc::after{content:" \2193"}
 
 .foot-note{margin-top:18px; font-size:12px; color:var(--ink-3); line-height:1.55; max-width:88ch}
+.loadbar{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:0 0 14px}
+.loadbar input{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+.loadbar button{cursor:pointer}
+.empty-note{padding:28px 16px; color:var(--ink-2); font-size:15px; line-height:1.45}
 
 #toast{
   position:fixed; left:50%; bottom:26px; transform:translateX(-50%); z-index:200;
@@ -213,7 +217,7 @@ th.sorted.desc::after{content:" \2193"}
     <a class="w" href="/"><span>Site<b>OS</b></span><i></i></a>
     <div>
       <h1 id="title">Company overview</h1>
-      <p class="sub" id="sub">One sheet for the contracts director.</p>
+      <p class="sub" id="sub">Load a cost dump for the contracts director.</p>
     </div>
   </div>
   <span class="sp"></span>
@@ -226,6 +230,11 @@ th.sorted.desc::after{content:" \2193"}
 </header>
 
 <main class="body">
+  <div class="loadbar">
+    <label class="jump" id="load-label" for="csv">Load a CSV</label>
+    <input id="csv" type="file" accept=".csv,text/csv,text/plain">
+    <button type="button" class="jump" id="template">Blank CSV</button>
+  </div>
   <div class="card" id="sheet"></div>
   <p class="foot-note" id="note"></p>
 </main>
@@ -234,10 +243,11 @@ th.sorted.desc::after{content:" \2193"}
 <script>
 "use strict";
 
-/* Company overview, read as a hand-loaded BuildSmart dump.
-   Money is integer cents. Profit percents are fixtures on the row.
+/* Company overview. The sheet starts empty.
+   Money in a loaded file is rand amounts, stored here as integer cents.
    The sign-off target is the only date this page derives, and it is
-   ordinary calendar arithmetic, not a contract clause. */
+   ordinary calendar arithmetic, not a contract clause.
+   Percentages are not totalled. */
 
 const AS_AT = "2026-08-24";
 
@@ -255,79 +265,8 @@ const MONEY = [
   ["contractCost", "Contract cost"]
 ];
 
-/* Four fictional jobs. priceIncl is a dumped figure of its own:
-   it is not priceExcl times a VAT rate. Profit percents are stored
-   fixtures. They are not (price - cost) / price. */
-const ROWS = [
-  {
-    no: "2401",
-    name: "Oakridge School Hall",
-    director: "Thabo Mokoena",
-    priceExcl: 1800000000,
-    priceIncl: 2040000000,
-    accruals: 20000000,
-    thisPeriod: 75000000,
-    adjustments: 0,
-    cumulative: 1100000000,
-    negative: 0,
-    contractCost: 1500000000,
-    actualProfitPct: "11.0",
-    tenderProfitPct: "12.5",
-    practicalCompletion: "2026-04-01",
-    closureMeeting: "2026-07-20"
-  },
-  {
-    no: "2408",
-    name: "Mill Road Warehouse",
-    director: "Elmarie Botha",
-    priceExcl: 4200000000,
-    priceIncl: 4700000000,
-    accruals: 50000000,
-    thisPeriod: 180000000,
-    adjustments: 40000000,
-    cumulative: 2500000000,
-    negative: 0,
-    contractCost: 4000000000,
-    actualProfitPct: "8.5",
-    tenderProfitPct: "7.0",
-    practicalCompletion: "2026-07-10",
-    closureMeeting: null
-  },
-  {
-    no: "2512",
-    name: "Riverview Clinic Upgrade",
-    director: "Chris Naidoo",
-    priceExcl: 950000000,
-    priceIncl: 1080000000,
-    accruals: 10000000,
-    thisPeriod: 30000000,
-    adjustments: 0,
-    cumulative: 600000000,
-    negative: -25000000,
-    contractCost: 700000000,
-    actualProfitPct: "14.0",
-    tenderProfitPct: "14.0",
-    practicalCompletion: "2026-05-26",
-    closureMeeting: "2026-08-18"
-  },
-  {
-    no: "2603",
-    name: "Station Road Office",
-    director: "Lindiwe Petersen",
-    priceExcl: 600000000,
-    priceIncl: 675000000,
-    accruals: 0,
-    thisPeriod: 15000000,
-    adjustments: 10000000,
-    cumulative: 80000000,
-    negative: 0,
-    contractCost: 550000000,
-    actualProfitPct: "6.0",
-    tenderProfitPct: "9.5",
-    practicalCompletion: "2026-06-02",
-    closureMeeting: null
-  }
-];
+/* Rows come from a CSV the person loads. Nothing is shipped as live data. */
+let ROWS = [];
 
 const THIN = "\u202F";
 const MON_EN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -339,9 +278,11 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({"&":"&amp;","<":"&lt;",
 function formatRand(cents){
   const n = Math.trunc(cents);
   const sign = n < 0 ? "-" : "";
-  const rands = Math.trunc(Math.abs(n) / 100);
+  const abs = Math.abs(n);
+  const rands = Math.trunc(abs / 100);
+  const frac = abs % 100;
   const body = String(rands).replace(/\B(?=(\d{3})+(?!\d))/g, THIN);
-  return sign + "R" + body;
+  return sign + "R" + body + (frac ? "." + String(frac).padStart(2, "0") : "");
 }
 
 function formatDate(iso){
@@ -395,7 +336,13 @@ function daysOfDelay(targetIso){
 }
 
 function sumCents(key){
-  return ROWS.reduce((a, row) => a + row[key], 0);
+  let any = false;
+  let n = 0;
+  for (const row of ROWS){
+    const v = row[key];
+    if (typeof v === "number"){ any = true; n += v; }
+  }
+  return any ? n : null;
 }
 
 let LANG = "en";
@@ -435,8 +382,15 @@ const AF = {
   "Days of delay": "Dae vertraging",
   "Total": "Totaal",
   "Yes": "Ja",
-  "This view is a BuildSmart dump loaded by hand. The sample rows are not a live link. The sign-off target is 90 calendar days after practical completion. Days of delay are whole days from that target to the as-at date.":
-    "Hierdie aansig is 'n BuildSmart dump wat met die hand gelaai is. Die voorbeeldrye is nie 'n live skakel nie. Die sign-off target is 90 kalenderdae na practical completion. Dae vertraging is volle dae van daardie target tot die as-at datum."
+  "Load a cost dump for the contracts director.": "Laai 'n cost dump vir die kontrakte direkteur.",
+  "Load a CSV": "Laai 'n CSV",
+  "Blank CSV": "Leë CSV",
+  "No dump loaded. Load a CSV, or take the blank one and fill it.": "Geen dump gelaai nie. Laai 'n CSV, of vat die leë een en vul dit.",
+  "Dump loaded": "Dump gelaai",
+  "That file has headers and no rows.": "Daai lêer het headers en geen rye nie.",
+  "That CSV could not be read.": "Daai CSV kon nie gelees word nie.",
+  "Load a BuildSmart dump. If the sign-off target cell is empty and a practical completion date is present, the target is 90 calendar days after that date. Days of delay are whole days from that target to the as-at date. Percentages are not totalled.":
+    "Laai 'n BuildSmart dump. As die sign-off target sel leeg is en daar is 'n practical completion datum, is die target 90 kalenderdae ná daai datum. Dae vertraging is volle dae van daai target tot die as-at datum. Persentasies word nie bymekaar getel nie."
 };
 
 function tr(s){
@@ -458,7 +412,7 @@ function translateDOM(root){
   }
 }
 
-const NOTE = "This view is a BuildSmart dump loaded by hand. The sample rows are not a live link. The sign-off target is 90 calendar days after practical completion. Days of delay are whole days from that target to the as-at date.";
+const NOTE = "Load a BuildSmart dump. If the sign-off target cell is empty and a practical completion date is present, the target is 90 calendar days after that date. Days of delay are whole days from that target to the as-at date. Percentages are not totalled.";
 
 function flag(on, kind){
   if (!on) return `<span class="muted">\u2014</span>`;
@@ -471,11 +425,39 @@ function delayPill(n){
 }
 
 function moneyCell(cents){
+  if (typeof cents !== "number") return `<td class="n" data-sort=""><span class="muted">\u2014</span></td>`;
   const neg = cents < 0 ? " neg" : "";
   return `<td class="n${neg}" data-sort="${cents}">${formatRand(cents)}</td>`;
 }
+function pctNum(s){
+  const t = String(s || "").trim().replace("%", "").replace(",", ".");
+  if (!/^-?\d+(\.\d+)?$/.test(t)) return null;
+  return Number(t);
+}
+function yesCell(raw){
+  const s = String(raw || "").trim().toLowerCase();
+  if (!s) return null;
+  if (s === "yes" || s === "ja" || s === "y" || s === "true" || s === "1") return true;
+  if (s === "no" || s === "nee" || s === "n" || s === "false" || s === "0") return false;
+  return null;
+}
+function pctText(s){
+  const raw = String(s || "").trim();
+  if (!raw) return `<span class="muted">\u2014</span>`;
+  if (raw.endsWith("%")) return esc(raw);
+  if (/^-?\d+([.,]\d+)?$/.test(raw)) return esc(raw) + "%";
+  return esc(raw);
+}
+function rowTarget(row){
+  if (row.signOff && /^\d{4}-\d{2}-\d{2}$/.test(row.signOff)) return row.signOff;
+  if (row.practicalCompletion && /^\d{4}-\d{2}-\d{2}$/.test(row.practicalCompletion)) return signOffTarget(row.practicalCompletion);
+  return "";
+}
 
 function sheet(){
+  if (!ROWS.length){
+    return `<div class="empty-note">${esc(tr("No dump loaded. Load a CSV, or take the blank one and fill it."))}</div>`;
+  }
   const band = `<tr class="bands">
       <th class="dump" colspan="${3 + MONEY.length}">BuildSmart dump</th>
       <th class="profit" colspan="4">Project profitability</th>
@@ -497,34 +479,48 @@ function sheet(){
     </tr>`;
 
   const body = ROWS.map((row) => {
-    const target = signOffTarget(row.practicalCompletion);
-    const delay = daysOfDelay(target);
-    const actual = Number(row.actualProfitPct);
-    const tender = Number(row.tenderProfitPct);
-    const below = actual < tender;
-    const above = actual > tender;
+    const target = rowTarget(row);
+    const delay = target ? daysOfDelay(target) : null;
+    const actual = pctNum(row.actualProfitPct);
+    const tenderPct = pctNum(row.tenderProfitPct);
+    let below = yesCell(row.below);
+    let above = yesCell(row.above);
+    if (below == null && above == null && actual != null && tenderPct != null){
+      below = actual < tenderPct;
+      above = actual > tenderPct;
+    }
     const money = MONEY.map(([key]) => moneyCell(row[key])).join("");
     const meeting = row.closureMeeting
       ? `<td data-sort="${esc(row.closureMeeting)}">${esc(formatDate(row.closureMeeting))}</td>`
       : `<td data-sort=""><span class="muted">\u2014</span></td>`;
+    const practical = row.practicalCompletion
+      ? `<td class="g grp-s" data-sort="${esc(row.practicalCompletion)}">${esc(formatDate(row.practicalCompletion))}</td>`
+      : `<td class="g grp-s" data-sort=""><span class="muted">\u2014</span></td>`;
+    const sign = target
+      ? `<td class="grp-s" data-sort="${esc(target)}">${esc(formatDate(target))}</td>`
+      : `<td class="grp-s" data-sort=""><span class="muted">\u2014</span></td>`;
+    const delayCell = delay == null
+      ? `<td class="n grp-s" data-sort=""><span class="muted">\u2014</span></td>`
+      : `<td class="n grp-s" data-sort="${delay}">${delayPill(delay)}</td>`;
     return `<tr>
       <td class="mono sticky" data-sort="${esc(row.no)}">${esc(row.no)}</td>
       <td class="name sticky2" data-sort="${esc(row.name)}">${esc(row.name)}</td>
       <td data-sort="${esc(row.director)}">${esc(row.director)}</td>
       ${money}
-      <td class="n g grp-p" data-sort="${esc(row.actualProfitPct)}">${esc(row.actualProfitPct)}%</td>
-      <td class="n grp-p" data-sort="${esc(row.tenderProfitPct)}">${esc(row.tenderProfitPct)}%</td>
-      <td class="mid grp-p" data-sort="${below ? 1 : 0}">${flag(below, "warn")}</td>
-      <td class="mid grp-p" data-sort="${above ? 1 : 0}">${flag(above, "ok")}</td>
-      <td class="g grp-s" data-sort="${esc(row.practicalCompletion)}">${esc(formatDate(row.practicalCompletion))}</td>
-      <td class="grp-s" data-sort="${esc(target)}">${esc(formatDate(target))}</td>
+      <td class="n g grp-p" data-sort="${esc(row.actualProfitPct || "")}">${pctText(row.actualProfitPct)}</td>
+      <td class="n grp-p" data-sort="${esc(row.tenderProfitPct || "")}">${pctText(row.tenderProfitPct)}</td>
+      <td class="mid grp-p" data-sort="${below ? 1 : 0}">${flag(!!below, "warn")}</td>
+      <td class="mid grp-p" data-sort="${above ? 1 : 0}">${flag(!!above, "ok")}</td>
+      ${practical}
+      ${sign}
       ${meeting.replace("<td ", "<td class=\"grp-s\" ")}
-      <td class="n grp-s" data-sort="${delay}">${delayPill(delay)}</td>
+      ${delayCell}
     </tr>`;
   }).join("");
 
   const totals = MONEY.map(([key]) => {
     const cents = sumCents(key);
+    if (cents == null) return `<td class="n"></td>`;
     const neg = cents < 0 ? " neg" : "";
     return `<td class="n${neg}">${formatRand(cents)}</td>`;
   }).join("");
@@ -582,16 +578,19 @@ function makeSortable(table){
 function render(){
   document.documentElement.lang = LANG === "af" ? "af" : "en";
   $("#title").textContent = tr("Company overview");
-  $("#sub").textContent = tr("One sheet for the contracts director.");
+  $("#sub").textContent = tr("Load a cost dump for the contracts director.");
   $("#theme").textContent = tr("Theme");
   $("#note").textContent = tr(NOTE);
   $("#asof").textContent = tr("As at") + " " + formatDate(AS_AT);
   $("#lang").textContent = LANG === "af" ? "AF" : "EN";
   $("#lang").classList.toggle("af", LANG === "af");
   $("#to-app").textContent = tr("Project app");
+  $("#load-label").textContent = tr("Load a CSV");
+  $("#template").textContent = tr("Blank CSV");
   $("#sheet").innerHTML = sheet();
   translateDOM($("#sheet"));
-  makeSortable($("#sheet").querySelector("table"));
+  const table = $("#sheet").querySelector("table");
+  if (table) makeSortable(table);
 }
 
 let toastT;
@@ -623,6 +622,169 @@ addEventListener("keydown", (e) => {
   const typing = /^(INPUT|TEXTAREA)$/.test(document.activeElement && document.activeElement.tagName);
   if (typing) return;
   if (e.key.toLowerCase() === "l") $("#lang").click();
+});
+
+const CSV_HEADERS = [
+  "Project number", "Project name", "Contracts director",
+  "Contract price excl VAT", "Contract price incl VAT", "Accruals", "This period",
+  "Adjustments/advance payments", "Cumulative", "Negative projects", "Contract cost",
+  "Actual profit percent", "Tender target profit percent", "Below target", "Above target",
+  "Practical completion date", "Sign-off target date", "Actual closure meeting date"
+];
+const STORE = "siteos.office.dump";
+
+function normHead(h){
+  return String(h || "").toLowerCase().replace(/[%().]/g, " ").replace(/[/_-]/g, " ").replace(/\s+/g, " ").trim();
+}
+function randsToCents(raw){
+  let s = String(raw == null ? "" : raw).trim().replace(/[\u00a0\u202f\s]/g, "").replace(/^R/i, "");
+  if (!s) return null;
+  let neg = false;
+  if (s[0] === "-"){ neg = true; s = s.slice(1); }
+  if (s[0] === "(" && s.endsWith(")")){ neg = true; s = s.slice(1, -1); }
+  const lastComma = s.lastIndexOf(",");
+  const lastDot = s.lastIndexOf(".");
+  let whole = s;
+  let dec = "";
+  if (lastComma >= 0 && lastDot >= 0){
+    const cut = Math.max(lastComma, lastDot);
+    whole = s.slice(0, cut).replace(/[.,]/g, "");
+    dec = s.slice(cut + 1);
+  } else if (lastComma >= 0 || lastDot >= 0){
+    const cut = lastComma >= 0 ? lastComma : lastDot;
+    const after = s.slice(cut + 1);
+    const only = s.indexOf(s[cut]) === cut;
+    if (only && after.length <= 2 && /^\d+$/.test(after)){
+      whole = s.slice(0, cut).replace(/[.,]/g, "");
+      dec = after;
+    } else whole = s.replace(/[.,]/g, "");
+  }
+  if (!/^\d+$/.test(whole) || (dec && !/^\d+$/.test(dec))) return null;
+  const cents = Number(whole) * 100 + Number((dec + "00").slice(0, 2));
+  if (!Number.isSafeInteger(cents)) return null;
+  return neg ? -cents : cents;
+}
+function parseCsv(text){
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let q = false;
+  const s = String(text || "").replace(/^\uFEFF/, "");
+  for (let i = 0; i < s.length; i++){
+    const c = s[i];
+    if (q){
+      if (c === '"'){
+        if (s[i + 1] === '"'){ cell += '"'; i++; }
+        else q = false;
+      } else cell += c;
+    } else if (c === '"') q = true;
+    else if (c === ","){ row.push(cell); cell = ""; }
+    else if (c === "\n"){ row.push(cell); rows.push(row); row = []; cell = ""; }
+    else if (c !== "\r") cell += c;
+  }
+  if (cell.length || row.length){ row.push(cell); rows.push(row); }
+  return rows.filter((r) => r.some((c) => String(c).trim()));
+}
+function rowsFrom(text){
+  const table = parseCsv(text);
+  if (!table.length) return null;
+  const headers = table[0].map((h) => ({ n: normHead(h), used: false }));
+  const take = (pred) => {
+    for (let i = 0; i < headers.length; i++){
+      if (headers[i].used) continue;
+      if (pred(headers[i].n)){ headers[i].used = true; return i; }
+    }
+    return -1;
+  };
+  const ix = {
+    no: take((h) => h.includes("project number") || h.startsWith("project no")),
+    name: take((h) => h.includes("project name") || h === "project"),
+    director: take((h) => h.includes("director")),
+    priceExcl: take((h) => h.includes("excl")),
+    priceIncl: take((h) => h.includes("incl")),
+    accruals: take((h) => h.includes("accrual")),
+    thisPeriod: take((h) => h.includes("this period")),
+    adjustments: take((h) => h.includes("adjustment")),
+    cumulative: take((h) => h === "cumulative" || h.startsWith("cumulative")),
+    negative: take((h) => h.includes("negative")),
+    contractCost: take((h) => h.includes("contract cost")),
+    actualProfitPct: take((h) => h.includes("actual profit")),
+    tenderProfitPct: take((h) => h.includes("tender target")),
+    below: take((h) => h.includes("below")),
+    above: take((h) => h.includes("above")),
+    practicalCompletion: take((h) => h.includes("practical")),
+    signOff: take((h) => h.includes("sign off") || h.includes("signoff")),
+    closureMeeting: take((h) => h.includes("closure"))
+  };
+  if (ix.no < 0 && ix.name < 0) return null;
+  const at = (cols, i) => (i < 0 || i >= cols.length) ? "" : String(cols[i] || "").trim();
+  const iso = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s) ? s : "";
+  const money = (s) => {
+    if (!s) return null;
+    return randsToCents(s);
+  };
+  const out = [];
+  for (let r = 1; r < table.length; r++){
+    const cols = table[r];
+    const no = at(cols, ix.no);
+    const name = at(cols, ix.name);
+    if (!no && !name) continue;
+    if (/^total$/i.test(no) || /^total$/i.test(name)) continue;
+    out.push({
+      no: no,
+      name: name,
+      director: at(cols, ix.director),
+      priceExcl: money(at(cols, ix.priceExcl)),
+      priceIncl: money(at(cols, ix.priceIncl)),
+      accruals: money(at(cols, ix.accruals)),
+      thisPeriod: money(at(cols, ix.thisPeriod)),
+      adjustments: money(at(cols, ix.adjustments)),
+      cumulative: money(at(cols, ix.cumulative)),
+      negative: money(at(cols, ix.negative)),
+      contractCost: money(at(cols, ix.contractCost)),
+      actualProfitPct: at(cols, ix.actualProfitPct),
+      tenderProfitPct: at(cols, ix.tenderProfitPct),
+      below: at(cols, ix.below),
+      above: at(cols, ix.above),
+      practicalCompletion: iso(at(cols, ix.practicalCompletion)),
+      signOff: iso(at(cols, ix.signOff)),
+      closureMeeting: iso(at(cols, ix.closureMeeting))
+    });
+  }
+  return out;
+}
+function saveRows(){
+  try { localStorage.setItem(STORE, JSON.stringify(ROWS)); } catch (e) {}
+}
+try {
+  const raw = localStorage.getItem(STORE);
+  if (raw){
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) ROWS = parsed;
+  }
+} catch (e) {}
+
+$("#template").onclick = () => {
+  const blob = new Blob([CSV_HEADERS.join(",") + "\n"], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "company-overview.csv";
+  a.click();
+};
+$("#csv").addEventListener("change", () => {
+  const f = $("#csv").files && $("#csv").files[0];
+  if (!f) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    const parsed = rowsFrom(String(reader.result || ""));
+    if (!parsed){ toast(tr("That CSV could not be read.")); return; }
+    ROWS = parsed;
+    saveRows();
+    render();
+    toast(tr(parsed.length ? "Dump loaded" : "That file has headers and no rows."));
+  };
+  reader.readAsText(f);
+  $("#csv").value = "";
 });
 
 render();
