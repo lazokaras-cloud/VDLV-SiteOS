@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Plumbline</title>
+<title>SiteOS</title>
 <meta name="description" content="The project app. Load a tender, keep the documents, and run the job.">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +18,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SiteOS">
-<meta property="og:title" content="Plumbline">
+<meta property="og:title" content="SiteOS">
 <meta property="og:description" content="The project app. Load a tender, keep the documents, and run the job.">
 <meta property="og:url" content="/plumbline">
 <meta name="twitter:card" content="summary">
@@ -122,8 +122,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .tb-head{padding:18px 20px 14px; border-bottom:2px solid var(--ink)}
 .tb-mark{display:flex; align-items:baseline; gap:10px}
 .tb-mark h1{
-  margin:0; font-size:25px; font-weight:700; letter-spacing:.07em; line-height:1;
-  text-transform:uppercase;
+  margin:0; font-size:25px; font-weight:700; letter-spacing:.02em; line-height:1.15;
 }
 .tb-mark .tick{
   width:9px; height:9px; background:transparent; border:2px solid var(--signal);
@@ -178,7 +177,10 @@ a.tb-mark{color:inherit; text-decoration:none}
 }
 .app{height:100%; display:flex; flex-direction:column; background:var(--ground); position:relative}
 
+#ws-confirm{padding:12px 20px; border-top:1px solid var(--rule); background:var(--surface)}
+#ws-confirm[hidden]{display:none}
 @media (max-width:1000px){
+  #ws-confirm{display:block}
   html,body{height:100%}
   .bench{
     grid-template-columns:1fr; grid-template-rows:auto 1fr;
@@ -532,6 +534,7 @@ button.opt.dash-go{display:flex; width:100%; margin-top:12px; border-radius:4px;
 .opt.primary:hover{background:var(--ink); opacity:.88}
 .opt.sig{background:var(--signal); color:var(--signal-ink); border-color:var(--signal); font-weight:700}
 .opt.full{flex:1 0 100%; text-align:center; border-radius:4px}
+label.opt{display:inline-flex; align-items:center; justify-content:center; cursor:pointer}
 .opt svg{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; vertical-align:-3px; margin-right:6px}
 
 .num-in{display:flex; gap:8px; align-items:stretch}
@@ -657,19 +660,21 @@ button.opt.dash-go{display:flex; width:100%; margin-top:12px; border-radius:4px;
   margin-top:22px; padding-top:12px; border-top:1px solid var(--rule);
   font-size:11.5px; color:var(--ink-3); line-height:1.5;
 }
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+.proposal{margin:0 0 10px; padding:8px 10px; border:1px solid var(--rule); border-radius:4px; background:var(--surface)}
 </style>
 
 <div class="bench">
 
   <aside class="titleblock">
     <div class="tb-head">
-      <a class="tb-mark" href="/"><h1>Plumbline</h1><i class="tick"></i></a>
+      <a class="tb-mark" href="/"><h1 id="brand">SiteOS</h1><i class="tick"></i></a>
       <p class="tb-sub" data-i18n="The simple site app. One question at a time, from the tender to the job.">The simple site app. One question at a time, from the tender to the job.</p>
     </div>
     <div class="tb-rows">
       <div><span class="lab" data-i18n="Job">Job</span><b id="tb-job">—</b></div>
       <div><span class="lab" data-i18n="Tenders">Tenders</span><b id="tb-count">0</b></div>
-      <div><span class="lab" data-i18n="As at">As at</span><b>2026-08-24</b></div>
+      <div><span class="lab" data-i18n="As at">As at</span><b id="tb-asat">—</b></div>
       <div><span class="lab" data-i18n="Scope">Scope</span><b data-i18n="Tender to the site">Tender to the site</b></div>
     </div>
     <div class="tb-note">
@@ -679,8 +684,12 @@ button.opt.dash-go{display:flex; width:100%; margin-top:12px; border-radius:4px;
     </div>
     <div class="tb-foot">
       <a href="/office" data-i18n="Company overview">Company overview</a>
+      <button type="button" id="ws-down" data-i18n="Download workspace">Download workspace</button>
+      <button type="button" id="ws-load" data-i18n="Load workspace">Load workspace</button>
       <button id="theme" data-i18n="Flip theme">Flip theme</button>
     </div>
+    <div id="ws-confirm" hidden></div>
+    <input id="ws-file" class="sr" type="file" accept="application/json,.json" aria-label="Load workspace">
   </aside>
 
   <div class="stage">
@@ -741,15 +750,16 @@ button.opt.dash-go{display:flex; width:100%; margin-top:12px; border-radius:4px;
 <script>
 "use strict";
 
-/* As at 2026-08-24 is the fixed reporting date. Nothing here reads the clock.
-   Money a person types is stored as integer cents.
+/* Day counts use the company reporting date stored with the workspace.
+   Nothing here reads the clock. Money a person types is stored as integer cents.
    SiteOS Rev 4 section 2.3: appointments and bulk orders are both to be
    closed within 7 days of award. The page does not add 7 to any date.
    SiteOS Rev 4 section 2.5: retention that is not 10% is flagged.
-   That 10% is the sheet's check. It is not a contract clause. */
+   That 10% is the sheet's check. It is not a contract clause.
+   A model may draft and extract. A date or an amount it proposes is kept
+   only after the person accepts it. */
 
-const AS_AT = "2026-08-24";
-const KEY = "plumbline.work";
+const KEY = "siteos.workspace";
 
 const TENDER_SLOTS = [
   ["contractBasis", "Contract basis"],
@@ -765,6 +775,16 @@ const TENDER_SLOTS = [
 const DATE_KEYS = [
   ["completionBefore", "Completion before signature"],
   ["completionAfter", "Completion after signature"],
+  ["insurances", "Insurances"],
+  ["guarantees", "Guarantees"],
+  ["execution", "Execution"],
+  ["payment", "Payment"],
+  ["suspension", "Suspension and termination"],
+  ["dispute", "Dispute resolution"]
+];
+
+const CHANGE_KEYS = [
+  ["completion", "Practical completion"],
   ["insurances", "Insurances"],
   ["guarantees", "Guarantees"],
   ["execution", "Execution"],
@@ -816,7 +836,7 @@ function emptyDates(){
 function emptyDiary(){
   const fields = {};
   DIARY_KEYS.forEach(([k]) => { fields[k] = ""; });
-  return { fields: fields, rfiLine: "", phase: "edit" };
+  return { fields: fields, rfiLine: "", phase: "edit", note: "", modelFields: null, fromModel: false, error: "" };
 }
 function emptyClaims(){
   return {
@@ -831,8 +851,14 @@ function emptyQuality(){
 function emptyDef(){
   return { source: "", sub: "", ticks: [false, false, false, false] };
 }
+function emptyChange(){
+  return { completion: "", insurances: "", guarantees: "", execution: "", payment: "", suspension: "", dispute: "" };
+}
 function emptyDb(){
-  return { v: 1, seq: 1, focus: "list", screen: "list", openId: null, returnTo: "list", draft: null, tenders: [], projects: [] };
+  return {
+    v: 1, company: { name: "", asAt: "" }, seq: 1, focus: "list", screen: "list",
+    openId: null, returnTo: "list", draft: null, tenders: [], projects: [], office: []
+  };
 }
 
 let LANG = "en";
@@ -1067,7 +1093,71 @@ const AF = {
   "Claim": "Claim",
   "Quality": "Gehalte",
   "Default": "Default",
-  "Open": "Oop"
+  "Open": "Oop",
+  "The reporting date is missing.": "Die reporting date is weg.",
+  "Company": "Maatskappy",
+  "Company name": "Maatskappy naam",
+  "Reporting date": "Soos-op datum",
+  "Day counts use this reporting date.": "Dag-tellings gebruik hierdie reporting date.",
+  "Keep the company": "Hou die maatskappy",
+  "The company needs a name.": "Die maatskappy het 'n naam nodig.",
+  "Set the reporting date.": "Sit die reporting date.",
+  "Company kept": "Maatskappy gehou",
+  "Download workspace": "Laai die werkspasie af",
+  "Load workspace": "Laai die werkspasie",
+  "This replaces the workspace on this computer.": "Dit vervang die werkspasie op hierdie rekenaar.",
+  "Replace the workspace": "Vervang die werkspasie",
+  "Cancel": "Kanselleer",
+  "Workspace loaded": "Werkspasie gelaai",
+  "That file is not a workspace.": "Daai lêer is nie 'n werkspasie nie.",
+  "Changes": "Veranderinge",
+  "Tender submission": "Tender indiening",
+  "From the tender submission": "Van die tender indiening af",
+  "From the signed contract": "Van die getekende kontrak af",
+  "Same on both": "Dieselfde op albei",
+  "Candy CSV headers: item, trade, kind (appointment or material), package.": "Candy CSV headers: item, trade, kind (appointment of material), package.",
+  "Load Candy CSV": "Laai Candy CSV",
+  "Blank Candy CSV": "Leë Candy CSV",
+  "Missing header": "Header weg",
+  "Candy rows loaded": "Candy rye gelaai",
+  "That CSV has headers and no rows.": "Daai CSV het headers en geen rye nie.",
+  "That CSV could not be read.": "Daai CSV kon nie gelees word nie.",
+  "kind must be appointment or material.": "kind moet appointment of material wees.",
+  "Trade": "Trade",
+  "Package": "Package",
+  "Material": "Material",
+  "Download the RFI document": "Laai die RFI dokument af",
+  "Download the appointment document": "Laai die appointment dokument af",
+  "There are no rows, so there is no file.": "Daar is geen rye nie, so daar is geen lêer nie.",
+  "Diary note": "Dagboek nota",
+  "Draft the fields": "Stel die velde op",
+  "Asking the model…": "Vra die model…",
+  "The model call failed.": "Die model-oproep het misluk.",
+  "AI_GATEWAY_API_KEY is not set.": "AI_GATEWAY_API_KEY is nie gestel nie.",
+  "The model response was not usable.": "Die model se antwoord kon nie gebruik word nie.",
+  "The model introduced an amount that was not entered.": "Die model het 'n bedrag bygesit wat nie ingesit is nie.",
+  "The model refused the call (401). Set AI_GATEWAY_API_KEY on the constr-ai project.": "Die model het die oproep geweier (401). Sit AI_GATEWAY_API_KEY op die constr-ai projek.",
+  "The model refused the call (403). Set AI_GATEWAY_API_KEY on the constr-ai project.": "Die model het die oproep geweier (403). Sit AI_GATEWAY_API_KEY op die constr-ai projek.",
+  "Proposed date": "Voorgestelde datum",
+  "Proposed amount": "Voorgestelde bedrag",
+  "Proposed percentage": "Voorgestelde persentasie",
+  "Accept": "Aanvaar",
+  "It is not kept until you accept it.": "Dit word nie gehou voor jy dit aanvaar nie.",
+  "Draft the risk note": "Stel die risk note op",
+  "Risk note": "Risk note",
+  "Document text": "Dokument teks",
+  "Paste the document text, or load a text file.": "Plak die dokument teks, of laai 'n teks lêer.",
+  "Keep the note": "Hou die nota",
+  "A date or amount that was not in the document was left out.": "'n Datum of bedrag wat nie in die dokument was nie, is uitgelaat.",
+  "Draft the request": "Stel die request op",
+  "Request": "Request",
+  "Save the draft": "Hou die draft",
+  "A date that is not on a row was left out.": "'n Datum wat nie op 'n ry is nie, is uitgelaat.",
+  "Draft advice": "Stel advies op",
+  "Advice": "Advies",
+  "The model does not set the dates. Enter them here.": "Die model stel nie die datums nie. Sit hulle hier in.",
+  "Quality note": "Gehalte nota",
+  "The model returned no text.": "Die model het geen teks teruggegee nie."
 };
 
 function t(s, ...args){
@@ -1149,6 +1239,157 @@ function fileLine(meta){
   if (!text) return `<div class="fileline empty">${esc(t("Choose a file"))}</div>`;
   return `<div class="fileline">${esc(text)}</div>`;
 }
+function downloadText(name, text){
+  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+}
+function rowsDoc(rows){
+  const lines = ["item\tdate\tresponsible person"];
+  rows.forEach((r) => lines.push([r.item || "", r.date || "", r.person || ""].join("\t")));
+  return lines.join("\n") + "\n";
+}
+function splitField(text){
+  const raw = String(text || "");
+  const re = /(\d{4}-\d{2}-\d{2})|(R\s?\d[\d\u202f ]*(?:[.,]\d{2})?)|(\d+(?:[.,]\d+)?\s*%)/gi;
+  const found = [];
+  let m;
+  while ((m = re.exec(raw))) found.push(m[0]);
+  const unique = [];
+  found.forEach((bit) => { if (unique.indexOf(bit) < 0) unique.push(bit); });
+  let clean = raw;
+  const proposals = unique.map((bit) => {
+    clean = clean.split(bit).join(" ");
+    const kind = /^\d{4}-\d{2}-\d{2}$/.test(bit) ? "date" : /%/.test(bit) ? "percent" : "amount";
+    return { raw: bit, kind: kind };
+  });
+  return { clean: clean.replace(/\s+/g, " ").trim(), proposals: proposals };
+}
+function proposalLabel(kind){
+  if (kind === "date") return "Proposed date";
+  if (kind === "percent") return "Proposed percentage";
+  return "Proposed amount";
+}
+function proposalHtml(fieldKey, proposals){
+  if (!proposals.length) return "";
+  return proposals.map((p, i) => {
+    return `<div class="proposal" data-prop="${esc(fieldKey)}:${i}"><span class="k">${esc(t(proposalLabel(p.kind)))}</span><input type="text" value="${esc(p.raw)}" aria-label="${esc(t(proposalLabel(p.kind)))}"><p class="foot-note">${esc(t("It is not kept until you accept it."))}</p><button type="button" class="opt" data-accept="${esc(fieldKey)}">${esc(t("Accept"))}</button></div>`;
+  }).join("");
+}
+function bindProposals(root){
+  root.querySelectorAll("[data-accept]").forEach((btn) => {
+    btn.onclick = () => {
+      const box = btn.closest(".proposal");
+      const input = box ? box.querySelector("input") : null;
+      const key = btn.getAttribute("data-accept");
+      const area = document.getElementById("keep-" + key);
+      const value = input ? input.value.trim() : "";
+      if (!area || !value) return;
+      area.value = (area.value ? area.value + " " : "") + value;
+      box.remove();
+    };
+  });
+}
+async function callModel(task, payload){
+  let res;
+  try {
+    res = await fetch("/api/draft", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ task: task, payload: Object.assign({ lang: LANG }, payload) })
+    });
+  } catch (e) {
+    throw new Error("The model call failed.");
+  }
+  let data = {};
+  try { data = await res.json(); } catch (e) { data = {}; }
+  if (!res.ok || (data && data.error)) throw new Error((data && data.error) || "The model call failed.");
+  return data;
+}
+function parseCsv(text){
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let q = false;
+  const s = String(text || "").replace(/^\uFEFF/, "");
+  for (let i = 0; i < s.length; i++){
+    const c = s[i];
+    if (q){
+      if (c === '"'){
+        if (s[i + 1] === '"'){ cell += '"'; i++; }
+        else q = false;
+      } else cell += c;
+    } else if (c === '"') q = true;
+    else if (c === ","){ row.push(cell); cell = ""; }
+    else if (c === "\n"){ row.push(cell); rows.push(row); row = []; cell = ""; }
+    else if (c !== "\r") cell += c;
+  }
+  if (cell.length || row.length){ row.push(cell); rows.push(row); }
+  return rows.filter((r) => r.some((c) => String(c).trim()));
+}
+function candyRows(text){
+  const table = parseCsv(text);
+  if (!table.length) return { error: "That CSV could not be read." };
+  const heads = table[0].map((h) => String(h || "").trim().toLowerCase());
+  const need = ["item", "trade", "kind", "package"];
+  const missing = need.filter((h) => heads.indexOf(h) < 0);
+  if (missing.length) return { missing: missing };
+  const ix = {};
+  need.forEach((h) => { ix[h] = heads.indexOf(h); });
+  const out = [];
+  const bad = [];
+  for (let r = 1; r < table.length; r++){
+    const cols = table[r];
+    const item = String(cols[ix.item] || "").trim();
+    const trade = String(cols[ix.trade] || "").trim();
+    const kind = String(cols[ix.kind] || "").trim().toLowerCase();
+    const pack = String(cols[ix.package] || "").trim();
+    if (!item && !trade && !kind && !pack) continue;
+    if (kind !== "appointment" && kind !== "material"){ bad.push(r); continue; }
+    out.push({ item: item, trade: trade, kind: kind === "material" ? "bulk" : "appointment", package: pack, kindWord: kind });
+  }
+  return { rows: out, bad: bad };
+}
+function readTextFile(file, done){
+  if (!file){ done(""); return; }
+  const ok = /\.(txt|csv|md|html|htm)$/i.test(file.name) || String(file.type || "").indexOf("text/") === 0;
+  if (!ok){ done(""); return; }
+  const reader = new FileReader();
+  reader.onload = () => done(String(reader.result || "").slice(0, 12000));
+  reader.onerror = () => done("");
+  reader.readAsText(file);
+}
+function changeList(p){
+  const rows = CHANGE_KEYS.map(([k, label]) => {
+    const a = (p.contract.submission && p.contract.submission[k]) || "";
+    const b = (p.contract.signedDates && p.contract.signedDates[k]) || "";
+    const same = a && b && a === b ? `<div class="fileline">${esc(t("Same on both"))}</div>` : "";
+    return `<div class="minirow"><div style="flex:1"><b>${esc(t(label))}</b><div class="fileline">${esc(t("Tender submission"))}: ${esc(a || t("Not loaded"))}</div><div class="fileline">${esc(t("Signed contract"))}: ${esc(b || t("Not loaded"))}</div>${same}</div></div>`;
+  }).join("");
+  return `<div class="sec"><span class="lab">${esc(t("Changes"))}</span></div><div class="card" id="change-list">${rows}</div><p class="foot-note">${esc(t("These dates are the ones you recorded from the documents."))}</p>`;
+}
+function syncLegacy(p){
+  if (!p.contract.dates) p.contract.dates = emptyDates();
+  p.contract.dates.completionBefore = p.contract.submission.completion || "";
+  p.contract.dates.completionAfter = p.contract.signedDates.completion || "";
+  ["insurances", "guarantees", "execution", "payment", "suspension", "dispute"].forEach((k) => {
+    p.contract.dates[k] = p.contract.submission[k] || "";
+  });
+}
+function storedDates(p){
+  const dates = [];
+  const push = (d) => { if (isoOk(d) && dates.indexOf(d) < 0) dates.push(d); };
+  CHANGE_KEYS.forEach(([k]) => {
+    push(p.contract.submission && p.contract.submission[k]);
+    push(p.contract.signedDates && p.contract.signedDates[k]);
+  });
+  push(p.extensionDate);
+  p.rfis.forEach((r) => push(r.date));
+  p.orders.forEach((r) => push(r.date));
+  return dates;
+}
 function speechOk(){
   return !!(window.SpeechRecognition || window.webkitSpeechRecognition);
 }
@@ -1158,9 +1399,25 @@ try {
   const raw = localStorage.getItem(KEY);
   if (raw){
     const p = JSON.parse(raw);
-    if (p && Array.isArray(p.tenders) && Array.isArray(p.projects)) DB = Object.assign(emptyDb(), p);
+    if (p && Array.isArray(p.tenders) && Array.isArray(p.projects)){
+      DB = Object.assign(emptyDb(), p);
+      DB.company = Object.assign({ name: "", asAt: "" }, p.company || {});
+      if (!Array.isArray(DB.office)) DB.office = [];
+    }
+  } else {
+    const old = localStorage.getItem("plumbline.work");
+    if (old){
+      const p = JSON.parse(old);
+      if (p && Array.isArray(p.tenders) && Array.isArray(p.projects)) DB = Object.assign(emptyDb(), p);
+    }
+    const dump = localStorage.getItem("siteos.office.dump");
+    if (dump){
+      const rows = JSON.parse(dump);
+      if (Array.isArray(rows)) DB.office = rows;
+    }
   }
 } catch (e) {}
+if (!DB.company) DB.company = { name: "", asAt: "" };
 
 function save(){
   try { localStorage.setItem(KEY, JSON.stringify(DB)); } catch (e) {}
@@ -1176,10 +1433,28 @@ function hydrate(p){
   if (!p.contract) p.contract = { before: null, signed: null, signedProgramme: null, dates: emptyDates() };
   if (!p.contract.dates) p.contract.dates = emptyDates();
   DATE_KEYS.forEach(([k]) => { if (typeof p.contract.dates[k] !== "string") p.contract.dates[k] = ""; });
+  if (!p.contract.submission) p.contract.submission = emptyChange();
+  if (!p.contract.signedDates) p.contract.signedDates = emptyChange();
+  const legacy = p.contract.dates;
+  if (!p.contract.submission.completion && legacy.completionBefore) p.contract.submission.completion = legacy.completionBefore;
+  if (!p.contract.signedDates.completion && legacy.completionAfter) p.contract.signedDates.completion = legacy.completionAfter;
+  ["insurances", "guarantees", "execution", "payment", "suspension", "dispute"].forEach((k) => {
+    if (!p.contract.submission[k] && legacy[k]) p.contract.submission[k] = legacy[k];
+  });
+  Object.keys(emptyChange()).forEach((k) => {
+    if (typeof p.contract.submission[k] !== "string") p.contract.submission[k] = "";
+    if (typeof p.contract.signedDates[k] !== "string") p.contract.signedDates[k] = "";
+  });
+  if (typeof p.riskNote !== "string") p.riskNote = "";
+  if (typeof p.qualifications !== "string") p.qualifications = "";
+  if (typeof p.requestDraft !== "string") p.requestDraft = "";
   if (!p.claims) p.claims = emptyClaims();
   else p.claims = Object.assign(emptyClaims(), p.claims);
   if (!p.diaryDraft) p.diaryDraft = emptyDiary();
   if (!p.diaryDraft.fields) p.diaryDraft.fields = emptyDiary().fields;
+  if (typeof p.diaryDraft.note !== "string") p.diaryDraft.note = "";
+  if (typeof p.diaryDraft.error !== "string") p.diaryDraft.error = "";
+  if (typeof p.diaryDraft.fromModel !== "boolean") p.diaryDraft.fromModel = false;
   if (!p.noteDraft) p.noteDraft = { text: "", phase: "edit" };
   if (!p.quality) p.quality = emptyQuality();
   if (!p.def) p.def = emptyDef();
@@ -1225,9 +1500,17 @@ function ensureProject(tender){
   return hydrate(p);
 }
 
+function reportingDate(){
+  const d = DB.company && DB.company.asAt;
+  return isoOk(d) ? d : "";
+}
+function companyReady(){
+  return !!(DB.company && String(DB.company.name || "").trim() && reportingDate());
+}
 function pcOf(p){
   if (p.extensionDate && isoOk(p.extensionDate)) return p.extensionDate;
-  if (p.contract.dates.completionAfter && isoOk(p.contract.dates.completionAfter)) return p.contract.dates.completionAfter;
+  if (p.contract.signedDates && isoOk(p.contract.signedDates.completion)) return p.contract.signedDates.completion;
+  if (p.contract.submission && isoOk(p.contract.submission.completion)) return p.contract.submission.completion;
   return "";
 }
 function programmeChoice(p){
@@ -1250,7 +1533,7 @@ function baselineSentence(p){
 function chipOf(p){
   if (p.contract.signed) return "Signed loaded";
   if (p.contract.before) return "Draft loaded";
-  return "Tender Awarded";
+  return "Not loaded";
 }
 function statusLabel(status){
   if (status === "awarded") return "Tender Awarded";
@@ -1270,12 +1553,16 @@ function ordersOpen(p){
 }
 
 function clockBlock(p){
+  const asAt = reportingDate();
+  if (!asAt){
+    return `<div class="clock" id="days-block"><div class="lab">${esc(t("Days until practical completion"))}</div><p id="days-missing">${esc(t("The reporting date is missing."))}</p></div>`;
+  }
   const pc = pcOf(p);
   if (!pc){
     return `<div class="clock"><div class="lab">${esc(t("Days until practical completion"))}</div><p>${esc(t("No practical completion date yet."))}</p><p class="foot-note">${esc(t("Record the completion date from the signed contract, or an approved extension."))}</p></div>`;
   }
-  const n = daysBetween(AS_AT, pc);
-  return `<div class="clock"><div class="row"><div><div class="lab">${esc(t("Days until practical completion"))}</div><div class="big" id="days">${n}</div></div><div class="meta"><span class="lab">${esc(t("Practical completion"))}</span><b id="pc-date">${esc(pc)}</b>${esc(t("As at {0}", AS_AT))}</div></div></div><p class="foot-note" id="day-work">${esc(t("{0} to {1} is {2} calendar days.", AS_AT, pc, n))}</p>`;
+  const n = daysBetween(asAt, pc);
+  return `<div class="clock"><div class="row"><div><div class="lab">${esc(t("Days until practical completion"))}</div><div class="big" id="days">${n}</div></div><div class="meta"><span class="lab">${esc(t("Practical completion"))}</span><b id="pc-date">${esc(pc)}</b>${esc(t("As at {0}", asAt))}</div></div></div><p class="foot-note" id="day-work">${esc(t("{0} to {1} is {2} calendar days.", asAt, pc, n))}</p>`;
 }
 
 function whyHtml(text, clause){
@@ -1413,6 +1700,55 @@ function textInput(id, value, attrs){
   return `<input id="${id}" type="text" autocomplete="off" value="${esc(value || "")}" ${attrs || ""}>`;
 }
 
+let pendingWs = null;
+function showWsConfirm(){
+  const box = $("#ws-confirm");
+  if (!box) return;
+  if (!pendingWs){ box.hidden = true; box.innerHTML = ""; return; }
+  box.hidden = false;
+  box.innerHTML = `<p>${esc(t("This replaces the workspace on this computer."))}</p><div class="opts"><button type="button" class="opt sig" id="ws-yes">${esc(t("Replace the workspace"))}</button><button type="button" class="opt" id="ws-no">${esc(t("Cancel"))}</button></div>`;
+  bindReplace();
+}
+function renderSetup(){
+  $("#pane-project").innerHTML = `
+    <div class="sec"><span class="lab">${esc(t("Company"))}</span></div>
+    ${field("Company name", textInput("co-name", DB.company.name || ""))}
+    ${field("Reporting date", `<input id="co-asat" type="date" aria-label="${esc(t("Reporting date"))}" value="${esc(DB.company.asAt || "")}">`)}
+    <p class="foot-note">${esc(t("Day counts use this reporting date."))}</p>
+    <button type="button" class="opt sig full" id="co-keep">${esc(t("Keep the company"))}</button>`;
+  const keep = $("#co-keep");
+  if (keep) keep.onclick = () => {
+    const name = $("#co-name").value.trim();
+    const asAt = $("#co-asat").value;
+    if (!name){ toast("The company needs a name."); return; }
+    if (!isoOk(asAt)){ toast("Set the reporting date."); return; }
+    DB.company = { name: name, asAt: asAt };
+    save();
+    paint();
+    toast("Company kept");
+  };
+  bindReplace();
+}
+function bindReplace(){
+  const yes = $("#ws-yes");
+  const no = $("#ws-no");
+  if (yes) yes.onclick = () => {
+    if (!pendingWs) return;
+    const office = pendingWs.office;
+    DB = Object.assign(emptyDb(), pendingWs);
+    DB.company = Object.assign({ name: "", asAt: "" }, pendingWs.company || {});
+    DB.office = Array.isArray(office) ? office : [];
+    DB.focus = "list";
+    DB.screen = "list";
+    DB.draft = null;
+    DB.projects.forEach(hydrate);
+    pendingWs = null;
+    save();
+    paint();
+    toast("Workspace loaded");
+  };
+  if (no) no.onclick = () => { pendingWs = null; paint(); };
+}
 function renderList(){
   const tenderRows = DB.tenders.map((tender) => {
     const files = Object.keys(tender.files || {}).map((k) => tender.files[k]).filter((f) => f && f.name);
@@ -1430,6 +1766,7 @@ function renderList(){
     return `<button type="button" class="minirow" data-open-project="${esc(p.id)}"><span><b>${esc(p.name)}</b></span>${on}</button>`;
   }).join("");
   $("#pane-project").innerHTML = `
+    <div class="sec"><span class="lab">${esc(t("Company"))}</span><b id="company-name">${esc(DB.company.name)}</b></div>
     <div class="sec"><span class="lab">${esc(t("Tenders"))}</span></div>
     <button type="button" class="opt sig full" id="add-tender">${esc(t("Add a tender"))}</button>
     <div class="card" style="margin-top:10px">${tenderRows || `<div class="empty-note">${esc(t("No tenders yet."))}</div>`}</div>
@@ -1442,6 +1779,7 @@ function renderList(){
   $("#pane-project").querySelectorAll("[data-open-tender]").forEach((el) => {
     el.onclick = () => startEdit(el.getAttribute("data-open-tender"), "list");
   });
+  bindReplace();
 }
 
 function renderDash(p, withClock){
@@ -1450,28 +1788,22 @@ function renderDash(p, withClock){
     if (!meta || !meta.name) return "";
     return `<div class="minirow"><span>${esc(t(label))}</span><span class="fileline">${esc(meta.name)} · ${esc(formatSize(meta.size))}</span></div>`;
   }).join("");
-  let dates = "";
-  if (p.contract.signed){
-    dates += `<div class="row"><span>${esc(t("Completion before signature"))}</span><b class="mono">${esc(p.contract.dates.completionBefore || t("Not loaded"))}</b></div>`;
-    dates += `<div class="row"><span>${esc(t("Completion after signature"))}</span><b class="mono">${esc(p.contract.dates.completionAfter || t("Not loaded"))}</b></div>`;
-    dates += `<div class="row"><span>${esc(t("Programme baseline"))}</span><b>${esc(t(baselineKey(p)))}</b></div>`;
-    const prog = p.contract.signedProgramme || p.rules.programme;
-    if (prog && prog.name) dates += `<div class="row"><span>${esc(t(baselineKey(p)))}</span><b>${esc(prog.name)}</b></div>`;
-    dates += `<div class="row"><span></span><span>${esc(t(baselineSentence(p)))}</span></div>`;
-  }
-  if (p.extensionDate){
-    dates += `<div class="row"><span>${esc(t("Approved practical completion"))}</span><b class="mono">${esc(p.extensionDate)}</b></div>`;
-  }
+  const changes = p.contract.signed ? changeList(p) : "";
+  const prog = p.contract.signedProgramme || (p.rules && p.rules.programme);
+  const progName = prog && prog.name ? `<div class="row"><span>${esc(t(baselineKey(p)))}</span><b>${esc(prog.name)}</b></div>` : "";
   $("#pane-project").innerHTML = `
     ${withClock ? clockBlock(p) : ""}
     <div class="sec"><span class="lab">${esc(t("Contract Rules"))}</span></div>
     <div class="card">${files || `<div class="empty-note">${esc(t("Not loaded"))}</div>`}</div>
     <div class="card base" style="margin-top:10px">
-      ${dates}
-      <div class="row"><span>${esc(t("Contract status"))}</span><b>${esc(t(p.contract.before || p.contract.signed ? chipOf(p) : "Not loaded"))}</b></div>
-      <div class="row"><span>${esc(t("Open RFIs"))}</span><b class="mono">${openRfiCount(p)}</b></div>
-      <div class="row"><span>${esc(t("Appointments still open"))}</span><b class="mono">${ordersOpen(p)}</b></div>
+      <div class="row"><span>${esc(t("Contract status"))}</span><b id="contract-state">${esc(t(chipOf(p)))}</b></div>
+      <div class="row"><span>${esc(t("Open RFIs"))}</span><b class="mono" id="open-rfis">${openRfiCount(p)}</b></div>
+      <div class="row"><span>${esc(t("Appointments still open"))}</span><b class="mono" id="orders-open">${ordersOpen(p)}</b></div>
+      <div class="row"><span>${esc(t("Programme baseline"))}</span><b>${esc(t(baselineKey(p)))}</b></div>
+      ${progName}
+      <div class="row"><span></span><span>${esc(t(baselineSentence(p)))}</span></div>
     </div>
+    ${changes}
     <button type="button" class="opt full switcher" id="to-list">${esc(t("Workspace"))}</button>`;
   $("#to-list").onclick = workspace;
 }
@@ -1507,13 +1839,33 @@ function paint(){
   const langBtn = $("#lang");
   langBtn.textContent = LANG === "af" ? "AF" : "EN";
   langBtn.classList.toggle("af", LANG === "af");
+  const named = DB.company && String(DB.company.name || "").trim();
+  $("#brand").textContent = named || "SiteOS";
+  const asAt = reportingDate();
+  $("#tb-asat").textContent = asAt || t("The reporting date is missing.");
   const p = project();
-  const onProject = !!(p && DB.focus === "project");
+  const onProject = !!(p && DB.focus === "project" && companyReady());
+  if (!companyReady()){
+    $("#tb-job").textContent = t("Company");
+    $("#tb-count").textContent = String(DB.tenders.length);
+    $("#bar-proj").textContent = named || t("Company");
+    $("#bar-chip").textContent = t("The reporting date is missing.");
+    $(".avatar").textContent = initials(named || "SiteOS");
+    $("#tabdot").style.display = "none";
+    renderSetup();
+    renderPath(false);
+    $("#chat").hidden = true;
+    $("#log").innerHTML = "";
+    $("#rail").innerHTML = "";
+    $("#steps").innerHTML = "";
+    showWsConfirm();
+    return;
+  }
   $("#tb-job").textContent = onProject ? p.name : t("Workspace");
   $("#tb-count").textContent = String(DB.tenders.length);
   $("#bar-proj").textContent = onProject ? p.name : t("Workspace");
   $("#bar-chip").textContent = onProject ? t(chipOf(p)) : t("No project open");
-  $(".avatar").textContent = onProject ? initials(p.name) : "PL";
+  $(".avatar").textContent = onProject ? initials(p.name) : initials(named || "SiteOS");
   const waiting = DB.tenders.some((tender) => tender.status === "waiting");
   $("#tabdot").style.display = waiting ? "" : "none";
   const form = formScreen();
@@ -1535,6 +1887,7 @@ function paint(){
   }
   const back = $("#chat-back");
   if (back) back.setAttribute("aria-label", t("Back to the project"));
+  showWsConfirm();
 }
 
 function setChat(title, clause){
@@ -1566,7 +1919,7 @@ function renderTenderForm(){
     const on = d.status === id ? " on" : "";
     return `<button type="button" class="opt pick full ${cls}${on}" data-status="${id}">${esc(t(statusLabel(id)))}</button>`;
   }).join("");
-  $("#log").innerHTML = field("Project name", textInput("t-name", d.name)) + files + `<div class="opts">${statuses}</div>`;
+  $("#log").innerHTML = field("Project name", textInput("t-name", d.name)) + files + `<div class="opts">${statuses}</div>` + riskBox(d);
   const keepLabel = d.status === "awarded" ? "Open the project" : "Keep the tender";
   $("#rail").innerHTML = `<div class="opts"><button type="button" class="opt sig full" id="keep-tender">${esc(t(keepLabel))}</button></div>`;
   $("#t-name").addEventListener("input", () => { if (DB.draft) DB.draft.name = $("#t-name").value; save(); });
@@ -1579,8 +1932,18 @@ function renderTenderForm(){
       save();
       const line = el.parentElement.querySelector(".fileline");
       if (line){ line.className = "fileline"; line.textContent = fileText(meta); }
+      readTextFile(el.files && el.files[0], (txt) => {
+        if (!txt || !DB.draft) return;
+        const box = $("#risk-text");
+        if (box && !box.value.trim()){
+          box.value = txt;
+          DB.draft.riskPaste = txt;
+          save();
+        }
+      });
     });
   });
+  bindRisk(d);
   $("#log").querySelectorAll("[data-status]").forEach((el) => {
     el.onclick = () => {
       if (!DB.draft) return;
@@ -1600,14 +1963,20 @@ function keepTender(){
   DB.draft.name = name;
   let tender = DB.draft.tenderId ? tenderById(DB.draft.tenderId) : null;
   if (!tender){
-    tender = { id: nid(), name: name, status: DB.draft.status || "waiting", files: DB.draft.files || {} };
+    tender = { id: nid(), name: name, status: DB.draft.status || "waiting", files: DB.draft.files || {}, riskNote: DB.draft.riskNote || "", qualifications: DB.draft.qualifications || "" };
     DB.tenders.push(tender);
   } else {
     tender.name = name;
     tender.status = DB.draft.status || "waiting";
     tender.files = DB.draft.files || {};
+    tender.riskNote = DB.draft.riskNote || "";
+    tender.qualifications = DB.draft.qualifications || "";
   }
   const opened = ensureProject(tender);
+  if (opened && tender.riskNote && !opened.riskNote){
+    opened.riskNote = tender.riskNote;
+    opened.qualifications = tender.qualifications || "";
+  }
   DB.draft = null;
   if (tender.status === "awarded" && opened){
     DB.openId = opened.id;
@@ -1625,22 +1994,53 @@ function keepTender(){
   toast("Tender kept");
 }
 
+function riskBox(holder){
+  const err = holder.riskError ? `<p class="warnline" data-model-error="1">${esc(t(holder.riskError))}</p>` : "";
+  const omitted = holder.riskOmitted ? `<p class="warnline">${esc(t("A date or amount that was not in the document was left out."))}</p>` : "";
+  const shown = holder.riskShown
+    ? `<div id="risk-read" data-model-readback="1"><p><b>${esc(t("Risk note"))}</b></p><div class="heard">${esc(holder.riskShown)}</div><p><b>${esc(t("Qualifications"))}</b></p><div class="heard">${esc(holder.qualShown || "")}</div>${omitted}<button type="button" class="opt sig full" id="risk-keep">${esc(t("Keep the note"))}</button></div>`
+    : "";
+  const kept = holder.riskNote ? `<div class="card"><div class="minirow"><div><b>${esc(t("Risk note"))}</b><div class="fileline">${esc(holder.riskNote)}</div>${holder.qualifications ? `<div class="fileline">${esc(holder.qualifications)}</div>` : ""}</div></div></div>` : "";
+  return `<div class="block" id="risk-box">${field("Document text", `<textarea id="risk-text" aria-label="${esc(t("Document text"))}">${esc(holder.riskPaste || "")}</textarea>`)}<p class="foot-note">${esc(t("Paste the document text, or load a text file."))}</p><button type="button" class="opt full" id="risk-go">${esc(t("Draft the risk note"))}</button>${err}${shown}${kept}</div>`;
+}
+function bindRisk(holder){
+  const go = $("#risk-go");
+  const text = $("#risk-text");
+  if (text) text.addEventListener("input", () => { holder.riskPaste = text.value; save(); });
+  if (go) go.onclick = async () => {
+    const body = text ? text.value.trim() : "";
+    if (!body){ toast("Paste the document text, or load a text file."); return; }
+    holder.riskPaste = body;
+    holder.riskError = "";
+    go.disabled = true;
+    go.textContent = t("Asking the model…");
+    try {
+      const data = await callModel("risk", { text: body });
+      holder.riskShown = data.risk || "";
+      holder.qualShown = data.qualifications || "";
+      holder.riskOmitted = !!data.omitted;
+      if (!holder.riskShown && !holder.qualShown) holder.riskError = "The model returned no text.";
+      save();
+      paint();
+    } catch (e) {
+      holder.riskError = e.message || "The model call failed.";
+      holder.riskShown = "";
+      save();
+      paint();
+    }
+  };
+  const keep = $("#risk-keep");
+  if (keep) keep.onclick = () => {
+    holder.riskNote = holder.riskShown || "";
+    holder.qualifications = holder.qualShown || "";
+    save();
+    toast("Note kept");
+    paint();
+  };
+}
 function dateSummary(p){
   if (!p.contract.signed) return "";
-  const rows = [
-    ["Completion before signature", p.contract.dates.completionBefore || t("Not loaded")],
-    ["Completion after signature", p.contract.dates.completionAfter || t("Not loaded")],
-    ["Programme baseline", t(baselineKey(p))]
-  ];
-  DATE_KEYS.forEach(([k, label]) => {
-    if (k === "completionBefore" || k === "completionAfter") return;
-    if (p.contract.dates[k]) rows.push([label, p.contract.dates[k]]);
-  });
-  const prog = p.contract.signedProgramme || p.rules.programme;
-  if (prog && prog.name) rows.push([baselineKey(p), prog.name]);
-  return `<div class="sec"><span class="lab">${esc(t("Both completion dates"))}</span></div><div class="card">` +
-    rows.map(([k, v]) => `<div class="minirow"><span>${esc(t(k))}</span><b class="mono">${esc(v)}</b></div>`).join("") +
-    `</div><p class="foot-note">${esc(t(baselineSentence(p)))}</p><p class="foot-note">${esc(t("These dates are the ones you recorded from the documents."))}</p>`;
+  return changeList(p) + `<p class="foot-note">${esc(t(baselineSentence(p)))}</p>`;
 }
 
 function renderContract(p){
@@ -1653,15 +2053,19 @@ function renderContract(p){
   if (!before){
     html += `<p class="warnline">${esc(t("The next step stays hidden until this file is here."))}</p>`;
   } else {
-    html += DATE_KEYS.map(([k, label]) => field(label, `<input id="c-${k}" type="date" aria-label="${esc(t(label))}" value="${esc(p.contract.dates[k] || "")}">`)).join("");
+    html += `<div class="sec"><span class="lab">${esc(t("From the tender submission"))}</span></div>`;
+    html += CHANGE_KEYS.map(([k, label]) => field(label, `<input id="sub-${k}" type="date" aria-label="${esc(t(label))}" value="${esc((p.contract.submission && p.contract.submission[k]) || "")}">`)).join("");
     html += field("Signed contract", `<input type="file" id="c-signed" aria-label="${esc(t("Signed contract"))}">${fileLine(p.contract.signed)}`);
     if (!signed){
       html += `<p class="warnline">${esc(t("The next step stays hidden until this file is here."))}</p>`;
     } else {
+      html += `<div class="sec"><span class="lab">${esc(t("From the signed contract"))}</span></div>`;
+      html += CHANGE_KEYS.map(([k, label]) => field(label, `<input id="sig-${k}" type="date" aria-label="${esc(t(label))}" value="${esc((p.contract.signedDates && p.contract.signedDates[k]) || "")}">`)).join("");
       html += field("Signed programme", `<input type="file" id="c-prog" aria-label="${esc(t("Signed programme"))}">${fileLine(p.contract.signedProgramme)}`);
       html += `<div id="date-sum">${dateSummary(p)}</div>`;
     }
   }
+  html += riskBox(p);
   $("#log").innerHTML = html;
   $("#rail").innerHTML = "";
   const beforeInput = $("#c-before");
@@ -1672,20 +2076,27 @@ function renderContract(p){
     save();
     paint();
   });
-  DATE_KEYS.forEach(([k]) => {
-    const el = document.getElementById("c-" + k);
-    if (!el) return;
-    const keepDate = () => {
-      p.contract.dates[k] = isoOk(el.value) ? el.value : "";
-      save();
-      const host = $("#ext-clock");
-      if (host) host.innerHTML = clockBlock(p);
-      const sum = $("#date-sum");
-      if (sum) sum.innerHTML = dateSummary(p);
-    };
-    el.addEventListener("change", keepDate);
-    el.addEventListener("input", keepDate);
-  });
+  const bindBucket = (bucket, prefix) => {
+    CHANGE_KEYS.forEach(([k]) => {
+      const el = document.getElementById(prefix + "-" + k);
+      if (!el) return;
+      const keepDate = () => {
+        if (!p.contract[bucket]) p.contract[bucket] = emptyChange();
+        p.contract[bucket][k] = isoOk(el.value) ? el.value : "";
+        syncLegacy(p);
+        save();
+        const host = $("#ext-clock");
+        if (host) host.innerHTML = clockBlock(p);
+        const sum = $("#date-sum");
+        if (sum) sum.innerHTML = dateSummary(p);
+      };
+      el.addEventListener("change", keepDate);
+      el.addEventListener("input", keepDate);
+    });
+  };
+  bindBucket("submission", "sub");
+  bindBucket("signedDates", "sig");
+  bindRisk(p);
   const signedInput = $("#c-signed");
   if (signedInput) signedInput.addEventListener("change", () => {
     const meta = takeFile(signedInput);
@@ -1714,11 +2125,22 @@ function renderRfi(p){
     const mark = r.notified ? `<span class="pill ok">${esc(t("Notified"))}</span>` : `<button type="button" class="opt" data-notify="${esc(r.id)}">${esc(t("Mark notified"))}</button>`;
     return `<div class="minirow"><div style="flex:1"><b>${esc(r.item)}</b>${when}${who}${late}</div>${mark}</div>`;
   }).join("");
+  const docBtn = p.rfis.length
+    ? `<button type="button" class="opt full" id="rfi-doc">${esc(t("Download the RFI document"))}</button>`
+    : `<p class="foot-note" id="rfi-empty-doc">${esc(t("There are no rows, so there is no file."))}</p>`;
+  const reqErr = p.requestError ? `<p class="warnline" data-model-error="1">${esc(t(p.requestError))}</p>` : "";
+  const reqOmit = p.requestOmitted ? `<p class="warnline">${esc(t("A date that is not on a row was left out."))}</p>` : "";
+  const reqShown = p.requestShown
+    ? `<div id="request-read" data-model-readback="1"><p><b>${esc(t("Request"))}</b></p><div class="heard">${esc(p.requestShown)}</div>${reqOmit}<button type="button" class="opt sig full" id="request-save">${esc(t("Save the draft"))}</button></div>`
+    : "";
+  const reqKept = p.requestDraft ? `<div class="card"><div class="minirow"><div><b>${esc(t("Request"))}</b><div class="fileline">${esc(p.requestDraft)}</div></div></div></div>` : "";
   $("#log").innerHTML =
     field("Item", textInput("rfi-item", "")) +
     field("Date", `<input id="rfi-date" type="date" aria-label="${esc(t("Date"))}">`) +
     field("Responsible person", textInput("rfi-person", "")) +
-    `<div class="card" style="margin-top:8px">${rows || `<div class="empty-note">${esc(t("No rows yet."))}</div>`}</div>`;
+    `<div class="card" style="margin-top:8px">${rows || `<div class="empty-note">${esc(t("No rows yet."))}</div>`}</div>` +
+    docBtn +
+    `<div class="block"><button type="button" class="opt full" id="request-go">${esc(t("Draft the request"))}</button>${reqErr}${reqShown}${reqKept}</div>`;
   $("#rail").innerHTML = `<div class="opts"><button type="button" class="opt sig full" id="rfi-add">${esc(t("Add the row"))}</button></div>`;
   $("#rfi-add").onclick = () => {
     const item = $("#rfi-item").value.trim();
@@ -1736,24 +2158,70 @@ function renderRfi(p){
       paint();
     };
   });
+  const doc = $("#rfi-doc");
+  if (doc) doc.onclick = () => {
+    if (!p.rfis.length) return;
+    downloadText("rfi.txt", rowsDoc(p.rfis.map((r) => ({ item: r.item, date: r.date || "", person: r.person || "" }))));
+  };
+  const go = $("#request-go");
+  if (go) go.onclick = async () => {
+    const notes = p.diary.map((row) => DIARY_KEYS.map(([k]) => row.fields[k] || "").join(" ")).concat(p.notes.map((n) => n.text)).join("\n");
+    go.disabled = true;
+    go.textContent = t("Asking the model…");
+    p.requestError = "";
+    try {
+      const data = await callModel("rfi", {
+        notes: notes,
+        rows: p.rfis.map((r) => ({ item: r.item, date: r.date || "", person: r.person || "" })),
+        orders: p.orders.map((r) => ({ item: r.name, date: r.date || "", person: r.person || "" })),
+        dates: storedDates(p)
+      });
+      p.requestShown = data.draft || "";
+      p.requestOmitted = !!data.omitted;
+      if (!p.requestShown) p.requestError = "The model returned no text.";
+      save();
+      paint();
+    } catch (e) {
+      p.requestError = e.message || "The model call failed.";
+      p.requestShown = "";
+      save();
+      paint();
+    }
+  };
+  const saveReq = $("#request-save");
+  if (saveReq) saveReq.onclick = () => {
+    p.requestDraft = p.requestShown || "";
+    save();
+    toast("Note kept");
+    paint();
+  };
 }
 
 function renderOrders(p){
   setChat("Appointments and bulk orders", "Orders");
   $("#steps").innerHTML = "";
   const rows = p.orders.map((r) => {
-    const kind = r.kind === "bulk" ? "Bulk order" : "Appointment";
+    const kind = r.kind === "bulk" ? (r.kindWord === "material" ? "Material" : "Bulk order") : "Appointment";
+    const extra = [r.trade, r.package].filter(Boolean).join(" · ");
     const file = r.file
       ? `<div class="fileline">${esc(fileText(r.file))}</div><p>${esc(t("That file is this subcontractor's rules."))}</p>`
       : `<label class="field"><span class="k">${esc(t("Upload the file"))}</span><input type="file" data-order="${esc(r.id)}" aria-label="${esc(t("Upload the file"))}"></label>`;
     const box = r.file ? "on" : "";
-    return `<div class="minirow"><span class="box" style="margin-top:2px"><span class="chk ${box}" style="pointer-events:none"><span class="box"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"/></svg></span></span></span><div style="flex:1"><b>${esc(r.name)}</b><div class="fileline">${esc(t(kind))}</div>${file}</div></div>`;
+    return `<div class="minirow"><span class="box" style="margin-top:2px"><span class="chk ${box}" style="pointer-events:none"><span class="box"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"/></svg></span></span></span><div style="flex:1"><b>${esc(r.name)}</b><div class="fileline">${esc(t(kind))}${extra ? " · " + esc(extra) : ""}</div>${file}</div></div>`;
   }).join("");
+  const docBtn = p.orders.length
+    ? `<button type="button" class="opt full" id="ord-doc">${esc(t("Download the appointment document"))}</button>`
+    : `<p class="foot-note" id="ord-empty-doc">${esc(t("There are no rows, so there is no file."))}</p>`;
+  const candyErr = p.candyError ? `<p class="warnline">${esc(p.candyError)}</p>` : "";
   $("#log").innerHTML =
     whyHtml("Appointments and bulk orders are both to be closed within 7 days of award.", "SiteOS Rev 4 section 2.3") +
+    `<p class="foot-note">${esc(t("Candy CSV headers: item, trade, kind (appointment or material), package."))}</p>` +
+    `<div class="opts"><label class="opt full">${esc(t("Load Candy CSV"))}<input id="candy-file" class="sr" type="file" accept=".csv,text/csv,text/plain"></label><button type="button" class="opt full" id="candy-blank">${esc(t("Blank Candy CSV"))}</button></div>` +
+    candyErr +
     field("Name", textInput("ord-name", "")) +
     field("Appointment", `<select id="ord-kind" aria-label="${esc(t("Appointment"))}"><option value="appointment">${esc(t("Appointment"))}</option><option value="bulk">${esc(t("Bulk order"))}</option></select>`) +
-    `<div class="card">${rows || `<div class="empty-note">${esc(t("No rows yet. Add the appointment or the bulk order."))}</div>`}</div>`;
+    `<div class="card">${rows || `<div class="empty-note">${esc(t("No rows yet. Add the appointment or the bulk order."))}</div>`}</div>` +
+    docBtn;
   $("#rail").innerHTML = `<div class="opts"><button type="button" class="opt sig full" id="ord-add">${esc(t("Add"))}</button></div>`;
   $("#ord-add").onclick = () => {
     const name = $("#ord-name").value.trim();
@@ -1773,9 +2241,64 @@ function renderOrders(p){
       paint();
     });
   });
+  const blank = $("#candy-blank");
+  if (blank) blank.onclick = () => downloadText("candy.csv", "item,trade,kind,package\n");
+  const candy = $("#candy-file");
+  if (candy) candy.addEventListener("change", () => {
+    const f = candy.files && candy.files[0];
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const parsed = candyRows(String(reader.result || ""));
+      if (parsed.error){ p.candyError = t(parsed.error); save(); paint(); return; }
+      if (parsed.missing && parsed.missing.length){
+        p.candyError = t("Missing header") + ": " + parsed.missing.join(", ");
+        save();
+        paint();
+        return;
+      }
+      const kept = p.orders.filter((o) => o.source !== "candy");
+      const next = parsed.rows.map((r) => {
+        const old = p.orders.find((o) => o.source === "candy" && o.name === r.item && o.kind === r.kind && o.file);
+        return {
+          id: old ? old.id : nid(),
+          name: r.item,
+          trade: r.trade,
+          package: r.package,
+          kind: r.kind,
+          kindWord: r.kindWord,
+          date: old && old.date || "",
+          person: old && old.person || "",
+          file: old ? old.file : null,
+          source: "candy"
+        };
+      });
+      p.orders = kept.concat(next);
+      p.candyError = parsed.bad && parsed.bad.length ? t("kind must be appointment or material.") : "";
+      save();
+      paint();
+      toast(next.length ? "Candy rows loaded" : "That CSV has headers and no rows.");
+    };
+    reader.readAsText(f);
+  });
+  const doc = $("#ord-doc");
+  if (doc) doc.onclick = () => {
+    if (!p.orders.length) return;
+    downloadText("appointments.txt", rowsDoc(p.orders.map((r) => ({ item: r.name, date: r.date || "", person: r.person || "" }))));
+  };
 }
 
 function diaryReadHtml(d){
+  if (d.fromModel && d.modelFields){
+    let props = "";
+    const fields = DIARY_KEYS.map(([k, label]) => {
+      const split = splitField(d.modelFields[k] || "");
+      props += proposalHtml(k, split.proposals);
+      return field(label, `<textarea id="keep-${k}" aria-label="${esc(t(label))}">${esc(split.clean)}</textarea>`);
+    }).join("");
+    const err = d.error ? `<p class="warnline" data-model-error="1">${esc(t(d.error))}</p>` : "";
+    return `<div id="diary-readback" data-model-readback="1"><p>${esc(t("Here is the diary, read back."))}</p>${err}${fields}${props}<p style="margin-top:9px">${esc(t("Read that back before it is kept."))}</p></div>`;
+  }
   const rows = DIARY_KEYS.map(([k, label]) => [label, d.fields[k] || "—", d.rfiLine === k ? "bad" : "", "raw"]);
   let extra = "";
   if (d.rfiLine){
@@ -1791,9 +2314,12 @@ function renderProgress(p){
   const d = p.diaryDraft;
   let diary;
   if (d.phase === "read") diary = diaryReadHtml(d);
+  else if (d.phase === "wait") diary = `<p id="diary-wait">${esc(t("Asking the model…"))}</p>`;
   else {
     const opts = `<option value="">${esc(t("None"))}</option>` + DIARY_KEYS.map(([k, label]) => `<option value="${esc(k)}"${d.rfiLine === k ? " selected" : ""}>${esc(t(label))}</option>`).join("");
-    diary = DIARY_KEYS.map(([k, label]) => field(label, `<textarea id="d-${k}" aria-label="${esc(t(label))}">${esc(d.fields[k] || "")}</textarea>`)).join("") +
+    const err = d.error ? `<p class="warnline" data-model-error="1">${esc(t(d.error))}</p>` : "";
+    diary = field("Diary note", `<textarea id="diary-note" aria-label="${esc(t("Diary note"))}">${esc(d.note || "")}</textarea>`) + err +
+      DIARY_KEYS.map(([k, label]) => field(label, `<textarea id="d-${k}" aria-label="${esc(t(label))}">${esc(d.fields[k] || "")}</textarea>`)).join("") +
       field("Flag one line as an outstanding RFI", `<select id="d-rfi" aria-label="${esc(t("Flag one line as an outstanding RFI"))}">${opts}</select>`);
   }
   const kept = p.diary.map((row) => `<div class="minirow"><div><b>${esc(t("Diary"))}</b><div class="fileline">${esc(row.fields.work || row.fields.move || t("Kept"))}</div></div><span class="pill ok">${esc(t("Kept"))}</span></div>`).join("");
@@ -1808,30 +2334,80 @@ function renderProgress(p){
     (notes ? `<div class="card">${notes}</div>` : "") +
     `<div class="block">${field("Approved practical completion", `<input id="ext" type="date" aria-label="${esc(t("Approved practical completion"))}" value="${esc(p.extensionDate || "")}">`)}</div>` +
     `<p>${esc(t("The new baseline must be submitted."))}</p>`;
+  bindProposals($("#log"));
   if (d.phase === "read"){
     $("#rail").innerHTML = `<div class="opts"><button type="button" class="opt sig full" id="diary-keep">${esc(t("Keep it"))}</button><button type="button" class="opt full" id="diary-change">${esc(t("Change it"))}</button></div>`;
     $("#diary-keep").onclick = keepDiary;
     $("#diary-change").onclick = () => { p.diaryDraft.phase = "edit"; save(); paint(); };
   } else {
     const say = speechOk() ? `<button type="button" class="opt full" id="diary-say">${esc(t("Say it"))}</button>` : "";
-    $("#rail").innerHTML = `<div class="opts"><button type="button" class="opt sig full" id="diary-read">${esc(t("Read it back"))}</button>${say}</div>`;
+    const drafting = d.phase === "wait";
+    $("#rail").innerHTML = `<div class="opts"><button type="button" class="opt sig full" id="diary-model"${drafting ? " disabled" : ""}>${esc(t(drafting ? "Asking the model…" : "Draft the fields"))}</button><button type="button" class="opt full" id="diary-read">${esc(t("Read it back"))}</button>${say}</div>`;
     $("#diary-read").onclick = () => {
+      const noteEl = $("#diary-note");
+      if (noteEl) p.diaryDraft.note = noteEl.value;
       DIARY_KEYS.forEach(([k]) => {
         const el = document.getElementById("d-" + k);
         if (el) p.diaryDraft.fields[k] = el.value;
       });
       const sel = $("#d-rfi");
       p.diaryDraft.rfiLine = sel ? sel.value : "";
+      p.diaryDraft.fromModel = false;
+      p.diaryDraft.modelFields = null;
       const any = DIARY_KEYS.some(([k]) => (p.diaryDraft.fields[k] || "").trim());
       if (!any){ toast("Type the day first."); return; }
       p.diaryDraft.phase = "read";
       save();
       paint();
     };
+    const modelBtn = $("#diary-model");
+    if (modelBtn) modelBtn.onclick = async () => {
+      const noteEl = $("#diary-note");
+      const note = noteEl ? noteEl.value.trim() : "";
+      DIARY_KEYS.forEach(([k]) => {
+        const el = document.getElementById("d-" + k);
+        if (el) p.diaryDraft.fields[k] = el.value;
+      });
+      const typed = DIARY_KEYS.map(([k]) => p.diaryDraft.fields[k] || "").filter((s) => s.trim()).join("\n");
+      const body = note || typed;
+      if (!body){ toast("Type the day first."); return; }
+      p.diaryDraft.note = note;
+      p.diaryDraft.error = "";
+      p.diaryDraft.phase = "wait";
+      save();
+      paint();
+      try {
+        const data = await callModel("diary", { note: body });
+        const live = project();
+        if (!live) return;
+        live.diaryDraft.modelFields = data.fields || {};
+        live.diaryDraft.fromModel = true;
+        const any = DIARY_KEYS.some(([k]) => String((live.diaryDraft.modelFields[k] || "")).trim());
+        if (!any){
+          live.diaryDraft.phase = "edit";
+          live.diaryDraft.fromModel = false;
+          live.diaryDraft.error = "The model returned no text.";
+        } else {
+          live.diaryDraft.phase = "read";
+          live.diaryDraft.error = "";
+        }
+        save();
+        paint();
+      } catch (err) {
+        const live = project();
+        if (!live) return;
+        live.diaryDraft.phase = "edit";
+        live.diaryDraft.fromModel = false;
+        live.diaryDraft.error = err.message || "The model call failed.";
+        save();
+        paint();
+      }
+    };
     const sayBtn = $("#diary-say");
     if (sayBtn) sayBtn.onclick = () => {
       const active = document.activeElement;
-      const target = active && active.id && active.id.indexOf("d-") === 0 ? active : document.getElementById("d-work");
+      const note = document.getElementById("diary-note");
+      const target = active && active.id && (active.id.indexOf("d-") === 0 || active.id === "diary-note") ? active : (note || document.getElementById("d-work"));
       if (target) listenInto(target);
     };
   }
@@ -1877,6 +2453,12 @@ function renderProgress(p){
 function keepDiary(){
   const p = project();
   if (!p) return;
+  if (p.diaryDraft.fromModel){
+    DIARY_KEYS.forEach(([k]) => {
+      const el = document.getElementById("keep-" + k);
+      if (el) p.diaryDraft.fields[k] = el.value;
+    });
+  }
   const any = DIARY_KEYS.some(([k]) => (p.diaryDraft.fields[k] || "").trim());
   if (!any){ toast("Type the day first."); return; }
   p.diary.push({ id: nid(), fields: Object.assign({}, p.diaryDraft.fields), rfiLine: p.diaryDraft.rfiLine || "" });
@@ -1930,7 +2512,11 @@ function renderClaims(p){
     moneyField("discountBefore", "Settlement discount before", c.discountBefore) +
     moneyField("discountAfter", "Settlement discount after", c.discountAfter) +
     moneyField("retention", "Retention percent", c.retention) +
-    `<div id="claim-out">${claimHtml(c)}</div>`;
+    `<div id="claim-out">${claimHtml(c)}</div>` +
+    `<div class="block"><button type="button" class="opt full" id="claim-go">${esc(t("Draft advice"))}</button>` +
+    (c.adviceError ? `<p class="warnline" data-model-error="1">${esc(t(c.adviceError))}</p>` : "") +
+    (c.advice ? `<div id="claim-advice" data-model-readback="1"><p><b>${esc(t("Advice"))}</b></p><div class="heard">${esc(c.advice)}</div></div>` : "") +
+    `</div>`;
   $("#rail").innerHTML = "";
   const refresh = () => {
     ["variation", "variationClaimed", "subClaim", "subInMain", "valuation", "payment", "recoveryBefore", "recoveryAfter", "discountBefore", "discountAfter", "retention"].forEach((k) => {
@@ -1950,6 +2536,26 @@ function renderClaims(p){
       paint();
     };
   });
+  const claimGo = $("#claim-go");
+  if (claimGo) claimGo.onclick = async () => {
+    refresh();
+    const corpus = ($("#claim-out") ? $("#claim-out").innerText : "") + "\n" + JSON.stringify(p.claims);
+    claimGo.disabled = true;
+    claimGo.textContent = t("Asking the model…");
+    p.claims.adviceError = "";
+    try {
+      const data = await callModel("claims", { corpus: corpus, figures: p.claims, comparisons: corpus });
+      p.claims.advice = data.advice || "";
+      if (!p.claims.advice) p.claims.adviceError = "The model returned no text.";
+      save();
+      paint();
+    } catch (err) {
+      p.claims.advice = "";
+      p.claims.adviceError = err.message || "The model call failed.";
+      save();
+      paint();
+    }
+  };
 }
 
 function readQuality(p){
@@ -1964,16 +2570,59 @@ function renderQuality(p){
   setChat("Quality and safety", "Quality");
   $("#steps").innerHTML = "";
   const q = p.quality;
+  const qErr = q.modelError ? `<p class="warnline" data-model-error="1">${esc(t(q.modelError))}</p>` : "";
+  const qAsk = q.ask ? `<div id="quality-ask" data-model-readback="1"><div class="heard">${esc(q.ask)}</div></div>` : "";
+  const say = speechOk() ? `<button type="button" class="opt full" id="quality-say">${esc(t("Say it"))}</button>` : "";
   $("#log").innerHTML =
     field("Photo", `<input id="q-photo" type="file" accept="image/*,.pdf,.png,.jpg,.jpeg,.webp" aria-label="${esc(t("Photo"))}">${fileLine(q.photo)}`) +
+    field("Quality note", `<textarea id="quality-note" aria-label="${esc(t("Quality note"))}">${esc(q.note || "")}</textarea>`) +
+    `<div class="opts"><button type="button" class="opt full" id="quality-go">${esc(t("Draft the fields"))}</button>${say}</div>` +
+    qErr + qAsk +
     field("Area", textInput("q-area", q.area)) +
     field("Description", textInput("q-desc", q.description)) +
     field("Responsible person", textInput("q-person", q.person)) +
+    `<p class="foot-note">${esc(t("The model does not set the dates. Enter them here."))}</p>` +
     field("Completion date", `<input id="q-comp" type="date" aria-label="${esc(t("Completion date"))}" value="${esc(q.completion || "")}">`) +
     field("Date finished", `<input id="q-fin" type="date" aria-label="${esc(t("Date finished"))}" value="${esc(q.finished || "")}">`) +
     field("Status", textInput("q-status", q.status)) +
     `<div id="late-out">${lateHtml(q)}</div>`;
   $("#rail").innerHTML = "";
+  const qGo = $("#quality-go");
+  if (qGo) qGo.onclick = async () => {
+    const noteEl = $("#quality-note");
+    const note = noteEl ? noteEl.value.trim() : "";
+    readQuality(p);
+    if (!note && !p.quality.area && !p.quality.description && !p.quality.person && !p.quality.status){
+      toast("Type the note first.");
+      return;
+    }
+    p.quality.note = note;
+    qGo.disabled = true;
+    qGo.textContent = t("Asking the model…");
+    try {
+      const data = await callModel("quality", { note: note, area: p.quality.area, description: p.quality.description, person: p.quality.person, status: p.quality.status });
+      const fields = data.fields || {};
+      ["area", "description", "person", "status"].forEach((k) => {
+        const split = splitField(fields[k] || "");
+        if (split.clean) p.quality[k] = split.clean;
+      });
+      p.quality.ask = data.ask || "";
+      p.quality.modelError = (p.quality.ask || p.quality.area || p.quality.description) ? "" : "The model returned no text.";
+      if (data.omitted) p.quality.modelError = "A date or amount that was not in the document was left out.";
+      save();
+      paint();
+    } catch (err) {
+      p.quality.ask = "";
+      p.quality.modelError = err.message || "The model call failed.";
+      save();
+      paint();
+    }
+  };
+  const qSay = $("#quality-say");
+  if (qSay) qSay.onclick = () => {
+    const note = document.getElementById("quality-note");
+    if (note) listenInto(note);
+  };
   const photo = $("#q-photo");
   if (photo) photo.addEventListener("change", () => {
     const meta = takeFile(photo);
@@ -2078,7 +2727,15 @@ function startAdd(){
 function startEdit(id, ret){
   const tender = tenderById(id);
   if (!tender) return;
-  DB.draft = { tenderId: tender.id, name: tender.name, status: tender.status, files: Object.assign({}, tender.files || {}) };
+  DB.draft = {
+    tenderId: tender.id,
+    name: tender.name,
+    status: tender.status,
+    files: Object.assign({}, tender.files || {}),
+    riskNote: tender.riskNote || "",
+    qualifications: tender.qualifications || "",
+    riskPaste: ""
+  };
   DB.returnTo = ret || "list";
   go("tender");
 }
@@ -2147,6 +2804,25 @@ function flip(){
 }
 $("#theme").onclick = flip;
 $("#theme2").onclick = flip;
+$("#ws-down").onclick = () => downloadText("siteos-workspace.json", JSON.stringify(DB, null, 2));
+$("#ws-load").onclick = () => { const input = $("#ws-file"); if (input) input.click(); };
+$("#ws-file").addEventListener("change", () => {
+  const f = $("#ws-file").files && $("#ws-file").files[0];
+  if (!f) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    let parsed = null;
+    try { parsed = JSON.parse(String(reader.result || "")); } catch (e) { parsed = null; }
+    if (!parsed || typeof parsed !== "object" || !Array.isArray(parsed.tenders) || !Array.isArray(parsed.projects)){
+      toast("That file is not a workspace.");
+      return;
+    }
+    pendingWs = parsed;
+    paint();
+  };
+  reader.readAsText(f);
+  $("#ws-file").value = "";
+});
 $("#chat-back").onclick = () => back();
 $("#lang").onclick = () => {
   LANG = LANG === "af" ? "en" : "af";

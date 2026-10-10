@@ -214,7 +214,7 @@ th.sorted.desc::after{content:" \2193"}
 
 <header class="top">
   <div class="mast">
-    <a class="w" href="/"><span>Site<b>OS</b></span><i></i></a>
+    <a class="w" href="/"><span id="brand">Site<b>OS</b></span><i></i></a>
     <div>
       <h1 id="title">Company overview</h1>
       <p class="sub" id="sub">Load a cost dump for the contracts director.</p>
@@ -230,10 +230,15 @@ th.sorted.desc::after{content:" \2193"}
 </header>
 
 <main class="body">
+  <div class="card" id="setup" style="max-height:none;margin-bottom:14px;padding:16px 16px 8px"></div>
+  <div class="card" id="ws-confirm" hidden style="max-height:none;margin-bottom:14px;padding:16px"></div>
   <div class="loadbar">
     <label class="jump" id="load-label" for="csv">Load a CSV</label>
     <input id="csv" type="file" accept=".csv,text/csv,text/plain">
     <button type="button" class="jump" id="template">Blank CSV</button>
+    <button type="button" class="jump" id="ws-down">Download workspace</button>
+    <label class="jump" id="ws-label" for="ws-file">Load workspace</label>
+    <input id="ws-file" type="file" accept="application/json,.json">
   </div>
   <div class="card" id="sheet"></div>
   <p class="foot-note" id="note"></p>
@@ -249,10 +254,10 @@ th.sorted.desc::after{content:" \2193"}
    ordinary calendar arithmetic, not a contract clause.
    Percentages are not totalled. */
 
-const AS_AT = "2026-08-24";
-
 // SiteOS Rev 4 company overview, "Sign-off target date (90 days after practical or works completion)".
+// The 90 is calendar arithmetic on a date in the loaded row, not a contract clause.
 const SIGN_OFF_AFTER_PRACTICAL = 90;
+const WS_KEY = "siteos.workspace";
 
 const MONEY = [
   ["priceExcl", "Contract price excl. VAT"],
@@ -323,16 +328,16 @@ function signOffTarget(practicalIso){
   return addCalendarDays(practicalIso, SIGN_OFF_AFTER_PRACTICAL);
 }
 
-/* Whole calendar days from the sign-off target to AS_AT.
-   Sheet column: days delay between sign-off and current date.
+/* Whole calendar days from the sign-off target to the company reporting date.
+   Sheet column: days delay between sign-off and the reporting date.
    The closure meeting is shown on the row and is not this end date.
    Does not call new Date(). */
 function dayNumber(iso){
   const [y, m, d] = iso.split("-").map(Number);
   return Math.round(Date.UTC(y, m - 1, d) / 86400000);
 }
-function daysOfDelay(targetIso){
-  return dayNumber(AS_AT) - dayNumber(targetIso);
+function daysOfDelay(targetIso, asAt){
+  return dayNumber(asAt) - dayNumber(targetIso);
 }
 
 function sumCents(key){
@@ -390,7 +395,25 @@ const AF = {
   "That file has headers and no rows.": "Daai lêer het headers en geen rye nie.",
   "That CSV could not be read.": "Daai CSV kon nie gelees word nie.",
   "Load a BuildSmart dump. If the sign-off target cell is empty and a practical completion date is present, the target is 90 calendar days after that date. Days of delay are whole days from that target to the as-at date. Percentages are not totalled.":
-    "Laai 'n BuildSmart dump. As die sign-off target sel leeg is en daar is 'n practical completion datum, is die target 90 kalenderdae ná daai datum. Dae vertraging is volle dae van daai target tot die as-at datum. Persentasies word nie bymekaar getel nie."
+    "Laai 'n BuildSmart dump. As die sign-off target sel leeg is en daar is 'n practical completion datum, is die target 90 kalenderdae ná daai datum. Dae vertraging is volle dae van daai target tot die as-at datum. Persentasies word nie bymekaar getel nie.",
+  "Required headers: Project number and name, Practical completion date. Project and PC date are accepted names. If the sign-off target cell is empty and a practical completion date is present, the target is 90 calendar days after that date. Days of delay use the reporting date. Percentages are not totalled.":
+    "Vereiste headers: Project number and name, Practical completion date. Project en PC date word aanvaar. As die sign-off target sel leeg is en daar is 'n practical completion datum, is die target 90 kalenderdae ná daai datum. Dae vertraging gebruik die reporting date. Persentasies word nie bymekaar getel nie.",
+  "The reporting date is missing.": "Die reporting date is weg.",
+  "Company name": "Maatskappy naam",
+  "Reporting date": "Soos-op datum",
+  "Keep the company": "Hou die maatskappy",
+  "The company needs a name.": "Die maatskappy het 'n naam nodig.",
+  "Set the reporting date.": "Sit die reporting date.",
+  "Company kept": "Maatskappy gehou",
+  "Download workspace": "Laai die werkspasie af",
+  "Load workspace": "Laai die werkspasie",
+  "This replaces the workspace on this computer.": "Dit vervang die werkspasie op hierdie rekenaar.",
+  "Replace the workspace": "Vervang die werkspasie",
+  "Cancel": "Kanselleer",
+  "Workspace loaded": "Werkspasie gelaai",
+  "That file is not a workspace.": "Daai lêer is nie 'n werkspasie nie.",
+  "Missing header": "Header weg",
+  "Day counts use this reporting date.": "Dag-tellings gebruik hierdie reporting date."
 };
 
 function tr(s){
@@ -412,7 +435,7 @@ function translateDOM(root){
   }
 }
 
-const NOTE = "Load a BuildSmart dump. If the sign-off target cell is empty and a practical completion date is present, the target is 90 calendar days after that date. Days of delay are whole days from that target to the as-at date. Percentages are not totalled.";
+const NOTE = "Required headers: Project number and name, Practical completion date. Project and PC date are accepted names. If the sign-off target cell is empty and a practical completion date is present, the target is 90 calendar days after that date. Days of delay use the reporting date. Percentages are not totalled.";
 
 function flag(on, kind){
   if (!on) return `<span class="muted">\u2014</span>`;
@@ -480,7 +503,8 @@ function sheet(){
 
   const body = ROWS.map((row) => {
     const target = rowTarget(row);
-    const delay = target ? daysOfDelay(target) : null;
+    const asAt = reportingDate();
+    const delay = target && asAt ? daysOfDelay(target, asAt) : null;
     const actual = pctNum(row.actualProfitPct);
     const tenderPct = pctNum(row.tenderProfitPct);
     let below = yesCell(row.below);
@@ -499,7 +523,9 @@ function sheet(){
     const sign = target
       ? `<td class="grp-s" data-sort="${esc(target)}">${esc(formatDate(target))}</td>`
       : `<td class="grp-s" data-sort=""><span class="muted">\u2014</span></td>`;
-    const delayCell = delay == null
+    const delayCell = !asAt
+      ? `<td class="n grp-s" data-sort="">${esc(tr("The reporting date is missing."))}</td>`
+      : delay == null
       ? `<td class="n grp-s" data-sort=""><span class="muted">\u2014</span></td>`
       : `<td class="n grp-s" data-sort="${delay}">${delayPill(delay)}</td>`;
     return `<tr>
@@ -577,16 +603,30 @@ function makeSortable(table){
 
 function render(){
   document.documentElement.lang = LANG === "af" ? "af" : "en";
+  const name = companyName();
+  const brand = $("#brand");
+  if (name) brand.textContent = name;
+  else brand.innerHTML = "Site<b>OS</b>";
   $("#title").textContent = tr("Company overview");
   $("#sub").textContent = tr("Load a cost dump for the contracts director.");
   $("#theme").textContent = tr("Theme");
   $("#note").textContent = tr(NOTE);
-  $("#asof").textContent = tr("As at") + " " + formatDate(AS_AT);
+  const asAt = reportingDate();
+  $("#asof").textContent = asAt ? (tr("As at") + " " + formatDate(asAt)) : tr("The reporting date is missing.");
   $("#lang").textContent = LANG === "af" ? "AF" : "EN";
   $("#lang").classList.toggle("af", LANG === "af");
   $("#to-app").textContent = tr("Project app");
   $("#load-label").textContent = tr("Load a CSV");
   $("#template").textContent = tr("Blank CSV");
+  $("#ws-down").textContent = tr("Download workspace");
+  $("#ws-label").textContent = tr("Load workspace");
+  const ws = loadWs();
+  $("#setup").innerHTML =
+    `<label class="field" style="display:flex;flex-direction:column;gap:4px;margin:0 0 10px"><span class="k" style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)">${esc(tr("Company name"))}</span><input id="co-name" type="text" autocomplete="off" value="${esc(ws.company.name || "")}" style="min-height:44px;border:1px solid var(--rule);border-radius:4px;padding:8px 10px;font:inherit;background:var(--surface);color:var(--ink)"></label>` +
+    `<label class="field" style="display:flex;flex-direction:column;gap:4px;margin:0 0 10px"><span class="k" style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)">${esc(tr("Reporting date"))}</span><input id="co-asat" type="date" value="${esc(ws.company.asAt || "")}" style="min-height:44px;border:1px solid var(--rule);border-radius:4px;padding:8px 10px;font:inherit;background:var(--surface);color:var(--ink)"></label>` +
+    `<p class="foot-note" style="margin-top:0">${esc(tr("Day counts use this reporting date."))}</p>` +
+    `<button type="button" class="jump" id="co-keep">${esc(tr("Keep the company"))}</button>`;
+  $("#co-keep").onclick = keepCompany;
   $("#sheet").innerHTML = sheet();
   translateDOM($("#sheet"));
   const table = $("#sheet").querySelector("table");
@@ -696,9 +736,11 @@ function rowsFrom(text){
     }
     return -1;
   };
+  const combined = take((h) => h === "project" || h.includes("project number and name"));
   const ix = {
+    combined: combined,
     no: take((h) => h.includes("project number") || h.startsWith("project no")),
-    name: take((h) => h.includes("project name") || h === "project"),
+    name: take((h) => h.includes("project name")),
     director: take((h) => h.includes("director")),
     priceExcl: take((h) => h.includes("excl")),
     priceIncl: take((h) => h.includes("incl")),
@@ -712,11 +754,14 @@ function rowsFrom(text){
     tenderProfitPct: take((h) => h.includes("tender target")),
     below: take((h) => h.includes("below")),
     above: take((h) => h.includes("above")),
-    practicalCompletion: take((h) => h.includes("practical")),
+    practicalCompletion: take((h) => h === "pc" || h === "pc date" || h.includes("practical")),
     signOff: take((h) => h.includes("sign off") || h.includes("signoff")),
     closureMeeting: take((h) => h.includes("closure"))
   };
-  if (ix.no < 0 && ix.name < 0) return null;
+  const missing = [];
+  if (ix.combined < 0 && ix.no < 0 && ix.name < 0) missing.push("Project number and name");
+  if (ix.practicalCompletion < 0) missing.push("Practical completion date");
+  if (missing.length) return { missing: missing, rows: [] };
   const at = (cols, i) => (i < 0 || i >= cols.length) ? "" : String(cols[i] || "").trim();
   const iso = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s) ? s : "";
   const money = (s) => {
@@ -726,8 +771,9 @@ function rowsFrom(text){
   const out = [];
   for (let r = 1; r < table.length; r++){
     const cols = table[r];
-    const no = at(cols, ix.no);
-    const name = at(cols, ix.name);
+    let no = at(cols, ix.no);
+    let name = at(cols, ix.name);
+    if (!name && ix.combined >= 0) name = at(cols, ix.combined);
     if (!no && !name) continue;
     if (/^total$/i.test(no) || /^total$/i.test(name)) continue;
     out.push({
@@ -751,18 +797,108 @@ function rowsFrom(text){
       closureMeeting: iso(at(cols, ix.closureMeeting))
     });
   }
-  return out;
+  return { missing: [], rows: out };
+}
+
+function emptyWs(){
+  return {
+    v: 1,
+    company: { name: "", asAt: "" },
+    seq: 1,
+    focus: "list",
+    screen: "list",
+    openId: null,
+    returnTo: "list",
+    draft: null,
+    tenders: [],
+    projects: [],
+    office: []
+  };
+}
+function loadWs(){
+  const ws = emptyWs();
+  try {
+    const raw = localStorage.getItem(WS_KEY);
+    if (raw){
+      const p = JSON.parse(raw);
+      if (p && typeof p === "object"){
+        ws.company = Object.assign({ name: "", asAt: "" }, p.company || {});
+        ws.seq = p.seq || 1;
+        ws.focus = p.focus || "list";
+        ws.screen = p.screen || "list";
+        ws.openId = p.openId || null;
+        ws.returnTo = p.returnTo || "list";
+        ws.draft = p.draft || null;
+        ws.tenders = Array.isArray(p.tenders) ? p.tenders : [];
+        ws.projects = Array.isArray(p.projects) ? p.projects : [];
+        ws.office = Array.isArray(p.office) ? p.office : [];
+        return ws;
+      }
+    }
+    const dump = localStorage.getItem(STORE);
+    if (dump){
+      const rows = JSON.parse(dump);
+      if (Array.isArray(rows)) ws.office = rows;
+    }
+  } catch (e) {}
+  return ws;
+}
+function saveWs(ws){
+  try { localStorage.setItem(WS_KEY, JSON.stringify(ws)); } catch (e) {}
+}
+function companyName(){
+  return String(loadWs().company.name || "").trim();
+}
+function reportingDate(){
+  const d = loadWs().company.asAt || "";
+  return /^\d{4}-\d{2}-\d{2}$/.test(d) ? d : "";
 }
 function saveRows(){
-  try { localStorage.setItem(STORE, JSON.stringify(ROWS)); } catch (e) {}
+  const ws = loadWs();
+  ws.office = ROWS;
+  saveWs(ws);
 }
-try {
-  const raw = localStorage.getItem(STORE);
-  if (raw){
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) ROWS = parsed;
-  }
-} catch (e) {}
+function keepCompany(){
+  const ws = loadWs();
+  const name = $("#co-name").value.trim();
+  const asAt = $("#co-asat").value;
+  if (!name){ toast(tr("The company needs a name.")); return; }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(asAt)){ toast(tr("Set the reporting date.")); return; }
+  ws.company = { name: name, asAt: asAt };
+  saveWs(ws);
+  render();
+  toast(tr("Company kept"));
+}
+function downloadWs(){
+  const blob = new Blob([JSON.stringify(loadWs(), null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "siteos-workspace.json";
+  a.click();
+}
+let pendingWs = null;
+function showReplace(ws){
+  pendingWs = ws;
+  const box = $("#ws-confirm");
+  box.hidden = false;
+  box.innerHTML = `<p>${esc(tr("This replaces the workspace on this computer."))}</p>` +
+    `<div class="loadbar"><button type="button" class="jump" id="ws-yes">${esc(tr("Replace the workspace"))}</button>` +
+    `<button type="button" class="jump" id="ws-no">${esc(tr("Cancel"))}</button></div>`;
+  $("#ws-yes").onclick = () => {
+    saveWs(pendingWs);
+    ROWS = Array.isArray(pendingWs.office) ? pendingWs.office : [];
+    pendingWs = null;
+    box.hidden = true;
+    render();
+    toast(tr("Workspace loaded"));
+  };
+  $("#ws-no").onclick = () => {
+    pendingWs = null;
+    box.hidden = true;
+  };
+}
+
+ROWS = loadWs().office;
 
 $("#template").onclick = () => {
   const blob = new Blob([CSV_HEADERS.join(",") + "\n"], { type: "text/csv;charset=utf-8" });
@@ -778,13 +914,40 @@ $("#csv").addEventListener("change", () => {
   reader.onload = () => {
     const parsed = rowsFrom(String(reader.result || ""));
     if (!parsed){ toast(tr("That CSV could not be read.")); return; }
-    ROWS = parsed;
+    if (parsed.missing && parsed.missing.length){
+      toast(tr("Missing header") + ": " + parsed.missing.join(", "));
+      return;
+    }
+    ROWS = parsed.rows;
     saveRows();
     render();
-    toast(tr(parsed.length ? "Dump loaded" : "That file has headers and no rows."));
+    toast(tr(parsed.rows.length ? "Dump loaded" : "That file has headers and no rows."));
   };
   reader.readAsText(f);
   $("#csv").value = "";
+});
+$("#ws-down").onclick = downloadWs;
+$("#ws-file").addEventListener("change", () => {
+  const f = $("#ws-file").files && $("#ws-file").files[0];
+  if (!f) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    let parsed = null;
+    try { parsed = JSON.parse(String(reader.result || "")); } catch (e) { parsed = null; }
+    if (!parsed || typeof parsed !== "object" || !Array.isArray(parsed.tenders) || !Array.isArray(parsed.projects)){
+      toast(tr("That file is not a workspace."));
+      return;
+    }
+    const ws = emptyWs();
+    ws.company = Object.assign({ name: "", asAt: "" }, parsed.company || {});
+    ws.tenders = parsed.tenders;
+    ws.projects = parsed.projects;
+    ws.office = Array.isArray(parsed.office) ? parsed.office : [];
+    ws.seq = parsed.seq || 1;
+    showReplace(ws);
+  };
+  reader.readAsText(f);
+  $("#ws-file").value = "";
 });
 
 render();

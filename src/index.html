@@ -129,6 +129,7 @@ footer a{color:var(--stamp); text-decoration:underline; text-underline-offset:3p
 
 <header>
   <div class="mark"><h1>Site<b>OS</b></h1><i></i></div>
+  <p id="company-line" hidden></p>
   <p id="lede">Two pages. The project app is where you load a job, from the tender onto the site. The company overview is the sheet you load beside it.</p>
   <div class="tools">
     <button type="button" id="lang" class="langbtn">EN</button>
@@ -205,9 +206,26 @@ try {
   const stored = localStorage.getItem("siteos.lang");
   if (stored === "af" || stored === "en") LANG = stored;
 } catch (e) {}
+function companyName(){
+  try {
+    const raw = localStorage.getItem("siteos.workspace");
+    if (!raw) return "";
+    const p = JSON.parse(raw);
+    return p && p.company && String(p.company.name || "").trim();
+  } catch (e) { return ""; }
+}
 function paint(){
   document.documentElement.lang = LANG === "af" ? "af" : "en";
   const pack = COPY[LANG];
+  const line = document.getElementById("company-line");
+  const name = companyName();
+  if (name){
+    line.hidden = false;
+    line.textContent = pack["chip-company"] + ": " + name;
+  } else {
+    line.hidden = true;
+    line.textContent = "";
+  }
   document.getElementById("lede").textContent = pack.lede;
   document.querySelectorAll("[data-k]").forEach(el => {
     const v = pack[el.getAttribute("data-k")];
