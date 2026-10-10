@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SiteOS</title>
-<meta name="description" content="A construction operating system that starts at tender and runs to final account, built on the way a commercial building contract actually runs.">
+<meta name="description" content="The project app and the company overview. One job from the tender onto the site, and one sheet for the company.">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SiteOS">
 <meta property="og:title" content="SiteOS">
-<meta property="og:description" content="A construction operating system that starts at tender and runs to final account, built on the way a commercial building contract actually runs.">
+<meta property="og:description" content="The project app and the company overview. One job from the tender onto the site, and one sheet for the company.">
 <meta property="og:url" content="/">
 <meta name="twitter:card" content="summary">
 <meta name="robots" content="noindex">
@@ -141,91 +141,116 @@ header p{margin:18px 0 0; font-size:19px; color:var(--ink-2); max-width:54ch; te
 
 footer{margin-top:52px; padding-top:18px; border-top:1px solid var(--rule); font-size:13px; color:var(--ink-3)}
 footer a{color:var(--stamp); text-decoration:underline; text-underline-offset:3px}
+.tools{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px}
+.tools button{
+  font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  border:1px solid var(--rule); background:var(--surface); color:var(--ink);
+  border-radius:4px; padding:10px 12px; min-height:44px; cursor:pointer;
+}
+.tools button.af{border-color:var(--signal); color:var(--signal-txt)}
 </style>
 
 <div class="wrap">
 
 <header>
   <div class="mark"><h1>Site<b>OS</b></h1><i></i></div>
-  <p>The simple site app. A tender comes in, an award opens the job, and the phone walks the contract, the programme and the claim one question at a time.</p>
-  <div class="meta">
-    <div><span class="lab">Status</span><b>Working prototype</b></div>
-    <div><span class="lab">Scope</span><b>Tender to the site</b></div>
-    <div><span class="lab">Contract</span><b>Loaded per job</b></div>
-    <div><span class="lab">Updated</span><b>2026-10-08</b></div>
+  <p id="lede">Two pages. The project app walks one job from the tender onto the site. The company overview is the sheet beside it.</p>
+  <div class="tools">
+    <button type="button" id="lang" class="langbtn">EN</button>
   </div>
 </header>
 
 <div class="cards">
 
   <a class="card" href="/plumbline">
-    <div class="top"><span class="chip sig">Try it</span><span class="lab">Mobile</span></div>
-    <h2>Plumbline</h2>
-    <p>The simple site app. One question per screen, tap to answer, from the tender result through the job.</p>
-    <ul>
-      <li>Waiting for Results, then Tender Awarded or Tender Unsuccessful</li>
-      <li>Awarded opens the project. The tender documents become the Contract Rules</li>
-      <li>Contract before signature, then the signed copy, with the change still visible</li>
-      <li>Diary, extension of time, claim comparisons, a quality photo, subcontractor default</li>
-    </ul>
-    <div class="go">Open the app <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="top"><span class="chip sig" data-k="chip-project">Project</span><span class="lab" data-k="phone">Phone</span></div>
+    <h2 data-k="project-app">Project app</h2>
+    <p data-k="project-blurb">One question at a time. The tender is a short list: Waiting for Results, Tender Awarded, or Tender Unsuccessful. Awarded opens Harbour School Hall and names the loaded files as the Contract Rules.</p>
+    <div class="go"><span data-k="open-project">Open the project app</span> <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
   </a>
 
   <a class="card" href="/office">
-    <div class="top"><span class="chip sig">Try it</span><span class="lab">Desktop</span></div>
-    <h2>Head Office</h2>
-    <p>The desk beside the phone. The path to click through is Plumbline, the simple site app.</p>
-    <ul>
-      <li>The site app carries the tender and the job</li>
-      <li>Dates and amounts come off the documents that were loaded</li>
-      <li>English and Afrikaans, one question at a time</li>
-    </ul>
-    <div class="go">Open the console <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="top"><span class="chip sig" data-k="chip-company">Company</span><span class="lab" data-k="desk">Desk</span></div>
+    <h2 data-k="company">Company overview</h2>
+    <p data-k="company-blurb">One sheet for the contracts director. Four fictional jobs. Money, profit and sign-off sit in their own column groups.</p>
+    <div class="go"><span data-k="open-company">Open the company overview</span> <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
   </a>
 
-  <a class="card" href="/workflow">
-    <div class="top"><span class="chip">Analysis</span><span class="lab">Read</span></div>
-    <h2>The Smart Way</h2>
-    <p>Background reading on how a commercial building job is discussed. The app to click is Plumbline.</p>
-    <ul>
-      <li>The simple path is the site app</li>
-      <li>Dates on a job come from the contract that was loaded</li>
-      <li>Speech turns into fields a person confirms</li>
-    </ul>
-    <div class="go">Read the method <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-  </a>
-
-
-  <a class="card" href="/brief">
-    <div class="top"><span class="chip">Template</span><span class="lab">Share</span></div>
-    <h2>The Process Ontology</h2>
-    <p>A workshop sheet for asking how the work actually runs. The site prototype beside it is the simple app.</p>
-    <ul>
-      <li>Questions a workshop can ask</li>
-      <li>The buildable detail sits in the answers</li>
-      <li>The phone app is the path to click</li>
-    </ul>
-    <div class="go">Open the deck <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-  </a>
-
-</div>
-
-<div class="strip">
-  <div><span class="lab">Path</span><b>8</b><span class="d">Tender to default</span></div>
-  <div><span class="lab">Questions</span><b>1</b><span class="d">Per screen</span></div>
-  <div><span class="lab">Pricing</span><b>0</b><span class="d">Candy already did it</span></div>
-  <div><span class="lab">Languages</span><b>2</b><span class="d">English and Afrikaans</span></div>
 </div>
 
 <div class="note">
-  <span class="lab">Read this first</span>
-  <p>Dates and amounts on the site app are the ones on the loaded documents. The phone shows them, and it subtracts one confirmed date from another. It does not price a bill and it does not invent a deadline. Harbour School Hall, in Lakeside, is a fictional job.</p>
+  <span class="lab" data-k="on-docs">On the documents</span>
+  <p data-k="docs-note">Dates and amounts are the ones on the loaded documents. The phone shows them. It does not price a bill and it does not invent a deadline. Harbour School Hall, in Lakeside, is a fictional job.</p>
 </div>
 
 <footer>
-  Source on <a href="https://github.com/tobievii/constrAI">github.com/tobievii/constrAI</a>. Best viewed on a phone, which is the point.
+  <span data-k="source">Source on</span> <a href="https://github.com/tobievii/constrAI">github.com/tobievii/constrAI</a>.
 </footer>
 
 </div>
+
+<script>
+"use strict";
+const COPY = {
+  en: {
+    lede: "Two pages. The project app walks one job from the tender onto the site. The company overview is the sheet beside it.",
+    "chip-project": "Project",
+    phone: "Phone",
+    "project-app": "Project app",
+    "project-blurb": "One question at a time. The tender is a short list: Waiting for Results, Tender Awarded, or Tender Unsuccessful. Awarded opens Harbour School Hall and names the loaded files as the Contract Rules.",
+    "open-project": "Open the project app",
+    "chip-company": "Company",
+    desk: "Desk",
+    company: "Company overview",
+    "company-blurb": "One sheet for the contracts director. Four fictional jobs. Money, profit and sign-off sit in their own column groups.",
+    "open-company": "Open the company overview",
+    "on-docs": "On the documents",
+    "docs-note": "Dates and amounts are the ones on the loaded documents. The phone shows them. It does not price a bill and it does not invent a deadline. Harbour School Hall, in Lakeside, is a fictional job.",
+    source: "Source on"
+  },
+  af: {
+    lede: "Twee bladsye. Die projek-app loop een job van die tender af tot op die erf. Die maatskappy oorsig is die blad langsaan.",
+    "chip-project": "Projek",
+    phone: "Foon",
+    "project-app": "Projek-app",
+    "project-blurb": "Een vraag op 'n slag. Die tender is 'n kort lys: Wag vir resultate, Tender toegeken, of Tender onsuksesvol. Toegeken maak Harbour School Hall oop en noem die gelaaide lêers die Contract Rules.",
+    "open-project": "Maak die projek-app oop",
+    "chip-company": "Maatskappy",
+    desk: "Lessenaar",
+    company: "Maatskappy oorsig",
+    "company-blurb": "Een blad vir die kontrakte direkteur. Vier fiktiewe jobs. Geld, profit en sign-off sit in hul eie kolomgroepe.",
+    "open-company": "Maak die maatskappy oorsig oop",
+    "on-docs": "Op die dokumente",
+    "docs-note": "Datums en bedrae is die wat op die gelaaide dokumente staan. Die foon wys hulle. Dit prys nie 'n bill nie en dit verbeel nie 'n deadline nie. Harbour School Hall, in Lakeside, is 'n fiktiewe job.",
+    source: "Bron op"
+  }
+};
+let LANG = "en";
+try {
+  const stored = localStorage.getItem("siteos.lang");
+  if (stored === "af" || stored === "en") LANG = stored;
+} catch (e) {}
+function paint(){
+  document.documentElement.lang = LANG === "af" ? "af" : "en";
+  const pack = COPY[LANG];
+  document.getElementById("lede").textContent = pack.lede;
+  document.querySelectorAll("[data-k]").forEach(el => {
+    const v = pack[el.getAttribute("data-k")];
+    if (v) el.textContent = v;
+  });
+  const b = document.getElementById("lang");
+  b.textContent = LANG === "af" ? "AF" : "EN";
+  b.classList.toggle("af", LANG === "af");
+}
+document.getElementById("lang").onclick = () => {
+  LANG = LANG === "af" ? "en" : "af";
+  try {
+    localStorage.setItem("siteos.lang", LANG);
+    localStorage.setItem("plumbline.lang", LANG);
+  } catch (e) {}
+  paint();
+};
+paint();
+</script>
 </body>
 </html>

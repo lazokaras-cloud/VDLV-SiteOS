@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Plumbline</title>
-<meta name="description" content="The site app. A guided chat forces the process one question at a time while the JBCC clock runs in the background.">
+<meta name="description" content="The project app. One question at a time, from the tender result through the job.">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SiteOS">
 <meta property="og:title" content="Plumbline">
-<meta property="og:description" content="The site app. A guided chat forces the process one question at a time while the JBCC clock runs in the background.">
+<meta property="og:description" content="The project app. One question at a time, from the tender result through the job.">
 <meta property="og:url" content="/plumbline">
 <meta name="twitter:card" content="summary">
 <meta name="robots" content="noindex">
@@ -157,11 +157,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   padding:12px 20px; border-top:1px solid var(--rule);
   display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
 }
-.tb-foot button{
+.tb-foot button, .tb-foot a{
   font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase;
   color:var(--ink-2); border-bottom:1px solid var(--rule);
+  min-height:44px; display:inline-flex; align-items:center;
 }
-.tb-foot button:hover{color:var(--ink); border-color:var(--ink)}
+.tb-foot button:hover, .tb-foot a:hover{color:var(--ink); border-color:var(--ink)}
+a.tb-mark{color:inherit; text-decoration:none}
 
 .stage{display:flex; justify-content:center; padding-top:8px}
 
@@ -280,12 +282,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .base .hd span{font-family:var(--mono); font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; opacity:.72}
 
 /* board */
-.proj{display:flex; flex-direction:column; gap:0; width:100%; text-align:left; padding:11px 13px; border-bottom:1px solid var(--rule-2)}
-.proj:last-child{border-bottom:0}
-.proj .l1{display:flex; align-items:baseline; gap:8px}
-.proj .l1 b{font-size:14px; font-weight:600; letter-spacing:0; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-.proj .l2{display:flex; align-items:center; gap:7px; margin-top:6px; flex-wrap:wrap}
-.proj .l2 .m{font-family:var(--mono); font-size:11px; color:var(--ink-2); font-variant-numeric:tabular-nums}
+/* board rows, not the title in the phone bar */
+.projrow{display:flex; flex-direction:column; gap:0; width:100%; text-align:left; padding:11px 13px; border-bottom:1px solid var(--rule-2)}
+.projrow:last-child{border-bottom:0}
+.projrow .l1{display:flex; align-items:baseline; gap:8px}
+.projrow .l1 b{font-size:14px; font-weight:600; letter-spacing:0; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.projrow .l2{display:flex; align-items:center; gap:7px; margin-top:6px; flex-wrap:wrap}
+.projrow .l2 .m{font-family:var(--mono); font-size:11px; color:var(--ink-2); font-variant-numeric:tabular-nums}
 .edch{
   font-family:var(--mono); font-size:9px; letter-spacing:.08em; padding:2px 5px; border-radius:2px;
   background:var(--surface-2); color:var(--ink-2); border:1px solid var(--rule);
@@ -397,11 +400,15 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 @media (max-width:1000px){ .chat-bar{padding-top:12px} }
 .chat-bar .r1{display:flex; align-items:center; gap:10px; padding-bottom:9px}
 .chat-bar h2{margin:0; font-size:14.5px; font-weight:600; letter-spacing:0; flex:1; min-width:0}
-.iconbtn{width:30px; height:30px; flex:none; display:grid; place-items:center; border-radius:5px; color:var(--ink-2)}
+.iconbtn{width:44px; height:44px; flex:none; display:grid; place-items:center; border-radius:5px; color:var(--ink-2)}
 .iconbtn:hover{background:var(--surface-2); color:var(--ink)}
 .iconbtn svg{width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2}
+#chat-back{width:auto; min-width:44px; padding:0 8px; display:inline-flex; gap:2px}
+#chat-back .backlab{
+  font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+}
 .langbtn{
-  flex:none; padding:5px 9px; border:1px solid var(--rule); border-radius:5px;
+  flex:none; padding:8px 12px; min-height:44px; border:1px solid var(--rule); border-radius:5px;
   font-family:var(--mono); font-size:10px; letter-spacing:.14em; font-weight:600;
   color:var(--ink-2); background:var(--surface);
 }
@@ -497,13 +504,31 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   flex:none; background:var(--surface); border-top:1px solid var(--rule);
   padding:11px 12px calc(11px + env(safe-area-inset-bottom));
   display:flex; flex-direction:column; gap:8px;
+  max-height:46%; overflow-y:auto;
 }
 .rail .q{font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3)}
 .opts{display:flex; flex-wrap:wrap; gap:7px}
 .opt{
-  padding:9px 13px; border:1px solid var(--rule); border-radius:20px; background:var(--surface);
+  padding:11px 14px; min-height:44px; border:1px solid var(--rule); border-radius:20px; background:var(--surface);
   font-size:13.5px; font-weight:600; box-shadow:var(--shadow);
 }
+.textback{
+  align-self:flex-start; min-height:44px; padding:8px 2px;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-2);
+}
+.textback:hover{color:var(--ink)}
+.tenderlist .trow{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  width:100%; text-align:left; padding:14px 13px; min-height:52px;
+  border-bottom:1px solid var(--rule-2);
+}
+.tenderlist .trow:last-child{border-bottom:0}
+.tenderlist button.trow:hover{background:var(--surface-2)}
+.dash-go{margin-top:12px}
+button.opt.dash-go{display:flex; width:100%; margin-top:12px; border-radius:4px; align-items:center; justify-content:center}
+.chk{min-height:44px}
+.tabs button{min-height:52px}
 .opt:hover{border-color:var(--ink); background:var(--surface-2)}
 .opt.primary{background:var(--ink); color:var(--ground); border-color:var(--ink)}
 .opt.primary:hover{background:var(--ink); opacity:.88}
@@ -613,7 +638,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
   <aside class="titleblock">
     <div class="tb-head">
-      <div class="tb-mark"><h1>Plumbline</h1><i class="tick"></i></div>
+      <a class="tb-mark" href="/"><h1>Plumbline</h1><i class="tick"></i></a>
       <p class="tb-sub" data-i18n="The simple site app. One question at a time, from the tender to the job.">The simple site app. One question at a time, from the tender to the job.</p>
     </div>
     <div class="tb-rows">
@@ -629,6 +654,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       <p><strong data-i18n="Try">Try</strong> <span data-i18n="Start on Tender, while it is Waiting for Results.">Start on Tender, while it is Waiting for Results.</span></p>
     </div>
     <div class="tb-foot">
+      <a href="/office" data-i18n="Company overview">Company overview</a>
       <button id="theme" data-i18n="Flip theme">Flip theme</button>
       <button id="reset" data-i18n="Reset demo">Reset demo</button>
     </div>
@@ -670,8 +696,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       <div class="chat" id="chat" hidden>
         <div class="chat-bar">
           <div class="r1">
-            <button class="iconbtn" id="chat-back" aria-label="Back">
+            <button class="iconbtn" id="chat-back" aria-label="Back to the project">
               <svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+              <span class="backlab" data-i18n="Back">Back</span>
             </button>
             <h2 id="chat-title">Flow</h2>
             <span class="chip" id="chat-clause">Tender</span>
@@ -763,7 +790,17 @@ function money(cents){
 }
 
 let LANG = "en";
-try { LANG = localStorage.getItem("plumbline.lang") || "en"; } catch (e) {}
+try {
+  const shared = localStorage.getItem("siteos.lang");
+  const own = localStorage.getItem("plumbline.lang");
+  LANG = shared === "af" || shared === "en" ? shared : (own === "af" || own === "en" ? own : "en");
+} catch (e) {}
+function writeLang(lang){
+  try {
+    localStorage.setItem("siteos.lang", lang);
+    localStorage.setItem("plumbline.lang", lang);
+  } catch (e) {}
+}
 
 function t(s, ...args){
   let out = (LANG === "af" && AF[s]) ? AF[s] : s;
@@ -1140,7 +1177,31 @@ const AF = {
   "Quality and safety": "Gehalte en safety",
   "Photo, then days late": "Foto, dan dae laat",
   "Subcontractor default": "Subcontractor default",
-  "The contract rules for this job": "Die contract rules vir hierdie job"
+  "The contract rules for this job": "Die contract rules vir hierdie job",
+  "Company overview": "Maatskappy oorsig",
+  "Project app": "Projek-app",
+  "Back": "Terug",
+  "Previous step": "Vorige stap",
+  "Carry on": "Gaan voort van hier",
+  "Open again": "Maak weer oop",
+  "Open the contract": "Maak die kontrak oop",
+  "Open the schedule": "Maak die schedule oop",
+  "Open the appointments": "Maak die appointments oop",
+  "Open the diary": "Maak die dagboek oop",
+  "Open the claim": "Maak die claim oop",
+  "Open the quality photo": "Maak die quality foto oop",
+  "Open the default": "Maak die default oop",
+  "Change the tender result": "Verander die tender-resultaat",
+  "Keep the diary": "Hou die dagboek",
+  "Keep the note": "Hou die nota",
+  "The tender stays Waiting for Results. No project was opened.":
+    "Die tender bly Wag vir resultate. Geen projek is oopgemaak nie.",
+  "Approved practical completion": "Goedgekeurde practical completion",
+  "The result is chosen in the tender, after the files are confirmed.":
+    "Die resultaat word in die tender gekies, nadat die lêers bevestig is.",
+  "The sheet for this job is complete.": "Die blad vir hierdie job is klaar.",
+  "Tender Unsuccessful. The project is closed. The tender is kept.":
+    "Tender onsuksesvol. Die projek is toe. Die tender bly."
 };
 
 const SEED = {
@@ -1153,7 +1214,8 @@ const SEED = {
   appointmentsOpen: 6,
   eotApproved: false,
   subBehind: false,
-  done: {}
+  done: {},
+  place: null
 };
 
 function fresh(){ return JSON.parse(JSON.stringify(SEED)); }
@@ -1163,6 +1225,7 @@ try {
   if (raw){
     const p = JSON.parse(raw);
     if (p && typeof p.tenderStatus === "string" && p.done) S = Object.assign(fresh(), p);
+    if (!S.place || typeof S.place.flow !== "string" || typeof S.place.i !== "number" || !S.place.st) S.place = null;
   }
 } catch (e) {}
 function save(){ try { localStorage.setItem("plumbline.rev4", JSON.stringify(S)); } catch (e) {} }
@@ -1246,8 +1309,9 @@ const FLOWS = {
         msg: "What is the result?",
         key: "result",
         opts: [
-          { label: "Tender Awarded", v: "awarded", cls: "sig" },
-          { label: "Tender Unsuccessful", v: "unsuccessful" }
+          { label: "Waiting for Results", v: "waiting", cls: "full" },
+          { label: "Tender Awarded", v: "awarded", cls: "sig full" },
+          { label: "Tender Unsuccessful", v: "unsuccessful", cls: "full" }
         ] },
       { kind: "doc", stage: "Rules",
         skipIf: st => st.result !== "awarded",
@@ -1266,28 +1330,53 @@ const FLOWS = {
         apply(){
           S.tenderStatus = "awarded";
           S.project = true;
-          S.pcDate = FIX.tenderPc;
-          S.baselineSource = "tender";
-          S.contractStatus = "none";
-          S.appointmentsOpen = 6;
-          S.openRfi = 0;
-          S.eotApproved = false;
-          S.subBehind = false;
           S.done.tender = true;
+          if (S.contractStatus === "none" && !S.eotApproved){
+            S.pcDate = FIX.tenderPc;
+            S.baselineSource = "tender";
+            S.appointmentsOpen = 6;
+            S.openRfi = 0;
+            S.subBehind = false;
+          }
         },
         msg: "Project opened. Harbour School Hall carries the tender documents as the Contract Rules.",
         toast: "Project opened" },
       { kind: "finish", stage: "Result",
         skipIf: st => st.result !== "unsuccessful",
         apply(){
+          st.hadProject = !!S.project;
           S.tenderStatus = "unsuccessful";
           S.project = false;
           S.pcDate = null;
           S.contractStatus = "none";
           S.baselineSource = "none";
-          S.done.tender = true;
+          S.eotApproved = false;
+          S.subBehind = false;
+          S.openRfi = 0;
+          S.appointmentsOpen = 6;
+          S.done = { tender: true };
+          S.place = null;
         },
-        msg: "Tender Unsuccessful. The tender is kept. No project was opened.",
+        msg: () => st.hadProject
+          ? "Tender Unsuccessful. The project is closed. The tender is kept."
+          : "Tender Unsuccessful. The tender is kept. No project was opened.",
+        toast: "Tender kept" },
+      { kind: "finish", stage: "Result",
+        skipIf: st => st.result !== "waiting",
+        apply(){
+          S.tenderStatus = "waiting";
+          S.project = false;
+          S.pcDate = null;
+          S.contractStatus = "none";
+          S.baselineSource = "none";
+          S.eotApproved = false;
+          S.subBehind = false;
+          S.openRfi = 0;
+          S.appointmentsOpen = 6;
+          S.done = {};
+          S.place = null;
+        },
+        msg: "The tender stays Waiting for Results. No project was opened.",
         toast: "Tender kept" }
     ]
   },
@@ -1440,6 +1529,7 @@ const FLOWS = {
       { kind: "talk", stage: "Diary", q: "Hold to play the sample note",
         msg: "Hold to play the sample note",
         hint: "The sample note",
+        keep: "Keep the diary",
         demo: DIARY_DEMO,
         demoAf: DIARY_DEMO_AF,
         back: "Here is the diary, read back.",
@@ -1469,7 +1559,8 @@ const FLOWS = {
           S.eotApproved = true;
           S.subBehind = true;
           save();
-          return t("Practical completion was {0}. It is now {1}. The new baseline must be submitted.", was, FIX.eotPc);
+          return t("Practical completion was {0}. It is now {1}. The new baseline must be submitted.", was, FIX.eotPc)
+            + " " + t("{0} to {1} is {2} calendar days.", AS_AT, FIX.eotPc, daysBetween(AS_AT, FIX.eotPc));
         } },
       { kind: "finish", stage: "Extension",
         apply(){ S.done.progress = true; S.subBehind = true; },
@@ -1598,6 +1689,7 @@ const FLOWS = {
       { kind: "talk", stage: "Note", q: "Hold to play the sample note",
         msg: "Hold to play the sample note",
         hint: "The sample note",
+        keep: "Keep the note",
         demo: "Hall store. Door frame out of square. Site foreman. Completion date " + FIX.qComplete + ". Finished " + FIX.qFinished + ". Status finished.",
         demoAf: "Store by die hall. Deurraam is skeef. Voorman. Completion date " + FIX.qComplete + ". Klaar " + FIX.qFinished + ". Status klaar.",
         back: "Here is the photo note, read back.",
@@ -1692,63 +1784,130 @@ function baselineLabel(){
   return "Not loaded";
 }
 
+const OPEN_LABEL = {
+  tender: "Open the tender",
+  contract: "Open the contract",
+  rfi: "Open the schedule",
+  orders: "Open the appointments",
+  progress: "Open the diary",
+  claims: "Open the claim",
+  quality: "Open the quality photo",
+  subdefault: "Open the default"
+};
+
+function goLabel(flow){
+  if (S.done[flow]) return "Open again";
+  if (S.place && S.place.flow === flow) return "Carry on";
+  return OPEN_LABEL[flow] || "Continue";
+}
+
+function guideVisible(g){
+  if (g.flow === "tender") return S.tenderStatus === "waiting" || !!S.done.tender;
+  return !!S.done[g.flow] || g.open();
+}
+
+function nextGuide(){
+  return GUIDES.find(g => {
+    if (S.done[g.flow]) return false;
+    if (g.flow === "tender") return S.tenderStatus === "waiting";
+    return g.open();
+  });
+}
+
+function tenderList(){
+  const rows = [
+    ["waiting", "Waiting for Results"],
+    ["awarded", "Tender Awarded"],
+    ["unsuccessful", "Tender Unsuccessful"]
+  ];
+  return `<div class="card tenderlist">` + rows.map(([id, label]) => {
+    const on = S.tenderStatus === id;
+    if (on && id === "waiting"){
+      return `<button type="button" class="trow on" data-flow="tender"><span class="pill info">${esc(t(label))}</span><span class="go">${esc(t(goLabel("tender")))} ${ARROW}</span></button>`;
+    }
+    if (on){
+      return `<div class="trow on"><span class="pill ${id === "unsuccessful" ? "warn" : "ok"}">${esc(t(label))}</span><span class="pill ok">${esc(t("Kept"))}</span></div>`;
+    }
+    return `<div class="trow"><span class="pill flat">${esc(t(label))}</span></div>`;
+  }).join("") + `</div>`;
+}
+
 function renderProject(){
-  let h = "";
   if (!S.project){
     const waiting = S.tenderStatus === "waiting";
-    $("#pane-project").innerHTML = waiting
-      ? `<button class="card task info" data-flow="tender"><i class="sev"></i><div class="body"><div class="top"><span class="pill info">${esc(t("Waiting for Results"))}</span></div><h3>${esc(FIX.job)}</h3><p>${esc(FIX.town)}. ${esc(t("No project yet."))}</p><div class="foot"><span class="go">${esc(t("Open the tender"))} ${ARROW}</span></div></div></button>`
-      : `<div class="card task warn"><i class="sev"></i><div class="body"><div class="top"><span class="pill warn">${esc(t("Tender Unsuccessful"))}</span></div><h3>${esc(FIX.job)}</h3><p>${esc(t("The tender is kept. No project was opened."))}</p><p>${esc(FIX.town)}</p></div></div>`;
+    const change = waiting ? "" : `<button type="button" class="opt full dash-go" data-flow="tender" data-mode="change">${esc(t("Change the tender result"))}</button>`;
+    const line = waiting
+      ? esc(FIX.job) + ", " + esc(FIX.town) + ". " + esc(t("No project yet.")) + " " + esc(t("The result is chosen in the tender, after the files are confirmed."))
+      : esc(FIX.job) + ", " + esc(FIX.town) + ". " + esc(t("The tender is kept. No project was opened."));
+    $("#pane-project").innerHTML = `
+      <div class="sec"><span class="lab">${esc(t("Tender"))}</span></div>
+      ${tenderList()}
+      <p class="foot-note">${line}</p>
+      ${change}`;
     return;
   }
 
-  const n = daysBetween(AS_AT, S.pcDate);
-  h = `<div class="clock">
+  const pc = S.pcDate || FIX.tenderPc;
+  const n = daysBetween(AS_AT, pc);
+  const next = nextGuide();
+  const nextCard = next
+    ? `<button class="card task info dash-go" data-flow="${next.flow}"><i class="sev"></i><div class="body"><div class="top"><span class="pill info">${esc(t(next.n))}</span></div><h3>${esc(t(next.title))}</h3><p>${esc(t(next.sub))}</p><div class="foot"><span class="go">${esc(t(goLabel(next.flow)))} ${ARROW}</span></div></div></button>`
+    : `<p class="foot-note">${esc(t("The sheet for this job is complete."))}</p>`;
+  let dates = "";
+  if (S.contractStatus === "draft" || S.contractStatus === "signed"){
+    dates += `<div class="row"><span>${esc(t("Completion on the Contract Rules"))}</span><b class="mono">${esc(FIX.tenderPc)}</b></div>`;
+  }
+  if (S.contractStatus === "draft"){
+    dates += `<div class="row"><span>${esc(t("Completion on the draft"))}</span><b class="mono">${esc(FIX.signedPc)}</b></div>`;
+  }
+  if (S.contractStatus === "signed"){
+    dates += `<div class="row"><span>${esc(t("Completion on the signed contract"))}</span><b class="mono">${esc(FIX.signedPc)}</b></div>`;
+  }
+  if (S.eotApproved){
+    dates += `<div class="row"><span>${esc(t("Approved practical completion"))}</span><b class="mono">${esc(FIX.eotPc)}</b></div>`;
+  }
+  $("#pane-project").innerHTML = `<div class="clock">
       <div class="row">
         <div>
           <div class="lab">${esc(t("Days until practical completion"))}</div>
-          <div class="big">${n}</div>
+          <div class="big" id="days">${n}</div>
         </div>
         <div class="meta">
           <span class="lab">${esc(t("Practical completion"))}</span>
-          <b>${esc(S.pcDate)}</b>
+          <b id="pc-date">${esc(pc)}</b>
           ${esc(t("As at {0}", AS_AT))}
         </div>
       </div>
     </div>
-    <p class="foot-note">${esc(t("{0} to {1} is {2} calendar days.", AS_AT, S.pcDate, n))}</p>
+    <p class="foot-note">${esc(t("{0} to {1} is {2} calendar days.", AS_AT, pc, n))}</p>
+    ${nextCard}
     <div class="card base" style="margin-top:10px">
+      ${dates}
       <div class="row"><span>${esc(t("Contract status"))}</span><b>${esc(t(contractLabel()))}</b></div>
       <div class="row"><span>${esc(t("Programme baseline"))}</span><b>${esc(t(baselineLabel()))}</b></div>
       <div class="row"><span>${esc(t("Open RFIs"))}</span><b class="mono">${S.openRfi}</b></div>
       <div class="row"><span>${esc(t("Appointments still open"))}</span><b class="mono">${S.appointmentsOpen}</b></div>
     </div>`;
-  $("#pane-project").innerHTML = h;
 }
 
-function guideButton(g, open){
+function guideButton(g){
   const done = !!S.done[g.flow];
-  const sub = g.flow === "tender" && S.tenderStatus !== "waiting" ? t(chipKey()) : t(g.sub);
+  const detail = g.flow === "tender" && S.tenderStatus !== "waiting"
+    ? t(S.tenderStatus === "awarded" ? "Tender Awarded" : "Tender Unsuccessful")
+    : t(g.sub);
   const pill = done ? `<span class="pill ok">${esc(t("Done"))}</span>` : "";
-  if (!open){
-    const kept = g.flow === "tender" && S.tenderStatus !== "waiting";
-    return `<div class="guide ${kept ? "" : "locked"}" ${kept ? "" : 'data-flow="locked"'}>
-      <span class="num">${esc(g.n)}</span>
-      <span class="t"><b>${esc(t(g.title))}</b><span>${esc(kept ? t(S.tenderStatus === "awarded" ? "Tender Awarded" : "Tender Unsuccessful") : sub)}</span></span>
-      ${kept ? `<span class="pill ok">${esc(t("Kept"))}</span>` : ""}
-    </div>`;
-  }
   return `<button class="guide" data-flow="${g.flow}">
     <span class="num">${esc(g.n)}</span>
-    <span class="t"><b>${esc(t(g.title))}</b><span>${esc(t(g.sub))}</span></span>
-    ${pill}<span class="go">${ARROW}</span>
+    <span class="t"><b>${esc(t(g.title))}</b><span>${esc(detail)}</span></span>
+    ${pill}<span class="go">${esc(t(goLabel(g.flow)))} ${ARROW}</span>
   </button>`;
 }
 
 function renderPath(){
+  const rows = GUIDES.filter(guideVisible).map(g => guideButton(g)).join("");
   $("#pane-path").innerHTML = `
     <div class="sec"><span class="lab">${esc(t("Sheet order"))}</span></div>
-    <div class="card">${GUIDES.map(g => guideButton(g, g.flow === "tender" ? S.tenderStatus === "waiting" : g.open())).join("")}</div>
+    <div class="card">${rows}</div>
     <p class="foot-note">${esc(t("A step stays closed until the one before it is done."))}</p>`;
 }
 
@@ -1759,13 +1918,15 @@ function renderAll(){
   const b = $("#lang");
   b.textContent = LANG === "af" ? "AF" : "EN";
   b.classList.toggle("af", LANG === "af");
-  $(".bar-id .proj").textContent = FIX.job;
+  $(".bar-id .proj").textContent = S.project ? FIX.job : t("Tender");
   $(".bar-id .chip").textContent = t(chipKey());
   $(".avatar").textContent = "SF";
   $("#tabdot").style.display = S.tenderStatus === "waiting" ? "" : "none";
+  const back = $("#chat-back");
+  if (back) back.setAttribute("aria-label", t("Back to the project"));
 }
 
-let F = null, i = 0, st = {}, stages = [], busy = false, gen = 0;
+let F = null, flowId = null, i = 0, st = {}, stages = [], busy = false, reviewing = false, gen = 0;
 
 function stageList(f){
   const out = [];
@@ -1822,7 +1983,15 @@ async function botSay(parts, why){
     if (why && n === arr.length - 1) b.insertAdjacentHTML("beforeend", whyBlock(why));
   }
 }
-function rail(html){ $("#rail").innerHTML = html; }
+function rail(html){
+  const showPrev = i > 0 && !(reviewing && flowId === "tender");
+  const back = showPrev
+    ? `<button type="button" class="textback" id="step-back">${esc(t("Previous step"))}</button>`
+    : "";
+  $("#rail").innerHTML = html + back;
+  const prev = $("#step-back");
+  if (prev) prev.onclick = () => { if (!busy) goBack(); };
+}
 function optBtns(opts){
   return `<div class="opts">` + opts.map((o, n) =>
     `<button class="opt ${o.cls || ""}" data-n="${n}">${esc(t(o.label, ...(o.args || [])))}</button>`).join("") + `</div>`;
@@ -1833,14 +2002,44 @@ function calcHtml(rows){
     return `<div class="${cls}"><span>${esc(t(r[0]))}</span><span>${esc(t(String(r[1])))}</span></div>`;
   }).join("") + `</div>`;
 }
-function openFlow(id){
-  if (id === "tender" && S.tenderStatus !== "waiting"){
-    toast("That tender result is already kept. Reset the demo to try the other one.");
-    return;
-  }
+function rememberPlace(){
+  if (!F || !flowId || reviewing || S.done[flowId]) return;
+  const cur = F.steps[i];
+  if (cur && cur.kind === "finish") return;
+  S.place = { flow: flowId, i: i, st: JSON.parse(JSON.stringify(st || {})) };
+  save();
+}
+function openFlow(id, mode){
+  const guide = GUIDES.find(g => g.flow === id);
+  if (!FLOWS[id]){ toast("The step before this one is not done yet."); return; }
+  const allowed = id === "tender" || !!(guide && (guide.open() || S.done[id]));
+  if (!allowed){ toast("The step before this one is not done yet."); return; }
   F = FLOWS[id];
-  if (!F){ toast("The step before this one is not done yet."); return; }
-  i = 0; st = {}; stages = stageList(F);
+  flowId = id;
+  reviewing = false;
+  stages = stageList(F);
+  if (mode === "change" && id === "tender"){
+    st = {};
+    i = Math.max(0, F.steps.findIndex(s => s.kind === "choice"));
+  } else if (mode !== "review" && S.place && S.place.flow === id && !S.done[id]){
+    st = JSON.parse(JSON.stringify(S.place.st));
+    i = S.place.i;
+    if (i < 0 || i >= F.steps.length) i = 0;
+  } else if (S.done[id]){
+    reviewing = true;
+    st = {};
+    i = 0;
+    if (id === "tender"){
+      st.result = S.tenderStatus === "unsuccessful" ? "unsuccessful" : "awarded";
+      const at = st.result === "awarded"
+        ? F.steps.findIndex(s => s.kind === "doc")
+        : F.steps.findIndex(s => s.kind === "finish" && s.stage === "Result");
+      if (at >= 0) i = at;
+    }
+  } else {
+    st = {};
+    i = 0;
+  }
   $("#chat-title").textContent = t(F.title);
   $("#chat-clause").textContent = t(F.clause);
   $("#log").innerHTML = "";
@@ -1848,12 +2047,43 @@ function openFlow(id){
   $("#chat").hidden = false;
   step();
 }
-function closeFlow(){
+function changeTenderResult(){
+  if (flowId !== "tender" || !F) return;
+  reviewing = false;
+  st = {};
+  i = Math.max(0, F.steps.findIndex(s => s.kind === "choice"));
   gen++;
   busy = false;
+  $("#log").innerHTML = "";
+  step();
+}
+function closeFlow(){
+  if (F && flowId && !reviewing && !S.done[flowId]){
+    const cur = F.steps[i];
+    if (!cur || cur.kind !== "finish"){
+      S.place = { flow: flowId, i: i, st: JSON.parse(JSON.stringify(st || {})) };
+    }
+  } else if (S.place && S.place.flow === flowId){
+    S.place = null;
+  }
+  save();
+  gen++;
+  busy = false;
+  reviewing = false;
   $("#chat").hidden = true;
   F = null;
+  flowId = null;
   renderAll();
+}
+function goBack(){
+  if (busy || !F || i <= 0) return;
+  if (reviewing && flowId === "tender") return;
+  gen++;
+  busy = false;
+  i--;
+  while (i > 0 && F.steps[i].skipIf && F.steps[i].skipIf(st)) i--;
+  $("#log").innerHTML = "";
+  step();
 }
 
 async function step(){
@@ -1861,6 +2091,7 @@ async function step(){
   while (F && F.steps[i] && F.steps[i].skipIf && F.steps[i].skipIf(st)) i++;
   const s = F && F.steps[i];
   if (!s){ closeFlow(); return; }
+  rememberPlace();
   const g = gen;
   busy = true;
   drawSteps();
@@ -1968,12 +2199,18 @@ async function step(){
       </button>`);
     $("#mic").onclick = () => runTalk(s);
   } else if (s.kind === "finish"){
-    s.apply(st);
+    if (!reviewing){
+      s.apply(st);
+      if (S.place && S.place.flow === flowId) S.place = null;
+    }
     save();
     await botSay(said(s.msg));
     if (!live()) return;
-    rail(`<div class="opts"><button type="button" class="opt primary full" data-n="0">${esc(t("Back to the project"))}</button></div>`);
-    bind(() => { closeFlow(); if (s.toast) toast(s.toast); });
+    const extra = flowId === "tender"
+      ? `<button type="button" class="opt full" data-act="change">${esc(t("Change the tender result"))}</button>`
+      : "";
+    rail(`<div class="opts"><button type="button" class="opt primary full" data-n="0">${esc(t("Back to the project"))}</button>${extra}</div>`);
+    bind(() => { closeFlow(); if (!reviewing && s.toast) toast(s.toast); });
     busy = false;
     return;
   }
@@ -2012,7 +2249,7 @@ async function runTalk(s){
   $("#log").scrollTop = $("#log").scrollHeight;
   busy = false;
   rail(`<div class="opts">
-    <button type="button" class="opt sig full" data-n="0">${esc(t("Keep it"))}</button>
+    <button type="button" class="opt sig full" data-n="0">${esc(t(s.keep || "Keep it"))}</button>
     <button type="button" class="opt full" data-n="1">${esc(t("Say it again"))}</button></div>`);
   $("#rail").querySelectorAll(".opt").forEach(el => el.onclick = () => {
     if (busy) return;
@@ -2023,7 +2260,11 @@ async function runTalk(s){
 
 function bind(fn){
   $("#rail").querySelectorAll(".opt").forEach(el => {
-    el.onclick = () => { if (!busy) fn(+el.dataset.n || 0); };
+    el.onclick = () => {
+      if (busy) return;
+      if (el.dataset.act === "change"){ changeTenderResult(); return; }
+      fn(+el.dataset.n || 0);
+    };
   });
 }
 function next(){ i++; step(); }
@@ -2042,7 +2283,7 @@ document.addEventListener("click", e => {
   if (hit){
     const f = hit.dataset.flow;
     if (f === "locked") toast("The step before this one is not done yet.");
-    else openFlow(f);
+    else openFlow(f, hit.dataset.mode || "");
   }
   const tab = e.target.closest("[data-tab]");
   if (tab){
@@ -2051,8 +2292,6 @@ document.addEventListener("click", e => {
     $(".scroll").scrollTop = 0;
   }
 });
-$("#chat-back").onclick = () => { busy = false; closeFlow(); };
-
 function flip(){
   const cur = document.documentElement.getAttribute("data-theme");
   const dark = cur ? cur === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
@@ -2061,23 +2300,24 @@ function flip(){
 $("#theme").onclick = flip;
 $("#theme2").onclick = flip;
 
+$("#chat-back").onclick = () => { if (F) closeFlow(); };
+
 $("#lang").onclick = () => {
   LANG = LANG === "af" ? "en" : "af";
-  try { localStorage.setItem("plumbline.lang", LANG); } catch (e) {}
-  gen++;
-  busy = false;
-  $("#chat").hidden = true;
-  F = null;
-  renderAll();
+  writeLang(LANG);
+  if (F) closeFlow();
+  else renderAll();
   toast(LANG === "af" ? "Language set to Afrikaans" : "Language set to English");
 };
 $("#reset").onclick = () => {
-  S = fresh();
-  save();
   gen++;
   busy = false;
+  reviewing = false;
   $("#chat").hidden = true;
   F = null;
+  flowId = null;
+  S = fresh();
+  save();
   renderAll();
   toast("Demo reset");
 };

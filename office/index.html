@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Company overview</title>
-<meta name="description" content="The head office console: every live project against the price it was won at, organised around the six value areas.">
+<meta name="description" content="The company overview. Four fictional jobs on one sheet, grouped for a contracts director.">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SiteOS">
 <meta property="og:title" content="Company overview">
-<meta property="og:description" content="The head office console: every live project against the price it was won at, organised around the six value areas.">
+<meta property="og:description" content="The company overview. Four fictional jobs on one sheet, grouped for a contracts director.">
 <meta property="og:url" content="/office">
 <meta name="twitter:card" content="summary">
 <meta name="robots" content="noindex">
@@ -106,39 +106,63 @@ button{font:inherit; color:inherit; background:none; border:0; cursor:pointer}
 .tools{display:flex; align-items:center; gap:8px}
 .tools button{
   font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
-  color:var(--ink-2); border:1px solid var(--rule); border-radius:6px; padding:6px 10px;
+  color:var(--ink-2); border:1px solid var(--rule); border-radius:6px; padding:8px 12px;
+  min-height:44px;
 }
 .tools button:hover{border-color:var(--ink); color:var(--ink)}
-.tools .langbtn{min-width:42px; text-align:center}
+.tools .langbtn{min-width:44px; text-align:center}
 .tools .langbtn.af{border-color:var(--signal); color:var(--signal-txt)}
+a.w{color:inherit; text-decoration:none}
+.jump{
+  font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  border:1px solid var(--ink); border-radius:6px; padding:8px 12px; min-height:44px;
+  display:inline-flex; align-items:center; color:var(--ink);
+}
+.jump:hover{background:var(--signal); color:var(--signal-ink); border-color:#0C0C0C}
 
 .body{padding:24px 28px 60px}
 
 .card{
   background:var(--surface); border:1px solid var(--rule); border-radius:4px;
-  box-shadow:var(--shadow); overflow:auto;
+  box-shadow:var(--shadow); overflow:auto; max-height:calc(100dvh - 132px);
 }
-table{border-collapse:collapse; width:max-content; min-width:100%; font-size:13.5px}
+table{border-collapse:separate; border-spacing:0; width:max-content; min-width:100%; font-size:13.5px}
 th,td{
-  padding:8px 10px; text-align:left; border-bottom:1px solid var(--rule-2);
+  padding:10px 12px; text-align:left; border-bottom:1px solid var(--rule-2);
   vertical-align:middle;
 }
 td{white-space:nowrap}
 th{
-  font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase;
+  font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase;
   color:var(--ink-3); font-weight:600; background:var(--surface-2);
-  border-bottom:1px solid var(--rule); white-space:normal; line-height:1.3;
-  vertical-align:bottom; max-width:7.2rem;
+  border-bottom:1px solid var(--rule); white-space:nowrap; line-height:1.3;
+  vertical-align:bottom;
 }
 thead tr.bands th{
-  text-align:center; color:var(--ink-2); background:var(--surface);
-  letter-spacing:.16em; padding:8px 12px 6px; border-bottom:0; white-space:nowrap;
-  max-width:none; vertical-align:middle;
+  position:sticky; top:0; z-index:6;
+  text-align:left; color:var(--ink); background:var(--surface);
+  letter-spacing:.14em; padding:9px 14px; border-bottom:0; white-space:nowrap;
+  font-size:11px; vertical-align:middle;
   box-shadow:inset 0 3px 0 var(--signal);
 }
-thead tr.bands th + th, th.g, td.g{border-left:1px solid var(--rule)}
+thead tr.cols th{position:sticky; top:2.2rem; z-index:5}
+thead tr.bands th + th, th.g, td.g{border-left:2px solid var(--rule)}
+th.grp-p, td.grp-p{background:rgba(255,203,5,.14)}
+th.grp-s, td.grp-s{background:rgba(90,90,86,.08)}
+th.sticky, td.sticky{
+  position:sticky; left:0; z-index:4; min-width:5.4rem;
+  background:var(--surface);
+}
+th.sticky2, td.sticky2{
+  position:sticky; left:5.4rem; z-index:4; min-width:13rem;
+  background:var(--surface);
+  box-shadow:8px 0 12px rgba(16,19,23,.06);
+}
+thead tr.cols th.sticky, thead tr.cols th.sticky2{z-index:7; background:var(--surface-2)}
 tbody tr:last-child td{border-bottom:0}
-tbody tr:hover td{background:var(--surface-2)}
+tbody tr:hover td{background:var(--stamp-wash)}
+tbody tr:hover td.grp-p{background:rgba(255,203,5,.28)}
+tbody tr:hover td.sticky, tbody tr:hover td.sticky2{background:var(--stamp-wash)}
 td.n, th.n{font-family:var(--mono); font-variant-numeric:tabular-nums; text-align:right}
 td.name{font-weight:600}
 td.neg{color:var(--crit)}
@@ -159,6 +183,7 @@ tfoot td{
   background:var(--surface-2); font-weight:700;
   border-top:1px solid var(--rule); border-bottom:0;
 }
+tfoot td.sticky, tfoot td.sticky2{background:var(--surface-2); z-index:4}
 
 th.sortable{cursor:pointer; user-select:none}
 th.sortable:hover{color:var(--ink)}
@@ -185,7 +210,7 @@ th.sorted.desc::after{content:" \2193"}
 
 <header class="top">
   <div class="mast">
-    <div class="w"><span>Site<b>OS</b></span><i></i></div>
+    <a class="w" href="/"><span>Site<b>OS</b></span><i></i></a>
     <div>
       <h1 id="title">Company overview</h1>
       <p class="sub" id="sub">One sheet for the contracts director.</p>
@@ -193,6 +218,7 @@ th.sorted.desc::after{content:" \2193"}
   </div>
   <span class="sp"></span>
   <div class="tools">
+    <a class="jump" href="/plumbline" id="to-app">Project app</a>
     <button type="button" id="theme">Theme</button>
     <button type="button" class="langbtn" id="lang" aria-label="Taal / Language">EN</button>
   </div>
@@ -325,12 +351,31 @@ function formatDate(iso){
   return d + " " + mon + " " + y;
 }
 
+function isLeap(y){
+  return (y % 4 === 0 && y % 100 !== 0) || (y % 400 === 0);
+}
+function daysInMonth(y, m){
+  return [31, isLeap(y) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m - 1];
+}
 function addCalendarDays(iso, days){
-  const [y, m, d] = iso.split("-").map(Number);
-  const dt = new Date(Date.UTC(y, m - 1, d + days));
-  const mm = String(dt.getUTCMonth() + 1).padStart(2, "0");
-  const dd = String(dt.getUTCDate()).padStart(2, "0");
-  return dt.getUTCFullYear() + "-" + mm + "-" + dd;
+  let [y, m, d] = iso.split("-").map(Number);
+  let left = days;
+  while (left > 0){
+    const room = daysInMonth(y, m) - d;
+    if (left <= room){ d += left; left = 0; break; }
+    left -= room + 1;
+    d = 1;
+    m += 1;
+    if (m > 12){ m = 1; y += 1; }
+  }
+  while (left < 0){
+    if (d + left >= 1){ d += left; left = 0; break; }
+    left += d;
+    m -= 1;
+    if (m < 1){ m = 12; y -= 1; }
+    d = daysInMonth(y, m);
+  }
+  return y + "-" + String(m).padStart(2, "0") + "-" + String(d).padStart(2, "0");
 }
 
 function signOffTarget(practicalIso){
@@ -360,22 +405,31 @@ try {
 } catch (e) {}
 
 const AF = {
+  /* Technical nouns stay English on purpose: accruals, practical completion, sign-off, BuildSmart. */
   "Company overview": "Maatskappy oorsig",
   "One sheet for the contracts director.": "Een blad vir die kontrakte direkteur.",
   "Theme": "Tema",
   "As at": "Soos op",
   "Project profitability": "Projek profit",
   "Project sign-off": "Projek sign-off",
+  "BuildSmart dump": "BuildSmart dump",
   "Project no.": "Projek no.",
   "Project": "Projek",
   "Contracts director": "Kontrakte direkteur",
   "Contract price excl. VAT": "Kontrak prys excl. VAT",
   "Contract price incl. VAT": "Kontrak prys incl. VAT",
+  "Accruals": "Accruals",
+  "Adjustments / advance payments": "Adjustments / advance payments",
   "This period": "Hierdie periode",
   "Cumulative": "Kumulatief",
   "Negative projects": "Negatiewe projekte",
   "Contract cost": "Kontrak koste",
   "Actual profit %": "Werklike profit %",
+  "Tender target profit %": "Tender target profit %",
+  "Practical completion": "Practical completion",
+  "Sign-off target": "Sign-off target",
+  "Closure meeting": "Closure meeting",
+  "Project app": "Projek-app",
   "Below target": "Onder target",
   "Above target": "Bo target",
   "Days of delay": "Dae vertraging",
@@ -428,18 +482,18 @@ function sheet(){
       <th class="sign" colspan="4">Project sign-off</th>
     </tr>`;
   const cols = `<tr class="cols">
-      <th>Project no.</th>
-      <th>Project</th>
+      <th class="sticky">Project no.</th>
+      <th class="sticky2">Project</th>
       <th>Contracts director</th>
       ${MONEY.map(([, label]) => `<th class="n">${esc(label)}</th>`).join("")}
-      <th class="n g">Actual profit %</th>
-      <th class="n">Tender target profit %</th>
-      <th class="mid">Below target</th>
-      <th class="mid">Above target</th>
-      <th class="g">Practical completion</th>
-      <th>Sign-off target</th>
-      <th>Closure meeting</th>
-      <th class="n">Days of delay</th>
+      <th class="n g grp-p">Actual profit %</th>
+      <th class="n grp-p">Tender target profit %</th>
+      <th class="mid grp-p">Below target</th>
+      <th class="mid grp-p">Above target</th>
+      <th class="g grp-s">Practical completion</th>
+      <th class="grp-s">Sign-off target</th>
+      <th class="grp-s">Closure meeting</th>
+      <th class="n grp-s">Days of delay</th>
     </tr>`;
 
   const body = ROWS.map((row) => {
@@ -454,18 +508,18 @@ function sheet(){
       ? `<td data-sort="${esc(row.closureMeeting)}">${esc(formatDate(row.closureMeeting))}</td>`
       : `<td data-sort=""><span class="muted">\u2014</span></td>`;
     return `<tr>
-      <td class="mono" data-sort="${esc(row.no)}">${esc(row.no)}</td>
-      <td class="name" data-sort="${esc(row.name)}">${esc(row.name)}</td>
+      <td class="mono sticky" data-sort="${esc(row.no)}">${esc(row.no)}</td>
+      <td class="name sticky2" data-sort="${esc(row.name)}">${esc(row.name)}</td>
       <td data-sort="${esc(row.director)}">${esc(row.director)}</td>
       ${money}
-      <td class="n g" data-sort="${esc(row.actualProfitPct)}">${esc(row.actualProfitPct)}%</td>
-      <td class="n" data-sort="${esc(row.tenderProfitPct)}">${esc(row.tenderProfitPct)}%</td>
-      <td class="mid" data-sort="${below ? 1 : 0}">${flag(below, "warn")}</td>
-      <td class="mid" data-sort="${above ? 1 : 0}">${flag(above, "ok")}</td>
-      <td class="g" data-sort="${esc(row.practicalCompletion)}">${esc(formatDate(row.practicalCompletion))}</td>
-      <td data-sort="${esc(target)}">${esc(formatDate(target))}</td>
-      ${meeting}
-      <td class="n" data-sort="${delay}">${delayPill(delay)}</td>
+      <td class="n g grp-p" data-sort="${esc(row.actualProfitPct)}">${esc(row.actualProfitPct)}%</td>
+      <td class="n grp-p" data-sort="${esc(row.tenderProfitPct)}">${esc(row.tenderProfitPct)}%</td>
+      <td class="mid grp-p" data-sort="${below ? 1 : 0}">${flag(below, "warn")}</td>
+      <td class="mid grp-p" data-sort="${above ? 1 : 0}">${flag(above, "ok")}</td>
+      <td class="g grp-s" data-sort="${esc(row.practicalCompletion)}">${esc(formatDate(row.practicalCompletion))}</td>
+      <td class="grp-s" data-sort="${esc(target)}">${esc(formatDate(target))}</td>
+      ${meeting.replace("<td ", "<td class=\"grp-s\" ")}
+      <td class="n grp-s" data-sort="${delay}">${delayPill(delay)}</td>
     </tr>`;
   }).join("");
 
@@ -479,10 +533,12 @@ function sheet(){
     <thead>${band}${cols}</thead>
     <tbody>${body}</tbody>
     <tfoot><tr>
-      <td colspan="3">Total</td>
+      <td class="sticky">Total</td>
+      <td class="sticky2"></td>
+      <td></td>
       ${totals}
-      <td class="g"></td><td></td><td></td><td></td>
-      <td class="g"></td><td></td><td></td><td></td>
+      <td class="g grp-p"></td><td class="grp-p"></td><td class="grp-p"></td><td class="grp-p"></td>
+      <td class="g grp-s"></td><td class="grp-s"></td><td class="grp-s"></td><td class="grp-s"></td>
     </tr></tfoot>
   </table>`;
 }
@@ -532,6 +588,7 @@ function render(){
   $("#asof").textContent = tr("As at") + " " + formatDate(AS_AT);
   $("#lang").textContent = LANG === "af" ? "AF" : "EN";
   $("#lang").classList.toggle("af", LANG === "af");
+  $("#to-app").textContent = tr("Project app");
   $("#sheet").innerHTML = sheet();
   translateDOM($("#sheet"));
   makeSortable($("#sheet").querySelector("table"));
@@ -554,7 +611,10 @@ $("#theme").onclick = () => {
 
 $("#lang").onclick = () => {
   LANG = LANG === "af" ? "en" : "af";
-  try { localStorage.setItem("siteos.lang", LANG); } catch (e) {}
+  try {
+    localStorage.setItem("siteos.lang", LANG);
+    localStorage.setItem("plumbline.lang", LANG);
+  } catch (e) {}
   render();
   toast(LANG === "af" ? "Taal gestel op Afrikaans" : "Language set to English");
 };

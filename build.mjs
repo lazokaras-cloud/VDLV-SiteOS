@@ -24,22 +24,19 @@ const PAGES = [
     src: "src/index.html",
     out: "index.html",
     desc:
-      "A construction operating system that starts at tender and runs to final account, " +
-      "built on the way a commercial building contract actually runs.",
+      "The project app and the company overview. One job from the tender onto the site, and one sheet for the company.",
   },
   {
     src: "src/plumbline.html",
     out: "plumbline/index.html",
     desc:
-      "The site app. A guided chat forces the process one question at a time while the " +
-      "JBCC clock runs in the background.",
+      "The project app. One question at a time, from the tender result through the job.",
   },
   {
     src: "src/office.html",
     out: "office/index.html",
     desc:
-      "The head office console: every live project against the price it was won at, " +
-      "organised around the six value areas.",
+      "The company overview. Four fictional jobs on one sheet, grouped for a contracts director.",
   },
   {
     src: "src/brief.html",
