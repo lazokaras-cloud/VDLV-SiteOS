@@ -1,9 +1,14 @@
 // Back-office draft call. See docs/11-AGENT-RUNTIME.md section 2.
-// One gateway, one credential: AI_GATEWAY_API_KEY, or VERCEL_OIDC_TOKEN
-// when Vercel injects it. The model extracts and phrases. A person accepts
-// any date or amount before it is kept. This file does not compute one.
+// This is the one place that chooses the provider and the model.
+// The call goes through the Vercel AI Gateway. The browser only posts
+// to /api/draft and never sees a key.
+// AI_GATEWAY_API_KEY is the credential. A later provider replaces that
+// key and sets AI_MODEL. AI_GATEWAY_MODEL is the previous name for the
+// model id and is used only when AI_MODEL is unset.
+// The model extracts and phrases. A person accepts any date or amount
+// before it is kept. This file does not compute one.
 
-const MODEL = process.env.AI_GATEWAY_MODEL || "openai/gpt-6-astra";
+const MODEL = process.env.AI_MODEL || process.env.AI_GATEWAY_MODEL || "amazon/nova-micro";
 const ENDPOINT = "https://ai-gateway.vercel.sh/v1/chat/completions";
 
 const BOUNDARY = [
@@ -252,7 +257,10 @@ async function handler(req, res) {
     send(res, 422, safeError(422, tidyResult.error));
     return;
   }
-  send(res, 200, tidyResult);
+  const answered = completion && typeof completion.model === "string" && completion.model
+    ? completion.model
+    : MODEL;
+  send(res, 200, Object.assign({ model: answered }, tidyResult));
 }
 
 module.exports = handler;
