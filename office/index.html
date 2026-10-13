@@ -86,11 +86,14 @@ button{font:inherit; color:inherit; background:none; border:0; cursor:pointer}
   display:flex; align-items:center; gap:18px; flex-wrap:wrap;
   position:sticky; top:0; z-index:10;
 }
-.mast{display:flex; align-items:center; gap:16px; min-width:0}
+.mast{display:flex; align-items:center; gap:16px; min-width:0; flex:1 1 auto}
+.mast > div{min-width:0; flex:1 1 auto}
 .w{
   display:flex; align-items:baseline; gap:8px; font-size:22px; font-weight:700;
-  letter-spacing:.02em; padding-right:16px; border-right:1px solid var(--rule); flex:none;
+  letter-spacing:.02em; padding-right:16px; border-right:1px solid var(--rule);
+  flex:0 1 auto; min-width:0; max-width:min(46%, 22rem);
 }
+#brand{display:block; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .w b{font-weight:700; color:var(--signal-txt)}
 .w i{
   width:8px; height:8px; border:2px solid var(--signal); border-radius:50%;
@@ -131,15 +134,21 @@ body.sheet-ready #sheet{flex:1; min-height:0; max-height:none}
 .card{
   background:var(--surface); border:1px solid var(--rule); border-radius:4px;
   box-shadow:var(--shadow); overflow:auto; max-height:calc(100dvh - 132px);
+  scrollbar-width:auto; scrollbar-color:var(--ink-2) var(--surface-3);
 }
-table{border-collapse:separate; border-spacing:0; width:max-content; min-width:100%; font-size:13.5px}
+.card::-webkit-scrollbar{height:14px; width:12px}
+.card::-webkit-scrollbar-thumb{background:var(--ink-2); border:3px solid var(--surface-2); border-radius:8px}
+.card::-webkit-scrollbar-track{background:var(--surface-3)}
+#sheet:not(:has(.sheet-table)){flex:0 1 auto; max-height:none}
+.sheet-table{--col-no:7.5rem; --col-name:12.5rem}
+table.sheet-table{border-collapse:separate; border-spacing:0; width:max-content; min-width:100%; font-size:13px}
 th,td{
-  padding:10px 12px; text-align:left; border-bottom:1px solid var(--rule-2);
+  padding:8px 10px; text-align:left; border-bottom:1px solid var(--rule-2);
   vertical-align:middle;
 }
 td{white-space:nowrap}
 th{
-  font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase;
   color:var(--ink-3); font-weight:600; background:var(--surface-2);
   border-bottom:1px solid var(--rule); white-space:nowrap; line-height:1.3;
   vertical-align:bottom;
@@ -147,24 +156,33 @@ th{
 thead tr.bands th{
   position:sticky; top:0; z-index:6;
   text-align:left; color:var(--ink); background:var(--surface);
-  letter-spacing:.14em; padding:9px 14px; border-bottom:0; white-space:nowrap;
-  font-size:11px; vertical-align:middle;
+  letter-spacing:.12em; padding:0 14px; border-bottom:0; white-space:nowrap;
+  font-size:11px; vertical-align:middle; height:38px; line-height:38px;
   box-shadow:inset 0 3px 0 var(--signal);
 }
-thead tr.cols th{position:sticky; top:2.2rem; z-index:5}
+.bandlab{position:sticky; left:calc(var(--col-no) + var(--col-name)); display:inline-block; z-index:2}
+thead tr.cols th{
+  position:sticky; top:38px; z-index:5;
+  white-space:normal; min-width:6.75rem; max-width:8.5rem;
+}
 thead tr.bands th + th, th.g, td.g{border-left:2px solid var(--rule)}
 th.grp-p, td.grp-p{background:rgba(255,203,5,.14)}
 th.grp-s, td.grp-s{background:rgba(90,90,86,.08)}
 th.sticky, td.sticky{
-  position:sticky; left:0; z-index:4; min-width:5.4rem;
+  position:sticky; left:0; z-index:4;
+  width:var(--col-no); min-width:var(--col-no); max-width:var(--col-no);
   background:var(--surface);
 }
 th.sticky2, td.sticky2{
-  position:sticky; left:5.4rem; z-index:4; min-width:13rem;
-  background:var(--surface);
-  box-shadow:8px 0 12px rgba(16,19,23,.06);
+  position:sticky; left:var(--col-no); z-index:4;
+  width:var(--col-name); min-width:var(--col-name); max-width:var(--col-name);
+  background:var(--surface); white-space:normal; overflow-wrap:anywhere;
+  box-shadow:inset -3px 0 0 var(--signal), 8px 0 14px rgba(16,19,23,.08);
 }
-thead tr.cols th.sticky, thead tr.cols th.sticky2{z-index:7; background:var(--surface-2)}
+thead tr.cols th.sticky, thead tr.cols th.sticky2{z-index:7; background:var(--surface-2); white-space:normal}
+thead tr.cols th.sticky{width:var(--col-no); min-width:var(--col-no); max-width:var(--col-no)}
+thead tr.cols th.sticky2{width:var(--col-name); min-width:var(--col-name); max-width:var(--col-name)}
+td.dir{white-space:normal; min-width:7.5rem; max-width:9.5rem; overflow-wrap:anywhere}
 tbody tr:last-child td{border-bottom:0}
 tbody tr:hover td{background:var(--stamp-wash)}
 tbody tr:hover td.grp-p{background:rgba(255,203,5,.28)}
@@ -202,6 +220,37 @@ th.sorted.desc::after{content:" \2193"}
 .loadbar input{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
 .loadbar button{cursor:pointer}
 .empty-note{padding:28px 16px; color:var(--ink-2); font-size:15px; line-height:1.45}
+.scroll-hint{
+  display:none; margin:0 0 8px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--ink-3);
+}
+.sheet-cards{display:none}
+.prow{padding:14px 14px 16px; border-bottom:1px solid var(--rule)}
+.prow:last-child{border-bottom:0}
+.prow-h b{display:block; font-size:18px; font-weight:700; line-height:1.25; overflow-wrap:anywhere}
+.prow-h .mono{font-family:var(--mono); color:var(--ink-2); font-size:12px}
+.prow-h span:last-child{display:block; color:var(--ink-2); font-size:13px; margin-top:2px}
+.prow h3{
+  margin:14px 0 4px; font-family:var(--mono); font-size:10.5px; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink);
+}
+.prow .tone-p h3{box-shadow:inset 3px 0 0 var(--signal); padding-left:8px}
+.prow .tone-s h3{box-shadow:inset 3px 0 0 var(--ink-3); padding-left:8px}
+.prow dl{margin:0}
+.pair{
+  display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+  padding:7px 0; border-bottom:1px solid var(--rule-2); font-size:14px;
+}
+.pair:last-child{border-bottom:0}
+.pair dt{color:var(--ink-2); min-width:0}
+.pair dd{margin:0; text-align:right; font-variant-numeric:tabular-nums; font-family:var(--mono)}
+.prow-total{background:var(--surface-2)}
+.neg{color:var(--crit)}
+@media (min-width:761px){
+  .scroll-hint{display:block}
+  #sheet:has(.sheet-table){overflow-x:scroll; overflow-y:auto}
+}
 
 #toast{
   position:fixed; left:50%; bottom:26px; transform:translateX(-50%); z-index:200;
@@ -210,11 +259,24 @@ th.sorted.desc::after{content:" \2193"}
 }
 #toast[hidden]{display:none}
 
-@media (max-width:720px){
-  .top{padding:14px 16px; position:static}
+@media (max-width:760px){
+  .top{
+    padding:14px 16px 12px; position:static;
+    flex-direction:column; align-items:stretch; gap:10px;
+  }
   .body{padding:16px 16px 48px}
-  .mast{align-items:flex-start}
-  .w{border-right:0; padding-right:0}
+  .mast{flex-direction:column; align-items:flex-start; gap:2px; width:100%}
+  .w{border-right:0; padding-right:0; max-width:100%; font-size:20px}
+  #brand{max-width:100%}
+  .top h1{font-size:18px}
+  .sp{display:none}
+  .tools{width:100%; flex-wrap:wrap}
+  .stamp{align-self:flex-start}
+  body.sheet-ready{height:auto; min-height:100dvh; overflow:auto}
+  body.sheet-ready .body{overflow:visible; padding-bottom:32px}
+  #sheet{overflow:visible; max-height:none}
+  #sheet table.sheet-table, .scroll-hint{display:none}
+  .sheet-cards{display:flex; flex-direction:column}
 }
 </style>
 
@@ -422,7 +484,8 @@ const AF = {
   "Missing header": "Header weg",
   "Day counts use this reporting date.": "Dag-tellings gebruik hierdie reporting date.",
   "Name the company and set the reporting date.": "Noem die maatskappy en stel die reporting date.",
-  "Change the company": "Verander die maatskappy"
+  "Change the company": "Verander die maatskappy",
+  "Scroll sideways. The project name stays put.": "Rol sywaarts. Die projeknaam bly staan."
 };
 
 function tr(s){
@@ -461,6 +524,14 @@ function moneyCell(cents){
   const neg = cents < 0 ? " neg" : "";
   return `<td class="n${neg}" data-sort="${cents}">${formatRand(cents)}</td>`;
 }
+function moneyInline(cents){
+  if (typeof cents !== "number") return `<span class="muted">\u2014</span>`;
+  const neg = cents < 0 ? " neg" : "";
+  return `<span class="${neg.trim()}">${formatRand(cents)}</span>`;
+}
+function pair(label, inner){
+  return `<div class="pair"><dt>${esc(label)}</dt><dd>${inner}</dd></div>`;
+}
 function pctNum(s){
   const t = String(s || "").trim().replace("%", "").replace(",", ".");
   if (!/^-?\d+(\.\d+)?$/.test(t)) return null;
@@ -486,14 +557,60 @@ function rowTarget(row){
   return "";
 }
 
+function sheetCards(){
+  const articles = ROWS.map((row, i) => {
+    const target = rowTarget(row);
+    const asAt = reportingDate();
+    const delay = target && asAt ? daysOfDelay(target, asAt) : null;
+    const actual = pctNum(row.actualProfitPct);
+    const tenderPct = pctNum(row.tenderProfitPct);
+    let below = yesCell(row.below);
+    let above = yesCell(row.above);
+    if (below == null && above == null && actual != null && tenderPct != null){
+      below = actual < tenderPct;
+      above = actual > tenderPct;
+    }
+    const money = MONEY.map(([key, label]) => pair(label, moneyInline(row[key]))).join("");
+    const delayInner = !asAt
+      ? "The reporting date is missing."
+      : delay == null
+      ? `<span class="muted">\u2014</span>`
+      : delayPill(delay);
+    const practical = row.practicalCompletion ? esc(formatDate(row.practicalCompletion)) : `<span class="muted">\u2014</span>`;
+    const sign = target ? esc(formatDate(target)) : `<span class="muted">\u2014</span>`;
+    const meeting = row.closureMeeting ? esc(formatDate(row.closureMeeting)) : `<span class="muted">\u2014</span>`;
+    return `<article class="prow" data-row="${i}">
+      <header class="prow-h"><b>${esc(row.name)}</b><span class="mono">${esc(row.no)}</span><span>${esc(row.director)}</span></header>
+      <section><h3>BuildSmart dump</h3><dl>${money}</dl></section>
+      <section class="tone-p"><h3>Project profitability</h3><dl>
+        ${pair("Actual profit %", pctText(row.actualProfitPct))}
+        ${pair("Tender target profit %", pctText(row.tenderProfitPct))}
+        ${pair("Below target", flag(!!below, "warn"))}
+        ${pair("Above target", flag(!!above, "ok"))}
+      </dl></section>
+      <section class="tone-s"><h3>Project sign-off</h3><dl>
+        ${pair("Practical completion", practical)}
+        ${pair("Sign-off target", sign)}
+        ${pair("Closure meeting", meeting)}
+        ${pair("Days of delay", delayInner)}
+      </dl></section>
+    </article>`;
+  }).join("");
+  const totals = MONEY.map(([key, label]) => {
+    const cents = sumCents(key);
+    return pair(label, cents == null ? `<span class="muted">\u2014</span>` : moneyInline(cents));
+  }).join("");
+  return `<div class="sheet-cards">${articles}<article class="prow prow-total"><header class="prow-h"><b>Total</b></header><dl>${totals}</dl></article></div>`;
+}
+
 function sheet(){
   if (!ROWS.length){
     return `<div class="empty-note">${esc(tr("No dump loaded. Load a CSV, or take the blank one and fill it."))}</div>`;
   }
   const band = `<tr class="bands">
-      <th class="dump" colspan="${3 + MONEY.length}">BuildSmart dump</th>
-      <th class="profit" colspan="4">Project profitability</th>
-      <th class="sign" colspan="4">Project sign-off</th>
+      <th class="dump" colspan="${3 + MONEY.length}"><span class="bandlab">BuildSmart dump</span></th>
+      <th class="profit" colspan="4"><span class="bandlab">Project profitability</span></th>
+      <th class="sign" colspan="4"><span class="bandlab">Project sign-off</span></th>
     </tr>`;
   const cols = `<tr class="cols">
       <th class="sticky">Project no.</th>
@@ -510,7 +627,7 @@ function sheet(){
       <th class="n grp-s">Days of delay</th>
     </tr>`;
 
-  const body = ROWS.map((row) => {
+  const body = ROWS.map((row, i) => {
     const target = rowTarget(row);
     const asAt = reportingDate();
     const delay = target && asAt ? daysOfDelay(target, asAt) : null;
@@ -537,10 +654,10 @@ function sheet(){
       : delay == null
       ? `<td class="n grp-s" data-sort=""><span class="muted">\u2014</span></td>`
       : `<td class="n grp-s" data-sort="${delay}">${delayPill(delay)}</td>`;
-    return `<tr>
+    return `<tr data-row="${i}">
       <td class="mono sticky" data-sort="${esc(row.no)}">${esc(row.no)}</td>
       <td class="name sticky2" data-sort="${esc(row.name)}">${esc(row.name)}</td>
-      <td data-sort="${esc(row.director)}">${esc(row.director)}</td>
+      <td class="dir" data-sort="${esc(row.director)}">${esc(row.director)}</td>
       ${money}
       <td class="n g grp-p" data-sort="${esc(row.actualProfitPct || "")}">${pctText(row.actualProfitPct)}</td>
       <td class="n grp-p" data-sort="${esc(row.tenderProfitPct || "")}">${pctText(row.tenderProfitPct)}</td>
@@ -560,7 +677,7 @@ function sheet(){
     return `<td class="n${neg}">${formatRand(cents)}</td>`;
   }).join("");
 
-  return `<table>
+  return `<p class="scroll-hint">Scroll sideways. The project name stays put.</p>${sheetCards()}<table class="sheet-table">
     <thead>${band}${cols}</thead>
     <tbody>${body}</tbody>
     <tfoot><tr>
@@ -606,6 +723,15 @@ function makeSortable(table){
         return cmp * dir;
       });
       rows.forEach((r) => body.appendChild(r));
+      const stack = table.parentElement && table.parentElement.querySelector(".sheet-cards");
+      if (stack){
+        const tail = stack.querySelector(".prow-total");
+        rows.forEach((r) => {
+          const id = r.getAttribute("data-row");
+          const card = id == null ? null : stack.querySelector('.prow[data-row="' + id + '"]');
+          if (card) stack.insertBefore(card, tail);
+        });
+      }
     };
   });
 }

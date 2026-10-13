@@ -650,6 +650,48 @@ label.opt{display:inline-flex; align-items:center; justify-content:center; curso
 }
 .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
 .proposal{margin:0 0 10px; padding:8px 10px; border:1px solid var(--rule); border-radius:4px; background:var(--surface)}
+
+/* Readability: one title, one next action, records that are finished. */
+@media (max-width:1000px){
+  .tb-foot{flex-wrap:wrap; overflow:visible; gap:0 14px}
+  .tb-foot button, .tb-foot a{white-space:nowrap; letter-spacing:.05em}
+}
+.chip[hidden]{display:none !important}
+.chat-bar .r1{align-items:center; gap:8px; min-height:48px; padding-bottom:6px}
+.chat-bar h2{font-size:17px; font-weight:700; line-height:1.25; letter-spacing:-.015em}
+#chat-back{align-items:center; height:44px; align-self:center}
+#chat-clause{flex:none; max-width:40%; text-align:center; line-height:1.25; white-space:normal}
+.log{padding:12px 14px 8px; gap:8px; overflow-x:hidden}
+.minirow{flex-wrap:wrap}
+.minirow > div{min-width:0; flex:1 1 10rem}
+.field{margin:0 0 8px; gap:3px}
+.field textarea{min-height:48px}
+.sec{margin:14px 0 6px}
+.prompt{margin:0 0 10px; font-size:16px; font-weight:600; line-height:1.35; color:var(--ink)}
+.log .clock{padding:10px 12px 10px}
+.log .clock .big{font-size:22px}
+.field .filepick{width:100%}
+.field .filepick:has(input[data-gate]){
+  background:var(--signal); color:var(--signal-ink); border:1px solid #0C0C0C; font-weight:700;
+}
+.rail .opts{flex-direction:row; flex-wrap:wrap}
+.rail .opt.sig.full{flex:1 0 100%}
+.rail .opt.full:not(.sig){
+  flex:1 1 auto; background:transparent; border-color:transparent; box-shadow:none;
+  color:var(--ink-2); font-family:var(--mono); font-size:11px; letter-spacing:.08em;
+  text-transform:uppercase; font-weight:600;
+}
+.record{
+  background:var(--surface); border:1px solid var(--rule); border-radius:4px;
+  padding:12px 12px 8px; margin:0 0 8px;
+}
+.record header{display:flex; align-items:flex-start; justify-content:space-between; gap:8px}
+.record header b{font-size:15px; font-weight:700; overflow-wrap:anywhere}
+.record .l2{display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end}
+.record-actions{display:flex; flex-direction:column; align-items:flex-start; gap:2px; margin-top:8px}
+.card > .record{border:0; border-radius:0; border-bottom:1px solid var(--rule); margin:0; box-shadow:none}
+.card > .record:last-child{border-bottom:0}
+.guide{padding:11px 12px; gap:10px}
 </style>
 
 <div class="bench">
@@ -1701,6 +1743,10 @@ function namedIn(text, sub){
 function field(label, inner){
   return `<label class="field"><span class="k">${esc(t(label))}</span>${inner}</label>`;
 }
+function lead(id){
+  const g = GUIDES.find((x) => x.id === id);
+  return g ? `<p class="prompt">${esc(t(g.sub))}</p>` : "";
+}
 function textInput(id, value, attrs){
   return `<input id="${id}" type="text" autocomplete="off" value="${esc(value || "")}" ${attrs || ""}>`;
 }
@@ -1759,12 +1805,15 @@ function renderList(){
     const files = Object.keys(tender.files || {}).map((k) => tender.files[k]).filter((f) => f && f.name);
     const proj = DB.projects.find((p) => p.tenderId === tender.id);
     const pill = tender.status === "awarded" ? "ok" : tender.status === "unsuccessful" ? "warn" : "info";
-    const open = tender.status === "awarded" && proj
-      ? `<button type="button" class="opt sig full" data-open-project="${esc(proj.id)}">${esc(t("Open the project"))}</button>`
-      : "";
-    const selected = proj && proj.id === DB.openId ? `<span class="pill info">${esc(t("Selected"))}</span>` : "";
     const names = files.map((f) => `<div class="fileline">${esc(f.name)} · ${esc(formatSize(f.size))}</div>`).join("");
-    return `<div class="minirow"><div style="flex:1;min-width:0"><b>${esc(tender.name)}</b>${names}<div class="l2" style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap"><span class="pill ${pill}">${esc(t(statusLabel(tender.status)))}</span>${selected}</div></div></div><div class="opts" style="padding:0 12px 12px">${open}<button type="button" class="opt full" data-open-tender="${esc(tender.id)}">${esc(t("Open the tender"))}</button></div>`;
+    const selected = proj && proj.id === DB.openId ? `<span class="pill info">${esc(t("Selected"))}</span>` : "";
+    if (tender.status === "awarded" || tender.status === "unsuccessful"){
+      const open = tender.status === "awarded" && proj
+        ? `<button type="button" class="opt sig full" data-open-project="${esc(proj.id)}">${esc(t("Open the project"))}</button>`
+        : "";
+      return `<article class="record"><header><b>${esc(tender.name)}</b><span class="l2">${selected}<span class="pill ${pill}">${esc(t(statusLabel(tender.status)))}</span></span></header>${names}<div class="record-actions">${open}<button type="button" class="textback" data-open-tender="${esc(tender.id)}">${esc(t("Open the tender"))}</button></div></article>`;
+    }
+    return `<div class="minirow"><div style="flex:1;min-width:0"><b>${esc(tender.name)}</b>${names}<div class="l2" style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap"><span class="pill ${pill}">${esc(t(statusLabel(tender.status)))}</span>${selected}</div></div></div><div class="opts" style="padding:0 12px 12px"><button type="button" class="opt full" data-open-tender="${esc(tender.id)}">${esc(t("Open the tender"))}</button></div>`;
   }).join("");
   const projectRows = DB.projects.map((p) => {
     const on = p.id === DB.openId ? `<span class="pill info">${esc(t("Selected"))}</span>` : "";
@@ -2060,14 +2109,14 @@ function renderContract(p){
   const before = !!p.contract.before;
   const signed = !!p.contract.signed;
   $("#steps").innerHTML = `<i class="${before ? "done" : "now"}"></i><i class="${!before ? "lock" : signed ? "done" : "now"}"></i>`;
-  let html = `<div id="ext-clock">${clockBlock(p)}</div>` +
-    field("Contract before signature", fileControl(`id="c-before" aria-label="${esc(t("Contract before signature"))}"`, p.contract.before));
+  let html = lead("contract") + `<div id="ext-clock">${clockBlock(p)}</div>` +
+    field("Contract before signature", fileControl(`id="c-before"${before ? "" : " data-gate"} aria-label="${esc(t("Contract before signature"))}"`, p.contract.before));
   if (!before){
     html += `<p class="warnline">${esc(t("The next step stays hidden until this file is here."))}</p>`;
   } else {
     html += `<div class="sec"><span class="lab">${esc(t("From the tender submission"))}</span></div>`;
     html += CHANGE_KEYS.map(([k, label]) => field(label, `<input id="sub-${k}" type="date" aria-label="${esc(t(label))}" value="${esc((p.contract.submission && p.contract.submission[k]) || "")}">`)).join("");
-    html += field("Signed contract", fileControl(`id="c-signed" aria-label="${esc(t("Signed contract"))}"`, p.contract.signed));
+    html += field("Signed contract", fileControl(`id="c-signed"${signed ? "" : " data-gate"} aria-label="${esc(t("Signed contract"))}"`, p.contract.signed));
     if (!signed){
       html += `<p class="warnline">${esc(t("The next step stays hidden until this file is here."))}</p>`;
     } else {
@@ -2147,6 +2196,7 @@ function renderRfi(p){
     : "";
   const reqKept = p.requestDraft ? `<div class="card"><div class="minirow"><div><b>${esc(t("Request"))}</b><div class="fileline">${esc(p.requestDraft)}</div></div></div></div>` : "";
   $("#log").innerHTML =
+    lead("rfi") +
     field("Item", textInput("rfi-item", "")) +
     field("Date", `<input id="rfi-date" type="date" aria-label="${esc(t("Date"))}">`) +
     field("Responsible person", textInput("rfi-person", "")) +
@@ -2226,6 +2276,7 @@ function renderOrders(p){
     : `<p class="foot-note" id="ord-empty-doc">${esc(t("There are no rows, so there is no file."))}</p>`;
   const candyErr = p.candyError ? `<p class="warnline">${esc(p.candyError)}</p>` : "";
   $("#log").innerHTML =
+    lead("orders") +
     whyHtml("Appointments and bulk orders are both to be closed within 7 days of award.", "SiteOS Rev 4 section 2.3") +
     `<p class="foot-note">${esc(t("Candy CSV headers: item, trade, kind (appointment or material), package."))}</p>` +
     `<div class="opts"><label class="opt full">${esc(t("Load Candy CSV"))}<input id="candy-file" class="sr" type="file" accept=".csv,text/csv,text/plain"></label><button type="button" class="opt full" id="candy-blank">${esc(t("Blank Candy CSV"))}</button></div>` +
@@ -2339,17 +2390,17 @@ function renderProgress(p){
       const v = String(row.fields[k] || "").trim();
       return v ? `<div class="fileline">${esc(t(label))}: ${esc(v)}</div>` : "";
     }).join("");
-    return `<div class="minirow"><div style="flex:1;min-width:0"><b>${esc(t("Diary"))}</b>${lines || `<div class="fileline">${esc(t("Kept"))}</div>`}</div><span class="pill ok">${esc(t("Kept"))}</span></div>`;
+    return `<article class="record"><header><b>${esc(t("Diary"))}</b><span class="pill ok">${esc(t("Kept"))}</span></header>${lines || `<div class="fileline">${esc(t("Kept"))}</div>`}</article>`;
   }).join("");
   const note = p.noteDraft.phase === "read"
     ? `<p>${esc(t("Here is the note, read back."))}</p><div class="heard">${esc(p.noteDraft.text)}</div><p style="margin-top:9px">${esc(t("Read that back before it is kept."))}</p><div class="opts"><button type="button" class="opt sig full" id="note-keep">${esc(t("Keep it"))}</button><button type="button" class="opt full" id="note-change">${esc(t("Change it"))}</button></div>`
     : field("Progress note", `<textarea id="note-text" aria-label="${esc(t("Progress note"))}">${esc(p.noteDraft.text || "")}</textarea>`) + `<div class="opts"><button type="button" class="opt full" id="note-read">${esc(t("Read it back"))}</button></div>`;
-  const notes = p.notes.map((row) => `<div class="minirow"><div><b>${esc(t("Progress note"))}</b><div class="fileline">${esc(row.text)}</div></div><span class="pill ok">${esc(t("Kept"))}</span></div>`).join("");
+  const notes = p.notes.map((row) => `<article class="record"><header><b>${esc(t("Progress note"))}</b><span class="pill ok">${esc(t("Kept"))}</span></header><div class="fileline">${esc(row.text)}</div></article>`).join("");
   $("#log").innerHTML = `<div id="ext-clock">${clockBlock(p)}</div>` +
+    (kept ? `<div class="sec"><span class="lab">${esc(t("Kept"))}</span></div><div class="records">${kept}</div>` : "") +
     `<div class="sec"><span class="lab">${esc(t("Diary"))}</span></div>${diary}` +
-    (kept ? `<div class="card">${kept}</div>` : "") +
     `<div class="block">${note}</div>` +
-    (notes ? `<div class="card">${notes}</div>` : "") +
+    (notes ? `<div class="records">${notes}</div>` : "") +
     `<div class="block">${field("Approved practical completion", `<input id="ext" type="date" aria-label="${esc(t("Approved practical completion"))}" value="${esc(p.extensionDate || "")}">`)}</div>` +
     `<p>${esc(t("The new baseline must be submitted."))}</p>`;
   bindProposals($("#log"));
@@ -2520,7 +2571,7 @@ function renderClaims(p){
       <button type="button" class="opt pick full${c.lineMissing === false ? " on" : ""}" data-line="on">${esc(t("On the claim"))}</button>
     </div>`;
   $("#log").innerHTML =
-    `<p>${esc(t("Enter the figures from the documents you loaded. This page only subtracts or compares those figures."))}</p>` +
+    `<p class="prompt">${esc(t("Enter the figures from the documents you loaded. This page only subtracts or compares those figures."))}</p>` +
     field("Cost-report line", line) +
     moneyField("variation", "Variation", c.variation) +
     moneyField("variationClaimed", "Variation on the claim", c.variationClaimed) +
@@ -2595,9 +2646,10 @@ function renderQuality(p){
   const qAsk = q.ask ? `<div id="quality-ask" data-model-readback="1"><div class="heard">${esc(q.ask)}</div></div>` : "";
   const say = speechOk() ? `<button type="button" class="opt full" id="quality-say">${esc(t("Say it"))}</button>` : "";
   $("#log").innerHTML =
+    lead("quality") +
     field("Photo", fileControl(`id="q-photo" accept="image/*,.pdf,.png,.jpg,.jpeg,.webp" aria-label="${esc(t("Photo"))}"`, q.photo)) +
     field("Quality note", `<textarea id="quality-note" aria-label="${esc(t("Quality note"))}">${esc(q.note || "")}</textarea>`) +
-    `<div class="opts"><button type="button" class="opt full" id="quality-go">${esc(t("Draft the fields"))}</button>${say}</div>` +
+    `<div class="opts"><button type="button" class="opt sig full" id="quality-go">${esc(t("Draft the fields"))}</button>${say}</div>` +
     qErr + qAsk +
     field("Area", textInput("q-area", q.area)) +
     field("Description", textInput("q-desc", q.description)) +
@@ -2681,7 +2733,7 @@ function renderDefault(p){
     return `<option value="n:${esc(row.id)}"${p.def.source === "n:" + row.id ? " selected" : ""}>${esc(t("Progress note"))}: ${esc(row.text.slice(0, 80))}</option>`;
   })).join("");
   if (!p.diary.length && !p.notes.length){
-    $("#log").innerHTML = `<p>${esc(t("Keep a diary entry or a progress note first, and name the subcontractor in it."))}</p>`;
+    $("#log").innerHTML = `<p class="prompt">${esc(t("Keep a diary entry or a progress note first, and name the subcontractor in it."))}</p>`;
     $("#rail").innerHTML = "";
     return;
   }
@@ -2698,6 +2750,7 @@ function renderDefault(p){
     }).join("") + `</div>`;
   }
   $("#log").innerHTML =
+    lead("default") +
     field("Note", `<select id="def-src" aria-label="${esc(t("Note"))}"><option value="">${esc(t("None"))}</option>${options}</select>`) +
     field("Subcontractor", textInput("def-sub", p.def.sub || "")) +
     `<div id="def-out">${gate}</div>` +
