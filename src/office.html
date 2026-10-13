@@ -48,6 +48,7 @@ body{
   margin:0; background:var(--ground); color:var(--ink);
   font-family:var(--sans); font-size:14.5px; line-height:1.5;
   -webkit-font-smoothing:antialiased;
+  min-height:100dvh; display:flex; flex-direction:column;
 }
 @media (prefers-reduced-motion: reduce){ *{animation:none!important; transition:none!important} }
 :focus-visible{outline:2px solid var(--signal-txt); outline-offset:2px}
@@ -95,7 +96,12 @@ a.w{color:inherit; text-decoration:none}
 }
 .jump:hover{background:var(--signal); color:var(--signal-ink); border-color:#0C0C0C}
 
-.body{padding:24px 28px 60px}
+.body{padding:24px 28px 60px; flex:1; min-height:0; display:flex; flex-direction:column}
+#setup[hidden]{display:none !important}
+.prompt{margin:0 0 12px; font-size:15.5px; line-height:1.4}
+body.sheet-ready{height:100dvh; overflow:hidden}
+body.sheet-ready .body{overflow:hidden; padding-bottom:16px}
+body.sheet-ready #sheet{flex:1; min-height:0; max-height:none}
 
 .card{
   background:var(--surface); border:1px solid var(--rule); border-radius:4px;
@@ -210,6 +216,7 @@ th.sorted.desc::after{content:" \2193"}
   <div class="loadbar">
     <label class="jump" id="load-label" for="csv">Load a CSV</label>
     <input id="csv" type="file" accept=".csv,text/csv,text/plain">
+    <button type="button" class="jump" id="co-change" hidden>Change the company</button>
     <button type="button" class="jump" id="template">Blank CSV</button>
     <button type="button" class="jump" id="ws-down">Download workspace</button>
     <label class="jump" id="ws-label" for="ws-file">Load workspace</label>
@@ -388,7 +395,9 @@ const AF = {
   "Workspace loaded": "Werkspasie gelaai",
   "That file is not a workspace.": "Daai lêer is nie 'n werkspasie nie.",
   "Missing header": "Header weg",
-  "Day counts use this reporting date.": "Dag-tellings gebruik hierdie reporting date."
+  "Day counts use this reporting date.": "Dag-tellings gebruik hierdie reporting date.",
+  "Name the company and set the reporting date.": "Noem die maatskappy en stel die reporting date.",
+  "Change the company": "Verander die maatskappy"
 };
 
 function tr(s){
@@ -576,6 +585,8 @@ function makeSortable(table){
   });
 }
 
+let editingCompany = false;
+
 function render(){
   document.documentElement.lang = LANG === "af" ? "af" : "en";
   const name = companyName();
@@ -595,13 +606,31 @@ function render(){
   $("#template").textContent = tr("Blank CSV");
   $("#ws-down").textContent = tr("Download workspace");
   $("#ws-label").textContent = tr("Load workspace");
+  const change = $("#co-change");
+  if (change){
+    change.textContent = tr("Change the company");
+    change.onclick = () => { editingCompany = true; render(); };
+  }
   const ws = loadWs();
-  $("#setup").innerHTML =
-    `<label class="field" style="display:flex;flex-direction:column;gap:4px;margin:0 0 10px"><span class="k" style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)">${esc(tr("Company name"))}</span><input id="co-name" type="text" autocomplete="off" value="${esc(ws.company.name || "")}" style="min-height:44px;border:1px solid var(--rule);border-radius:4px;padding:8px 10px;font:inherit;background:var(--surface);color:var(--ink)"></label>` +
-    `<label class="field" style="display:flex;flex-direction:column;gap:4px;margin:0 0 10px"><span class="k" style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)">${esc(tr("Reporting date"))}</span><input id="co-asat" type="date" value="${esc(ws.company.asAt || "")}" style="min-height:44px;border:1px solid var(--rule);border-radius:4px;padding:8px 10px;font:inherit;background:var(--surface);color:var(--ink)"></label>` +
-    `<p class="foot-note" style="margin-top:0">${esc(tr("Day counts use this reporting date."))}</p>` +
-    `<button type="button" class="jump" id="co-keep">${esc(tr("Keep the company"))}</button>`;
-  $("#co-keep").onclick = keepCompany;
+  const ready = !!(companyName() && reportingDate());
+  document.body.classList.toggle("sheet-ready", ready && !editingCompany);
+  const setup = $("#setup");
+  if (ready && !editingCompany){
+    setup.hidden = true;
+    setup.innerHTML = "";
+    if (change) change.hidden = false;
+  } else {
+    if (change) change.hidden = true;
+    setup.hidden = false;
+    const line = ready ? "" : `<p class="prompt">${esc(tr("Name the company and set the reporting date."))}</p>`;
+    setup.innerHTML =
+      line +
+      `<label class="field" style="display:flex;flex-direction:column;gap:4px;margin:0 0 10px"><span class="k" style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)">${esc(tr("Company name"))}</span><input id="co-name" type="text" autocomplete="off" value="${esc(ws.company.name || "")}" style="min-height:44px;border:1px solid var(--rule);border-radius:4px;padding:8px 10px;font:inherit;background:var(--surface);color:var(--ink)"></label>` +
+      `<label class="field" style="display:flex;flex-direction:column;gap:4px;margin:0 0 10px"><span class="k" style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)">${esc(tr("Reporting date"))}</span><input id="co-asat" type="date" value="${esc(ws.company.asAt || "")}" style="min-height:44px;border:1px solid var(--rule);border-radius:4px;padding:8px 10px;font:inherit;background:var(--surface);color:var(--ink)"></label>` +
+      `<p class="foot-note" style="margin-top:0">${esc(tr("Day counts use this reporting date."))}</p>` +
+      `<button type="button" class="jump" id="co-keep">${esc(tr("Keep the company"))}</button>`;
+    $("#co-keep").onclick = keepCompany;
+  }
   $("#sheet").innerHTML = sheet();
   translateDOM($("#sheet"));
   const table = $("#sheet").querySelector("table");
@@ -841,6 +870,7 @@ function keepCompany(){
   if (!/^\d{4}-\d{2}-\d{2}$/.test(asAt)){ toast(tr("Set the reporting date.")); return; }
   ws.company = { name: name, asAt: asAt };
   saveWs(ws);
+  editingCompany = false;
   render();
   toast(tr("Company kept"));
 }

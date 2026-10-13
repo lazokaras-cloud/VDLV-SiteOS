@@ -164,14 +164,16 @@ a.tb-mark{color:inherit; text-decoration:none}
   }
   .titleblock{
     position:static; border:0; border-bottom:1px solid var(--rule); box-shadow:none;
-    display:flex; align-items:center; justify-content:space-between; gap:12px; padding:0 16px;
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-start;
+    gap:0 12px; padding:4px 12px 2px;
   }
   .tb-rows,.tb-note{display:none}
-  .tb-head{padding:10px 0 9px; border-bottom:0; flex:1; min-width:0}
-  .tb-mark h1{font-size:19px}
+  .tb-head{padding:8px 0 4px; border-bottom:0; flex:1 1 8rem; min-width:0; max-width:100%}
+  .tb-mark{min-width:0; max-width:100%}
+  .tb-mark h1{font-size:19px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .tb-mark .tick{width:7px; height:7px}
   .tb-sub{display:none}
-  .tb-foot{padding:0; border:0; gap:14px}
+  .tb-foot{flex:1 1 100%; padding:0 0 2px; border:0; gap:0 14px; justify-content:flex-start}
   .stage{padding:0; min-height:0; height:100%}
   .device{width:100%; height:100%; border:0; border-radius:0; box-shadow:none}
   .notch{display:none}
@@ -615,15 +617,26 @@ label.opt{display:inline-flex; align-items:center; justify-content:center; curso
 .field input:focus, .field textarea:focus, .field select:focus{
   outline:none; border-color:var(--stamp); box-shadow:0 0 0 3px var(--stamp-wash);
 }
-.fileline{font-family:var(--mono); font-size:12px; color:var(--ink); margin-top:4px; line-height:1.4}
+.fileline{font-family:var(--mono); font-size:12px; color:var(--ink); margin-top:4px; line-height:1.4; overflow-wrap:anywhere}
 .fileline.empty{color:var(--ink-3)}
+.prompt{margin:0 0 12px; font-size:15.5px; line-height:1.4}
+.filepick{
+  position:relative; display:inline-flex; align-items:center; justify-content:center;
+  min-height:44px; padding:10px 14px; margin:2px 0 6px;
+  border:1px solid var(--rule); border-radius:4px; background:var(--surface-2);
+  font-weight:600; cursor:pointer;
+}
+.filepick input{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+.filepick:focus-within{outline:2px solid var(--stamp); outline-offset:2px}
 .block{margin-top:14px}
 .opt.pick.on{background:var(--ink); color:var(--ground); border-color:var(--ink)}
 .opt.pick.on.sig{background:var(--signal); color:var(--signal-ink); border-color:#0C0C0C}
 .minirow{
   display:flex; gap:8px; align-items:flex-start; justify-content:space-between;
   padding:10px 12px; border-bottom:1px solid var(--rule-2); text-align:left; width:100%;
+  min-width:0;
 }
+.minirow b{overflow-wrap:anywhere}
 .minirow:last-child{border-bottom:0}
 .warnline{font-size:13px; color:var(--warn); margin:6px 0 0}
 .empty-note{padding:14px; color:var(--ink-2); font-size:14px}
@@ -884,6 +897,13 @@ const AF = {
   "Project opened": "Projek oop",
   "Tender kept": "Tender gehou",
   "Choose a file": "Kies 'n lêer",
+  "Replace the file": "Vervang die lêer",
+  "Name the company and set the reporting date.": "Noem die maatskappy en stel die reporting date.",
+  "Add a tender. Awarded opens the project.": "Sit 'n tender by. Toegeken maak die projek oop.",
+  "Set the result. Awarded opens the project.": "Kies die resultaat. Toegeken maak die projek oop.",
+  "Type the day, then draft the fields.": "Tik die dag, dan draft die fields.",
+  "Draft the fields first.": "Draft die fields eers.",
+  "Contract not loaded": "Kontrak nog nie gelaai nie",
   "Contract basis": "Contract basis",
   "Bill of quantities": "BoQ",
   "Drawings": "Tekeninge",
@@ -1211,8 +1231,18 @@ function fileText(meta){
 }
 function fileLine(meta){
   const text = fileText(meta);
-  if (!text) return `<div class="fileline empty">${esc(t("Choose a file"))}</div>`;
+  if (!text) return `<div class="fileline empty"></div>`;
   return `<div class="fileline">${esc(text)}</div>`;
+}
+function fileControl(attrs, meta){
+  const label = meta && meta.name ? t("Replace the file") : t("Choose a file");
+  return `<span class="filepick"><input type="file" ${attrs}><span>${esc(label)}</span></span>${fileLine(meta)}`;
+}
+function plainError(msg){
+  let s = String(msg || "The model call failed.").split(/[\r\n]/)[0].trim();
+  s = s.replace(/\s+at\s+.+$/, "").trim();
+  if (s.length > 180) s = s.slice(0, 177).trim() + "...";
+  return s || "The model call failed.";
 }
 function downloadText(name, text){
   const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
@@ -1280,7 +1310,7 @@ async function callModel(task, payload){
   }
   let data = {};
   try { data = await res.json(); } catch (e) { data = {}; }
-  if (!res.ok || (data && data.error)) throw new Error((data && data.error) || "The model call failed.");
+  if (!res.ok || (data && data.error)) throw new Error(plainError((data && data.error) || "The model call failed."));
   return data;
 }
 function parseCsv(text){
@@ -1508,7 +1538,7 @@ function baselineSentence(p){
 function chipOf(p){
   if (p.contract.signed) return "Signed loaded";
   if (p.contract.before) return "Draft loaded";
-  return "Not loaded";
+  return "Contract not loaded";
 }
 function statusLabel(status){
   if (status === "awarded") return "Tender Awarded";
@@ -1686,7 +1716,7 @@ function showWsConfirm(){
 }
 function renderSetup(){
   $("#pane-project").innerHTML = `
-    <div class="sec"><span class="lab">${esc(t("Company"))}</span></div>
+    <p class="prompt">${esc(t("Name the company and set the reporting date."))}</p>
     ${field("Company name", textInput("co-name", DB.company.name || ""))}
     ${field("Reporting date", `<input id="co-asat" type="date" aria-label="${esc(t("Reporting date"))}" value="${esc(DB.company.asAt || "")}">`)}
     <p class="foot-note">${esc(t("Day counts use this reporting date."))}</p>
@@ -1740,7 +1770,9 @@ function renderList(){
     const on = p.id === DB.openId ? `<span class="pill info">${esc(t("Selected"))}</span>` : "";
     return `<button type="button" class="minirow" data-open-project="${esc(p.id)}"><span><b>${esc(p.name)}</b></span>${on}</button>`;
   }).join("");
+  const lead = DB.tenders.length ? "" : `<p class="prompt">${esc(t("Add a tender. Awarded opens the project."))}</p>`;
   $("#pane-project").innerHTML = `
+    ${lead}
     <div class="sec"><span class="lab">${esc(t("Company"))}</span><b id="company-name">${esc(DB.company.name)}</b></div>
     <div class="sec"><span class="lab">${esc(t("Tenders"))}</span></div>
     <button type="button" class="opt sig full" id="add-tender">${esc(t("Add a tender"))}</button>
@@ -1824,7 +1856,8 @@ function paint(){
     $("#tb-job").textContent = t("Company");
     $("#tb-count").textContent = String(DB.tenders.length);
     $("#bar-proj").textContent = named || t("Company");
-    $("#bar-chip").textContent = t("The reporting date is missing.");
+    $("#bar-chip").textContent = "";
+    $("#bar-chip").hidden = true;
     $(".avatar").textContent = initials(named || "SiteOS");
     $("#tabdot").style.display = "none";
     renderSetup();
@@ -1839,6 +1872,7 @@ function paint(){
   $("#tb-job").textContent = onProject ? p.name : t("Workspace");
   $("#tb-count").textContent = String(DB.tenders.length);
   $("#bar-proj").textContent = onProject ? p.name : t("Workspace");
+  $("#bar-chip").hidden = false;
   $("#bar-chip").textContent = onProject ? t(chipOf(p)) : t("No project open");
   $(".avatar").textContent = onProject ? initials(p.name) : initials(named || "SiteOS");
   const waiting = DB.tenders.some((tender) => tender.status === "waiting");
@@ -1887,14 +1921,14 @@ function renderTenderForm(){
   setChat("Tender", "Result");
   $("#steps").innerHTML = `<i class="now"></i><i class="lock"></i>`;
   const files = TENDER_SLOTS.map(([k, label]) => {
-    return field(label, `<input type="file" data-slot="${esc(k)}" aria-label="${esc(t(label))}">${fileLine(d.files && d.files[k])}`);
+    return field(label, fileControl(`data-slot="${esc(k)}" aria-label="${esc(t(label))}"`, d.files && d.files[k]));
   }).join("");
   const statuses = ["waiting", "awarded", "unsuccessful"].map((id) => {
     const cls = id === "awarded" ? "sig" : "";
     const on = d.status === id ? " on" : "";
     return `<button type="button" class="opt pick full ${cls}${on}" data-status="${id}">${esc(t(statusLabel(id)))}</button>`;
   }).join("");
-  $("#log").innerHTML = field("Project name", textInput("t-name", d.name)) + files + `<div class="opts">${statuses}</div>` + riskBox(d);
+  $("#log").innerHTML = `<p class="prompt">${esc(t("Set the result. Awarded opens the project."))}</p>` + field("Project name", textInput("t-name", d.name)) + `<div class="opts">${statuses}</div>` + files + riskBox(d);
   const keepLabel = d.status === "awarded" ? "Open the project" : "Keep the tender";
   $("#rail").innerHTML = `<div class="opts"><button type="button" class="opt sig full" id="keep-tender">${esc(t(keepLabel))}</button></div>`;
   $("#t-name").addEventListener("input", () => { if (DB.draft) DB.draft.name = $("#t-name").value; save(); });
@@ -1905,8 +1939,11 @@ function renderTenderForm(){
       if (!DB.draft.files) DB.draft.files = {};
       DB.draft.files[el.getAttribute("data-slot")] = meta;
       save();
-      const line = el.parentElement.querySelector(".fileline");
+      const host = el.closest(".field");
+      const line = host ? host.querySelector(".fileline") : null;
       if (line){ line.className = "fileline"; line.textContent = fileText(meta); }
+      const span = el.parentElement && el.parentElement.querySelector("span");
+      if (span) span.textContent = t("Replace the file");
       readTextFile(el.files && el.files[0], (txt) => {
         if (!txt || !DB.draft) return;
         const box = $("#risk-text");
@@ -1998,7 +2035,7 @@ function bindRisk(holder){
       save();
       paint();
     } catch (e) {
-      holder.riskError = e.message || "The model call failed.";
+      holder.riskError = plainError(e.message || "The model call failed.");
       holder.riskShown = "";
       save();
       paint();
@@ -2024,19 +2061,19 @@ function renderContract(p){
   const signed = !!p.contract.signed;
   $("#steps").innerHTML = `<i class="${before ? "done" : "now"}"></i><i class="${!before ? "lock" : signed ? "done" : "now"}"></i>`;
   let html = `<div id="ext-clock">${clockBlock(p)}</div>` +
-    field("Contract before signature", `<input type="file" id="c-before" aria-label="${esc(t("Contract before signature"))}">${fileLine(p.contract.before)}`);
+    field("Contract before signature", fileControl(`id="c-before" aria-label="${esc(t("Contract before signature"))}"`, p.contract.before));
   if (!before){
     html += `<p class="warnline">${esc(t("The next step stays hidden until this file is here."))}</p>`;
   } else {
     html += `<div class="sec"><span class="lab">${esc(t("From the tender submission"))}</span></div>`;
     html += CHANGE_KEYS.map(([k, label]) => field(label, `<input id="sub-${k}" type="date" aria-label="${esc(t(label))}" value="${esc((p.contract.submission && p.contract.submission[k]) || "")}">`)).join("");
-    html += field("Signed contract", `<input type="file" id="c-signed" aria-label="${esc(t("Signed contract"))}">${fileLine(p.contract.signed)}`);
+    html += field("Signed contract", fileControl(`id="c-signed" aria-label="${esc(t("Signed contract"))}"`, p.contract.signed));
     if (!signed){
       html += `<p class="warnline">${esc(t("The next step stays hidden until this file is here."))}</p>`;
     } else {
       html += `<div class="sec"><span class="lab">${esc(t("From the signed contract"))}</span></div>`;
       html += CHANGE_KEYS.map(([k, label]) => field(label, `<input id="sig-${k}" type="date" aria-label="${esc(t(label))}" value="${esc((p.contract.signedDates && p.contract.signedDates[k]) || "")}">`)).join("");
-      html += field("Signed programme", `<input type="file" id="c-prog" aria-label="${esc(t("Signed programme"))}">${fileLine(p.contract.signedProgramme)}`);
+      html += field("Signed programme", fileControl(`id="c-prog" aria-label="${esc(t("Signed programme"))}"`, p.contract.signedProgramme));
       html += `<div id="date-sum">${dateSummary(p)}</div>`;
     }
   }
@@ -2157,7 +2194,7 @@ function renderRfi(p){
       save();
       paint();
     } catch (e) {
-      p.requestError = e.message || "The model call failed.";
+      p.requestError = plainError(e.message || "The model call failed.");
       p.requestShown = "";
       save();
       paint();
@@ -2180,7 +2217,7 @@ function renderOrders(p){
     const extra = [r.trade, r.package].filter(Boolean).join(" · ");
     const file = r.file
       ? `<div class="fileline">${esc(fileText(r.file))}</div><p>${esc(t("That file is this subcontractor's rules."))}</p>`
-      : `<label class="field"><span class="k">${esc(t("Upload the file"))}</span><input type="file" data-order="${esc(r.id)}" aria-label="${esc(t("Upload the file"))}"></label>`;
+      : `<label class="filepick"><input type="file" data-order="${esc(r.id)}" aria-label="${esc(t("Upload the file"))}"><span>${esc(t("Upload the file"))}</span></label>`;
     const box = r.file ? "on" : "";
     return `<div class="minirow"><span class="box" style="margin-top:2px"><span class="chk ${box}" style="pointer-events:none"><span class="box"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"/></svg></span></span></span><div style="flex:1"><b>${esc(r.name)}</b><div class="fileline">${esc(t(kind))}${extra ? " · " + esc(extra) : ""}</div>${file}</div></div>`;
   }).join("");
@@ -2197,7 +2234,7 @@ function renderOrders(p){
     field("Appointment", `<select id="ord-kind" aria-label="${esc(t("Appointment"))}"><option value="appointment">${esc(t("Appointment"))}</option><option value="bulk">${esc(t("Bulk order"))}</option></select>`) +
     `<div class="card">${rows || `<div class="empty-note">${esc(t("No rows yet. Add the appointment or the bulk order."))}</div>`}</div>` +
     docBtn;
-  $("#rail").innerHTML = `<div class="opts"><button type="button" class="opt sig full" id="ord-add">${esc(t("Add"))}</button></div>`;
+  $("#rail").innerHTML = `<div class="opts"><button type="button" class="opt sig full" id="ord-add">${esc(t("Add the row"))}</button></div>`;
   $("#ord-add").onclick = () => {
     const name = $("#ord-name").value.trim();
     if (!name){ toast("The row needs a name."); return; }
@@ -2293,11 +2330,17 @@ function renderProgress(p){
   else {
     const opts = `<option value="">${esc(t("None"))}</option>` + DIARY_KEYS.map(([k, label]) => `<option value="${esc(k)}"${d.rfiLine === k ? " selected" : ""}>${esc(t(label))}</option>`).join("");
     const err = d.error ? `<p class="warnline" data-model-error="1">${esc(t(d.error))}</p>` : "";
-    diary = field("Diary note", `<textarea id="diary-note" aria-label="${esc(t("Diary note"))}">${esc(d.note || "")}</textarea>`) + err +
+    diary = `<p class="prompt">${esc(t("Type the day, then draft the fields."))}</p>` + field("Diary note", `<textarea id="diary-note" aria-label="${esc(t("Diary note"))}">${esc(d.note || "")}</textarea>`) + err +
       DIARY_KEYS.map(([k, label]) => field(label, `<textarea id="d-${k}" aria-label="${esc(t(label))}">${esc(d.fields[k] || "")}</textarea>`)).join("") +
       field("Flag one line as an outstanding RFI", `<select id="d-rfi" aria-label="${esc(t("Flag one line as an outstanding RFI"))}">${opts}</select>`);
   }
-  const kept = p.diary.map((row) => `<div class="minirow"><div><b>${esc(t("Diary"))}</b><div class="fileline">${esc(row.fields.work || row.fields.move || t("Kept"))}</div></div><span class="pill ok">${esc(t("Kept"))}</span></div>`).join("");
+  const kept = p.diary.map((row) => {
+    const lines = DIARY_KEYS.map(([k, label]) => {
+      const v = String(row.fields[k] || "").trim();
+      return v ? `<div class="fileline">${esc(t(label))}: ${esc(v)}</div>` : "";
+    }).join("");
+    return `<div class="minirow"><div style="flex:1;min-width:0"><b>${esc(t("Diary"))}</b>${lines || `<div class="fileline">${esc(t("Kept"))}</div>`}</div><span class="pill ok">${esc(t("Kept"))}</span></div>`;
+  }).join("");
   const note = p.noteDraft.phase === "read"
     ? `<p>${esc(t("Here is the note, read back."))}</p><div class="heard">${esc(p.noteDraft.text)}</div><p style="margin-top:9px">${esc(t("Read that back before it is kept."))}</p><div class="opts"><button type="button" class="opt sig full" id="note-keep">${esc(t("Keep it"))}</button><button type="button" class="opt full" id="note-change">${esc(t("Change it"))}</button></div>`
     : field("Progress note", `<textarea id="note-text" aria-label="${esc(t("Progress note"))}">${esc(p.noteDraft.text || "")}</textarea>`) + `<div class="opts"><button type="button" class="opt full" id="note-read">${esc(t("Read it back"))}</button></div>`;
@@ -2330,7 +2373,10 @@ function renderProgress(p){
       p.diaryDraft.fromModel = false;
       p.diaryDraft.modelFields = null;
       const any = DIARY_KEYS.some(([k]) => (p.diaryDraft.fields[k] || "").trim());
-      if (!any){ toast("Type the day first."); return; }
+      if (!any){
+        toast((p.diaryDraft.note || "").trim() ? "Draft the fields first." : "Type the day first.");
+        return;
+      }
       p.diaryDraft.phase = "read";
       save();
       paint();
@@ -2373,7 +2419,7 @@ function renderProgress(p){
         if (!live) return;
         live.diaryDraft.phase = "edit";
         live.diaryDraft.fromModel = false;
-        live.diaryDraft.error = err.message || "The model call failed.";
+        live.diaryDraft.error = plainError(err.message || "The model call failed.");
         save();
         paint();
       }
@@ -2526,7 +2572,7 @@ function renderClaims(p){
       paint();
     } catch (err) {
       p.claims.advice = "";
-      p.claims.adviceError = err.message || "The model call failed.";
+      p.claims.adviceError = plainError(err.message || "The model call failed.");
       save();
       paint();
     }
@@ -2549,7 +2595,7 @@ function renderQuality(p){
   const qAsk = q.ask ? `<div id="quality-ask" data-model-readback="1"><div class="heard">${esc(q.ask)}</div></div>` : "";
   const say = speechOk() ? `<button type="button" class="opt full" id="quality-say">${esc(t("Say it"))}</button>` : "";
   $("#log").innerHTML =
-    field("Photo", `<input id="q-photo" type="file" accept="image/*,.pdf,.png,.jpg,.jpeg,.webp" aria-label="${esc(t("Photo"))}">${fileLine(q.photo)}`) +
+    field("Photo", fileControl(`id="q-photo" accept="image/*,.pdf,.png,.jpg,.jpeg,.webp" aria-label="${esc(t("Photo"))}"`, q.photo)) +
     field("Quality note", `<textarea id="quality-note" aria-label="${esc(t("Quality note"))}">${esc(q.note || "")}</textarea>`) +
     `<div class="opts"><button type="button" class="opt full" id="quality-go">${esc(t("Draft the fields"))}</button>${say}</div>` +
     qErr + qAsk +
@@ -2588,7 +2634,7 @@ function renderQuality(p){
       paint();
     } catch (err) {
       p.quality.ask = "";
-      p.quality.modelError = err.message || "The model call failed.";
+      p.quality.modelError = plainError(err.message || "The model call failed.");
       save();
       paint();
     }
