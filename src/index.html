@@ -191,22 +191,25 @@ try {
   const stored = localStorage.getItem("siteos.lang");
   if (stored === "af" || stored === "en") LANG = stored;
 } catch (e) {}
-function companyName(){
+function companyRecord(){
   try {
     const raw = localStorage.getItem("siteos.workspace");
-    if (!raw) return "";
+    if (!raw) return { name: "", asAt: "" };
     const p = JSON.parse(raw);
-    return p && p.company && String(p.company.name || "").trim();
-  } catch (e) { return ""; }
+    const c = (p && p.company) || {};
+    const name = String(c.name || "").trim();
+    const asAt = /^\d{4}-\d{2}-\d{2}$/.test(c.asAt || "") ? c.asAt : "";
+    return { name: name, asAt: asAt };
+  } catch (e) { return { name: "", asAt: "" }; }
 }
 function paint(){
   document.documentElement.lang = LANG === "af" ? "af" : "en";
   const pack = COPY[LANG];
   const line = document.getElementById("company-line");
-  const name = companyName();
-  if (name){
+  const co = companyRecord();
+  if (co.name || co.asAt){
     line.hidden = false;
-    line.textContent = pack["chip-company"] + ": " + name;
+    line.textContent = [co.name ? pack["chip-company"] + ": " + co.name : "", co.asAt].filter(Boolean).join(" · ");
   } else {
     line.hidden = true;
     line.textContent = "";

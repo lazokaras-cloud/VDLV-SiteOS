@@ -619,6 +619,7 @@ label.opt{display:inline-flex; align-items:center; justify-content:center; curso
 }
 .fileline{font-family:var(--mono); font-size:12px; color:var(--ink); margin-top:4px; line-height:1.4; overflow-wrap:anywhere}
 .fileline.empty{color:var(--ink-3)}
+.fileline .filedl{display:inline; min-height:0; margin:0 0 0 8px; padding:0; font-size:11px; letter-spacing:.06em; vertical-align:baseline}
 .prompt{margin:0 0 12px; font-size:15.5px; line-height:1.4}
 .filepick{
   position:relative; display:inline-flex; align-items:center; justify-content:center;
@@ -731,6 +732,7 @@ label.opt{display:inline-flex; align-items:center; justify-content:center; curso
         <div class="avatar">PL</div>
         <div class="bar-id">
           <div class="proj" id="bar-proj">Workspace</div>
+          <div class="fileline" id="bar-co"></div>
           <span class="chip" id="bar-chip">No project open</span>
         </div>
         <button class="langbtn" id="lang" aria-label="Taal / Language">EN</button>
@@ -940,6 +942,8 @@ const AF = {
   "Tender kept": "Tender gehou",
   "Choose a file": "Kies 'n lêer",
   "Replace the file": "Vervang die lêer",
+  "Download the file": "Laai die lêer af",
+  "The file name was kept. The file itself was too large to store on this computer.": "Die lêernaam is gehou. Die lêer self was te groot om op hierdie rekenaar te stoor.",
   "Name the company and set the reporting date.": "Noem die maatskappy en stel die reporting date.",
   "Add a tender. Awarded opens the project.": "Sit 'n tender by. Toegeken maak die projek oop.",
   "Set the result. Awarded opens the project.": "Kies die resultaat. Toegeken maak die projek oop.",
@@ -1262,23 +1266,100 @@ function formatSize(n){
   if (b < 1048576) return (Math.round(b / 102.4) / 10) + " kB";
   return (Math.round(b / 104857.6) / 10) + " MB";
 }
-function takeFile(input){
-  const f = input.files && input.files[0];
-  if (!f) return null;
-  return { name: f.name, size: f.size };
+/* A small text file or PDF is kept with the workspace so a later download
+   returns the same bytes. Anything else, or a file over this cap, keeps
+   the name only. The cap is storage on this computer, not a contract rule. */
+const BYTE_CAP = 512 * 1024;
+
+function isStoredKind(file){
+  const name = String(file.name || "").toLowerCase();
+  const type = String(file.type || "").toLowerCase();
+  if (type === "application/pdf" || name.endsWith(".pdf")) return true;
+  if (type.indexOf("text/") === 0) return true;
+  return /\.(txt|csv|md|text)$/i.test(name);
+}
+function readStoredFile(file, done){
+  const meta = { name: file.name, size: file.size, type: file.type || "" };
+  if (!isStoredKind(file) || file.size > BYTE_CAP){
+    done(meta, isStoredKind(file) && file.size > BYTE_CAP);
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    const url = String(reader.result || "");
+    const comma = url.indexOf(",");
+    const data = comma >= 0 ? url.slice(comma + 1) : "";
+    if (data){
+      meta.data = data;
+      meta.encoding = "base64";
+      if (!meta.type) meta.type = /\.pdf$/i.test(file.name) ? "application/pdf" : "text/plain";
+    }
+    done(meta, false);
+  };
+  reader.onerror = () => done(meta, false);
+  reader.readAsDataURL(file);
+}
+function downloadMeta(meta){
+  if (!meta || !meta.data || !meta.name) return;
+  let binary = "";
+  try { binary = atob(meta.data); } catch (e) { return; }
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i) & 255;
+  const type = meta.type || (/\.pdf$/i.test(meta.name) ? "application/pdf" : "application/octet-stream");
+  const blob = new Blob([bytes], { type: type });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = meta.name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+}
+function lookupFile(key){
+  const p = project();
+  if (!key) return null;
+  if (key.indexOf("draft:") === 0){
+    const slot = key.slice(6);
+    return DB.draft && DB.draft.files ? DB.draft.files[slot] : null;
+  }
+  if (key.indexOf("tender:") === 0){
+    const rest = key.slice(7);
+    const cut = rest.indexOf(":");
+    if (cut < 0) return null;
+    const tender = tenderById(rest.slice(0, cut));
+    const slot = rest.slice(cut + 1);
+    return tender && tender.files ? tender.files[slot] : null;
+  }
+  if (!p) return null;
+  if (key.indexOf("rule:") === 0) return p.rules ? p.rules[key.slice(5)] : null;
+  if (key === "contract:before") return p.contract.before;
+  if (key === "contract:signed") return p.contract.signed;
+  if (key === "contract:programme") return p.contract.signedProgramme;
+  if (key === "quality") return p.quality ? p.quality.photo : null;
+  if (key.indexOf("order:") === 0){
+    const row = p.orders.find((r) => r.id === key.slice(6));
+    return row ? row.file : null;
+  }
+  return null;
 }
 function fileText(meta){
   if (!meta || !meta.name) return "";
   return meta.name + " · " + formatSize(meta.size);
 }
-function fileLine(meta){
+function fileLine(meta, dlKey){
   const text = fileText(meta);
   if (!text) return `<div class="fileline empty"></div>`;
-  return `<div class="fileline">${esc(text)}</div>`;
+  const dl = meta.data && dlKey
+    ? ` <button type="button" class="textback filedl" data-dl="${esc(dlKey)}">${esc(t("Download the file"))}</button>`
+    : "";
+  return `<div class="fileline">${esc(text)}${dl}</div>`;
 }
-function fileControl(attrs, meta){
+function fileControl(attrs, meta, dlKey){
   const label = meta && meta.name ? t("Replace the file") : t("Choose a file");
-  return `<span class="filepick"><input type="file" ${attrs}><span>${esc(label)}</span></span>${fileLine(meta)}`;
+  return `<span class="filepick"><input type="file" ${attrs}><span>${esc(label)}</span></span>${fileLine(meta, dlKey)}`;
+}
+function noteFileSize(tooBig){
+  if (tooBig) toast("The file name was kept. The file itself was too large to store on this computer.");
 }
 function plainError(msg){
   let s = String(msg || "The model call failed.").split(/[\r\n]/)[0].trim();
@@ -1297,6 +1378,22 @@ function rowsDoc(rows){
   const lines = ["item\tdate\tresponsible person"];
   rows.forEach((r) => lines.push([r.item || "", r.date || "", r.person || ""].join("\t")));
   return lines.join("\n") + "\n";
+}
+function rfiDocument(p){
+  const lines = ["RFI and appointment schedule", ""];
+  p.rfis.forEach((r, i) => {
+    lines.push(String(i + 1) + ". " + (r.item || ""));
+    lines.push("Date: " + (r.date || ""));
+    lines.push("Responsible person: " + (r.person || ""));
+    lines.push("");
+  });
+  const draft = p.requestDraft || p.requestShown || "";
+  if (draft){
+    lines.push("Request");
+    lines.push(draft);
+    lines.push("");
+  }
+  return lines.join("\n");
 }
 function splitField(text){
   const raw = String(text || "");
@@ -1465,9 +1562,51 @@ try {
   }
 } catch (e) {}
 if (!DB.company) DB.company = { name: "", asAt: "" };
+let stuckDraft = false;
+DB.projects.forEach((p) => {
+  hydrate(p);
+  if (p.diaryDraft && p.diaryDraft.phase === "wait"){
+    p.diaryDraft.phase = "edit";
+    stuckDraft = true;
+  }
+});
+if (stuckDraft) save();
 
+function eachStoredFile(node, fn){
+  if (!node || typeof node !== "object") return;
+  if (typeof node.data === "string" && node.data && typeof node.name === "string" && node.encoding === "base64") fn(node);
+  if (Array.isArray(node)){
+    node.forEach((item) => eachStoredFile(item, fn));
+    return;
+  }
+  Object.keys(node).forEach((k) => {
+    if (k === "data") return;
+    const v = node[k];
+    if (v && typeof v === "object") eachStoredFile(v, fn);
+  });
+}
 function save(){
-  try { localStorage.setItem(KEY, JSON.stringify(DB)); } catch (e) {}
+  const write = () => localStorage.setItem(KEY, JSON.stringify(DB));
+  try {
+    write();
+  } catch (e) {
+    const metas = [];
+    eachStoredFile(DB, (m) => metas.push(m));
+    metas.sort((a, b) => String(b.data || "").length - String(a.data || "").length);
+    let stripped = false;
+    while (metas.length){
+      const m = metas.shift();
+      if (!m.data) continue;
+      delete m.data;
+      delete m.encoding;
+      stripped = true;
+      try {
+        write();
+        toast("The file name was kept. The file itself was too large to store on this computer.");
+        return;
+      } catch (e2) {}
+    }
+  }
 }
 function nid(){
   DB.seq = (DB.seq || 1) + 1;
@@ -1802,10 +1941,13 @@ function bindReplace(){
 }
 function renderList(){
   const tenderRows = DB.tenders.map((tender) => {
-    const files = Object.keys(tender.files || {}).map((k) => tender.files[k]).filter((f) => f && f.name);
     const proj = DB.projects.find((p) => p.tenderId === tender.id);
     const pill = tender.status === "awarded" ? "ok" : tender.status === "unsuccessful" ? "warn" : "info";
-    const names = files.map((f) => `<div class="fileline">${esc(f.name)} · ${esc(formatSize(f.size))}</div>`).join("");
+    const names = TENDER_SLOTS.map(([k]) => {
+      const f = tender.files && tender.files[k];
+      if (!f || !f.name) return "";
+      return fileLine(f, "tender:" + tender.id + ":" + k);
+    }).join("");
     const selected = proj && proj.id === DB.openId ? `<span class="pill info">${esc(t("Selected"))}</span>` : "";
     if (tender.status === "awarded" || tender.status === "unsuccessful"){
       const open = tender.status === "awarded" && proj
@@ -1823,6 +1965,7 @@ function renderList(){
   $("#pane-project").innerHTML = `
     ${lead}
     <div class="sec"><span class="lab">${esc(t("Company"))}</span><b id="company-name">${esc(DB.company.name)}</b></div>
+    <div class="sec"><span class="lab">${esc(t("Reporting date"))}</span><b id="report-date">${esc(reportingDate())}</b></div>
     <div class="sec"><span class="lab">${esc(t("Tenders"))}</span></div>
     <button type="button" class="opt sig full" id="add-tender">${esc(t("Add a tender"))}</button>
     <div class="card" style="margin-top:10px">${tenderRows || `<div class="empty-note">${esc(t("No tenders yet."))}</div>`}</div>
@@ -1842,13 +1985,15 @@ function renderDash(p, withClock){
   const files = TENDER_SLOTS.map(([k, label]) => {
     const meta = p.rules[k];
     if (!meta || !meta.name) return "";
-    return `<div class="minirow"><span>${esc(t(label))}</span><span class="fileline">${esc(meta.name)} · ${esc(formatSize(meta.size))}</span></div>`;
+    return `<div class="minirow"><span>${esc(t(label))}</span>${fileLine(meta, "rule:" + k)}</div>`;
   }).join("");
   const changes = p.contract.signed ? changeList(p) : "";
   const prog = p.contract.signedProgramme || (p.rules && p.rules.programme);
   const progName = prog && prog.name ? `<div class="row"><span>${esc(t(baselineKey(p)))}</span><b>${esc(prog.name)}</b></div>` : "";
   $("#pane-project").innerHTML = `
     ${withClock ? clockBlock(p) : ""}
+    <div class="sec"><span class="lab">${esc(t("Company"))}</span><b id="company-name">${esc(DB.company.name)}</b></div>
+    <div class="sec"><span class="lab">${esc(t("Reporting date"))}</span><b id="report-date">${esc(reportingDate())}</b></div>
     <div class="sec"><span class="lab">${esc(t("Contract Rules"))}</span></div>
     <div class="card">${files || `<div class="empty-note">${esc(t("Not loaded"))}</div>`}</div>
     <div class="card base" style="margin-top:10px">
@@ -1899,6 +2044,8 @@ function paint(){
   $("#brand").textContent = named || "SiteOS";
   const asAt = reportingDate();
   $("#tb-asat").textContent = asAt || t("The reporting date is missing.");
+  const barCo = $("#bar-co");
+  if (barCo) barCo.textContent = named && asAt ? named + " · " + asAt : (named || asAt || "");
   const p = project();
   const onProject = !!(p && DB.focus === "project" && companyReady());
   if (!companyReady()){
@@ -1970,7 +2117,7 @@ function renderTenderForm(){
   setChat("Tender", "Result");
   $("#steps").innerHTML = `<i class="now"></i><i class="lock"></i>`;
   const files = TENDER_SLOTS.map(([k, label]) => {
-    return field(label, fileControl(`data-slot="${esc(k)}" aria-label="${esc(t(label))}"`, d.files && d.files[k]));
+    return field(label, fileControl(`data-slot="${esc(k)}" aria-label="${esc(t(label))}"`, d.files && d.files[k], "draft:" + k));
   }).join("");
   const statuses = ["waiting", "awarded", "unsuccessful"].map((id) => {
     const cls = id === "awarded" ? "sig" : "";
@@ -1983,17 +2130,26 @@ function renderTenderForm(){
   $("#t-name").addEventListener("input", () => { if (DB.draft) DB.draft.name = $("#t-name").value; save(); });
   $("#log").querySelectorAll("[data-slot]").forEach((el) => {
     el.addEventListener("change", () => {
-      const meta = takeFile(el);
-      if (!meta || !DB.draft) return;
-      if (!DB.draft.files) DB.draft.files = {};
-      DB.draft.files[el.getAttribute("data-slot")] = meta;
-      save();
-      const host = el.closest(".field");
-      const line = host ? host.querySelector(".fileline") : null;
-      if (line){ line.className = "fileline"; line.textContent = fileText(meta); }
-      const span = el.parentElement && el.parentElement.querySelector("span");
-      if (span) span.textContent = t("Replace the file");
-      readTextFile(el.files && el.files[0], (txt) => {
+      const file = el.files && el.files[0];
+      const slot = el.getAttribute("data-slot");
+      if (!file || !DB.draft || !slot) return;
+      readStoredFile(file, (meta, tooBig) => {
+        if (!meta || !DB.draft) return;
+        if (!DB.draft.files) DB.draft.files = {};
+        DB.draft.files[slot] = meta;
+        save();
+        const host = el.closest(".field");
+        const line = host ? host.querySelector(".fileline") : null;
+        if (line){
+          const hold = document.createElement("div");
+          hold.innerHTML = fileLine(meta, "draft:" + slot);
+          if (hold.firstChild) line.replaceWith(hold.firstChild);
+        }
+        const span = el.parentElement && el.parentElement.querySelector("span");
+        if (span) span.textContent = t("Replace the file");
+        noteFileSize(tooBig);
+      });
+      readTextFile(file, (txt) => {
         if (!txt || !DB.draft) return;
         const box = $("#risk-text");
         if (box && !box.value.trim()){
@@ -2110,19 +2266,19 @@ function renderContract(p){
   const signed = !!p.contract.signed;
   $("#steps").innerHTML = `<i class="${before ? "done" : "now"}"></i><i class="${!before ? "lock" : signed ? "done" : "now"}"></i>`;
   let html = lead("contract") + `<div id="ext-clock">${clockBlock(p)}</div>` +
-    field("Contract before signature", fileControl(`id="c-before"${before ? "" : " data-gate"} aria-label="${esc(t("Contract before signature"))}"`, p.contract.before));
+    field("Contract before signature", fileControl(`id="c-before"${before ? "" : " data-gate"} aria-label="${esc(t("Contract before signature"))}"`, p.contract.before, "contract:before"));
   if (!before){
     html += `<p class="warnline">${esc(t("The next step stays hidden until this file is here."))}</p>`;
   } else {
     html += `<div class="sec"><span class="lab">${esc(t("From the tender submission"))}</span></div>`;
     html += CHANGE_KEYS.map(([k, label]) => field(label, `<input id="sub-${k}" type="date" aria-label="${esc(t(label))}" value="${esc((p.contract.submission && p.contract.submission[k]) || "")}">`)).join("");
-    html += field("Signed contract", fileControl(`id="c-signed"${signed ? "" : " data-gate"} aria-label="${esc(t("Signed contract"))}"`, p.contract.signed));
+    html += field("Signed contract", fileControl(`id="c-signed"${signed ? "" : " data-gate"} aria-label="${esc(t("Signed contract"))}"`, p.contract.signed, "contract:signed"));
     if (!signed){
       html += `<p class="warnline">${esc(t("The next step stays hidden until this file is here."))}</p>`;
     } else {
       html += `<div class="sec"><span class="lab">${esc(t("From the signed contract"))}</span></div>`;
       html += CHANGE_KEYS.map(([k, label]) => field(label, `<input id="sig-${k}" type="date" aria-label="${esc(t(label))}" value="${esc((p.contract.signedDates && p.contract.signedDates[k]) || "")}">`)).join("");
-      html += field("Signed programme", fileControl(`id="c-prog" aria-label="${esc(t("Signed programme"))}"`, p.contract.signedProgramme));
+      html += field("Signed programme", fileControl(`id="c-prog" aria-label="${esc(t("Signed programme"))}"`, p.contract.signedProgramme, "contract:programme"));
       html += `<div id="date-sum">${dateSummary(p)}</div>`;
     }
   }
@@ -2131,11 +2287,15 @@ function renderContract(p){
   $("#rail").innerHTML = "";
   const beforeInput = $("#c-before");
   if (beforeInput) beforeInput.addEventListener("change", () => {
-    const meta = takeFile(beforeInput);
-    if (!meta) return;
-    p.contract.before = meta;
-    save();
-    paint();
+    const file = beforeInput.files && beforeInput.files[0];
+    if (!file) return;
+    readStoredFile(file, (meta, tooBig) => {
+      if (!meta) return;
+      p.contract.before = meta;
+      save();
+      noteFileSize(tooBig);
+      paint();
+    });
   });
   const bindBucket = (bucket, prefix) => {
     CHANGE_KEYS.forEach(([k]) => {
@@ -2160,19 +2320,27 @@ function renderContract(p){
   bindRisk(p);
   const signedInput = $("#c-signed");
   if (signedInput) signedInput.addEventListener("change", () => {
-    const meta = takeFile(signedInput);
-    if (!meta) return;
-    p.contract.signed = meta;
-    save();
-    paint();
+    const file = signedInput.files && signedInput.files[0];
+    if (!file) return;
+    readStoredFile(file, (meta, tooBig) => {
+      if (!meta) return;
+      p.contract.signed = meta;
+      save();
+      noteFileSize(tooBig);
+      paint();
+    });
   });
   const progInput = $("#c-prog");
   if (progInput) progInput.addEventListener("change", () => {
-    const meta = takeFile(progInput);
-    if (!meta) return;
-    p.contract.signedProgramme = meta;
-    save();
-    paint();
+    const file = progInput.files && progInput.files[0];
+    if (!file) return;
+    readStoredFile(file, (meta, tooBig) => {
+      if (!meta) return;
+      p.contract.signedProgramme = meta;
+      save();
+      noteFileSize(tooBig);
+      paint();
+    });
   });
 }
 
@@ -2223,7 +2391,7 @@ function renderRfi(p){
   const doc = $("#rfi-doc");
   if (doc) doc.onclick = () => {
     if (!p.rfis.length) return;
-    downloadText("rfi.txt", rowsDoc(p.rfis.map((r) => ({ item: r.item, date: r.date || "", person: r.person || "" }))));
+    downloadText("rfi.txt", rfiDocument(p));
   };
   const go = $("#request-go");
   if (go) go.onclick = async () => {
@@ -2266,7 +2434,7 @@ function renderOrders(p){
     const kind = r.kind === "bulk" ? (r.kindWord === "material" ? "Material" : "Bulk order") : "Appointment";
     const extra = [r.trade, r.package].filter(Boolean).join(" · ");
     const file = r.file
-      ? `<div class="fileline">${esc(fileText(r.file))}</div><p>${esc(t("That file is this subcontractor's rules."))}</p>`
+      ? `${fileLine(r.file, "order:" + r.id)}<p>${esc(t("That file is this subcontractor's rules."))}</p>`
       : `<label class="filepick"><input type="file" data-order="${esc(r.id)}" aria-label="${esc(t("Upload the file"))}"><span>${esc(t("Upload the file"))}</span></label>`;
     const box = r.file ? "on" : "";
     return `<div class="minirow"><span class="box" style="margin-top:2px"><span class="chk ${box}" style="pointer-events:none"><span class="box"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11"/></svg></span></span></span><div style="flex:1"><b>${esc(r.name)}</b><div class="fileline">${esc(t(kind))}${extra ? " · " + esc(extra) : ""}</div>${file}</div></div>`;
@@ -2295,13 +2463,17 @@ function renderOrders(p){
   };
   $("#log").querySelectorAll("[data-order]").forEach((el) => {
     el.addEventListener("change", () => {
-      const meta = takeFile(el);
-      if (!meta) return;
-      const row = p.orders.find((r) => r.id === el.getAttribute("data-order"));
-      if (!row) return;
-      row.file = meta;
-      save();
-      paint();
+      const file = el.files && el.files[0];
+      if (!file) return;
+      readStoredFile(file, (meta, tooBig) => {
+        if (!meta) return;
+        const row = p.orders.find((r) => r.id === el.getAttribute("data-order"));
+        if (!row) return;
+        row.file = meta;
+        save();
+        noteFileSize(tooBig);
+        paint();
+      });
     });
   });
   const blank = $("#candy-blank");
@@ -2647,7 +2819,7 @@ function renderQuality(p){
   const say = speechOk() ? `<button type="button" class="opt full" id="quality-say">${esc(t("Say it"))}</button>` : "";
   $("#log").innerHTML =
     lead("quality") +
-    field("Photo", fileControl(`id="q-photo" accept="image/*,.pdf,.png,.jpg,.jpeg,.webp" aria-label="${esc(t("Photo"))}"`, q.photo)) +
+    field("Photo", fileControl(`id="q-photo" accept="image/*,.pdf,.png,.jpg,.jpeg,.webp,.txt" aria-label="${esc(t("Photo"))}"`, q.photo, "quality")) +
     field("Quality note", `<textarea id="quality-note" aria-label="${esc(t("Quality note"))}">${esc(q.note || "")}</textarea>`) +
     `<div class="opts"><button type="button" class="opt sig full" id="quality-go">${esc(t("Draft the fields"))}</button>${say}</div>` +
     qErr + qAsk +
@@ -2698,12 +2870,16 @@ function renderQuality(p){
   };
   const photo = $("#q-photo");
   if (photo) photo.addEventListener("change", () => {
-    const meta = takeFile(photo);
-    if (!meta) return;
-    readQuality(p);
-    p.quality.photo = meta;
-    save();
-    paint();
+    const file = photo.files && photo.files[0];
+    if (!file) return;
+    readStoredFile(file, (meta, tooBig) => {
+      if (!meta) return;
+      readQuality(p);
+      p.quality.photo = meta;
+      save();
+      noteFileSize(tooBig);
+      paint();
+    });
   });
   ["q-area", "q-desc", "q-person", "q-comp", "q-fin", "q-status"].forEach((id) => {
     const el = document.getElementById(id);
@@ -2864,6 +3040,14 @@ function toast(txt){
 }
 
 document.addEventListener("click", (e) => {
+  const dl = e.target.closest("[data-dl]");
+  if (dl){
+    e.preventDefault();
+    e.stopPropagation();
+    const meta = lookupFile(dl.getAttribute("data-dl"));
+    if (meta && meta.data) downloadMeta(meta);
+    return;
+  }
   const tab = e.target.closest("[data-tab]");
   if (!tab || $("#chat").hidden === false) return;
   document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("on", b === tab));
